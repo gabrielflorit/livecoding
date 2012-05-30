@@ -215,8 +215,33 @@ td { vertical-align: top; }
 
 
 /* ==|== primary styles =====================================================
-   Author:
+   Author: Gabriel Florit
    ========================================================================== */
+#menu {
+  background: #FFEBCD;
+}
+
+#tabs {
+  background: #E6E6FA;
+}
+
+#editor {
+  width: 100%;
+  float: left;
+}
+
+#display {
+  width: 50%;
+  float: left;
+  background: #F5F5DC;
+}
+
+#code {
+  width: 50%;
+  float: left;
+  background: #FAEBD7;
+}
+   
 
 
 
