@@ -21,6 +21,7 @@
   <!-- Place favicon.ico and apple-touch-icon.png in the root directory: mathiasbynens.be/notes/touch-icons -->
 
   <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="js/libs/codemirror/codemirror.css">
 
   <!-- More ideas for your <head> here: h5bp.com/d/head-Tips -->
 
@@ -41,7 +42,7 @@
     <div id='tabs'>tabs</div>
     <div id='editor'>
       <div id='display'>display</div>
-      <div id='code'>code</div>
+      <div id='code'><textarea id='code-textarea' name="code"></textarea></div>
     </div>
   </div>
   <footer>
@@ -56,6 +57,8 @@
   <script>window.jQuery || document.write('<script src="js/libs/jquery-1.7.1.min.js"><\/script>')</script>
 
   <!-- scripts concatenated and minified via build script -->
+  <script src="js/libs/codemirror/codemirror.js"></script>
+  <script src="js/libs/codemirror/mode/javascript/javascript.js"></script>
   <script src="js/plugins.js"></script>
   <script src="js/script.js"></script>
   <!-- end scripts -->
