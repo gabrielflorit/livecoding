@@ -241,6 +241,22 @@ td { vertical-align: top; }
   float: left;
   font-size: 0.95em;
 }
+
+#slider {
+  position: absolute;
+  top: 500px;
+  left: 100px;
+  width: 200px;
+  height: 20px;
+  background: pink;
+  border: solid red 1px;
+}
+
+#ball {
+  width: 10px;
+  height: 20px;
+  background: cyan;
+}
    
 
 
