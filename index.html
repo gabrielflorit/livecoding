@@ -22,6 +22,7 @@
 
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="js/libs/codemirror/codemirror.css">
+  <link rel="stylesheet" href="js/libs/codemirror/theme/lesser-dark.css">
 
   <!-- More ideas for your <head> here: h5bp.com/d/head-Tips -->
 
@@ -35,21 +36,19 @@
        chromium.org/developers/how-tos/chrome-frame-getting-started -->
   <!--[if lt IE 7]><p class=chromeframe>Your browser is <em>ancient!</em> <a href="http://browsehappy.com/">Upgrade to a different browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to experience this site.</p><![endif]-->
   <header>
-
   </header>
+
   <div role="main">
-    <div id='menu'>menu</nav>
+    <div id='menu'>menu</div>
     <div id='tabs'>tabs</div>
     <div id='editor'>
       <div id='display'>display</div>
-      <div id='code'><textarea id='code-textarea' name="code"></textarea></div>
+      <div id='code'></div>
     </div>
   </div>
+
   <footer>
-
   </footer>
-
-
   <!-- JavaScript at the bottom for fast page loading -->
 
   <!-- Grab Google CDN's jQuery, with a protocol relative URL; fall back to local if offline -->
@@ -59,6 +58,7 @@
   <!-- scripts concatenated and minified via build script -->
   <script src="js/libs/codemirror/codemirror.js"></script>
   <script src="js/libs/codemirror/mode/javascript/javascript.js"></script>
+  <script src="js/libs/d3.v2.min.js"></script>
   <script src="js/plugins.js"></script>
   <script src="js/script.js"></script>
   <!-- end scripts -->

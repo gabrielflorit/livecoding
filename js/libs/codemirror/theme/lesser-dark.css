@@ -6,7 +6,7 @@ Ported to CodeMirror by Peter Kroon
   line-height: 1.3em;
 }
 .cm-s-lesser-dark {
-  font-family: 'Bitstream Vera Sans Mono', 'DejaVu Sans Mono', 'Monaco', Courier, monospace !important;
+  font-family: 'Consolas', 'Bitstream Vera Sans Mono', 'DejaVu Sans Mono', 'Monaco', Courier, monospace !important;
 }
 
 .cm-s-lesser-dark { background: #262626; color: #EBEFE7; text-shadow: 0 -1px 1px #262626; }
