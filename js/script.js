@@ -14,7 +14,10 @@ $(function() {
 		aigua.codeMirror = CodeMirror(document.getElementById('code'), {
 			extraKeys: {
 				'Alt-Alt': function(cm) {
-					alert('yo');
+					var token = cm.getTokenAt(cm.getCursor());
+					var tokenString = token.string;
+					$('#number').show();
+					$('#number').text(tokenString);
 				}
 			},
 			lineNumbers: true,
@@ -23,6 +26,10 @@ $(function() {
 			theme: 'lesser-dark',
 			value: data
 		});
+	});
+
+	$(window).keyup(function(e) {
+		$('#number').hide();
 	});
 
 	// $('#number').on('mousedown', function(e) {
