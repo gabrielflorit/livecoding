@@ -219,10 +219,12 @@ td { vertical-align: top; }
    ========================================================================== */
 #menu {
   background: #FFEBCD;
+  visibility: hidden;
 }
 
 #tabs {
   background: #E6E6FA;
+  visibility: hidden;
 }
 
 #editor {
@@ -234,6 +236,7 @@ td { vertical-align: top; }
   width: 50%;
   float: left;
   background: #F5F5DC;
+  visibility: hidden;
 }
 
 #code {
@@ -244,18 +247,41 @@ td { vertical-align: top; }
 
 #slider {
   position: absolute;
-  top: 500px;
-  left: 100px;
-  width: 200px;
-  height: 20px;
-  background: pink;
+  top: 50%;
+  left: 50%;
+  height: 22px;
+  width: 500px;
+}
+
+#bar {
+  position: absolute;
+  top: 0px;
+  left: -51px; /* -bar.width/2 - bar.border.width */
+  width: 100px;
+  height: 12px;
   border: solid red 1px;
+  background: black;
+
+  -webkit-border-radius: 12px;
+          border-radius: 12px;
+  -webkit-background-clip: padding-box;
+     -moz-background-clip: padding;
+          background-clip: padding-box;
 }
 
 #ball {
-  width: 10px;
-  height: 20px;
+  position: absolute;
+  top: 1px; /* bar.border.width */
+  left: -5px; /* -ball.width/2 */
+  width: 12px;
+  height: 12px;
   background: cyan;
+
+  -webkit-border-radius: 12px;
+          border-radius: 12px;
+  -webkit-background-clip: padding-box;
+     -moz-background-clip: padding;
+          background-clip: padding-box;
 }
    
 
