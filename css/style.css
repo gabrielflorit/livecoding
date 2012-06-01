@@ -245,43 +245,55 @@ td { vertical-align: top; }
   font-size: 0.95em;
 }
 
-#slider {
+#number {
   position: absolute;
+  background: grey;
+  top: 50%;
+  left: 50%;
+}
+
+#handle {
+  position: absolute;
+  border: solid pink 1px;
+  background: white;
+  /*background: pink;*/
+  height: 100px;
+  width: 20px;
+  z-index: 1;
+}
+
+#slider {
+/*  position: absolute;
   top: 50%;
   left: 50%;
   height: 22px;
   width: 500px;
-}
+  border: solid red 1px;
+*/}
 
 #bar {
   position: absolute;
-  top: 0px;
-  left: -51px; /* -bar.width/2 - bar.border.width */
-  width: 100px;
-  height: 12px;
-  border: solid red 1px;
-  background: black;
 
-  -webkit-border-radius: 12px;
-          border-radius: 12px;
-  -webkit-background-clip: padding-box;
-     -moz-background-clip: padding;
-          background-clip: padding-box;
 }
 
 #ball {
   position: absolute;
   top: 1px; /* bar.border.width */
-  left: -5px; /* -ball.width/2 */
-  width: 12px;
-  height: 12px;
-  background: cyan;
+  left: -10px; /* -ball.width/2 */
+  width: 20px;
+  height: 100px;
+  background: red;
 
-  -webkit-border-radius: 12px;
-          border-radius: 12px;
-  -webkit-background-clip: padding-box;
-     -moz-background-clip: padding;
-          background-clip: padding-box;
+
+
+
+/*
+  width: 20px;
+  top: 0px;
+  left: 0px;
+*/
+
+
 }
    
 
