@@ -9,6 +9,9 @@ var aigua = (function () {
 		// 	return $('#handle').is(':visible');
 		// },
 
+		lineHeight: 19,
+		borderWidth: 2,
+
 		slider: function(cm) {
 
 			// if (!aigua.isSliderVisible) {
@@ -42,14 +45,41 @@ $(function() {
 					// is the handle hidden?
 					if (!$('#handle').is(':visible')) {
 
+						// grab the current token
+						var cursor = cm.getCursor();
+						var token = cm.getTokenAt(cursor);
+
+						// select token
+						cm.setSelection({line: cursor.line, ch: token.start}, {line: cursor.line, ch: token.end});
+
+						// find coords at token start
+						var startCoords = cm.cursorCoords(true);
+						var endCoords = cm.cursorCoords(false);
+
+						// make handle as wide as the selection
+						var width = endCoords.x - startCoords.x;
+						$('#handle').width(width);
+
+						// position marker at center of handle
+						var center = startCoords.x + width/2;
+						$('#marker').css('left', center);
+
+						// position handle at token
+						$('#handle').css('left', startCoords.x);						
+
 						// show the handle
 						$('#handle').show();
-						console.log('showing handle');
+
+						// position the bar centered above the token
+						$('#bar').css('left', center - $('#bar').width()/2 - aigua.borderWidth);
+						$('#bar').css('top', startCoords.y - aigua.lineHeight);
 					}
 				}
 
 				// did we keyup?
 				if (e.type == 'keyup') {
+
+					// hide the handle
 					$('#handle').hide();
 				}
 			},
