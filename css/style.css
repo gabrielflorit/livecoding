@@ -255,12 +255,13 @@ td { vertical-align: top; }
 
 #handle {
   position: absolute;
-  border: solid pink 1px;
+  border: solid red 1px;
   background: white;
   /*background: pink;*/
   height: 100px;
   width: 20px;
   z-index: 1;
+  display: none;
 }
 
 #slider {

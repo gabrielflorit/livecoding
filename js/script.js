@@ -4,6 +4,28 @@
 
 var aigua = (function () {
 	return {
+
+		// isSliderVisible: function() {
+		// 	return $('#handle').is(':visible');
+		// },
+
+		slider: function(cm) {
+
+			// if (!aigua.isSliderVisible) {
+
+			// 	console.log('fire slider')
+			// 	aigua.isSliderVisible = true;
+			// }
+			// var token = cm.getTokenAt(cm.getCursor());
+			// var tokenString = token.string;
+			// $('#number').show();
+			// $('#number').text(tokenString);
+			// console.log('positioning handle');
+			// $('#handle').css('left', cm.cursorCoords().x);
+			// $('#handle').css('top', cm.cursorCoords().y);
+			// $('#handle').show();
+		},
+
 		samples: ['data/chord.txt']
 	}
 }());
@@ -11,13 +33,24 @@ var aigua = (function () {
 $(function() {
 
 	d3.text(aigua.samples[0], function(data) {
-		aigua.codeMirror = CodeMirror(document.getElementById('code'), {
-			extraKeys: {
-				'Alt-Alt': function(cm) {
-					var token = cm.getTokenAt(cm.getCursor());
-					var tokenString = token.string;
-					$('#number').show();
-					$('#number').text(tokenString);
+		aigua.codeMirror = CodeMirror($('#code').get(0), {
+			onKeyEvent: function(cm, e) {
+
+				// did we keydown the alt key?
+				if (e.altKey && e.type == 'keydown') {
+
+					// is the handle hidden?
+					if (!$('#handle').is(':visible')) {
+
+						// show the handle
+						$('#handle').show();
+						console.log('showing handle');
+					}
+				}
+
+				// did we keyup?
+				if (e.type == 'keyup') {
+					$('#handle').hide();
 				}
 			},
 			lineNumbers: true,
@@ -28,9 +61,11 @@ $(function() {
 		});
 	});
 
-	$(window).keyup(function(e) {
-		$('#number').hide();
+	$('#handle').draggable({
+		axis: 'x'
 	});
+
+});
 
 	// $('#number').on('mousedown', function(e) {
 	// 	$('#number').draggable({
@@ -47,7 +82,6 @@ $(function() {
 	// 	// handle.css('width', $(this).width());
 	// });
 
-	// var handle = $('#handle');
 	// var bar = $('#bar');
 	// var borderWidth = 1;
 	// var increaseStep = 5;
@@ -95,7 +129,6 @@ $(function() {
 	// 	}
 	// });
 
-});
 
 
 
