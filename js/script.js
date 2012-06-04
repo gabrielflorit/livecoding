@@ -4,31 +4,8 @@
 
 var aigua = (function () {
 	return {
-
-		// isSliderVisible: function() {
-		// 	return $('#handle').is(':visible');
-		// },
-
 		lineHeight: 19,
-		borderWidth: 2,
-
-		slider: function(cm) {
-
-			// if (!aigua.isSliderVisible) {
-
-			// 	console.log('fire slider')
-			// 	aigua.isSliderVisible = true;
-			// }
-			// var token = cm.getTokenAt(cm.getCursor());
-			// var tokenString = token.string;
-			// $('#number').show();
-			// $('#number').text(tokenString);
-			// console.log('positioning handle');
-			// $('#handle').css('left', cm.cursorCoords().x);
-			// $('#handle').css('top', cm.cursorCoords().y);
-			// $('#handle').show();
-		},
-
+		borderWidth: Number($('#bar').css('border-width').replace('px', '')),
 		samples: ['data/chord.txt']
 	}
 }());
@@ -73,6 +50,9 @@ $(function() {
 						// position the bar centered above the token
 						$('#bar').css('left', center - $('#bar').width()/2 - aigua.borderWidth);
 						$('#bar').css('top', startCoords.y - aigua.lineHeight);
+
+						// show the bar
+						$('#bar').show();
 					}
 				}
 
@@ -81,6 +61,12 @@ $(function() {
 
 					// hide the handle
 					$('#handle').hide();
+
+					// reset filler width
+					$('#filler').width(0);
+
+					// hide the bar
+					$('#bar').hide();
 				}
 			},
 			lineNumbers: true,
@@ -92,7 +78,26 @@ $(function() {
 	});
 
 	$('#handle').draggable({
-		axis: 'x'
+		axis: 'x',
+		drag: function(ui, event) {
+
+			var handleCenter = $('#handle').offset().left + $('#handle').width()/2;
+			var markerCenter = $('#marker').offset().left;
+			var handleOffset = handleCenter - markerCenter;
+
+			if (handleOffset > 0) {
+				$('#filler').css('left', $('#bar').width()/2);
+				$('#filler').width(handleOffset);
+			} else if (handleOffset < 0) {
+				$('#filler').css('left', handleOffset + $('#bar').width()/2);
+				$('#filler').width(-handleOffset);
+			} else {
+				$('#filler').css('left', $('#bar').width()/2);
+				$('#filler').width(0);
+			}
+		},
+		stop: function(ui, event) {
+		}
 	});
 
 });
