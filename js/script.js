@@ -85,12 +85,17 @@ $(function() {
 			var markerCenter = $('#marker').offset().left;
 			var handleOffset = handleCenter - markerCenter;
 
+			// are we dragging to the right?
 			if (handleOffset > 0) {
 				$('#filler').css('left', $('#bar').width()/2);
 				$('#filler').width(handleOffset);
+
+			// are we dragging to the left?
 			} else if (handleOffset < 0) {
 				$('#filler').css('left', handleOffset + $('#bar').width()/2);
 				$('#filler').width(-handleOffset);
+
+			// are we right at the middle?
 			} else {
 				$('#filler').css('left', $('#bar').width()/2);
 				$('#filler').width(0);
