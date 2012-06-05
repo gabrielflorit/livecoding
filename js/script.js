@@ -25,8 +25,8 @@ $(function() {
 				var width;
 				var center;
 
-				// did we keydown the alt key?
-				if (e.altKey && e.type == 'keydown') {
+				// did we keydown the ctrl key?
+				if (e.ctrlKey && e.type == 'keydown') {
 
 					// is the handle hidden?
 					if (!$('#handle').is(':visible')) {
