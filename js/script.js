@@ -97,15 +97,19 @@ $(function() {
 			// is the dragging cursor to the right of the marker?
 			if (handleOffset > 0) {
 
+				// set the filler width and position
 				$('#filler').width(handleOffset);
+				$('#filler').css('left', aigua.startingBarWidth/2);
 
 				// are we dragging past the initial bar width?
 				if (handleOffset > aigua.startingBarWidth/2 - (aigua.borderWidth)) {
 
 					// round the filler edges
+					$('#filler').addClass('filler-edge-right');
+
+					 // add 1 pixel to filler width to prevent square edges
+					 // from hitting the round borders prematurely
 					$('#filler').width(handleOffset + 1);
-					$('#filler').addClass('filler-edge');
-					$('#filler').css('left', aigua.startingBarWidth/2);
 
 					// set bar right edge to dragging position
 					$('#bar').width(handleCenter - $('#bar').offset().left);
@@ -114,45 +118,49 @@ $(function() {
 				else {
 
 					// square the filler edges
-					$('#filler').removeClass('filler-edge');
+					$('#filler').removeClass('filler-edge-left');
+					$('#filler').removeClass('filler-edge-right');
 
 					// reset the width, since fast drags won't trigger a drag call every pixel. 
 					$('#bar').width(aigua.startingBarWidth);
 				}
 
-				// $('#filler').css('left', $('#bar').width()/2);
-				// did we reach the right edge of the bar?
-				// if (handleCenter - ($('#bar').offset().left + $('#bar').width()) > 0) {
-				// 	$('#bar').width(handleCenter - $('#bar').offset().left);
-				// }
-
 			// is the dragging cursor to the left of the marker?
 			} else if (handleOffset < 0) {
 
+				// set the filler width
 				$('#filler').width(-handleOffset);
+
+				// adjust the filler position
+				$('#filler').css('left', aigua.startingBarWidth/2 - -handleOffset + aigua.borderWidth/2);
 
 				// are we dragging past the initial bar width?
 				if (-handleOffset> aigua.startingBarWidth/2) {
+
+					// adjust the filler position
+					$('#filler').css('left', aigua.borderWidth/2);
+
+					// round the filler edges
+					$('#filler').addClass('filler-edge-left');
 
 					// set bar left edge to dragging position
 					$('#bar').width(-handleOffset + aigua.startingBarWidth/2);
 					$('#bar').css('left', handleCenter - aigua.borderWidth);
 				}
 
-				// reset the width, since fast drags won't trigger a drag call every pixel. 
 				else {
+
+					// square the filler edges
+					$('#filler').removeClass('filler-edge-left');
+					$('#filler').removeClass('filler-edge-right');
+
+					// reset the width, since fast drags won't trigger a drag call every pixel. 
 					$('#bar').width(aigua.startingBarWidth);
 					$('#bar').css('left', markerCenter - aigua.startingBarWidth/2 - aigua.borderWidth);
 				}
 
-
-
-				// $('#filler').css('left', handleOffset + $('#bar').width()/2);
-				// $('#filler').width(-handleOffset);
-
 			// are we at the middle?
 			} else {
-				// $('#filler').css('left', $('#bar').width()/2);
 				$('#filler').width(0);
 			}
 		},
@@ -161,69 +169,4 @@ $(function() {
 	});
 
 });
-
-	// $('#number').on('mousedown', function(e) {
-	// 	$('#number').draggable({
-	// 		axis: 'x',
-	// 		drag: function(ui, event) {
-	// 		}
-	// 	});
-
-
-
-	// 	// var handle = $('#handle');
-	// 	// handle.css('left', $(this).position().left);
-	// 	// handle.css('top', $(this).position().top + $(this).height()/2 - handle.height()/2);
-	// 	// handle.css('width', $(this).width());
-	// });
-
-	// var bar = $('#bar');
-	// var borderWidth = 1;
-	// var increaseStep = 5;
-	// handle.draggable({
-	// 	axis: 'x',
-	// 	drag: function(ui, event) {
-
-			// prevent dragging past left edge of bar
-			// if (bar.position().left - ball.position().left > -borderWidth) {
-			// 	$(this).data('draggable').offset.click.left +=
-			// 		(event.position.left - bar.position().left) - borderWidth;
-			// }
-
-			// // prevent dragging past right edge of bar
-			// if (ball.position().left + ball.width() > bar.position().left + bar.width()) {
-			// 	$(this).data('draggable').offset.click.left +=
-			// 		(event.position.left + ball.width()) - (bar.position().left + bar.width()) - borderWidth;
-			// }
-
-			// if we're at left edge of bar, increase bar width
-			// if (bar.position().left - ball.position().left >= -borderWidth) {
-			// 	bar.animate({
-			// 		left: '-=' + increaseStep,
-			// 		width: '+=' + increaseStep
-			// 	}, 0);
-			// }
-
-			// // if we're at right edge of bar, increase bar width
-			// if (ball.position().left + ball.width() >= bar.position().left + bar.width()) {
-			// 	bar.animate({
-			// 		width: '+=' + increaseStep
-			// 	}, 0);
-			// }
-	// 	},
-	// 	stop: function(ui, event) {
-	// 		// if we're past left edge of bar, bring back inside
-	// 		// if (bar.position().left - ball.position().left > -borderWidth) {
-	// 		// 	ball.css('left', bar.position().left + borderWidth);
-	// 		// }
-
-	// 		// // if we're past right edge of bar, bring back inside
-	// 		// if (ball.position().left + ball.width() > bar.position().left + bar.width()) {
-	// 		// 	ball.css('left', bar.position().left + bar.width() - ball.width() + borderWidth);
-	// 		// }
-	// 	}
-	// });
-
-
-
 

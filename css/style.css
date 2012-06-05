@@ -315,9 +315,14 @@ body {
   background-image: linear-gradient(top, #FFF 0%, #C6D1A9 19%, #899D55 50%, #62713D 50%, #4F5B31 81%, #899D55 100%);
 }
 
-.filler-edge {
+.filler-edge-right {
   -webkit-border-radius: 0 12px 12px 0;
           border-radius: 0 12px 12px 0;
+}
+
+.filler-edge-left {
+  -webkit-border-radius: 12px 0 0 12px;
+          border-radius: 12px 0 0 12px;
 }
 
 
