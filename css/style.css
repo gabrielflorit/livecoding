@@ -217,30 +217,118 @@ td { vertical-align: top; }
 /* ==|== primary styles =====================================================
    Author: Gabriel Florit
    ========================================================================== */
+#main {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+  #controls {
+    width: 100%;
+    float: left;
+    height: 30px;
+    background: blue;
+  }
+
+    #menu {
+      float: left;
+      background: yellow;
+    }
+
+    #tabs {
+      float: left;
+      background: orange;
+    }
+
+  #editor {
+    position: absolute;
+    top: 30px;
+    bottom: 0;
+    width: 100%;
+    clear: both;
+    float: left;
+  }
+
+    #display {
+      position: relative;
+      float: left;
+      width: 50%;
+      height: 100%;
+    }
+
+      svg {
+        position: absolute;
+        top: 5%;
+        left: 5%;
+        width: 90%;
+        height: 90%;
+      }
+
+    #code {
+      float: left;
+      width: 50%;
+      height: 100%;
+    }
+
+      .CodeMirror {
+        position: relative;
+        height: 100%;
+      }
+
+        .CodeMirror-scroll {
+          height: 100% !important;
+        }
+
+
+
+
+
+
+
+
+
+
+
+
 body {
-  background: #262626;
+  /*background: #262626;*/
+/*  position: absolute;
+  width: 100%;
+  height: 100%;
+*/}
+
+#main {
+/*  position: relative;
+  width: 100%;
+  height: 100%;
+*/}
+
+
+/*#controls {
+  position: relative;
+  height: 10%;
 }
 
 #menu {
   background: #FFEBCD;
-  visibility: hidden;
 }
 
 #tabs {
   background: #E6E6FA;
-  visibility: hidden;
 }
 
 #editor {
+  position: relative;
   width: 100%;
+  height: 90%;
   float: left;
+  background: pink;
 }
 
 #display {
   width: 50%;
   float: left;
   background: #F5F5DC;
-  visibility: hidden;
 }
 
 #code {
@@ -248,6 +336,7 @@ body {
   float: left;
   font-size: 0.95em;
 }
+*/
 
 #handle {
   position: absolute;

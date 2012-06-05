@@ -16,6 +16,18 @@ $(function() {
 
 	d3.text(aigua.samples[0], function(data) {
 		aigua.codeMirror = CodeMirror($('#code').get(0), {
+
+			onChange: function(cm, e) {
+				// clear out the display contents
+				$('svg').empty();
+
+				// get the code
+				var code = aigua.codeMirror.getValue();
+
+				// run it
+				eval(code);
+			},
+
 			onKeyEvent: function(cm, e) {
 
 				var cursor;
@@ -89,15 +101,11 @@ $(function() {
 					// hide the bar
 					$('#bar').hide();
 
-					// grab the current token and deselect it
-					cursor = cm.getCursor();
-					token = cm.getTokenAt(cursor);
-					cm.setSelection({line: cursor.line, ch: token.end}, {line: cursor.line, ch: token.end});
-
 					// clear out the original number
 					aigua.originalNumber = null;
 				}
 			},
+
 			lineNumbers: true,
 			matchBrackets: true,
 			mode:  'javascript',
