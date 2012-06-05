@@ -7,6 +7,7 @@ var aigua = (function () {
 		borderWidth: Number($('#bar').css('border-width').replace('px', '')),
 		lineHeight: 19,
 		samples: ['data/chord.txt'],
+		originalNumber: null,
 		startingBarWidth: 200
 	}
 }());
@@ -17,6 +18,13 @@ $(function() {
 		aigua.codeMirror = CodeMirror($('#code').get(0), {
 			onKeyEvent: function(cm, e) {
 
+				var cursor;
+				var token;
+				var startCoords;
+				var endCoords;
+				var width;
+				var center;
+
 				// did we keydown the alt key?
 				if (e.altKey && e.type == 'keydown') {
 
@@ -24,36 +32,45 @@ $(function() {
 					if (!$('#handle').is(':visible')) {
 
 						// grab the current token
-						var cursor = cm.getCursor();
-						var token = cm.getTokenAt(cursor);
+						cursor = cm.getCursor();
+						token = cm.getTokenAt(cursor);
 
-						// select token
-						cm.setSelection({line: cursor.line, ch: token.start}, {line: cursor.line, ch: token.end});
+						// are we on a number?
+						if (token.className == 'number') {
 
-						// find coords at token start
-						var startCoords = cm.cursorCoords(true);
-						var endCoords = cm.cursorCoords(false);
+							// save the original number
+							if (aigua.originalNumber == null) {
+								aigua.originalNumber = Number(token.string);
+							}
 
-						// make handle as wide as the selection
-						var width = endCoords.x - startCoords.x;
-						$('#handle').width(width);
+							// select token
+							cm.setSelection({line: cursor.line, ch: token.start}, {line: cursor.line, ch: token.end});
 
-						// position marker at center of handle
-						var center = startCoords.x + width/2;
-						$('#marker').css('left', center);
+							// find coords at token start
+							startCoords = cm.cursorCoords(true);
+							endCoords = cm.cursorCoords(false);
 
-						// position handle at token
-						$('#handle').css('left', startCoords.x);						
+							// make handle as wide as the selection
+							width = endCoords.x - startCoords.x;
+							$('#handle').width(width);
 
-						// show the handle
-						$('#handle').show();
+							// position marker at center of handle
+							center = startCoords.x + width/2;
+							$('#marker').css('left', center);
 
-						// position the bar centered above the token
-						$('#bar').css('left', center - $('#bar').width()/2 - aigua.borderWidth);
-						$('#bar').css('top', startCoords.y - aigua.lineHeight);
+							// position handle at token
+							$('#handle').css('left', startCoords.x);						
 
-						// show the bar
-						$('#bar').show();
+							// show the handle
+							$('#handle').show();
+
+							// position the bar centered above the token
+							$('#bar').css('left', center - $('#bar').width()/2 - aigua.borderWidth);
+							$('#bar').css('top', startCoords.y - aigua.lineHeight);
+
+							// show the bar
+							$('#bar').show();
+						}
 					}
 				}
 
@@ -73,9 +90,12 @@ $(function() {
 					$('#bar').hide();
 
 					// grab the current token and deselect it
-					var cursor = cm.getCursor();
-					var token = cm.getTokenAt(cursor);
+					cursor = cm.getCursor();
+					token = cm.getTokenAt(cursor);
 					cm.setSelection({line: cursor.line, ch: token.end}, {line: cursor.line, ch: token.end});
+
+					// clear out the original number
+					aigua.originalNumber = null;
 				}
 			},
 			lineNumbers: true,
@@ -93,6 +113,19 @@ $(function() {
 			var handleCenter = $('#handle').offset().left + $('#handle').width()/2;
 			var markerCenter = $('#marker').offset().left;
 			var handleOffset = handleCenter - markerCenter;
+			var newNumber;
+
+			// if the original number is larger than 1/-1, increment by 1
+			if (Math.abs(aigua.originalNumber) >= 1) {
+				newNumber = handleOffset + aigua.originalNumber;
+			}
+			// otherwise increment by the original number rounded up to the nearest decimal
+			else {
+				newNumber = handleOffset/10 + aigua.originalNumber; // TODO - this isn't working properly
+			}
+
+			// replace the selection with the new number
+			aigua.codeMirror.replaceSelection(String(newNumber));
 
 			// is the dragging cursor to the right of the marker?
 			if (handleOffset > 0) {

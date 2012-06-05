@@ -264,7 +264,7 @@ body {
   height: 100%;
   border-left: solid black 2px;
   left: 25%;
-  /*visibility: hidden;*/
+  visibility: hidden;
 }
 
 #bar {
