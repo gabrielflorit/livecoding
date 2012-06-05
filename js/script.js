@@ -4,6 +4,16 @@
 
 var aigua = (function () {
 	return {
+		renderCode: function() {
+			// clear out the display contents
+			$('svg').empty();
+
+			// get the code
+			var code = aigua.codeMirror.getValue();
+
+			// run it
+			eval(code);
+		},
 		borderWidth: Number($('#bar').css('border-width').replace('px', '')),
 		lineHeight: 19,
 		samples: ['data/chord.txt'],
@@ -14,106 +24,109 @@ var aigua = (function () {
 
 $(function() {
 
-	d3.text(aigua.samples[0], function(data) {
-		aigua.codeMirror = CodeMirror($('#code').get(0), {
+	// create codemirror instance
+	aigua.codeMirror = CodeMirror($('#code').get(0), {
 
-			onChange: function(cm, e) {
-				// clear out the display contents
-				$('svg').empty();
+		onChange: function(cm, e) {
+			aigua.renderCode();
+		},
 
-				// get the code
-				var code = aigua.codeMirror.getValue();
+		onKeyEvent: function(cm, e) {
 
-				// run it
-				eval(code);
-			},
+			var cursor;
+			var token;
+			var startCoords;
+			var endCoords;
+			var width;
+			var center;
 
-			onKeyEvent: function(cm, e) {
+			// did we keydown the ctrl key?
+			if (e.ctrlKey && e.type == 'keydown') {
 
-				var cursor;
-				var token;
-				var startCoords;
-				var endCoords;
-				var width;
-				var center;
+				// is the handle hidden?
+				if (!$('#handle').is(':visible')) {
 
-				// did we keydown the ctrl key?
-				if (e.ctrlKey && e.type == 'keydown') {
+					// grab the current token
+					cursor = cm.getCursor();
+					token = cm.getTokenAt(cursor);
 
-					// is the handle hidden?
-					if (!$('#handle').is(':visible')) {
+					// are we on a number?
+					if (token.className == 'number') {
 
-						// grab the current token
-						cursor = cm.getCursor();
-						token = cm.getTokenAt(cursor);
-
-						// are we on a number?
-						if (token.className == 'number') {
-
-							// save the original number
-							if (aigua.originalNumber == null) {
-								aigua.originalNumber = Number(token.string);
-							}
-
-							// select token
-							cm.setSelection({line: cursor.line, ch: token.start}, {line: cursor.line, ch: token.end});
-
-							// find coords at token start
-							startCoords = cm.cursorCoords(true);
-							endCoords = cm.cursorCoords(false);
-
-							// make handle as wide as the selection
-							width = endCoords.x - startCoords.x;
-							$('#handle').width(width);
-
-							// position marker at center of handle
-							center = startCoords.x + width/2;
-							$('#marker').css('left', center);
-
-							// position handle at token
-							$('#handle').css('left', startCoords.x);						
-
-							// show the handle
-							$('#handle').show();
-
-							// position the bar centered above the token
-							$('#bar').css('left', center - $('#bar').width()/2 - aigua.borderWidth);
-							$('#bar').css('top', startCoords.y - aigua.lineHeight);
-
-							// show the bar
-							$('#bar').show();
+						// save the original number
+						if (aigua.originalNumber == null) {
+							aigua.originalNumber = Number(token.string);
 						}
+
+						// select token
+						cm.setSelection({line: cursor.line, ch: token.start}, {line: cursor.line, ch: token.end});
+
+						// find coords at token start
+						startCoords = cm.cursorCoords(true);
+						endCoords = cm.cursorCoords(false);
+
+						// make handle as wide as the selection
+						width = endCoords.x - startCoords.x;
+						$('#handle').width(width);
+
+						// position marker at center of handle
+						center = startCoords.x + width/2;
+						$('#marker').css('left', center);
+
+						// position handle at token
+						$('#handle').css('left', startCoords.x);						
+
+						// show the handle
+						$('#handle').show();
+
+						// position the bar centered above the token
+						$('#bar').css('left', center - $('#bar').width()/2 - aigua.borderWidth);
+						$('#bar').css('top', startCoords.y - aigua.lineHeight);
+
+						// show the bar
+						$('#bar').show();
 					}
 				}
+			}
 
-				// did we keyup?
-				if (e.type == 'keyup') {
+			// did we keyup?
+			if (e.type == 'keyup') {
 
-					// hide the handle
-					$('#handle').hide();
+				// hide the handle
+				$('#handle').hide();
 
-					// reset filler width
-					$('#filler').width(0);
+				// reset filler width
+				$('#filler').width(0);
 
-					// reset bar width
-					$('#bar').width(aigua.startingBarWidth);
+				// reset bar width
+				$('#bar').width(aigua.startingBarWidth);
 
-					// hide the bar
-					$('#bar').hide();
+				// hide the bar
+				$('#bar').hide();
 
-					// clear out the original number
-					aigua.originalNumber = null;
-				}
-			},
+				// clear out the original number
+				aigua.originalNumber = null;
+			}
+		},
 
-			lineNumbers: true,
-			matchBrackets: true,
-			mode:  'javascript',
-			theme: 'lesser-dark',
-			value: data
-		});
+		lineNumbers: true,
+		matchBrackets: true,
+		mode:  'javascript',
+		theme: 'lesser-dark'
 	});
 
+	// load sample code
+	d3.text(aigua.samples[0], function(data) {
+		aigua.codeMirror.setValue(data);
+	});
+
+	// force svg contents to occupy the entire svg container
+	// by rerendering code on window resize
+	$(window).on('resize', function() {
+		aigua.renderCode();
+	});
+
+	// initialize slider
 	$('#handle').draggable({
 		axis: 'x',
 		drag: function(ui, event) {
@@ -125,7 +138,7 @@ $(function() {
 
 			// if the original number is larger than 1/-1, increment by 1
 			if (Math.abs(aigua.originalNumber) >= 1) {
-				newNumber = handleOffset + aigua.originalNumber;
+				newNumber = handleOffset*100 + aigua.originalNumber;
 			}
 			// otherwise increment by the original number rounded up to the nearest decimal
 			else {
