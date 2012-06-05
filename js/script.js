@@ -97,20 +97,30 @@ $(function() {
 			// is the dragging cursor to the right of the marker?
 			if (handleOffset > 0) {
 
+				$('#filler').width(handleOffset);
+
 				// are we dragging past the initial bar width?
 				if (handleOffset > aigua.startingBarWidth/2 - (aigua.borderWidth)) {
+
+					// round the filler edges
+					$('#filler').width(handleOffset + 1);
+					$('#filler').addClass('filler-edge');
+					$('#filler').css('left', aigua.startingBarWidth/2);
 
 					// set bar right edge to dragging position
 					$('#bar').width(handleCenter - $('#bar').offset().left);
 				}
 
-				// reset the width, since fast drags won't trigger a drag call every pixel. 
 				else {
+
+					// square the filler edges
+					$('#filler').removeClass('filler-edge');
+
+					// reset the width, since fast drags won't trigger a drag call every pixel. 
 					$('#bar').width(aigua.startingBarWidth);
 				}
 
 				// $('#filler').css('left', $('#bar').width()/2);
-				// $('#filler').width(handleOffset);
 				// did we reach the right edge of the bar?
 				// if (handleCenter - ($('#bar').offset().left + $('#bar').width()) > 0) {
 				// 	$('#bar').width(handleCenter - $('#bar').offset().left);
@@ -118,6 +128,8 @@ $(function() {
 
 			// is the dragging cursor to the left of the marker?
 			} else if (handleOffset < 0) {
+
+				$('#filler').width(-handleOffset);
 
 				// are we dragging past the initial bar width?
 				if (-handleOffset> aigua.startingBarWidth/2) {
@@ -141,7 +153,7 @@ $(function() {
 			// are we at the middle?
 			} else {
 				// $('#filler').css('left', $('#bar').width()/2);
-				// $('#filler').width(0);
+				$('#filler').width(0);
 			}
 		},
 		stop: function(ui, event) {

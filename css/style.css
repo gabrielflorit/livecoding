@@ -251,13 +251,12 @@ body {
 
 #handle {
   position: absolute;
-  /*border: solid red 1px;*/
   border-top: none;
   border-bottom: none;
   height: 100%;
   z-index: 1000;
   display: none;
-  background: rgba(255, 0, 0, 0.3);
+  background: rgba(255, 0, 0, 0);
 }
 
 #marker {
@@ -303,9 +302,7 @@ body {
   width: 0px;
   left: 50%;
 
-/*  -webkit-border-radius: 0 12px 12px 0;
-          border-radius: 0 12px 12px 0;
-*/  -webkit-background-clip: padding-box; 
+  -webkit-background-clip: padding-box; 
      -moz-background-clip: padding;
           background-clip: padding-box;
 
@@ -316,6 +313,11 @@ body {
   background-image: -ms-linear-gradient(top, #FFF 0%, #C6D1A9 19%, #899D55 50%, #62713D 50%, #4F5B31 81%, #899D55 100%);
   background-image: -o-linear-gradient(top, #FFF 0%, #C6D1A9 19%, #899D55 50%, #62713D 50%, #4F5B31 81%, #899D55 100%);
   background-image: linear-gradient(top, #FFF 0%, #C6D1A9 19%, #899D55 50%, #62713D 50%, #4F5B31 81%, #899D55 100%);
+}
+
+.filler-edge {
+  -webkit-border-radius: 0 12px 12px 0;
+          border-radius: 0 12px 12px 0;
 }
 
 
