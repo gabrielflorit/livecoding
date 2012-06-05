@@ -163,8 +163,6 @@ $(function() {
 			} else {
 				$('#filler').width(0);
 			}
-		},
-		stop: function(ui, event) {
 		}
 	});
 
