@@ -1,5 +1,10 @@
 # aigua
 
+## TODO
+
+* warn users to use chrome
+* fix slider so that when you're to the right, the left position/width has been reset, and viceversa
+
 
 	var namespace = (function () {
 	    // defined within the local scope
