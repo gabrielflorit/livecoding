@@ -246,7 +246,7 @@ td { vertical-align: top; }
     width: 90%;
     clear: both;
     float: left;
-    /*background: #262626;*/
+    background: #262626;
   }
 
     #display {
@@ -264,29 +264,89 @@ td { vertical-align: top; }
       -webkit-background-clip: padding-box; 
          -moz-background-clip: padding;
               background-clip: padding-box;
-box-shadow: 0 0 16px 2px rgba(255, 255, 255, 0.7);
     }
 
-      #top-right-corner {
-        position: absolute;
-        top: -14px;
-        left: -14px;
-        z-index: 1;
-      }
+    #top-edge {
+      position: absolute;
+      height: 13px;
+      width: 100%;
+      background-image: url('/img/top-edge.png');
+      top: -14px;
+    }
 
-      #bottom-right-corner {
-        position: absolute;
-        bottom: -14px;
-        left: -14px;
-        z-index: 1;
-      }
+    #right-edge {
+      position: absolute;
+      height: 100%;
+      width: 13px;
+      background-image: url('/img/right-edge.png');
+      right: -14px;
+    }
 
-      #right-edge {
+    #bottom-edge {
+      position: absolute;
+      height: 13px;
+      width: 100%;
+      background-image: url('/img/bottom-edge.png');
+      bottom: -14px;
+    }
+
+    #left-edge {
+      position: absolute;
+      height: 100%;
+      width: 13px;
+      background-image: url('/img/left-edge.png');
+      left: -13px;
+    }
+
+    #top-right-corner {
+      position: absolute;
+      top: -14px;
+      right: -14px;
+      z-index: 1;
+    }
+
+    #bottom-right-corner {
+      position: absolute;
+      bottom: -14px;
+      right: -14px;
+      z-index: 1;
+    }
+
+    #top-left-corner {
+      position: absolute;
+      top: -14px;
+      left: -13px;
+      z-index: 1;
+    }
+
+    #bottom-left-corner {
+      position: absolute;
+      bottom: -14px;
+      left: -13px;
+      z-index: 1;
+    }
+
+      #middle-edge {
         position: absolute;
-        height: 100%;
         width: 13px;
-        background-image: url('/img/edge.png');
-        left: -14px;
+        height: 100%;
+        right: -14px;
+        z-index: 100;
+        background-image: url('/img/middle-edge.png');
+      }
+
+      #top-middle {
+        position: absolute;
+        right: -33px;
+        top: -14px;
+        z-index: 1000;
+      }
+
+      #bottom-middle {
+        position: absolute;
+        right: -33px;
+        bottom: -14px;
+        z-index: 1000;
       }
 
       svg {
@@ -328,7 +388,7 @@ box-shadow: 0 0 16px 2px rgba(255, 255, 255, 0.7);
       -webkit-background-clip: padding-box; 
          -moz-background-clip: padding;
               background-clip: padding-box;
-box-shadow: 0 0 16px 2px rgba(255, 255, 255, 0.7);
+/*box-shadow: 0 0 16px 2px rgba(255, 255, 255, 0.7);*/
     }
 
 /* slider elements */
@@ -337,7 +397,7 @@ box-shadow: 0 0 16px 2px rgba(255, 255, 255, 0.7);
   border-top: none;
   border-bottom: none;
   height: 100%;
-  z-index: 1000;
+  z-index: 10000;
   display: none;
   background: rgba(255, 0, 0, 0);
 }
@@ -354,7 +414,7 @@ box-shadow: 0 0 16px 2px rgba(255, 255, 255, 0.7);
   position: absolute;
   width: 200px;
   height: 12px;
-  z-index: 100;
+  z-index: 1000;
   background: black;
   border: solid black 2px;
 
