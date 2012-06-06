@@ -138,7 +138,7 @@ $(function() {
 
 			// if the original number is larger than 1/-1, increment by 1
 			if (Math.abs(aigua.originalNumber) >= 1) {
-				newNumber = handleOffset*100 + aigua.originalNumber;
+				newNumber = handleOffset*1 + aigua.originalNumber;
 			}
 			// otherwise increment by the original number rounded up to the nearest decimal
 			else {

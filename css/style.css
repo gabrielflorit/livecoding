@@ -339,7 +339,7 @@ td { vertical-align: top; }
      -moz-background-clip: padding;
           background-clip: padding-box;
 
-  box-shadow: 0px 0px 16px 2px rgba(255, 255, 255, 0.7);
+  box-shadow: 0 0 5px 2px rgba(255, 255, 255, 0.7);
 
   background-color: #000000;
   background-image: -webkit-gradient(linear, left top, left bottom, from(#000000), to(#555));
