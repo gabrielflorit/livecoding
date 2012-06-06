@@ -227,7 +227,7 @@ td { vertical-align: top; }
   #controls {
     width: 100%;
     float: left;
-    height: 30px;
+    height: 60px;
   }
 
     #menu {
@@ -240,13 +240,13 @@ td { vertical-align: top; }
 
   #editor {
     position: absolute;
-    top: 30px;
-    bottom: 5%;
+    top: 60px;
+    bottom: 8%;
     left: 5%;
     width: 90%;
     clear: both;
     float: left;
-    background: #262626;
+    /*background: #262626;*/
   }
 
     #display {
@@ -264,7 +264,30 @@ td { vertical-align: top; }
       -webkit-background-clip: padding-box; 
          -moz-background-clip: padding;
               background-clip: padding-box;
-   }
+box-shadow: 0 0 16px 2px rgba(255, 255, 255, 0.7);
+    }
+
+      #top-right-corner {
+        position: absolute;
+        top: -14px;
+        left: -14px;
+        z-index: 1;
+      }
+
+      #bottom-right-corner {
+        position: absolute;
+        bottom: -14px;
+        left: -14px;
+        z-index: 1;
+      }
+
+      #right-edge {
+        position: absolute;
+        height: 100%;
+        width: 13px;
+        background-image: url('/img/edge.png');
+        left: -14px;
+      }
 
       svg {
         position: absolute;
@@ -305,6 +328,7 @@ td { vertical-align: top; }
       -webkit-background-clip: padding-box; 
          -moz-background-clip: padding;
               background-clip: padding-box;
+box-shadow: 0 0 16px 2px rgba(255, 255, 255, 0.7);
     }
 
 /* slider elements */
