@@ -221,7 +221,7 @@ td { vertical-align: top; }
   position: absolute;
   width: 100%;
   height: 100%;
-  background: #262626;
+  background: #111;
 }
 
   #controls {
@@ -246,14 +246,29 @@ td { vertical-align: top; }
     width: 90%;
     clear: both;
     float: left;
+    background: #262626;
   }
 
     #display {
       position: relative;
       float: left;
+      top: -1px;
       width: 50%;
       height: 100%;
       background: white;
+
+      border: solid white 1px;
+      -webkit-border-radius: 7px;
+              border-radius: 7px;
+      -webkit-border-top-right-radius: 40px 10px;
+              border-top-right-radius: 40px 10px;
+      -webkit-border-bottom-right-radius: 40px 10px;
+              border-bottom-right-radius: 40px 10px;
+      -webkit-background-clip: padding-box; 
+         -moz-background-clip: padding;
+              background-clip: padding-box;
+      -webkit-box-shadow: 0 0 16px 2px rgba(255, 255, 255, 0.7);
+              box-shadow: 0 0 16px 2px rgba(255, 255, 255, 0.7);
    }
 
       svg {
@@ -287,6 +302,7 @@ td { vertical-align: top; }
       z-index: 1;
       width: 50%;
       height: 100%;
+
       border: solid white 1px;
       -webkit-border-radius: 4px;
               border-radius: 4px;
