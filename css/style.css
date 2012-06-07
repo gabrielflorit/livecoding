@@ -441,13 +441,18 @@ td { vertical-align: top; }
        -moz-background-clip: padding;
             background-clip: padding-box;
 
-    background-color: #FFF;
-    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #FFF), color-stop(19%, #C6D1A9), color-stop(50%, #899D55), color-stop(50%, #62713D), color-stop(81%, #4F5B31), color-stop(100%, #899D55));
-    background-image: -webkit-linear-gradient(top, #FFF 0%, #C6D1A9 19%, #899D55 50%, #62713D 50%, #4F5B31 81%, #899D55 100%);
-    background-image: -moz-linear-gradient(top, #FFF 0%, #C6D1A9 19%, #899D55 50%, #62713D 50%, #4F5B31 81%, #899D55 100%);
-    background-image: -ms-linear-gradient(top, #FFF 0%, #C6D1A9 19%, #899D55 50%, #62713D 50%, #4F5B31 81%, #899D55 100%);
-    background-image: -o-linear-gradient(top, #FFF 0%, #C6D1A9 19%, #899D55 50%, #62713D 50%, #4F5B31 81%, #899D55 100%);
-    background-image: linear-gradient(top, #FFF 0%, #C6D1A9 19%, #899D55 50%, #62713D 50%, #4F5B31 81%, #899D55 100%);
+    /* (bit paler) green theme background-image: -webkit-linear-gradient(top, #FFF 0%, #C6D1A9 19%, #899D55 50%, #62713D 50%, #4F5B31 81%, #899D55 100%);*/
+    /* blue theme background-image: -webkit-linear-gradient(top, #FFF 0%, #7bb2ff 19%, #0065f2 50%, #0048ae 50%, #003a8c 81%, #0065f2 100%);*/
+    /* red theme background-image: -webkit-linear-gradient(top, #FFF 0%, #e5ad9c 19%, #c45635 50%, #8f3e26 50%, #74331f 81%, #c45635 100%);*/
+    /* green theme background-image: -webkit-linear-gradient(top, #FFF 0%, #cfdf9f 19%, #9ab83e 50%, #6f852d 50%, #5a6c24 81%, #9ab83e 100%);*/
+
+    background-color: #fff;
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #fff), color-stop(19%, #cfdf9f), color-stop(50%, #9ab83e), color-stop(50%, #6f852d), color-stop(81%, #5a6c24), color-stop(100%, #9ab83e));
+    background-image: -webkit-linear-gradient(top, #fff 0%, #cfdf9f 19%, #9ab83e 50%, #6f852d 50%, #5a6c24 81%, #9ab83e 100%);
+    background-image: -moz-linear-gradient(top, #fff 0%, #cfdf9f 19%, #9ab83e 50%, #6f852d 50%, #5a6c24 81%, #9ab83e 100%);
+    background-image: -ms-linear-gradient(top, #fff 0%, #cfdf9f 19%, #9ab83e 50%, #6f852d 50%, #5a6c24 81%, #9ab83e 100%);
+    background-image: -o-linear-gradient(top, #fff 0%, #cfdf9f 19%, #9ab83e 50%, #6f852d 50%, #5a6c24 81%, #9ab83e 100%);
+    background-image: linear-gradient(top, #fff 0%, #cfdf9f 19%, #9ab83e 50%, #6f852d 50%, #5a6c24 81%, #9ab83e 100%);
   }
 
   .filler-edge-right {
