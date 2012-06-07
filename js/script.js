@@ -133,6 +133,7 @@ $(function() {
 			var markerCenter = $('#marker').offset().left;
 			var offset = position - markerCenter;
 			var newNumber;
+			var barLeftPortionWidth;
 
 			// if the original number is larger than 1/-1, increment by 1
 			if (Math.abs(aigua.originalNumber) >= 1) {
@@ -148,6 +149,16 @@ $(function() {
 
 			// is the dragging cursor to the right of the marker?
 			if (offset > 0) {
+
+				// first, reset the left bar width and position
+				barLeftPortionWidth = markerCenter - $('#bar').offset().left - aigua.borderWidth;
+				if (barLeftPortionWidth > aigua.startingBarWidth/2) {
+
+					// reset the width, since fast drags won't trigger a drag call every pixel.
+					$('#bar').width(aigua.startingBarWidth);
+					$('#bar').css('left', markerCenter - aigua.startingBarWidth/2 - aigua.borderWidth);
+					$('#filler').removeClass('filler-edge-left');
+				}
 
 				// set the filler width and position
 				$('#filler').width(offset);
@@ -206,7 +217,7 @@ $(function() {
 					$('#filler').removeClass('filler-edge-left');
 					$('#filler').removeClass('filler-edge-right');
 
-					// reset the width, since fast drags won't trigger a drag call every pixel. 
+					// reset the width, since fast drags won't trigger a drag call every pixel.
 					$('#bar').width(aigua.startingBarWidth);
 					$('#bar').css('left', markerCenter - aigua.startingBarWidth/2 - aigua.borderWidth);
 				}
