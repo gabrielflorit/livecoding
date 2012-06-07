@@ -4,6 +4,7 @@
 
 var aigua = (function () {
 	return {
+		
 		renderCode: function() {
 			// clear out the display contents
 			$('svg').empty();
@@ -14,18 +15,40 @@ var aigua = (function () {
 			// run it
 			eval(code);
 		},
-		borderWidth: Number($('#bar').css('border-width').replace('px', '')),
+
+		resetBar: function(markerCenter) {
+			aigua.bar.width(aigua.startingBarWidth);
+			aigua.bar.css('left', markerCenter - aigua.startingBarWidth/2 - aigua.borderWidth);
+			aigua.filler.removeClass('filler-edge-left');
+			aigua.filler.removeClass('filler-edge-right');
+		},
+
+		bar: null,
+		borderWidth: 2,
+		filler: null,
+		handle: null,
 		lineHeight: 19,
-		samples: ['data/chord.txt'],
+		marker: null,
 		originalNumber: null,
+		samples: ['data/chord.txt'],
 		startingBarWidth: 200
+
 	}
 }());
 
 $(function() {
 
+	// set various dom elements
+	aigua.handle = $('#handle');
+	aigua.bar = $('#bar');
+	aigua.marker = $('#marker');
+	aigua.filler = $('#filler');
+
 	// set the handle's default width
-	$('#handle').width(aigua.startingBarWidth);
+	aigua.handle.width(aigua.startingBarWidth);
+
+	// set the bar's border width
+	aigua.bar.css('border-width', aigua.borderWidth);
 
 	// create codemirror instance
 	aigua.codeMirror = CodeMirror($('#code').get(0), {
@@ -46,7 +69,7 @@ $(function() {
 			if (e.ctrlKey && e.type == 'keydown') {
 
 				// is the handle hidden?
-				if (!$('#handle').is(':visible')) {
+				if (!aigua.handle.is(':visible')) {
 
 					// grab the current token
 					cursor = cm.getCursor();
@@ -69,20 +92,20 @@ $(function() {
 
 						// center marker on token
 						center = startCoords.x + (endCoords.x - startCoords.x)/2;
-						$('#marker').css('left', center);
+						aigua.marker.css('left', center);
 
 						// center handle on token
-						$('#handle').css('left', center - $('#handle').width()/2);
+						aigua.handle.css('left', center - aigua.handle.width()/2);
 
 						// show the handle
-						$('#handle').show();
+						aigua.handle.show();
 
-						// position the bar centered above the token
-						$('#bar').css('left', center - $('#bar').width()/2 - aigua.borderWidth);
-						$('#bar').css('top', startCoords.y - aigua.lineHeight);
+						// center bar above token
+						aigua.bar.css('left', center - aigua.bar.width()/2 - aigua.borderWidth);
+						aigua.bar.css('top', startCoords.y - aigua.lineHeight);
 
 						// show the bar
-						$('#bar').show();
+						aigua.bar.show();
 					}
 				}
 			}
@@ -91,16 +114,16 @@ $(function() {
 			if (e.type == 'keyup') {
 
 				// hide the handle
-				$('#handle').hide();
+				aigua.handle.hide();
 
 				// reset filler width
-				$('#filler').width(0);
+				aigua.filler.width(0);
 
 				// reset bar width
-				$('#bar').width(aigua.startingBarWidth);
+				aigua.bar.width(aigua.startingBarWidth);
 
 				// hide the bar
-				$('#bar').hide();
+				aigua.bar.hide();
 
 				// clear out the original number
 				aigua.originalNumber = null;
@@ -125,15 +148,14 @@ $(function() {
 	});
 
 	// initialize slider
-	$('#handle').draggable({
+	aigua.handle.draggable({
 		axis: 'x',
 		drag: function(ui, event) {
 
-			var position = event.position.left + $('#handle').width()/2;
-			var markerCenter = $('#marker').offset().left;
+			var position = event.position.left + aigua.handle.width()/2;
+			var markerCenter = aigua.marker.offset().left;
 			var offset = position - markerCenter;
 			var newNumber;
-			var barLeftPortionWidth;
 
 			// if the original number is larger than 1/-1, increment by 1
 			if (Math.abs(aigua.originalNumber) >= 1) {
@@ -150,81 +172,65 @@ $(function() {
 			// is the dragging cursor to the right of the marker?
 			if (offset > 0) {
 
-				// first, reset the left bar width and position
-				barLeftPortionWidth = markerCenter - $('#bar').offset().left - aigua.borderWidth;
-				if (barLeftPortionWidth > aigua.startingBarWidth/2) {
-
-					// reset the width, since fast drags won't trigger a drag call every pixel.
-					$('#bar').width(aigua.startingBarWidth);
-					$('#bar').css('left', markerCenter - aigua.startingBarWidth/2 - aigua.borderWidth);
-					$('#filler').removeClass('filler-edge-left');
+				// if the left bar got stuck, reset the bar width and position
+				if (markerCenter - aigua.bar.offset().left - aigua.borderWidth > aigua.startingBarWidth/2) {
+					aigua.resetBar(markerCenter);
 				}
 
 				// set the filler width and position
-				$('#filler').width(offset);
-				$('#filler').css('left', aigua.startingBarWidth/2);
+				aigua.filler.width(offset);
+				aigua.filler.css('left', aigua.startingBarWidth/2);
 
 				// are we dragging past the initial bar width?
 				if (offset > aigua.startingBarWidth/2 - (aigua.borderWidth)) {
 
 					// round the filler edges
-					$('#filler').addClass('filler-edge-right');
+					aigua.filler.addClass('filler-edge-right');
 
 					 // add 1 pixel to filler width to prevent square edges
 					 // from hitting the round borders prematurely
-					$('#filler').width(offset + 1);
+					aigua.filler.width(offset + 1);
 
 					// set bar right edge to dragging position
-					$('#bar').width(position - $('#bar').offset().left);
+					aigua.bar.width(position - aigua.bar.offset().left);
 				}
 
+				// reset the width, since fast drags won't trigger a drag call every pixel.
 				else {
-
-					// square the filler edges
-					$('#filler').removeClass('filler-edge-left');
-					$('#filler').removeClass('filler-edge-right');
-
-					// reset the width, since fast drags won't trigger a drag call every pixel. 
-					$('#bar').width(aigua.startingBarWidth);
+					aigua.resetBar(markerCenter);
 				}
 
 			// is the dragging cursor to the left of the marker?
 			} else if (offset < 0) {
 
 				// set the filler width
-				$('#filler').width(-offset);
+				aigua.filler.width(-offset);
 
 				// adjust the filler position
-				$('#filler').css('left', aigua.startingBarWidth/2 - -offset + aigua.borderWidth/2);
+				aigua.filler.css('left', aigua.startingBarWidth/2 - -offset + aigua.borderWidth/2);
 
 				// are we dragging past the initial bar width?
-				if (-offset> aigua.startingBarWidth/2) {
+				if (-offset > aigua.startingBarWidth/2) {
 
 					// adjust the filler position
-					$('#filler').css('left', aigua.borderWidth/2);
+					aigua.filler.css('left', aigua.borderWidth/2);
 
 					// round the filler edges
-					$('#filler').addClass('filler-edge-left');
+					aigua.filler.addClass('filler-edge-left');
 
 					// set bar left edge to dragging position
-					$('#bar').width(-offset + aigua.startingBarWidth/2);
-					$('#bar').css('left', position - aigua.borderWidth);
+					aigua.bar.width(-offset + aigua.startingBarWidth/2);
+					aigua.bar.css('left', position - aigua.borderWidth);
 				}
 
+				// reset the width, since fast drags won't trigger a drag call every pixel.
 				else {
-
-					// square the filler edges
-					$('#filler').removeClass('filler-edge-left');
-					$('#filler').removeClass('filler-edge-right');
-
-					// reset the width, since fast drags won't trigger a drag call every pixel.
-					$('#bar').width(aigua.startingBarWidth);
-					$('#bar').css('left', markerCenter - aigua.startingBarWidth/2 - aigua.borderWidth);
+					aigua.resetBar(markerCenter);
 				}
 
 			// are we at the middle?
 			} else {
-				$('#filler').width(0);
+				aigua.filler.width(0);
 			}
 		}
 	});

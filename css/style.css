@@ -410,7 +410,7 @@ td { vertical-align: top; }
   width: 200px;
   height: 12px;
   z-index: 1000;
-  border: solid black 2px;
+  border: solid black 0px;
 
   border-radius: 12px;
   -webkit-background-clip: padding-box; 
