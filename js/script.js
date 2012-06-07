@@ -129,42 +129,42 @@ $(function() {
 		axis: 'x',
 		drag: function(ui, event) {
 
-			var handleCenter = $('#handle').offset().left + $('#handle').width()/2;
+			var position = event.position.left + $('#handle').width()/2;
 			var markerCenter = $('#marker').offset().left;
-			var handleOffset = handleCenter - markerCenter;
+			var offset = position - markerCenter;
 			var newNumber;
 
 			// if the original number is larger than 1/-1, increment by 1
 			if (Math.abs(aigua.originalNumber) >= 1) {
-				newNumber = handleOffset*100 + aigua.originalNumber;
+				newNumber = offset*100 + aigua.originalNumber;
 			}
 			// otherwise increment by the original number rounded up to the nearest decimal
 			else {
-				newNumber = handleOffset/10 + aigua.originalNumber; // TODO - this isn't working properly
+				newNumber = offset/10 + aigua.originalNumber; // TODO - this isn't working properly
 			}
 
 			// replace the selection with the new number
 			aigua.codeMirror.replaceSelection(String(newNumber));
 
 			// is the dragging cursor to the right of the marker?
-			if (handleOffset > 0) {
+			if (offset > 0) {
 
 				// set the filler width and position
-				$('#filler').width(handleOffset);
+				$('#filler').width(offset);
 				$('#filler').css('left', aigua.startingBarWidth/2);
 
 				// are we dragging past the initial bar width?
-				if (handleOffset > aigua.startingBarWidth/2 - (aigua.borderWidth)) {
+				if (offset > aigua.startingBarWidth/2 - (aigua.borderWidth)) {
 
 					// round the filler edges
 					$('#filler').addClass('filler-edge-right');
 
 					 // add 1 pixel to filler width to prevent square edges
 					 // from hitting the round borders prematurely
-					$('#filler').width(handleOffset + 1);
+					$('#filler').width(offset + 1);
 
 					// set bar right edge to dragging position
-					$('#bar').width(handleCenter - $('#bar').offset().left);
+					$('#bar').width(position - $('#bar').offset().left);
 				}
 
 				else {
@@ -178,16 +178,16 @@ $(function() {
 				}
 
 			// is the dragging cursor to the left of the marker?
-			} else if (handleOffset < 0) {
+			} else if (offset < 0) {
 
 				// set the filler width
-				$('#filler').width(-handleOffset);
+				$('#filler').width(-offset);
 
 				// adjust the filler position
-				$('#filler').css('left', aigua.startingBarWidth/2 - -handleOffset + aigua.borderWidth/2);
+				$('#filler').css('left', aigua.startingBarWidth/2 - -offset + aigua.borderWidth/2);
 
 				// are we dragging past the initial bar width?
-				if (-handleOffset> aigua.startingBarWidth/2) {
+				if (-offset> aigua.startingBarWidth/2) {
 
 					// adjust the filler position
 					$('#filler').css('left', aigua.borderWidth/2);
@@ -196,8 +196,8 @@ $(function() {
 					$('#filler').addClass('filler-edge-left');
 
 					// set bar left edge to dragging position
-					$('#bar').width(-handleOffset + aigua.startingBarWidth/2);
-					$('#bar').css('left', handleCenter - aigua.borderWidth);
+					$('#bar').width(-offset + aigua.startingBarWidth/2);
+					$('#bar').css('left', position - aigua.borderWidth);
 				}
 
 				else {
