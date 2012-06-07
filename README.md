@@ -2,8 +2,17 @@
 
 ## TODO
 
-* warn users to use chrome
-* fix slider so that when you're to the right, the left position/width has been reset, and viceversa
+### Slider
+
+* when you're to the right, the left position/width has been reset, and viceversa
+* fix increment steps
+* add better handle ... handling (make it wider? make handle mouseover visible?)
+* add the down-arrow under bar bottom center
+
+
+
+### Misc
+
 
 
 ## JavaScript namespacing pattern

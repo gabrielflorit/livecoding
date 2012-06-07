@@ -24,6 +24,9 @@ var aigua = (function () {
 
 $(function() {
 
+	// set the handle's default width
+	$('#handle').width(aigua.startingBarWidth);
+
 	// create codemirror instance
 	aigua.codeMirror = CodeMirror($('#code').get(0), {
 
@@ -37,7 +40,6 @@ $(function() {
 			var token;
 			var startCoords;
 			var endCoords;
-			var width;
 			var center;
 
 			// did we keydown the ctrl key?
@@ -65,16 +67,12 @@ $(function() {
 						startCoords = cm.cursorCoords(true);
 						endCoords = cm.cursorCoords(false);
 
-						// make handle as wide as the selection
-						width = endCoords.x - startCoords.x;
-						$('#handle').width(width);
-
-						// position marker at center of handle
-						center = startCoords.x + width/2;
+						// center marker on token
+						center = startCoords.x + (endCoords.x - startCoords.x)/2;
 						$('#marker').css('left', center);
 
-						// position handle at token
-						$('#handle').css('left', startCoords.x);						
+						// center handle on token
+						$('#handle').css('left', center - $('#handle').width()/2);
 
 						// show the handle
 						$('#handle').show();

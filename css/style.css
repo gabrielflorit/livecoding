@@ -393,20 +393,18 @@ td { vertical-align: top; }
 /* slider elements */
 #handle {
   position: absolute;
-  border-top: none;
-  border-bottom: none;
   height: 100%;
   z-index: 10000;
   display: none;
-  background: rgba(255, 0, 0, 0);
+  background: rgba(255, 0, 0, 0.1);
 }
 
 #marker {
   position: absolute;
   height: 100%;
-  border-left: solid black 2px;
   left: 25%;
-  visibility: hidden;
+  z-index: 10000;
+  /*visibility: hidden;*/
 }
 
 #bar {
