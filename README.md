@@ -4,7 +4,6 @@
 
 ### Slider
 
-* when you're to the right, the left position/width has been reset, and viceversa
 * fix increment steps
 * add better handle ... handling (make it wider? make handle mouseover visible?)
 * add the down-arrow under bar bottom center
@@ -13,7 +12,6 @@
 
 
 ### Misc
-* consolidate code - too much individual DOM access ($('#bar').doThis(), $('#bar').doThisAgain())
 
 
 
