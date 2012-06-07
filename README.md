@@ -4,7 +4,6 @@
 
 ### Slider
 
-* fix increment steps
 * add better handle ... handling (make it wider? make handle mouseover visible?)
 * add the down-arrow under bar bottom center
 * change the color to red

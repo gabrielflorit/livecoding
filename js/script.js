@@ -3,19 +3,49 @@
 */
 
 var aigua = (function () {
+
 	return {
-		
+
+		// modify a number by a certain distance
+		// e.g. modifyNumber(5.89, 10) = 5.89 + 10 * 0.1
+		// e.g. modifyNumber(58.9, 20) = 58.9 + 20 * 1
+		modifyNumber: function(number, distance) {
+
+			var exponent;
+			var factor;
+
+			// say we have a number: 5.89
+			// we first calculate its exponent: 0
+			exponent = Number(number.toExponential().split('e')[1]);
+
+			// next we subtract 1 from the exponent: -1
+			exponent = exponent - 1;
+
+			// then we calculate our desired factor: 10^-1 = 0.1
+			factor = Math.pow(10, exponent);
+
+			// finally we modify the number by the distance
+			return number + distance * factor;
+		},
+
+		// run the code and update the display
 		renderCode: function() {
+
+			var code;
+
 			// clear out the display contents
 			$('svg').empty();
 
 			// get the code
-			var code = aigua.codeMirror.getValue();
+			code = aigua.codeMirror.getValue();
 
 			// run it
 			eval(code);
 		},
 
+		// reset bar position and width:
+		// center bar over the token
+		// set bar width to default starting width
 		resetBar: function(markerCenter) {
 			aigua.bar.width(aigua.startingBarWidth);
 			aigua.bar.css('left', markerCenter - aigua.startingBarWidth/2 - aigua.borderWidth);
@@ -157,14 +187,9 @@ $(function() {
 			var offset = position - markerCenter;
 			var newNumber;
 
-			// if the original number is larger than 1/-1, increment by 1
-			if (Math.abs(aigua.originalNumber) >= 1) {
-				newNumber = offset*100 + aigua.originalNumber;
-			}
-			// otherwise increment by the original number rounded up to the nearest decimal
-			else {
-				newNumber = offset/10 + aigua.originalNumber; // TODO - this isn't working properly
-			}
+			// calculate the new number based on the original number
+			// plus the dragging offset
+			newNumber = aigua.modifyNumber(aigua.originalNumber, offset);
 
 			// replace the selection with the new number
 			aigua.codeMirror.replaceSelection(String(newNumber));
