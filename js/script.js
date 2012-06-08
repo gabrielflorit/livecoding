@@ -67,7 +67,10 @@ var aigua = (function () {
 		marker: null,
 		originalNumber: null,
 		samples: ['data/chord.txt'],
-		startingBarWidth: 300
+		startingBarWidth: 300,
+		triangle: null,
+		triangleWidth: 12,
+		triangleHeight: 7
 
 	}
 }());
@@ -79,6 +82,7 @@ $(function() {
 	aigua.bar = $('#bar');
 	aigua.marker = $('#marker');
 	aigua.filler = $('#filler');
+	aigua.triangle = $('#triangle');
 
 	// set the handle's default width
 	aigua.handle.width(aigua.startingBarWidth);
@@ -86,6 +90,9 @@ $(function() {
 	// set the bar's border width and default width
 	aigua.bar.css('border-width', aigua.borderWidth);
 	aigua.bar.width(aigua.startingBarWidth);
+
+	// set the triangle
+	aigua.triangle.css('border-width', aigua.triangleHeight + 'px ' + aigua.triangleWidth + 'px 0px ' + aigua.triangleWidth + 'px');
 
 	// create codemirror instance
 	aigua.codeMirror = CodeMirror($('#code').get(0), {
@@ -143,12 +150,19 @@ $(function() {
 
 						// show the bar
 						aigua.bar.show();
+
+						// center triangle on token
+						aigua.triangle.css('left', center - aigua.triangleWidth);
+						aigua.triangle.css('top', aigua.bar.offset().top + aigua.bar.height() + aigua.borderWidth * 2);
+
+						// show the triangle
+						aigua.triangle.show();
 					}
 				}
 			}
 
 			// did we keyup?
-			if (e.type == 'keyups') {
+			if (e.type == 'keyup') {
 
 				// hide the handle
 				aigua.handle.hide();
@@ -161,6 +175,9 @@ $(function() {
 
 				// hide the bar
 				aigua.bar.hide();
+
+				// hide the triangle
+				aigua.triangle.hide();
 
 				// clear out the original number
 				aigua.originalNumber = null;

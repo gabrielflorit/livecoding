@@ -390,83 +390,86 @@ td { vertical-align: top; }
               background-clip: padding-box;
     }
 
-/* slider elements */
-#handle {
-  position: absolute;
-  height: 100%;
-  z-index: 10000;
-  display: none;
-}
-
-  #handle img {
-    top: 281px;
-    position: relative;
-    left: 113px;
-    width: 47px;
+  /* slider elements */
+  #handle {
+    position: absolute;
+    height: 100%;
+    z-index: 10000;
+    display: none;
   }
 
-#marker {
-  position: absolute;
-  height: 100%;
-  left: 25%;
-  visibility: hidden;
-}
-
-#bar {
-  position: absolute;
-  height: 12px;
-  z-index: 1000;
-  border: solid black 0px;
-
-  border-radius: 12px;
-  -webkit-background-clip: padding-box; 
-     -moz-background-clip: padding;
-          background-clip: padding-box;
-
-  box-shadow: 0 0 5px 2px rgba(255, 255, 255, 0.7);
-
-  background-color: #000000;
-  background-image: -webkit-gradient(linear, left top, left bottom, from(#000000), to(#555));
-  background-image: -webkit-linear-gradient(top, #000000, #555);
-  background-image:    -moz-linear-gradient(top, #000000, #555);
-  background-image:     -ms-linear-gradient(top, #000000, #555);
-  background-image:      -o-linear-gradient(top, #000000, #555);
-  background-image:         linear-gradient(to bottom, #000000, #555);
-
-  display: none;
-}
-
-  #filler {
-    position: relative;
-    background: white;
+  #marker {
+    position: absolute;
     height: 100%;
-    width: 0px;
-    left: 50%;
+    left: 25%;
+    visibility: hidden;
+  }
 
+  #bar {
+    position: absolute;
+    height: 12px;
+    z-index: 1000;
+    border: solid black 0px;
+
+    border-radius: 12px;
     -webkit-background-clip: padding-box; 
        -moz-background-clip: padding;
             background-clip: padding-box;
 
-    /* (bit paler) green theme background-image: -webkit-linear-gradient(top, #FFF 0%, #C6D1A9 19%, #899D55 50%, #62713D 50%, #4F5B31 81%, #899D55 100%);*/
-    /* blue theme background-image: -webkit-linear-gradient(top, #FFF 0%, #7bb2ff 19%, #0065f2 50%, #0048ae 50%, #003a8c 81%, #0065f2 100%);*/
-    /* red theme background-image: -webkit-linear-gradient(top, #FFF 0%, #e5ad9c 19%, #c45635 50%, #8f3e26 50%, #74331f 81%, #c45635 100%);*/
-    /* green theme background-image: -webkit-linear-gradient(top, #FFF 0%, #cfdf9f 19%, #9ab83e 50%, #6f852d 50%, #5a6c24 81%, #9ab83e 100%);*/
+    box-shadow: 0 0 5px 2px rgba(255, 255, 255, 0.7);
 
-    background-color: #fff;
-    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #fff), color-stop(19%, #cfdf9f), color-stop(50%, #9ab83e), color-stop(50%, #6f852d), color-stop(81%, #5a6c24), color-stop(100%, #9ab83e));
-    background-image: -webkit-linear-gradient(top, #fff 0%, #cfdf9f 19%, #9ab83e 50%, #6f852d 50%, #5a6c24 81%, #9ab83e 100%);
-    background-image: -moz-linear-gradient(top, #fff 0%, #cfdf9f 19%, #9ab83e 50%, #6f852d 50%, #5a6c24 81%, #9ab83e 100%);
-    background-image: -ms-linear-gradient(top, #fff 0%, #cfdf9f 19%, #9ab83e 50%, #6f852d 50%, #5a6c24 81%, #9ab83e 100%);
-    background-image: -o-linear-gradient(top, #fff 0%, #cfdf9f 19%, #9ab83e 50%, #6f852d 50%, #5a6c24 81%, #9ab83e 100%);
-    background-image: linear-gradient(top, #fff 0%, #cfdf9f 19%, #9ab83e 50%, #6f852d 50%, #5a6c24 81%, #9ab83e 100%);
+    background-color: #000000;
+    background-image: -webkit-gradient(linear, left top, left bottom, from(#000000), to(#555));
+    background-image: -webkit-linear-gradient(top, #000000, #555);
+    background-image:    -moz-linear-gradient(top, #000000, #555);
+    background-image:     -ms-linear-gradient(top, #000000, #555);
+    background-image:      -o-linear-gradient(top, #000000, #555);
+    background-image:         linear-gradient(to bottom, #000000, #555);
+
+    display: none;
   }
 
-  .filler-edge-right {
-    border-radius: 0 12px 12px 0;
-  }
+    #filler {
+      position: relative;
+      background: white;
+      height: 100%;
+      width: 0px;
+      left: 50%;
 
-  .filler-edge-left {
-    border-radius: 12px 0 0 12px;
+      -webkit-background-clip: padding-box; 
+         -moz-background-clip: padding;
+              background-clip: padding-box;
+
+      /* (bit paler) green theme background-image: -webkit-linear-gradient(top, #FFF 0%, #C6D1A9 19%, #899D55 50%, #62713D 50%, #4F5B31 81%, #899D55 100%);*/
+      /* blue theme background-image: -webkit-linear-gradient(top, #FFF 0%, #7bb2ff 19%, #0065f2 50%, #0048ae 50%, #003a8c 81%, #0065f2 100%);*/
+      /* red theme background-image: -webkit-linear-gradient(top, #FFF 0%, #e5ad9c 19%, #c45635 50%, #8f3e26 50%, #74331f 81%, #c45635 100%);*/
+      /* green theme background-image: -webkit-linear-gradient(top, #FFF 0%, #cfdf9f 19%, #9ab83e 50%, #6f852d 50%, #5a6c24 81%, #9ab83e 100%);*/
+
+      background-color: #fff;
+      background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #fff), color-stop(19%, #cfdf9f), color-stop(50%, #9ab83e), color-stop(50%, #6f852d), color-stop(81%, #5a6c24), color-stop(100%, #9ab83e));
+      background-image: -webkit-linear-gradient(top, #fff 0%, #cfdf9f 19%, #9ab83e 50%, #6f852d 50%, #5a6c24 81%, #9ab83e 100%);
+      background-image: -moz-linear-gradient(top, #fff 0%, #cfdf9f 19%, #9ab83e 50%, #6f852d 50%, #5a6c24 81%, #9ab83e 100%);
+      background-image: -ms-linear-gradient(top, #fff 0%, #cfdf9f 19%, #9ab83e 50%, #6f852d 50%, #5a6c24 81%, #9ab83e 100%);
+      background-image: -o-linear-gradient(top, #fff 0%, #cfdf9f 19%, #9ab83e 50%, #6f852d 50%, #5a6c24 81%, #9ab83e 100%);
+      background-image: linear-gradient(top, #fff 0%, #cfdf9f 19%, #9ab83e 50%, #6f852d 50%, #5a6c24 81%, #9ab83e 100%);
+    }
+
+    .filler-edge-right {
+      border-radius: 0 12px 12px 0;
+    }
+
+    .filler-edge-left {
+      border-radius: 12px 0 0 12px;
+    }
+
+  #triangle {
+    position: absolute;
+    border-color: black transparent transparent transparent;
+    border-style: solid;
+    height: 0;
+    width: 0;
+    z-index: 1000;
+    display: none;
   }
 
 
