@@ -398,6 +398,13 @@ td { vertical-align: top; }
   display: none;
 }
 
+  #handle img {
+    top: 281px;
+    position: relative;
+    left: 113px;
+    width: 47px;
+  }
+
 #marker {
   position: absolute;
   height: 100%;
@@ -407,7 +414,6 @@ td { vertical-align: top; }
 
 #bar {
   position: absolute;
-  width: 200px;
   height: 12px;
   z-index: 1000;
   border: solid black 0px;

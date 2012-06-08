@@ -67,7 +67,7 @@ var aigua = (function () {
 		marker: null,
 		originalNumber: null,
 		samples: ['data/chord.txt'],
-		startingBarWidth: 200
+		startingBarWidth: 300
 
 	}
 }());
@@ -83,8 +83,9 @@ $(function() {
 	// set the handle's default width
 	aigua.handle.width(aigua.startingBarWidth);
 
-	// set the bar's border width
+	// set the bar's border width and default width
 	aigua.bar.css('border-width', aigua.borderWidth);
+	aigua.bar.width(aigua.startingBarWidth);
 
 	// create codemirror instance
 	aigua.codeMirror = CodeMirror($('#code').get(0), {
@@ -147,7 +148,7 @@ $(function() {
 			}
 
 			// did we keyup?
-			if (e.type == 'keyup') {
+			if (e.type == 'keyups') {
 
 				// hide the handle
 				aigua.handle.hide();
