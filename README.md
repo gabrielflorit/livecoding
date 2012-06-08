@@ -2,11 +2,11 @@
 
 ## TODO
 
+
 ### Slider
 
 
-### Misc
-
+### Miscellaneous
 
 
 ## JavaScript namespacing pattern
