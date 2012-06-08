@@ -4,8 +4,6 @@
 
 ### Slider
 
-* position the slider precisely above the token (it's hardcoded at the moment)
-
 
 ### Misc
 
