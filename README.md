@@ -4,8 +4,6 @@
 
 ### Slider
 
-* add better handle ... handling (make it wider? make handle mouseover visible?)
-* add the down-arrow under bar bottom center
 * position the slider precisely above the token (it's hardcoded at the moment)
 
 
