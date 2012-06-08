@@ -49,6 +49,57 @@ var aigua = (function () {
 			eval(code);
 		},
 
+		respondToKey: function(cm) {
+
+			var cursor;
+			var token;
+			var startCoords;
+			var endCoords;
+			var center;
+
+			// is the slider hidden?
+			if (!aigua.slider.is(':visible')) {
+
+				// grab the current token
+				cursor = cm.getCursor();
+				token = cm.getTokenAt(cursor);
+
+				// are we on a number?
+				if (token.className == 'number') {
+
+					// show the slider
+					aigua.slider.show();
+
+					// save the original number
+					if (aigua.originalNumber == null) {
+						aigua.originalNumber = Number(token.string);
+					}
+
+					// select token
+					cm.setSelection({line: cursor.line, ch: token.start}, {line: cursor.line, ch: token.end});
+
+					// find coords at token start
+					startCoords = cm.cursorCoords(true);
+					endCoords = cm.cursorCoords(false);
+
+					// center marker on token
+					center = startCoords.x + (endCoords.x - startCoords.x)/2;
+					aigua.marker.css('left', center);
+
+					// center handle on token
+					aigua.handle.css('left', center - aigua.handle.width()/2);
+
+					// center bar above token
+					aigua.bar.css('left', center - aigua.bar.width()/2 - aigua.borderWidth);
+					aigua.bar.css('top', startCoords.y - aigua.lineHeight);
+
+					// center triangle on token
+					aigua.triangle.css('left', center - aigua.triangleWidth);
+					aigua.triangle.css('top', aigua.bar.offset().top + aigua.bar.height() + aigua.borderWidth * 2);
+				}
+			}
+		},
+
 		// reset bar position and width:
 		// center bar over the token
 		// set bar width to default starting width
@@ -67,10 +118,11 @@ var aigua = (function () {
 		marker: null,
 		originalNumber: null,
 		samples: ['data/chord.txt'],
+		slider: null,
 		startingBarWidth: 300,
 		triangle: null,
-		triangleWidth: 12,
-		triangleHeight: 7
+		triangleHeight: 7,
+		triangleWidth: 12
 
 	}
 }());
@@ -78,6 +130,7 @@ var aigua = (function () {
 $(function() {
 
 	// set various dom elements
+	aigua.slider = $('#slider');
 	aigua.handle = $('#handle');
 	aigua.bar = $('#bar');
 	aigua.marker = $('#marker');
@@ -97,97 +150,37 @@ $(function() {
 	// create codemirror instance
 	aigua.codeMirror = CodeMirror($('#code').get(0), {
 
-		onChange: function(cm, e) {
-			aigua.renderCode();
+		extraKeys: {
+			'Ctrl-Ctrl': aigua.respondToKey
 		},
 
-		onKeyEvent: function(cm, e) {
-
-			var cursor;
-			var token;
-			var startCoords;
-			var endCoords;
-			var center;
-
-			// did we keydown the ctrl key?
-			if (e.ctrlKey && e.type == 'keydown') {
-
-				// is the handle hidden?
-				if (!aigua.handle.is(':visible')) {
-
-					// grab the current token
-					cursor = cm.getCursor();
-					token = cm.getTokenAt(cursor);
-
-					// are we on a number?
-					if (token.className == 'number') {
-
-						// save the original number
-						if (aigua.originalNumber == null) {
-							aigua.originalNumber = Number(token.string);
-						}
-
-						// select token
-						cm.setSelection({line: cursor.line, ch: token.start}, {line: cursor.line, ch: token.end});
-
-						// find coords at token start
-						startCoords = cm.cursorCoords(true);
-						endCoords = cm.cursorCoords(false);
-
-						// center marker on token
-						center = startCoords.x + (endCoords.x - startCoords.x)/2;
-						aigua.marker.css('left', center);
-
-						// center handle on token
-						aigua.handle.css('left', center - aigua.handle.width()/2);
-
-						// show the handle
-						aigua.handle.show();
-
-						// center bar above token
-						aigua.bar.css('left', center - aigua.bar.width()/2 - aigua.borderWidth);
-						aigua.bar.css('top', startCoords.y - aigua.lineHeight);
-
-						// show the bar
-						aigua.bar.show();
-
-						// center triangle on token
-						aigua.triangle.css('left', center - aigua.triangleWidth);
-						aigua.triangle.css('top', aigua.bar.offset().top + aigua.bar.height() + aigua.borderWidth * 2);
-
-						// show the triangle
-						aigua.triangle.show();
-					}
-				}
-			}
-
-			// did we keyup?
-			if (e.type == 'keyup') {
-
-				// hide the handle
-				aigua.handle.hide();
-
-				// reset filler width
-				aigua.filler.width(0);
-
-				// reset bar width
-				aigua.bar.width(aigua.startingBarWidth);
-
-				// hide the bar
-				aigua.bar.hide();
-
-				// hide the triangle
-				aigua.triangle.hide();
-
-				// clear out the original number
-				aigua.originalNumber = null;
-			}
+		onChange: function(cm, e) {
+			aigua.renderCode();
 		},
 
 		lineNumbers: true,
 		matchBrackets: true,
 		mode:  'javascript',
 		theme: 'lesser-dark'
+	});
+
+	// did we keyup the handle key?
+	$(window).keyup(function(e) {
+
+		if (e.which == 17) {
+
+			// hide the slider
+			aigua.slider.hide();
+
+			// reset filler width
+			aigua.filler.width(0);
+
+			// reset bar width
+			aigua.bar.width(aigua.startingBarWidth);
+
+			// clear out the original number
+			aigua.originalNumber = null;
+		}
 	});
 
 	// load sample code
@@ -203,7 +196,9 @@ $(function() {
 
 	// initialize slider
 	aigua.handle.draggable({
+
 		axis: 'x',
+		
 		drag: function(ui, event) {
 
 			var position = event.position.left + aigua.handle.width()/2;
