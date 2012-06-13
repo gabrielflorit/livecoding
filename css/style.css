@@ -225,18 +225,79 @@ td { vertical-align: top; }
 }
 
   #controls {
-    width: 100%;
-    float: left;
+    position: relative;
     height: 60px;
+    left: 5%;
+    width: 90%;
   }
 
     #menu {
-      float: left;
+      color: red;
+      position: absolute;
+      bottom: 0;
+      z-index: 10;
+      padding: 0 0 0 0.5em;
+      cursor: default;
     }
 
-    #tabs {
-      float: left;
-    }
+      #menu li {
+        list-style: none;
+      }
+
+      #menu ul,
+      #menu li {
+        margin: 0;
+        padding: 0;
+      }
+
+      #menu .item {
+        position: relative;
+        height: 100%;
+        float: left;
+      }
+
+        #menu .item h2 {
+          position: relative;
+          margin: 0 12px 3px 0;
+          padding: 2px 9px 0 9px;
+          color: #eee;
+          font-size: 15px;
+
+/*          border-radius: 5px;
+
+          -webkit-background-clip: padding-box;
+             -moz-background-clip: padding;
+                  background-clip: padding-box;
+*/
+/*          box-shadow:
+            rgba(255, 255, 255, .4) 0 1px 0 inset, 
+            rgba(255, 255, 255, .3) 0 25px 30px -12px inset, 
+            rgba(0, 0, 0, .6) 0 1px 2px;
+
+          text-shadow:
+            0 -1px 1px black,
+            0 -1px 2px black;
+*/
+/*          border-bottom-left-radius: 0px;
+          border-bottom-right-radius: 0px;
+*/
+
+
+
+
+
+
+
+
+
+        }
+
+        #menu .item ul {
+          position: relative;
+          top: 60px;
+          float: left;
+          display: none;
+        }
 
   #editor {
     position: absolute;
@@ -402,6 +463,7 @@ td { vertical-align: top; }
   #handle {
     position: absolute;
     height: 100%;
+    z-index: 10000;
   }
 
   #marker {

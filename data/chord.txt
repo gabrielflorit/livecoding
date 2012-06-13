@@ -1,6 +1,5 @@
 
 // chord diagram from http://mbostock.github.com/d3/ex/chord.html
-// colors from the twilight theme: http://bit.ly/wufWv1
 
 var chord = d3.layout.chord()
   .padding(0.05)
