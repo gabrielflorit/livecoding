@@ -129,6 +129,13 @@ var aigua = (function () {
 
 $(function() {
 
+	// setup the key correctly (linux/windows)
+	var theKey = (navigator && navigator.platform && navigator.platform.toLowerCase().indexOf('linux') != -1) 
+		? 'Ctrl' 
+		: 'Ctrl-Ctrl';
+	var extraKeys = {};
+	{extraKeys[theKey] = aigua.respondToKey};
+
 	// set various dom elements
 	aigua.slider = $('#slider');
 	aigua.handle = $('#handle');
@@ -150,9 +157,7 @@ $(function() {
 	// create codemirror instance
 	aigua.codeMirror = CodeMirror($('#code').get(0), {
 
-		extraKeys: {
-			'Ctrl': aigua.respondToKey
-		},
+		extraKeys: extraKeys,
 
 		onChange: function(cm, e) {
 			aigua.renderCode();
