@@ -6,128 +6,112 @@
 <!-- Consider adding a manifest.appcache: h5bp.com/d/Offline -->
 <!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
 <head>
-  <meta charset="utf-8">
+	<meta charset="utf-8">
 
-  <!-- Use the .htaccess and remove these lines to avoid edge case issues.
-       More info: h5bp.com/i/378 -->
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<!-- Use the .htaccess and remove these lines to avoid edge case issues.
+			 More info: h5bp.com/i/378 -->
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 
-  <title></title>
-  <meta name="description" content="">
+	<title></title>
+	<meta name="description" content="">
 
-  <!-- Mobile viewport optimized: h5bp.com/viewport -->
-  <meta name="viewport" content="width=device-width">
+	<!-- Mobile viewport optimized: h5bp.com/viewport -->
+	<meta name="viewport" content="width=device-width">
 
-  <!-- Place favicon.ico and apple-touch-icon.png in the root directory: mathiasbynens.be/notes/touch-icons -->
+	<!-- Place favicon.ico and apple-touch-icon.png in the root directory: mathiasbynens.be/notes/touch-icons -->
 
-  <link rel="stylesheet" href="css/style.css">
-  <link rel="stylesheet" href="js/libs/codemirror/codemirror.css">
-  <link rel="stylesheet" href="js/libs/codemirror/theme/lesser-dark.css">
+	<link rel="stylesheet" href="css/style.css">
+	<link rel="stylesheet" href="js/libs/codemirror/codemirror.css">
+	<link rel="stylesheet" href="js/libs/codemirror/theme/lesser-dark.css">
 
-  <!-- More ideas for your <head> here: h5bp.com/d/head-Tips -->
+	<!-- More ideas for your <head> here: h5bp.com/d/head-Tips -->
 
-  <!-- All JavaScript at the bottom, except this Modernizr build.
-       Modernizr enables HTML5 elements & feature detects for optimal performance.
-       Create your own custom Modernizr build: www.modernizr.com/download/ -->
-  <script src="js/libs/modernizr-2.5.3.min.js"></script>
+	<!-- All JavaScript at the bottom, except this Modernizr build.
+			 Modernizr enables HTML5 elements & feature detects for optimal performance.
+			 Create your own custom Modernizr build: www.modernizr.com/download/ -->
+	<script src="js/libs/modernizr-2.5.3.min.js"></script>
 </head>
 <body>
-  <!-- Prompt IE 6 users to install Chrome Frame. Remove this if you support IE 6.
-       chromium.org/developers/how-tos/chrome-frame-getting-started -->
-  <!--[if lt IE 7]><p class=chromeframe>Your browser is <em>ancient!</em> <a href="http://browsehappy.com/">Upgrade to a different browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to experience this site.</p><![endif]-->
-  <header>
-  </header>
+	<!-- Prompt IE 6 users to install Chrome Frame. Remove this if you support IE 6.
+			 chromium.org/developers/how-tos/chrome-frame-getting-started -->
+	<!--[if lt IE 7]><p class=chromeframe>Your browser is <em>ancient!</em> <a href="http://browsehappy.com/">Upgrade to a different browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to experience this site.</p><![endif]-->
+	<header>
+	</header>
 
-  <div id='main' role="main">
+	<div id='main' role="main">
 
-    <!-- slider elements -->    
-    <div id='slider'>
-      <div id='marker'></div>
-      <div id='handle'></div>
-      <div id='bar'>
-        <div id='filler'></div>
-      </div>
-      <div id='triangle'></div>
-    </div>
+		<!-- slider elements -->    
+		<div id='slider'>
+			<div id='marker'></div>
+			<div id='handle'></div>
+			<div id='bar'>
+				<div id='filler'></div>
+			</div>
+			<div id='triangle'></div>
+		</div>
 
-    <div id='controls'>
-      <div id='menu'>
-        <div class='item'>
-          <h2><a href='#'>file</a></h2>
-          <ul>
-            <li><a href='#' rel='file-new'>new</a></li>
+		<div id='controls'>
+			<div id='menu'>
+				<div class='item'>
+					<h2><a href='#'>file</a></h2>
+					<ul>
+						<li><a href='#' rel='file-new'>new</a></li>
+					</ul>
+				</div>
+				<div class='item'>
+					<h2><a href='#'>examples</a></h2>
+					<ul>
+						<li><a href='#' rel='examples-chord_diagram'>chord diagram</a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<div id='editor'>
+			<div id='display'>
+				<img id='top-middle' src='/img/top-middle.png' />
+				<img id='bottom-middle' src='/img/bottom-middle.png' />
+				<div id='middle-edge'></div>
+				<svg></svg>
+			</div>
+			<img id='top-right-corner' src='/img/top-right-corner.png' />
+			<img id='bottom-right-corner' src='/img/bottom-right-corner.png' />
+			<img id='top-left-corner' src='/img/top-left-corner.png' />
+			<img id='bottom-left-corner' src='/img/bottom-left-corner.png' />
+			<div id='top-edge'></div>
+			<div id='right-edge'></div>
+			<div id='bottom-edge'></div>
+			<div id='left-edge'></div>
+			<div id='code'></div>
+			<div id='codeOverlay'></div>
+		</div>
 
-<!--             <li><a href='#' rel='file-save'>save</a></li>
-            <li><a href='#' rel='file-saveanon'>save anonymously</a></li>
- -->
-          </ul>
-        </div>
-<!--         <div class='item'>
-          <h2><a href='#'>tools</a></h2>
-          <ul>
-            <li><a href='#'></a></li>
-          </ul>
-        </div>
- -->        <div class='item'>
-          <h2><a href='#'>examples</a></h2>
-          <ul>
-            <li><a href='#' rel='examples-chord_diagram'>chord diagram</a></li>
-          </ul>
-        </div>
-<!--         <div class='item'>
-          <h2><a href='#'>about</a></h2>
-          <ul>
-            <li><a href='#'></a></li>
-          </ul>
-        </div>
- -->      </div>
-    </div>
-    <div id='editor'>
-      <div id='display'>
-        <img id='top-middle' src='/img/top-middle.png' />
-        <img id='bottom-middle' src='/img/bottom-middle.png' />
-        <div id='middle-edge'></div>
-        <svg></svg>
-      </div>
-      <img id='top-right-corner' src='/img/top-right-corner.png' />
-      <img id='bottom-right-corner' src='/img/bottom-right-corner.png' />
-      <img id='top-left-corner' src='/img/top-left-corner.png' />
-      <img id='bottom-left-corner' src='/img/bottom-left-corner.png' />
-      <div id='top-edge'></div>
-      <div id='right-edge'></div>
-      <div id='bottom-edge'></div>
-      <div id='left-edge'></div>
-      <div id='code'></div>
-      <div id='codeOverlay'></div>
-    </div>
+	</div>
 
-  </div>
+	<footer>
+	</footer>
+	<!-- JavaScript at the bottom for fast page loading -->
 
-  <footer>
-  </footer>
-  <!-- JavaScript at the bottom for fast page loading -->
+	<!-- Grab Google CDN's jQuery, with a protocol relative URL; fall back to local if offline -->
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+	<script>window.jQuery || document.write('<script src="js/libs/jquery-1.7.1.min.js"><\/script>')</script>
 
-  <!-- Grab Google CDN's jQuery, with a protocol relative URL; fall back to local if offline -->
-  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-  <script>window.jQuery || document.write('<script src="js/libs/jquery-1.7.1.min.js"><\/script>')</script>
+	<!-- scripts concatenated and minified via build script -->
+	<script src="js/libs/codemirror/codemirror.js"></script>
+	<script src="js/libs/codemirror/mode/javascript/javascript.js"></script>
+	<script src="js/libs/d3.v2.min.js"></script>
+	<script src="js/libs/jquery-ui-1.8.20.custom.min.js"></script>
+	<!--<script src="js/libs/Stats.js"></script>-->
+	<script src="js/plugins.js"></script>
+	<script src="js/script.js"></script>
+	<!-- end scripts -->
 
-  <!-- scripts concatenated and minified via build script -->
-  <script src="js/libs/codemirror/codemirror.js"></script>
-  <script src="js/libs/codemirror/mode/javascript/javascript.js"></script>
-  <script src="js/libs/d3.v2.min.js"></script>
-  <script src="js/libs/jquery-ui-1.8.20.custom.min.js"></script>
-  <!--<script src="js/libs/Stats.js"></script>-->
-  <script src="js/plugins.js"></script>
-  <script src="js/script.js"></script>
-  <!-- end scripts -->
-
-  <!-- Asynchronous Google Analytics snippet. Change UA-XXXXX-X to be your site's ID.
-       mathiasbynens.be/notes/async-analytics-snippet -->
-  <script>
-    var _gaq=[['_setAccount','UA-XXXXX-X'],['_trackPageview']];
-    (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
-    g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';
-    s.parentNode.insertBefore(g,s)}(document,'script'));
-  </script>
+	<!-- Asynchronous Google Analytics snippet. Change UA-XXXXX-X to be your site's ID.
+			 mathiasbynens.be/notes/async-analytics-snippet -->
+	<script>
+		var _gaq=[['_setAccount','UA-XXXXX-X'],['_trackPageview']];
+		(function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
+		g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';
+		s.parentNode.insertBefore(g,s)}(document,'script'));
+	</script>
 </body>
 </html>
