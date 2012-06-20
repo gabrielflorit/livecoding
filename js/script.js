@@ -284,5 +284,41 @@ $(function() {
 		}
 	});
 
+	// handle menu mouseover/mouseout events
+	$('#menu .item h2 a').on('mouseover', function(e) {
+		var item = $(this).parents('.item');
+		var h2 = $(this).parents('h2');
+
+		$('ul', item).show(); // show this dropdown
+		$(this).addClass('hover'); // add hover class to this a
+		h2.addClass('hover'); // add hover class to the h2
+	});
+
+	// handle menu mouseover/mouseout events
+	$('#menu .item').on('mouseout', function(e) {
+
+		if ($(e.toElement).parents('.item').get(0) == $(this).get(0)) {
+
+		} else {
+
+			var menu = $(this).parents('#menu');
+
+			$('ul', menu).hide(); // hide all the dropdowns
+			$('h2 a', menu).removeClass('hover'); // remove hover class from all the a's
+			$('h2', menu).removeClass('hover'); // remove hover class from all the h2's
+		}
+
+	});
+
+	// handle menu mouseover/mouseout events
+	$('#menu .item li').on('mouseover', function(e) {
+		$(this).addClass('hover');
+	});
+
+	// handle menu mouseover/mouseout events
+	$('#menu .item li').on('mouseleave', function(e) {
+		$(this).removeClass('hover');
+	});
+
 });
 

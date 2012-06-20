@@ -229,11 +229,13 @@ td { vertical-align: top; }
     height: 60px;
     left: 5%;
     width: 90%;
+    margin-top: 2px;
   }
 
     #menu {
       color: red;
       position: absolute;
+      width: 100%;
       bottom: 0;
       z-index: 10;
       padding: 0 0 0 0.5em;
@@ -251,53 +253,84 @@ td { vertical-align: top; }
       }
 
       #menu .item {
-        position: relative;
         height: 100%;
         float: left;
       }
 
         #menu .item h2 {
-          position: relative;
           margin: 0 12px 3px 0;
           padding: 2px 9px 0 9px;
           color: #eee;
           font-size: 15px;
+          border: solid rgba(0, 0, 0, 0) 1px;
+        }
 
-/*          border-radius: 5px;
+          #menu .item h2.hover {
+            background: #ccc;
+            border: solid #222 1px;
+            border-top-left-radius: 5px;
+            border-top-right-radius: 5px;
+            border-bottom: none;
+
+            -webkit-background-clip: padding-box;
+               -moz-background-clip: padding;
+                    background-clip: padding-box;
+
+            box-shadow: inset 1px 1px 3px rgba(0, 0, 0, 0.8);
+
+            background-image: -webkit-gradient(linear, left top, left bottom, from(#ccc), to(#fff));
+            background-image: -webkit-linear-gradient(top, #ccc, #fff);
+            background-image:    -moz-linear-gradient(top, #ccc, #fff);
+            background-image:     -ms-linear-gradient(top, #ccc, #fff);
+            background-image:      -o-linear-gradient(top, #ccc, #fff);
+            background-image:         linear-gradient(to bottom, #ccc, #fff);
+          }
+
+          #menu .item h2 a {
+            color: #eee;
+            text-decoration: none;
+          }
+
+          #menu .item h2 a.hover {
+            color: #222;
+          }
+
+        #menu .item ul {
+          position: absolute;
+          display: none;
+          padding: 2px;
+          margin-top: -3px;
+          background: #fff;
+          color: #3c4525;
+          font-size: 15px;
+          font-weight: bold;
+          
+          box-shadow: 1px 1px 6px rgba(0, 0, 0, 0.8);
+
+          border: solid #222 1px;
+          border-radius: 3px;
 
           -webkit-background-clip: padding-box;
              -moz-background-clip: padding;
                   background-clip: padding-box;
-*/
-/*          box-shadow:
-            rgba(255, 255, 255, .4) 0 1px 0 inset, 
-            rgba(255, 255, 255, .3) 0 25px 30px -12px inset, 
-            rgba(0, 0, 0, .6) 0 1px 2px;
-
-          text-shadow:
-            0 -1px 1px black,
-            0 -1px 2px black;
-*/
-/*          border-bottom-left-radius: 0px;
-          border-bottom-right-radius: 0px;
-*/
-
-
-
-
-
-
-
-
-
         }
 
-        #menu .item ul {
-          position: relative;
-          top: 60px;
-          float: left;
-          display: none;
-        }
+          #menu .item ul li {
+            border: solid rgba(0, 0, 0, 0) 1px;
+            border-radius: 3px;
+            padding: 0 16px 0 16px;
+          }
+
+          #menu .item ul li.hover {
+            border: solid #92A75C 1px;
+            background-image: -webkit-linear-gradient(top, white, #EBEEE0);
+            cursor: pointer;
+            text-shadow: 2px 2px 4px #CDD7B4;
+          }
+          
+        
+
+
 
   #editor {
     position: absolute;
