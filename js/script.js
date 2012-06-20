@@ -37,16 +37,20 @@ var aigua = (function () {
 		// run the code and update the display
 		renderCode: function() {
 
-			var code;
+			try {
+				var code;
 
-			// clear out the display contents
-			$('svg').empty();
+				// clear out the display contents
+				$('svg').empty();
 
-			// get the code
-			code = aigua.codeMirror.getValue();
+				// get the code
+				code = aigua.codeMirror.getValue();
 
-			// run it
-			eval(code);
+				// run it
+				eval(code);
+			}
+			catch (error) {}
+			finally {};
 		},
 
 		respondToKey: function(cm) {
@@ -318,6 +322,35 @@ $(function() {
 	// handle menu mouseover/mouseout events
 	$('#menu .item li').on('mouseleave', function(e) {
 		$(this).removeClass('hover');
+	});
+
+	// clicking on a menu header should do nothing
+	$('#menu .item h2 a').on('click', function(e) {
+		e.preventDefault();
+	})
+
+	$('#menu .item ul a').on('click', function(e) {
+		e.preventDefault();
+
+		switch ($(this).attr('rel')) {
+
+			case 'file-new':
+				var result = confirm('Are you sure? You will lose any unsaved changes.');
+				if (result) {
+					aigua.codeMirror.setValue('');
+				}
+				break;
+
+			case 'examples-chord_diagram':
+				var result = confirm('Are you sure? You will lose any unsaved changes.');
+				if (result) {
+					d3.text(aigua.samples[0], function(data) {
+						aigua.codeMirror.setValue(data);
+					});
+				}
+				break;
+
+		}
 	});
 
 });

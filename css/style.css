@@ -301,7 +301,6 @@ td { vertical-align: top; }
           padding: 2px;
           margin-top: -3px;
           background: #fff;
-          color: #3c4525;
           font-size: 15px;
           font-weight: bold;
           
@@ -327,6 +326,11 @@ td { vertical-align: top; }
             cursor: pointer;
             text-shadow: 2px 2px 4px #CDD7B4;
           }
+
+            #menu .item ul li a {
+              color: #3c4525;
+              text-decoration: none;
+            }
           
         
 
