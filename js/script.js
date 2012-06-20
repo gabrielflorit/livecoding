@@ -151,7 +151,7 @@ $(function() {
 	aigua.codeMirror = CodeMirror($('#code').get(0), {
 
 		extraKeys: {
-			'Ctrl-Ctrl': aigua.respondToKey
+			'Ctrl': aigua.respondToKey
 		},
 
 		onChange: function(cm, e) {
