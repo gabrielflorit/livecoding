@@ -425,7 +425,14 @@ $(function() {
 					case 'new':
 						var result = confirm('Are you sure? You will lose any unsaved changes.');
 						if (result) {
+							aigua.switchMode('javascript', true);
 							aigua.codeMirror.setValue('');
+							aigua.switchMode('css', true);
+							aigua.codeMirror.setValue('');
+							aigua.switchMode('javascript');
+							
+							$('svg').remove();
+							$('#display').append('<svg></svg>');
 						}
 						break;
 				}
