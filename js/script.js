@@ -8,10 +8,8 @@ var aigua = (function () {
 
 		loadExample: function(name) {
 
-			$('svg').remove();
-			$('#display').append('<svg></svg>');
+			aigua.reset();
 
-			aigua.codeMirror.setValue('');
 			aigua.switchMode('css', true);
 
 			d3.text('data/' + name + '.css', function(css) {
@@ -85,6 +83,17 @@ var aigua = (function () {
 			}
 			catch (error) {}
 			finally {};
+		},
+
+		reset: function() {
+			aigua.switchMode('javascript', true);
+			aigua.codeMirror.setValue('');
+			aigua.switchMode('css', true);
+			aigua.codeMirror.setValue('');
+			aigua.switchMode('javascript');
+
+			$('svg').remove();
+			$('#display').append('<svg></svg>');
 		},
 
 		respondToKey: function(cm) {
@@ -425,14 +434,7 @@ $(function() {
 					case 'new':
 						var result = confirm('Are you sure? You will lose any unsaved changes.');
 						if (result) {
-							aigua.switchMode('javascript', true);
-							aigua.codeMirror.setValue('');
-							aigua.switchMode('css', true);
-							aigua.codeMirror.setValue('');
-							aigua.switchMode('javascript');
-							
-							$('svg').remove();
-							$('#display').append('<svg></svg>');
+							aigua.reset();
 						}
 						break;
 				}
