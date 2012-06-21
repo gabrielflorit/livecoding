@@ -20,9 +20,9 @@ var aigua = (function () {
 
 				d3.text('data/' + name + '.js', function(js) {
 
-					aigua.switchMode('javascript', true);
+					aigua.switchMode('javascript');
 					aigua.codeMirror.setValue(js);
-					aigua.switchMode('javascript'); // don't know why i have to do this twice
+					aigua.codeMirror.setValue(js); // don't know why i have to do this twice
 
 				});
 			});
@@ -153,6 +153,8 @@ var aigua = (function () {
 
 		switchMode: function(mode, noTab) {
 
+			aigua.pause = true;
+
 			if (!noTab) {
 				$('#modes h2').attr('class', 'passive');
 				$("#modes h2:contains('" + mode + "')").attr('class', 'active');
@@ -167,6 +169,7 @@ var aigua = (function () {
 			aigua.codeMirror.setOption("mode", aigua.modes[aigua.currentModeIndex].name);
 			CodeMirror.autoLoadMode(editor, aigua.modes[aigua.currentModeIndex].name);
 
+			aigua.pause = false;
 		},
 
 		bar: null,
@@ -186,6 +189,7 @@ var aigua = (function () {
 			}
 		],
 		originalNumber: null,
+		pause: false,
 		samples: ['data/chord.txt'],
 		slider: null,
 		startingBarWidth: 300,
@@ -229,7 +233,9 @@ $(function() {
 	aigua.codeMirror = CodeMirror($('#code').get(0), {
 
 		onChange: function(cm, e) {
-			aigua.renderCode();
+			if (!aigua.pause) {
+				aigua.renderCode();
+			}
 		},
 
 		extraKeys: extraKeys,
@@ -240,10 +246,8 @@ $(function() {
 		theme: 'lesser-dark'
 	});
 
-	// load sample code
-	// d3.text(aigua.samples[0], function(data) {
-	// 	aigua.codeMirror.setValue(data);
-	// });
+	// load the first example
+	aigua.loadExample($("#menu .item h2:contains('examples') + ul li:first").attr('rel'));
 
 	// initialize slider
 	aigua.handle.draggable({
@@ -342,13 +346,6 @@ $(function() {
 
 		$('#modes').append(div);
 	});
-
-
-
-
-
-
-
 
 
 	// ----------- event handlers section
