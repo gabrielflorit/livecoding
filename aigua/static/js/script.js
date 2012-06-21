@@ -96,6 +96,13 @@ var aigua = (function () {
 			$('#display').append('<svg></svg>');
 		},
 
+		resetMenu: function() {
+
+			var menu = $('#menu');
+			$('ul', menu).hide(); // hide all the dropdowns
+			$('h2', menu).removeClass('hover'); // remove hover class from all the h2's
+		},
+
 		respondToKey: function(cm) {
 
 			if (aigua.modes[aigua.currentModeIndex].name == 'javascript') {
@@ -401,14 +408,8 @@ $(function() {
 	// handle menu mouseover/mouseout events
 	$('#menu .item').on('mouseout', function(e) {
 
-		if ($(e.toElement).parents('.item').get(0) == $(this).get(0)) {
-
-		} else {
-
-			var menu = $(this).parents('#menu');
-
-			$('ul', menu).hide(); // hide all the dropdowns
-			$('h2', menu).removeClass('hover'); // remove hover class from all the h2's
+		if ($(e.toElement).parents('.item').get(0) != $(this).get(0)) {
+			aigua.resetMenu();
 		}
 	});
 
@@ -428,20 +429,56 @@ $(function() {
 
 		var choice = $(this);
 		var itemName = $('h2', choice.parents('.item')).text();
+		var result;
+		var postData;
+		var js;
+		var css;
 
 		switch(itemName) {
 			case 'file':
 				switch (choice.text()) {
 					case 'new':
-						var result = confirm('Are you sure? You will lose any unsaved changes.');
+						result = confirm('Are you sure? You will lose any unsaved changes.');
 						if (result) {
 							aigua.reset();
 						}
-						break;
+					break;
+
+					case 'save anonymously':
+
+						if (aigua.modes[aigua.currentModeIndex].name == 'javascript') {
+
+							js = aigua.codeMirror.getValue();
+							aigua.switchMode('css', true);
+							css = aigua.codeMirror.getValue();
+							aigua.switchMode('javascript', true);
+
+						} else {
+
+							css = aigua.codeMirror.getValue();
+							aigua.switchMode('javascript', true);
+							js = aigua.codeMirror.getValue();
+							aigua.switchMode('css', true);
+
+						}
+
+						postData = {
+							'css': css,
+							'js': js
+						};
+
+						$.post('/save-anonymously', postData, function(data) {
+							history.pushState(null, null, data.split('https://gist.github.com/')[1])
+						});
+
+						aigua.resetMenu();
+
+					break;
 				}
 			break;
+
 			case 'examples':
-				var result = confirm('Are you sure? You will lose any unsaved changes.');
+				result = confirm('Are you sure? You will lose any unsaved changes.');
 				if (result) {
 					aigua.loadExample(choice.attr('rel'));
 				}
