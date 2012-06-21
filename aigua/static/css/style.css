@@ -376,7 +376,7 @@ td { vertical-align: top; }
       position: absolute;
       height: 13px;
       width: 100%;
-      background-image: url('/img/top-edge.png');
+      background-image: url('../../static/img/top-edge.png');
       top: -14px;
     }
 
@@ -384,7 +384,7 @@ td { vertical-align: top; }
       position: absolute;
       height: 100%;
       width: 13px;
-      background-image: url('/img/right-edge.png');
+      background-image: url('../../static/img/right-edge.png');
       right: -14px;
     }
 
@@ -392,7 +392,7 @@ td { vertical-align: top; }
       position: absolute;
       height: 13px;
       width: 100%;
-      background-image: url('/img/bottom-edge.png');
+      background-image: url('../../static/img/bottom-edge.png');
       bottom: -14px;
     }
 
@@ -400,7 +400,7 @@ td { vertical-align: top; }
       position: absolute;
       height: 100%;
       width: 13px;
-      background-image: url('/img/left-edge.png');
+      background-image: url('../../static/img/left-edge.png');
       left: -13px;
     }
 
@@ -438,7 +438,7 @@ td { vertical-align: top; }
         height: 100%;
         right: -14px;
         z-index: 100;
-        background-image: url('/img/middle-edge.png');
+        background-image: url('../../static/img/middle-edge.png');
       }
 
       #top-middle {

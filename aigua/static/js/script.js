@@ -12,11 +12,11 @@ var aigua = (function () {
 
 			aigua.switchMode('css', true);
 
-			d3.text('data/' + name + '.css', function(css) {
+			d3.text(aigua.baseUrl + name + '.css', function(css) {
 
 				aigua.codeMirror.setValue(css);
 
-				d3.text('data/' + name + '.js', function(js) {
+				d3.text(aigua.baseUrl + name + '.js', function(js) {
 
 					aigua.switchMode('javascript');
 					aigua.codeMirror.setValue(js);
@@ -182,6 +182,7 @@ var aigua = (function () {
 		},
 
 		bar: null,
+		baseUrl: 'static/data/',
 		borderWidth: 2,
 		currentModeIndex: 1,
 		filler: null,
@@ -199,7 +200,7 @@ var aigua = (function () {
 		],
 		originalNumber: null,
 		pause: false,
-		samples: ['data/chord.txt'],
+		samples: [this.baseUrl + 'chord.txt'],
 		slider: null,
 		startingBarWidth: 300,
 		triangle: null,
