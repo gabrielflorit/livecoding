@@ -6,6 +6,28 @@ var aigua = (function () {
 
 	return {
 
+		loadExample: function(name) {
+
+			$('svg').remove();
+			$('#display').append('<svg></svg>');
+
+			aigua.codeMirror.setValue('');
+			aigua.switchMode('css', true);
+
+			d3.text('data/' + name + '.css', function(css) {
+
+				aigua.codeMirror.setValue(css);
+
+				d3.text('data/' + name + '.js', function(js) {
+
+					aigua.switchMode('javascript', true);
+					aigua.codeMirror.setValue(js);
+					aigua.switchMode('javascript');
+
+				});
+			});
+		},
+
 		// modify a number by a certain distance
 		// e.g. modifyNumber(5.89, 10) = 5.89 + 10 * 0.1
 		// e.g. modifyNumber(58.9, 20) = 58.9 + 20 * 1
@@ -129,6 +151,24 @@ var aigua = (function () {
 			aigua.filler.removeClass('filler-edge-right');
 		},
 
+		switchMode: function(mode, noTab) {
+
+			if (!noTab) {
+				$('#modes h2').attr('class', 'passive');
+				$("#modes h2:contains('" + mode + "')").attr('class', 'active');
+			}
+
+			aigua.modes[aigua.currentModeIndex].code = aigua.codeMirror.getValue();
+
+			aigua.currentModeIndex = _.indexOf(_.pluck(aigua.modes, 'name'), mode);
+
+			aigua.codeMirror.setValue(aigua.modes[aigua.currentModeIndex].code || '');
+
+			aigua.codeMirror.setOption("mode", aigua.modes[aigua.currentModeIndex].name);
+			CodeMirror.autoLoadMode(editor, aigua.modes[aigua.currentModeIndex].name);
+
+		},
+
 		bar: null,
 		borderWidth: 2,
 		currentModeIndex: 1,
@@ -157,6 +197,8 @@ var aigua = (function () {
 }());
 
 $(function() {
+
+	// ----------- initialization section
 
 	// setup the key correctly (linux/windows)
 	var theKey = (navigator && navigator.platform && navigator.platform.toLowerCase().indexOf('linux') != -1) 
@@ -199,9 +241,9 @@ $(function() {
 	});
 
 	// load sample code
-	d3.text(aigua.samples[0], function(data) {
-		aigua.codeMirror.setValue(data);
-	});
+	// d3.text(aigua.samples[0], function(data) {
+	// 	aigua.codeMirror.setValue(data);
+	// });
 
 	// initialize slider
 	aigua.handle.draggable({
@@ -288,7 +330,7 @@ $(function() {
 		}
 	});
 
-	// populate mode switcher programmatically
+	// populate mode switcher
 	_.each(aigua.modes, function(mode, index) {
 
 		var div = $("<div class='item'></div>");
@@ -300,6 +342,16 @@ $(function() {
 
 		$('#modes').append(div);
 	});
+
+
+
+
+
+
+
+
+
+	// ----------- event handlers section
 
 	// did we keyup the handle key?
 	$(window).keyup(function(e) {
@@ -328,23 +380,7 @@ $(function() {
 
 	// handle modes switcher
 	$('#modes .item h2').on('click', function(e) {
-
-		$('#modes h2').attr('class', 'passive');
-		var mode = $(this);
-		mode.attr('class', 'active');
-
-		// save old mode's code
-		aigua.modes[aigua.currentModeIndex].code = aigua.codeMirror.getValue();
-
-		// set currentModeIndex to new mode
-		aigua.currentModeIndex = _.indexOf(_.pluck(aigua.modes, 'name'), mode.text());
-
-		// set codemirror's contents to new mode's code
-		aigua.codeMirror.setValue(aigua.modes[aigua.currentModeIndex].code || '');
-
-		// set codemirror's mode to new mode
-		aigua.codeMirror.setOption("mode", aigua.modes[aigua.currentModeIndex].name);
-		CodeMirror.autoLoadMode(editor, aigua.modes[aigua.currentModeIndex].name);
+		aigua.switchMode($(this).text());
 	});
 
 	// handle menu mouseover/mouseout events
@@ -383,24 +419,26 @@ $(function() {
 	$('#menu .item ul li').on('click', function(e) {
 		e.preventDefault();
 
-		switch ($(this).attr('rel')) {
+		var choice = $(this);
+		var itemName = $('h2', choice.parents('.item')).text();
 
-			case 'file-new':
+		switch(itemName) {
+			case 'file':
+				switch (choice.text()) {
+					case 'new':
+						var result = confirm('Are you sure? You will lose any unsaved changes.');
+						if (result) {
+							aigua.codeMirror.setValue('');
+						}
+						break;
+				}
+			break;
+			case 'examples':
 				var result = confirm('Are you sure? You will lose any unsaved changes.');
 				if (result) {
-					aigua.codeMirror.setValue('');
+					aigua.loadExample(choice.attr('rel'));
 				}
-				break;
-
-			case 'examples-chord_diagram':
-				var result = confirm('Are you sure? You will lose any unsaved changes.');
-				if (result) {
-					d3.text(aigua.samples[0], function(data) {
-						aigua.codeMirror.setValue(data);
-					});
-				}
-				break;
-
+			break;
 		}
 	});
 

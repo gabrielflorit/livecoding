@@ -1,5 +1,4 @@
-
-// chord diagram from http://mbostock.github.com/d3/ex/chord.html
+// from http://mbostock.github.com/d3/ex/chord.html
 
 var chord = d3.layout.chord()
   .padding(0.05)
