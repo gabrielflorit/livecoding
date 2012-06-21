@@ -22,7 +22,7 @@ var aigua = (function () {
 
 					aigua.switchMode('javascript', true);
 					aigua.codeMirror.setValue(js);
-					aigua.switchMode('javascript');
+					aigua.switchMode('javascript'); // don't know why i have to do this twice
 
 				});
 			});
