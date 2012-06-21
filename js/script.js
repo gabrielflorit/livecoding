@@ -37,17 +37,29 @@ var aigua = (function () {
 		// run the code and update the display
 		renderCode: function() {
 
+			// get the current code
+			var code = aigua.codeMirror.getValue();
+
 			try {
-				var code;
 
-				// clear out the display contents
-				$('svg').empty();
+				switch (aigua.modes[aigua.currentModeIndex].name) {
 
-				// get the code
-				code = aigua.codeMirror.getValue();
+					case 'javascript':
 
-				// run it
-				eval(code);
+						// clear out the display contents
+						$('svg').empty();
+
+						// run the code
+						eval(code);
+
+					break;
+
+					case 'css':
+						$('#aiguaStyle').get(0).textContent = code;
+					break;
+
+				}
+
 			}
 			catch (error) {}
 			finally {};
@@ -55,51 +67,54 @@ var aigua = (function () {
 
 		respondToKey: function(cm) {
 
-			var cursor;
-			var token;
-			var startCoords;
-			var endCoords;
-			var center;
+			if (aigua.modes[aigua.currentModeIndex].name == 'javascript') {
 
-			// is the slider hidden?
-			if (!aigua.slider.is(':visible')) {
+				var cursor;
+				var token;
+				var startCoords;
+				var endCoords;
+				var center;
 
-				// grab the current token
-				cursor = cm.getCursor();
-				token = cm.getTokenAt(cursor);
+				// is the slider hidden?
+				if (!aigua.slider.is(':visible')) {
 
-				// are we on a number?
-				if (token.className == 'number') {
+					// grab the current token
+					cursor = cm.getCursor();
+					token = cm.getTokenAt(cursor);
 
-					// show the slider
-					aigua.slider.show();
+					// are we on a number?
+					if (token.className == 'number') {
 
-					// save the original number
-					if (aigua.originalNumber == null) {
-						aigua.originalNumber = Number(token.string);
+						// show the slider
+						aigua.slider.show();
+
+						// save the original number
+						if (aigua.originalNumber == null) {
+							aigua.originalNumber = Number(token.string);
+						}
+
+						// select token
+						cm.setSelection({line: cursor.line, ch: token.start}, {line: cursor.line, ch: token.end});
+
+						// find coords at token start
+						startCoords = cm.cursorCoords(true);
+						endCoords = cm.cursorCoords(false);
+
+						// center marker on token
+						center = startCoords.x + (endCoords.x - startCoords.x)/2;
+						aigua.marker.css('left', center);
+
+						// center handle on token
+						aigua.handle.css('left', center - aigua.handle.width()/2);
+
+						// center bar above token
+						aigua.bar.css('left', center - aigua.bar.width()/2 - aigua.borderWidth);
+						aigua.bar.css('top', startCoords.y - aigua.lineHeight);
+
+						// center triangle on token
+						aigua.triangle.css('left', center - aigua.triangleWidth);
+						aigua.triangle.css('top', aigua.bar.offset().top + aigua.bar.height() + aigua.borderWidth * 2);
 					}
-
-					// select token
-					cm.setSelection({line: cursor.line, ch: token.start}, {line: cursor.line, ch: token.end});
-
-					// find coords at token start
-					startCoords = cm.cursorCoords(true);
-					endCoords = cm.cursorCoords(false);
-
-					// center marker on token
-					center = startCoords.x + (endCoords.x - startCoords.x)/2;
-					aigua.marker.css('left', center);
-
-					// center handle on token
-					aigua.handle.css('left', center - aigua.handle.width()/2);
-
-					// center bar above token
-					aigua.bar.css('left', center - aigua.bar.width()/2 - aigua.borderWidth);
-					aigua.bar.css('top', startCoords.y - aigua.lineHeight);
-
-					// center triangle on token
-					aigua.triangle.css('left', center - aigua.triangleWidth);
-					aigua.triangle.css('top', aigua.bar.offset().top + aigua.bar.height() + aigua.borderWidth * 2);
 				}
 			}
 		},
@@ -116,12 +131,20 @@ var aigua = (function () {
 
 		bar: null,
 		borderWidth: 2,
-		currentMode: 1,
+		currentModeIndex: 1,
 		filler: null,
 		handle: null,
 		lineHeight: 19,
 		marker: null,
-		modes: ['css', 'javascript'],
+		modes: [
+			{
+				name: 'css',
+				code: null
+			}, {
+				name: 'javascript',
+				code: null
+			}
+		],
 		originalNumber: null,
 		samples: ['data/chord.txt'],
 		slider: null,
@@ -163,46 +186,21 @@ $(function() {
 	// create codemirror instance
 	aigua.codeMirror = CodeMirror($('#code').get(0), {
 
-		extraKeys: extraKeys,
-
 		onChange: function(cm, e) {
 			aigua.renderCode();
 		},
 
+		extraKeys: extraKeys,
 		lineNumbers: true,
 		matchBrackets: true,
 		mode:  'javascript',
+		modeURL: '/mode/%N.js',
 		theme: 'lesser-dark'
-	});
-
-	// did we keyup the handle key?
-	$(window).keyup(function(e) {
-
-		if (e.which == 17) {
-
-			// hide the slider
-			aigua.slider.hide();
-
-			// reset filler width
-			aigua.filler.width(0);
-
-			// reset bar width
-			aigua.bar.width(aigua.startingBarWidth);
-
-			// clear out the original number
-			aigua.originalNumber = null;
-		}
 	});
 
 	// load sample code
 	d3.text(aigua.samples[0], function(data) {
 		aigua.codeMirror.setValue(data);
-	});
-
-	// force svg contents to occupy the entire svg container
-	// by rerendering code on window resize
-	$(window).on('resize', function() {
-		aigua.renderCode();
 	});
 
 	// initialize slider
@@ -290,25 +288,63 @@ $(function() {
 		}
 	});
 
+	// populate mode switcher programmatically
 	_.each(aigua.modes, function(mode, index) {
 
 		var div = $("<div class='item'></div>");
 		var h2 = $("<h2></h2>");
 		div.append(h2);
 
-		h2.attr('class', index == aigua.currentMode ? 'active' : 'passive');
-		h2.text(mode);
+		h2.attr('class', index == aigua.currentModeIndex ? 'active' : 'passive');
+		h2.text(mode.name);
 
 		$('#modes').append(div);
+	});
 
+	// did we keyup the handle key?
+	$(window).keyup(function(e) {
+
+		if (e.which == 17) {
+
+			// hide the slider
+			aigua.slider.hide();
+
+			// reset filler width
+			aigua.filler.width(0);
+
+			// reset bar width
+			aigua.bar.width(aigua.startingBarWidth);
+
+			// clear out the original number
+			aigua.originalNumber = null;
+		}
+	});
+
+	// force svg contents to occupy the entire svg container
+	// by rerendering code on window resize
+	$(window).on('resize', function() {
+		aigua.renderCode();
 	});
 
 	// handle modes switcher
 	$('#modes .item h2').on('click', function(e) {
 
 		$('#modes h2').attr('class', 'passive');
-		$(this).attr('class', 'active');
+		var mode = $(this);
+		mode.attr('class', 'active');
 
+		// save old mode's code
+		aigua.modes[aigua.currentModeIndex].code = aigua.codeMirror.getValue();
+
+		// set currentModeIndex to new mode
+		aigua.currentModeIndex = _.indexOf(_.pluck(aigua.modes, 'name'), mode.text());
+
+		// set codemirror's contents to new mode's code
+		aigua.codeMirror.setValue(aigua.modes[aigua.currentModeIndex].code || '');
+
+		// set codemirror's mode to new mode
+		aigua.codeMirror.setOption("mode", aigua.modes[aigua.currentModeIndex].name);
+		CodeMirror.autoLoadMode(editor, aigua.modes[aigua.currentModeIndex].name);
 	});
 
 	// handle menu mouseover/mouseout events
@@ -331,7 +367,6 @@ $(function() {
 			$('ul', menu).hide(); // hide all the dropdowns
 			$('h2', menu).removeClass('hover'); // remove hover class from all the h2's
 		}
-
 	});
 
 	// handle menu mouseover/mouseout events

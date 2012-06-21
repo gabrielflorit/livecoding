@@ -1,0 +1,80 @@
+svg {
+  border: solid 1px #666;
+  overflow: hidden;
+}
+
+path {
+  fill: yellow;
+  stroke: #000;
+  stroke-width: .5px;
+}
+
+circle {
+  fill: #ccc;
+  stroke: #000;
+  pointer-events: none;
+}
+
+.PiYG .q0-3{fill:rgb(233,163,201)}
+.PiYG .q1-3{fill:rgb(247,247,247)}
+.PiYG .q2-3{fill:rgb(161,215,106)}
+.PiYG .q0-4{fill:rgb(208,28,139)}
+.PiYG .q1-4{fill:rgb(241,182,218)}
+.PiYG .q2-4{fill:rgb(184,225,134)}
+.PiYG .q3-4{fill:rgb(77,172,38)}
+.PiYG .q0-5{fill:rgb(208,28,139)}
+.PiYG .q1-5{fill:rgb(241,182,218)}
+.PiYG .q2-5{fill:rgb(247,247,247)}
+.PiYG .q3-5{fill:rgb(184,225,134)}
+.PiYG .q4-5{fill:rgb(77,172,38)}
+.PiYG .q0-6{fill:rgb(197,27,125)}
+.PiYG .q1-6{fill:rgb(233,163,201)}
+.PiYG .q2-6{fill:rgb(253,224,239)}
+.PiYG .q3-6{fill:rgb(230,245,208)}
+.PiYG .q4-6{fill:rgb(161,215,106)}
+.PiYG .q5-6{fill:rgb(77,146,33)}
+.PiYG .q0-7{fill:rgb(197,27,125)}
+.PiYG .q1-7{fill:rgb(233,163,201)}
+.PiYG .q2-7{fill:rgb(253,224,239)}
+.PiYG .q3-7{fill:rgb(247,247,247)}
+.PiYG .q4-7{fill:rgb(230,245,208)}
+.PiYG .q5-7{fill:rgb(161,215,106)}
+.PiYG .q6-7{fill:rgb(77,146,33)}
+.PiYG .q0-8{fill:rgb(197,27,125)}
+.PiYG .q1-8{fill:rgb(222,119,174)}
+.PiYG .q2-8{fill:rgb(241,182,218)}
+.PiYG .q3-8{fill:rgb(253,224,239)}
+.PiYG .q4-8{fill:rgb(230,245,208)}
+.PiYG .q5-8{fill:rgb(184,225,134)}
+.PiYG .q6-8{fill:rgb(127,188,65)}
+.PiYG .q7-8{fill:rgb(77,146,33)}
+.PiYG .q0-9{fill:rgb(197,27,125)}
+.PiYG .q1-9{fill:rgb(222,119,174)}
+.PiYG .q2-9{fill:rgb(241,182,218)}
+.PiYG .q3-9{fill:rgb(253,224,239)}
+.PiYG .q4-9{fill:rgb(247,247,247)}
+.PiYG .q5-9{fill:rgb(230,245,208)}
+.PiYG .q6-9{fill:rgb(184,225,134)}
+.PiYG .q7-9{fill:rgb(127,188,65)}
+.PiYG .q8-9{fill:rgb(77,146,33)}
+.PiYG .q0-10{fill:rgb(142,1,82)}
+.PiYG .q1-10{fill:rgb(197,27,125)}
+.PiYG .q2-10{fill:rgb(222,119,174)}
+.PiYG .q3-10{fill:rgb(241,182,218)}
+.PiYG .q4-10{fill:rgb(253,224,239)}
+.PiYG .q5-10{fill:rgb(230,245,208)}
+.PiYG .q6-10{fill:rgb(184,225,134)}
+.PiYG .q7-10{fill:rgb(127,188,65)}
+.PiYG .q8-10{fill:rgb(77,146,33)}
+.PiYG .q9-10{fill:rgb(39,100,25)}
+.PiYG .q0-11{fill:rgb(142,1,82)}
+.PiYG .q1-11{fill:rgb(197,27,125)}
+.PiYG .q2-11{fill:rgb(222,119,174)}
+.PiYG .q3-11{fill:rgb(241,182,218)}
+.PiYG .q4-11{fill:rgb(253,224,239)}
+.PiYG .q5-11{fill:rgb(247,247,247)}
+.PiYG .q6-11{fill:rgb(230,245,208)}
+.PiYG .q7-11{fill:rgb(184,225,134)}
+.PiYG .q8-11{fill:rgb(127,188,65)}
+.PiYG .q9-11{fill:rgb(77,146,33)}
+.PiYG .q10-11{fill:rgb(39,100,25)}
