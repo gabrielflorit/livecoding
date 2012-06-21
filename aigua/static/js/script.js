@@ -86,6 +86,8 @@ var aigua = (function () {
 		},
 
 		reset: function() {
+
+			aigua.resetUrl();
 			aigua.switchMode('javascript', true);
 			aigua.codeMirror.setValue('');
 			aigua.switchMode('css', true);
@@ -101,6 +103,12 @@ var aigua = (function () {
 			var menu = $('#menu');
 			$('ul', menu).hide(); // hide all the dropdowns
 			$('h2', menu).removeClass('hover'); // remove hover class from all the h2's
+		},
+
+		resetUrl: function() {
+			history.pushState(null, null, '');
+			$('#gist').attr('href', '');
+			$('#gist').html('');
 		},
 
 		respondToKey: function(cm) {
@@ -433,6 +441,8 @@ $(function() {
 		var postData;
 		var js;
 		var css;
+		var gistUrl;
+		var gistBaseUrl = 'https://gist.github.com/';
 
 		switch(itemName) {
 			case 'file':
@@ -468,11 +478,13 @@ $(function() {
 						};
 
 						$.post('/save-anonymously', postData, function(data) {
-							history.pushState(null, null, data.split('https://gist.github.com/')[1])
+							gistUrl = gistBaseUrl + data.split(gistBaseUrl)[1];
+							history.pushState(null, null, data.split(gistBaseUrl)[1]);
+							$('#gist').attr('href', gistUrl);
+							$('#gist').html(gistUrl);
 						});
 
 						aigua.resetMenu();
-
 					break;
 				}
 			break;

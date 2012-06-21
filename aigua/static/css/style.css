@@ -247,7 +247,7 @@ td { vertical-align: top; }
       position: absolute;
       width: 50%;
       bottom: 0;
-      z-index: 10;
+      z-index: 10000;
       padding: 0;
       cursor: default;
     }
@@ -264,6 +264,21 @@ td { vertical-align: top; }
       #controls #modes .item {
         float: right;
       }
+
+        #gist {
+          position: relative;
+          top: 1px;
+          padding: 2px 9px 0 9px;
+          color: #eee;
+          font-size: 15px;
+          font-style: italic;
+          text-decoration: none;
+          border: solid rgba(0, 0, 0, 0) 1px;
+        }
+
+        #controls .item a:hover {
+          text-decoration: underline;
+        }
 
         #controls .item h2 {
           margin: 0 12px 3px 0;
