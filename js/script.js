@@ -288,14 +288,20 @@ $(function() {
 		}
 	});
 
+	// handle modes switcher
+	$('#modes .item h2').on('click', function(e) {
+
+		$('#modes h2').attr('class', 'passive');
+		$(this).attr('class', 'active');
+
+	});
+
 	// handle menu mouseover/mouseout events
-	$('#menu .item h2 a').on('mouseover', function(e) {
+	$('#menu .item h2').on('mouseover', function(e) {
 		var item = $(this).parents('.item');
-		var h2 = $(this).parents('h2');
 
 		$('ul', item).show(); // show this dropdown
 		$(this).addClass('hover'); // add hover class to this a
-		h2.addClass('hover'); // add hover class to the h2
 	});
 
 	// handle menu mouseover/mouseout events
@@ -308,7 +314,6 @@ $(function() {
 			var menu = $(this).parents('#menu');
 
 			$('ul', menu).hide(); // hide all the dropdowns
-			$('h2 a', menu).removeClass('hover'); // remove hover class from all the a's
 			$('h2', menu).removeClass('hover'); // remove hover class from all the h2's
 		}
 
@@ -320,16 +325,12 @@ $(function() {
 	});
 
 	// handle menu mouseover/mouseout events
-	$('#menu .item li').on('mouseleave', function(e) {
+	$('#menu .item li').on('mouseout', function(e) {
 		$(this).removeClass('hover');
 	});
 
-	// clicking on a menu header should do nothing
-	$('#menu .item h2 a').on('click', function(e) {
-		e.preventDefault();
-	})
-
-	$('#menu .item ul a').on('click', function(e) {
+	// handle menu item choices
+	$('#menu .item ul li').on('click', function(e) {
 		e.preventDefault();
 
 		switch ($(this).attr('rel')) {

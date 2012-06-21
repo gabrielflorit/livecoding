@@ -232,32 +232,40 @@ td { vertical-align: top; }
     margin-top: 2px;
   }
 
-    #menu {
-      color: red;
+  #controls li {
+    list-style: none;
+  }
+
+  #controls ul,
+  #controls li {
+    margin: 0;
+    padding: 0;
+  }
+
+    #menu,
+    #modes {
       position: absolute;
-      width: 100%;
+      width: 50%;
       bottom: 0;
       z-index: 10;
-      padding: 0 0 0 0.5em;
+      padding: 0;
       cursor: default;
     }
 
-      #menu li {
-        list-style: none;
-      }
+    #modes {
+      right: 0;
+    }
 
-      #menu ul,
-      #menu li {
-        margin: 0;
-        padding: 0;
-      }
-
-      #menu .item {
+      #controls .item {
         height: 100%;
         float: left;
       }
 
-        #menu .item h2 {
+      #controls #modes .item {
+        float: right;
+      }
+
+        #controls .item h2 {
           margin: 0 12px 3px 0;
           padding: 2px 9px 0 9px;
           color: #eee;
@@ -265,8 +273,14 @@ td { vertical-align: top; }
           border: solid rgba(0, 0, 0, 0) 1px;
         }
 
-          #menu .item h2.hover {
+        #controls #modes .item h2 {
+          margin: 0 0 3px 12px;
+        }
+
+          #controls .item h2.hover,
+          #modes .item h2.active {
             background: #ccc;
+            color: #222;
             border: solid #222 1px;
             border-top-left-radius: 5px;
             border-top-right-radius: 5px;
@@ -286,16 +300,13 @@ td { vertical-align: top; }
             background-image:         linear-gradient(to bottom, #ccc, #fff);
           }
 
-          #menu .item h2 a {
-            color: #eee;
-            text-decoration: none;
+          #modes .item h2.passive:hover {
+            text-decoration: underline;
+            cursor: pointer;
           }
 
-          #menu .item h2 a.hover {
-            color: #222;
-          }
 
-        #menu .item ul {
+        #controls .item ul {
           position: absolute;
           display: none;
           padding: 2px;
@@ -314,24 +325,21 @@ td { vertical-align: top; }
                   background-clip: padding-box;
         }
 
-          #menu .item ul li {
+          #controls .item ul li {
             border: solid rgba(0, 0, 0, 0) 1px;
             border-radius: 3px;
             padding: 0 16px 0 16px;
           }
 
-          #menu .item ul li.hover {
+          #controls .item ul li.hover {
             border: solid #92A75C 1px;
             background-image: -webkit-linear-gradient(top, white, #EBEEE0);
             cursor: pointer;
+            color: #3c4525;
             text-shadow: 2px 2px 4px #CDD7B4;
           }
 
-            #menu .item ul li a {
-              color: #3c4525;
-              text-decoration: none;
-            }
-          
+
         
 
 
