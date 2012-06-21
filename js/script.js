@@ -116,10 +116,12 @@ var aigua = (function () {
 
 		bar: null,
 		borderWidth: 2,
+		currentMode: 1,
 		filler: null,
 		handle: null,
 		lineHeight: 19,
 		marker: null,
+		modes: ['css', 'javascript'],
 		originalNumber: null,
 		samples: ['data/chord.txt'],
 		slider: null,
@@ -288,6 +290,19 @@ $(function() {
 		}
 	});
 
+	_.each(aigua.modes, function(mode, index) {
+
+		var div = $("<div class='item'></div>");
+		var h2 = $("<h2></h2>");
+		div.append(h2);
+
+		h2.attr('class', index == aigua.currentMode ? 'active' : 'passive');
+		h2.text(mode);
+
+		$('#modes').append(div);
+
+	});
+
 	// handle modes switcher
 	$('#modes .item h2').on('click', function(e) {
 
@@ -301,7 +316,7 @@ $(function() {
 		var item = $(this).parents('.item');
 
 		$('ul', item).show(); // show this dropdown
-		$(this).addClass('hover'); // add hover class to this a
+		$(this).addClass('hover'); // add hover class to this h2
 	});
 
 	// handle menu mouseover/mouseout events
