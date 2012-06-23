@@ -375,10 +375,10 @@ $(function() {
 
 	// if we're logged in, enable the 'save' choice
 	if (aigua.loggedIn) {
-		$('#save span').hide();
+		$('#save a').hide();
 		$('#save').removeClass('disabled');
 	} else {
-		$('#save span').show();
+		$('#save a').show();
 		$('#save').addClass('disabled');
 	}
 
@@ -440,26 +440,6 @@ $(function() {
 		} else {
 			li.addClass('hover');
 		}
-
-		// if ($('span', li).length > 0 && $('span', li).css('display') != 'none') {
-		// 	li.removeClass('hover');
-		// 	li.addClass('disabled');
-		// } else {
-		// 	li.addClass('hover');
-		// 	li.removeClass('disabled');
-		// }
-
-		// if ($('span:visible', li).css('display') != 'none') {
-		// 	li.removeClass('hover');
-		// } else {
-		// 	li.addClass('hover');
-		// }
-
-		// if ($('span', li).css('display') == 'none' && $('span', li).isVisible()) {
-		// 	li.addClass('hover');
-		// } else {
-		// 	li.removeClass('hover');
-		// }
 	});
 
 	// handle menu mouseover/mouseout events
@@ -487,6 +467,12 @@ $(function() {
 						result = confirm('Are you sure? You will lose any unsaved changes.');
 						if (result) {
 							aigua.reset();
+						}
+					break;
+
+					case 'savewhat is this?':
+						result = confirm('');
+						if (result) {
 						}
 					break;
 
