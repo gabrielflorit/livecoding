@@ -7,9 +7,10 @@ from flask import render_template, send_from_directory, redirect, session, reque
 from requests import post
 
 
-@app.route('/')
-def index():
-    return render_template('index.html')
+@app.route('/<gistId>')
+def index(gistId):
+    return render_template('index.html', vars=dict(
+        gistId = gistId))
 
 
 @app.route('/save-anonymously', methods=['POST'])
