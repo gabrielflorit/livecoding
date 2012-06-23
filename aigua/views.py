@@ -7,6 +7,7 @@ from flask import render_template, send_from_directory, redirect, session, reque
 from requests import post
 
 
+@app.route('/', defaults={'gistId': None})
 @app.route('/<gistId>')
 def index(gistId):
     return render_template('index.html', vars=dict(

@@ -320,7 +320,6 @@ td { vertical-align: top; }
             cursor: pointer;
           }
 
-
         #controls .item ul {
           position: absolute;
           display: none;
@@ -352,6 +351,20 @@ td { vertical-align: top; }
             cursor: pointer;
             color: #3c4525;
             text-shadow: 2px 2px 4px #CDD7B4;
+          }
+
+          #controls .item ul li.disabled {
+            color: #ccc;
+            font-weight: normal;
+          }
+
+          #controls .item ul li a {
+            color: #222;
+            font-weight: normal;
+            font-size: 12px;
+            font-style: italic;
+            padding: 0 0 0 27px;
+            cursor: pointer;
           }
 
 

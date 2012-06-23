@@ -203,6 +203,7 @@ var aigua = (function () {
 		filler: null,
 		handle: null,
 		lineHeight: 19,
+		loggedIn: false,
 		marker: null,
 		modes: [
 			{
@@ -372,6 +373,15 @@ $(function() {
 		$('#modes').append(div);
 	});
 
+	// if we're logged in, enable the 'save' choice
+	if (aigua.loggedIn) {
+		$('#save span').hide();
+		$('#save').removeClass('disabled');
+	} else {
+		$('#save span').show();
+		$('#save').addClass('disabled');
+	}
+
 
 	// ----------- event handlers section
 
@@ -423,7 +433,33 @@ $(function() {
 
 	// handle menu mouseover/mouseout events
 	$('#menu .item li').on('mouseover', function(e) {
-		$(this).addClass('hover');
+		var li = $(this);
+
+		if (li.attr('class') && li.attr('class').indexOf('disabled') != -1) {
+
+		} else {
+			li.addClass('hover');
+		}
+
+		// if ($('span', li).length > 0 && $('span', li).css('display') != 'none') {
+		// 	li.removeClass('hover');
+		// 	li.addClass('disabled');
+		// } else {
+		// 	li.addClass('hover');
+		// 	li.removeClass('disabled');
+		// }
+
+		// if ($('span:visible', li).css('display') != 'none') {
+		// 	li.removeClass('hover');
+		// } else {
+		// 	li.addClass('hover');
+		// }
+
+		// if ($('span', li).css('display') == 'none' && $('span', li).isVisible()) {
+		// 	li.addClass('hover');
+		// } else {
+		// 	li.removeClass('hover');
+		// }
 	});
 
 	// handle menu mouseover/mouseout events
