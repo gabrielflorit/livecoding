@@ -471,7 +471,7 @@ $(function() {
 					break;
 
 					case 'savewhat is this?':
-						result = confirm('');
+						result = confirm('Login to GitHub to save your work under your username.');
 						if (result) {
 						}
 					break;

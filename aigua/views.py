@@ -36,6 +36,12 @@ def save_anonymously():
     return json.loads(r.text)['html_url']
 
 
+@app.route('/github-login')
+def github_login():
+    # take user to github for authentication
+    return redirect('https://github.com/login/oauth/authorize?client_id=' + os.getenv('CLIENT_ID') + '&scope=gist')
+
+
 @app.route('/favicon.ico')
 def favicon():
     return send_from_directory(os.path.join(app.root_path, 'static/img'),
