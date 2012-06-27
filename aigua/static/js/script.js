@@ -4,7 +4,13 @@
 
 var aigua = (function () {
 
+	var token = null;
+
 	return {
+
+		getToken: function() {
+			return token;
+		},
 
 		loadExample: function(name) {
 
@@ -173,6 +179,10 @@ var aigua = (function () {
 			aigua.bar.css('left', markerCenter - aigua.startingBarWidth/2 - aigua.borderWidth);
 			aigua.filler.removeClass('filler-edge-left');
 			aigua.filler.removeClass('filler-edge-right');
+		},
+
+		setToken: function(oauthToken) {
+			token = oauthToken;
 		},
 
 		switchMode: function(mode, noTab) {
@@ -473,6 +483,7 @@ $(function() {
 					case 'savewhat is this?':
 						result = confirm('Login to GitHub to save your work under your username.');
 						if (result) {
+							open('/github-login', 'popup', 'width=1015,height=500');
 						}
 					break;
 
@@ -499,12 +510,12 @@ $(function() {
 							'js': js
 						};
 
-						$.post('/save-anonymously', postData, function(data) {
-							gistUrl = gistBaseUrl + data.split(gistBaseUrl)[1];
-							history.pushState(null, null, data.split(gistBaseUrl)[1]);
-							$('#gist').attr('href', gistUrl);
-							$('#gist').html(gistUrl);
-						});
+						// $.post('/save-anonymously', postData, function(data) {
+						// 	gistUrl = gistBaseUrl + data.split(gistBaseUrl)[1];
+						// 	history.pushState(null, null, data.split(gistBaseUrl)[1]);
+						// 	$('#gist').attr('href', gistUrl);
+						// 	$('#gist').html(gistUrl);
+						// });
 
 						aigua.resetMenu();
 					break;
