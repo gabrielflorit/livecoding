@@ -89,11 +89,6 @@ var aigua = (function () {
 		// run the code and update the display
 		renderCode: function() {
 
-			if (aigua.isLoading) {
-			} else {
-				aigua.setToDirty();
-			}
-
 			// get the current code
 			var code = aigua.codeMirror.getValue();
 
@@ -320,6 +315,11 @@ $(function() {
 
 		onChange: function(cm, e) {
 			if (!aigua.pause) {
+
+				if (!aigua.isLoading) {
+					aigua.setToDirty();
+				}
+
 				aigua.renderCode();
 			}
 		},
