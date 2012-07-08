@@ -276,6 +276,17 @@ td { vertical-align: top; }
           border: solid rgba(0, 0, 0, 0) 1px;
         }
 
+        .dirty {
+          position: absolute;
+          top: 8px;
+          box-shadow: 0 0 3px 0px rgba(255, 255, 255, 1);
+          width: 6px;
+          height: 6px;
+          border-radius: 6px;
+          background: #8F9D6A;
+          border: solid #9AB83E 1px;
+        }
+
         #controls .item a:hover {
           text-decoration: underline;
         }
