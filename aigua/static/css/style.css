@@ -285,6 +285,7 @@ td { vertical-align: top; }
           border-radius: 6px;
           background: #8F9D6A;
           border: solid #9AB83E 1px;
+          visibility: hidden;
         }
 
         #controls .item a:hover {

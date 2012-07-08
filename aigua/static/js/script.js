@@ -8,6 +8,10 @@ var aigua = (function () {
 
 	return {
 
+		getOAuthToken: function() {
+			return token;
+		},
+
 		getUrlGistId: function(url) {
 
 			var a = document.createElement('a');
@@ -18,11 +22,9 @@ var aigua = (function () {
 			return (gistId.length > 0 && gistId != '#') ? gistId : null;
 		},
 
-		getOAuthToken: function() {
-			return token;
-		},
-
 		loadGist: function(gistId) {
+
+			aigua.isLoading = true;
 
 			aigua.resetScreen();
 			aigua.resetMenu();
@@ -49,6 +51,8 @@ var aigua = (function () {
 					}
 
 					aigua.setUrl(gistId);
+
+					aigua.isLoading = false;
 				}
 			});
 
@@ -84,6 +88,11 @@ var aigua = (function () {
 
 		// run the code and update the display
 		renderCode: function() {
+
+			if (aigua.isLoading) {
+			} else {
+				aigua.setToDirty();
+			}
 
 			// get the current code
 			var code = aigua.codeMirror.getValue();
@@ -206,6 +215,16 @@ var aigua = (function () {
 			token = oauthToken;
 		},
 
+		setToClean: function() {
+			$('.dirty').css('visibility', 'hidden');
+			// $('.dirty').hide();
+		},
+
+		setToDirty: function() {
+			$('.dirty').css('visibility', 'visible');
+			// $('.dirty').show();
+		},
+
 		setUrl: function(gistId) {
 			history.pushState(null, null, gistId);
 
@@ -242,6 +261,7 @@ var aigua = (function () {
 		currentModeIndex: 1,
 		filler: null,
 		handle: null,
+		isLoading: null,
 		lineHeight: 19,
 		// loggedIn: false,
 		marker: null,
@@ -550,6 +570,7 @@ $(function() {
 							a = document.createElement('a');
 							a.href = data;
 							aigua.setUrl(a.pathname.split('/')[1]);
+							aigua.setToClean();
 						});
 
 						aigua.resetMenu();
