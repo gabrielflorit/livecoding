@@ -8,28 +8,50 @@ var aigua = (function () {
 
 	return {
 
-		getToken: function() {
+		getUrlGistId: function(url) {
+
+			var a = document.createElement('a');
+			a.href = url;
+
+			var gistId = a.pathname.split('/')[1];
+
+			return (gistId.length > 0 && gistId != '#') ? gistId : null;
+		},
+
+		getOAuthToken: function() {
 			return token;
 		},
 
-		loadExample: function(name) {
+		loadGist: function(gistId) {
 
-			aigua.reset();
+			aigua.resetScreen();
+			aigua.resetMenu();
 
-			aigua.switchMode('css', true);
+			$.ajax({
+				url: 'https://api.github.com/gists/' + gistId + '?callback=?',
+				dataType: 'json',
+				success: function (data) {
 
-			d3.text(aigua.baseUrl + name + '.css', function(css) {
+					var js = data.data.files['water.js'];
+					var css = data.data.files['water.css'];
 
-				aigua.codeMirror.setValue(css);
+					aigua.switchMode('css', true);
 
-				d3.text(aigua.baseUrl + name + '.js', function(js) {
+					if (css) {
+						aigua.codeMirror.setValue(css.content);
+					}
 
 					aigua.switchMode('javascript');
-					aigua.codeMirror.setValue(js);
-					aigua.codeMirror.setValue(js); // don't know why i have to do this twice
 
-				});
+					if (js) {
+						aigua.codeMirror.setValue(js.content);
+						aigua.codeMirror.setValue(js.content); // don't know why i have to do this twice
+					}
+
+					aigua.setUrl(gistId);
+				}
 			});
+
 		},
 
 		// modify a number by a certain distance
@@ -91,9 +113,25 @@ var aigua = (function () {
 			finally {};
 		},
 
-		reset: function() {
+		// reset bar position and width:
+		// center bar over the token
+		// set bar width to default starting width
+		resetBar: function(markerCenter) {
+			aigua.bar.width(aigua.startingBarWidth);
+			aigua.bar.css('left', markerCenter - aigua.startingBarWidth/2 - aigua.borderWidth);
+			aigua.filler.removeClass('filler-edge-left');
+			aigua.filler.removeClass('filler-edge-right');
+		},
 
-			aigua.resetUrl();
+		resetMenu: function() {
+
+			var menu = $('#menu');
+			$('ul', menu).hide(); // hide all the dropdowns
+			$('h2', menu).removeClass('hover'); // remove hover class from all the h2's
+		},
+
+		resetScreen: function() {
+
 			aigua.switchMode('javascript', true);
 			aigua.codeMirror.setValue('');
 			aigua.switchMode('css', true);
@@ -104,15 +142,8 @@ var aigua = (function () {
 			$('#display').append('<svg></svg>');
 		},
 
-		resetMenu: function() {
-
-			var menu = $('#menu');
-			$('ul', menu).hide(); // hide all the dropdowns
-			$('h2', menu).removeClass('hover'); // remove hover class from all the h2's
-		},
-
 		resetUrl: function() {
-			history.pushState(null, null, '');
+			history.pushState(null, null, '#');
 			$('#gist').attr('href', '');
 			$('#gist').html('');
 		},
@@ -171,18 +202,18 @@ var aigua = (function () {
 			}
 		},
 
-		// reset bar position and width:
-		// center bar over the token
-		// set bar width to default starting width
-		resetBar: function(markerCenter) {
-			aigua.bar.width(aigua.startingBarWidth);
-			aigua.bar.css('left', markerCenter - aigua.startingBarWidth/2 - aigua.borderWidth);
-			aigua.filler.removeClass('filler-edge-left');
-			aigua.filler.removeClass('filler-edge-right');
+		setOAuthToken: function(oauthToken) {
+			token = oauthToken;
 		},
 
-		setToken: function(oauthToken) {
-			token = oauthToken;
+		setUrl: function(gistId) {
+			history.pushState(null, null, gistId);
+
+			var gistBaseUrl = 'https://gist.github.com/';
+			gistUrl = gistBaseUrl + gistId;
+
+			$('#gist').attr('href', gistUrl);
+			$('#gist').html(gistUrl);
 		},
 
 		switchMode: function(mode, noTab) {
@@ -207,13 +238,12 @@ var aigua = (function () {
 		},
 
 		bar: null,
-		baseUrl: 'static/data/',
 		borderWidth: 2,
 		currentModeIndex: 1,
 		filler: null,
 		handle: null,
 		lineHeight: 19,
-		loggedIn: false,
+		// loggedIn: false,
 		marker: null,
 		modes: [
 			{
@@ -226,7 +256,6 @@ var aigua = (function () {
 		],
 		originalNumber: null,
 		pause: false,
-		samples: [this.baseUrl + 'chord.txt'],
 		slider: null,
 		startingBarWidth: 300,
 		triangle: null,
@@ -245,6 +274,7 @@ $(function() {
 		? 'Ctrl' 
 		: 'Ctrl-Ctrl';
 	var extraKeys = {};
+	var gistId;
 	{extraKeys[theKey] = aigua.respondToKey};
 
 	// set various dom elements
@@ -282,8 +312,12 @@ $(function() {
 		theme: 'lesser-dark'
 	});
 
-	// load the first example
-	aigua.loadExample($("#menu .item h2:contains('examples') + ul li:first").attr('rel'));
+	gistId = aigua.getUrlGistId(location.href);
+	if (gistId) {
+		aigua.loadGist(gistId);
+	} else {
+		aigua.loadGist($("#menu .item h2:contains('examples') + ul li:first").attr('rel'));
+	}
 
 	// initialize slider
 	aigua.handle.draggable({
@@ -384,13 +418,13 @@ $(function() {
 	});
 
 	// if we're logged in, enable the 'save' choice
-	if (aigua.loggedIn) {
-		$('#save a').hide();
-		$('#save').removeClass('disabled');
-	} else {
-		$('#save a').show();
-		$('#save').addClass('disabled');
-	}
+	// if (aigua.loggedIn) {
+	// 	$('#save a').hide();
+	// 	$('#save').removeClass('disabled');
+	// } else {
+	// 	$('#save a').show();
+	// 	$('#save').addClass('disabled');
+	// }
 
 
 	// ----------- event handlers section
@@ -467,16 +501,17 @@ $(function() {
 		var postData;
 		var js;
 		var css;
-		var gistUrl;
-		var gistBaseUrl = 'https://gist.github.com/';
-
+		var a;
+		
 		switch(itemName) {
 			case 'file':
 				switch (choice.text()) {
 					case 'new':
 						result = confirm('Are you sure? You will lose any unsaved changes.');
 						if (result) {
-							aigua.reset();
+							aigua.resetScreen();
+							aigua.resetUrl();
+							aigua.resetMenu();
 						}
 					break;
 
@@ -510,12 +545,12 @@ $(function() {
 							'js': js
 						};
 
-						// $.post('/save-anonymously', postData, function(data) {
-						// 	gistUrl = gistBaseUrl + data.split(gistBaseUrl)[1];
-						// 	history.pushState(null, null, data.split(gistBaseUrl)[1]);
-						// 	$('#gist').attr('href', gistUrl);
-						// 	$('#gist').html(gistUrl);
-						// });
+						$.post('/save-anonymously', postData, function(data) {
+
+							a = document.createElement('a');
+							a.href = data;
+							aigua.setUrl(a.pathname.split('/')[1]);
+						});
 
 						aigua.resetMenu();
 					break;
@@ -525,7 +560,7 @@ $(function() {
 			case 'examples':
 				result = confirm('Are you sure? You will lose any unsaved changes.');
 				if (result) {
-					aigua.loadExample(choice.attr('rel'));
+					aigua.loadGist($(this).attr('rel'));
 				}
 			break;
 		}

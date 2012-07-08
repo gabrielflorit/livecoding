@@ -7,26 +7,26 @@ from flask import render_template, send_from_directory, redirect, session, reque
 from requests import post
 
 
-# @app.route('/save-anonymously', methods=['POST'])
-# def save_anonymously():
+@app.route('/save-anonymously', methods=['POST'])
+def save_anonymously():
 
-#     gist = {
-#         'description': 'created by water, a live-coding editor (http://water.gabrielflor.it)',
-#         'public': 'true',
-#         'files': {
-#             'water.js': {
-#                 'content': request.form['js']
-#             },
-#             'water.css': {
-#                 'content': request.form['css']
-#             }
-#         }
-#     }
+    gist = {
+        'description': 'created by water, a live-coding editor (http://water.gabrielflor.it)',
+        'public': 'true',
+        'files': {
+            'water.js': {
+                'content': request.form['js']
+            },
+            'water.css': {
+                'content': request.form['css']
+            }
+        }
+    }
 
-#     headers = {'content-type': 'application/json', 'accept': 'application/json'}
-#     r = requests.post('https://api.github.com/gists', data=json.dumps(gist), headers=headers)
+    headers = {'content-type': 'application/json', 'accept': 'application/json'}
+    r = requests.post('https://api.github.com/gists', data=json.dumps(gist), headers=headers)
 
-#     return json.loads(r.text)['html_url']
+    return json.loads(r.text)['html_url']
 
 
 
@@ -74,7 +74,7 @@ def favicon():
 @app.route('/<int:gistId>')
 def index(gistId):
 
-    return render_template('index.html', vars=dict(gistId = gistId))
+    return render_template('index.html')
 
 
 
