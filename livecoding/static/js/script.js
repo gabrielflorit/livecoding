@@ -187,6 +187,13 @@ var aigua = (function () {
 					// are we on a number?
 					if (token.className == 'number') {
 
+						if (aigua.pulseNumbers) {
+							// stop pulsing numbers
+							window.clearInterval(aigua.pulse);
+							$('#message').hide();
+							aigua.pulseNumbers = false;
+						}
+
 						// show the slider
 						aigua.slider.show();
 
@@ -284,6 +291,8 @@ var aigua = (function () {
 		],
 		originalNumber: null,
 		pause: false,
+		pulse: null,
+		pulseNumbers: true,
 		slider: null,
 		startingBarWidth: 300,
 		triangle: null,
@@ -351,6 +360,14 @@ $(function() {
 	} else {
 		aigua.loadGist($("#menu .item h2:contains('examples') + ul li:first").attr('rel'));
 	}
+
+	// pulse numbers and show instructions
+ 	aigua.pulseNumbers = true;
+	$('#message').show();
+	aigua.pulse = setInterval(function() {
+		$('#message').animate({opacity: 0.5}).animate({opacity: 1});
+		$('.cm-number').animate({opacity: 0.5}).animate({opacity: 1});
+	}, 1000);
 
 	// initialize slider
 	aigua.handle.draggable({

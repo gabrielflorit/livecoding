@@ -267,6 +267,14 @@ td { vertical-align: top; }
       float: left;
     }
 
+    #message {
+      float: right;
+      color: #B35E4D;
+      font-size: 15px;
+      padding: 2px 9px 0 0;
+      display: none;
+    }
+
     #modes {
       float: right;
     }
@@ -279,7 +287,7 @@ td { vertical-align: top; }
         #gist {
           position: relative;
           top: 1px;
-          padding: 2px 0 0 9px;
+          padding: 2px 9px 0 9px;
           color: #eee;
           font-size: 15px;
           font-style: italic;
@@ -313,10 +321,6 @@ td { vertical-align: top; }
 
         #controls #modes .item h2 {
           margin: 0 0 3px 12px;
-        }
-
-        #controls #modes .item:first-child h2 {
-          margin-left: 0px;
         }
 
           #controls .item h2.hover,
