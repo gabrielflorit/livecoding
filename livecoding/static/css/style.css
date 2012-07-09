@@ -224,9 +224,31 @@ td { vertical-align: top; }
   background: #111;
 }
 
+  #header {
+    position: relative;
+    height: 23px;
+    left: 5%;
+    width: 90%;
+    color: #9AB83E;
+    font-family: 'Consolas', 'Bitstream Vera Sans Mono', 'DejaVu Sans Mono', 'Monaco', Courier, monospace;
+    margin-top: 2px;
+    text-shadow: 0 0 8px #BCD279;
+  }
+
+    #header .title {
+      font-size: 19px;
+      padding-left: 9px;
+    }
+
+    #header .subtitle {
+      font-style: italic;
+      font-size: 12px;
+      padding-left: 10px;
+    }
+
   #controls {
     position: relative;
-    height: 60px;
+    height: 35px;
     left: 5%;
     width: 90%;
     margin-top: 2px;
