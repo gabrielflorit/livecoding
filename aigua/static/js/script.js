@@ -22,12 +22,17 @@ var aigua = (function () {
 			return (gistId.length > 0 && gistId != '#') ? gistId : null;
 		},
 
+		isDirty: function() {
+			return $('.dirty').css('visibility') == 'visible';
+		},
+
 		loadGist: function(gistId) {
 
 			aigua.isLoading = true;
 
 			aigua.resetScreen();
 			aigua.resetMenu();
+			aigua.setToClean();
 
 			$.ajax({
 				url: 'https://api.github.com/gists/' + gistId + '?callback=?',
@@ -251,6 +256,7 @@ var aigua = (function () {
 			aigua.pause = false;
 		},
 
+		areYouSureText: 'Are you sure? You will lose any unsaved changes.',
 		bar: null,
 		borderWidth: 2,
 		currentModeIndex: 1,
@@ -527,7 +533,8 @@ $(function() {
 			case 'file':
 				switch (choice.text()) {
 					case 'new':
-						result = confirm('Are you sure? You will lose any unsaved changes.');
+						result = aigua.isDirty() ? confirm(aigua.areYouSureText) : true;
+
 						if (result) {
 							aigua.resetScreen();
 							aigua.resetUrl();
@@ -579,7 +586,7 @@ $(function() {
 			break;
 
 			case 'examples':
-				result = confirm('Are you sure? You will lose any unsaved changes.');
+				result = aigua.isDirty() ? confirm(aigua.areYouSureText) : true;
 				if (result) {
 					aigua.loadGist($(this).attr('rel'));
 				}
