@@ -6,7 +6,7 @@ app = Flask(__name__)
 from util.gzipmiddleware import GzipMiddleware
 app.wsgi_app = GzipMiddleware(app.wsgi_app, compresslevel=5)
 
-import aigua.views
+import livecoding.views
 
 os.environ['CLIENT_ID'] = '9d827b263687bb7ad08b'
 os.environ['CLIENT_SECRET'] = '0f8854df5a14ff8c2a47ce13c0f0dfb02637d213'

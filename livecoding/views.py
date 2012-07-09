@@ -2,7 +2,7 @@ import os
 import datetime
 import requests
 import json
-from aigua import app
+from livecoding import app
 from flask import render_template, send_from_directory, redirect, session, request
 from requests import post
 
