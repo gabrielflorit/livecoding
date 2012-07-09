@@ -24,28 +24,7 @@ The beautiful code editor, [CodeMirror](http://codemirror.net/), is an [open sou
 	venv\scripts\activate
     bin/pip install -r requirements.txt
 
-### Environment Variables
-
-[Create an app on GitHub](https://github.com/settings/applications/new) (use the two settings below).
-
-* URL: http://localhost:5000/
-* Callback URL: http://localhost:5000/github-logged-in
-
-Next, create an .env file with the following three keys:
-
-    CLIENT_ID=<your github app client id>
-    CLIENT_SECRET=<your github app secret>
-    SECRET_KEY=<a randomly generated key - see below>
-
-To generate a random key, fire up the python console:
-    
-    >>> import os
-    >>> os.urandom(24)
-    '\xfd{H\xe5<\x95\xf9\xe3\x96.5\xd1\x01O<!\xd5\xa2\xa0\x9fR"\xa1\xa8'
-
 ### Run
-
-Finally, start the app:
 
     python runserver.py
 
