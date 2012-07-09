@@ -70,6 +70,14 @@ def favicon():
 
 
 
+@app.route('/!')
+def index_with_exclamation_point():
+
+    return redirect('/')
+
+
+
+
 @app.route('/', defaults={'gistId': None})
 @app.route('/<int:gistId>')
 def index(gistId):

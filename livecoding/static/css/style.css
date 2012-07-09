@@ -226,32 +226,24 @@ td { vertical-align: top; }
 
   #header {
     position: relative;
-    height: 23px;
-    left: 5%;
-    width: 90%;
-    color: #9AB83E;
+    top: -7px;
+    float: left;
     font-family: 'Consolas', 'Bitstream Vera Sans Mono', 'DejaVu Sans Mono', 'Monaco', Courier, monospace;
-    margin-top: 2px;
+    font-size: 25px;
     text-shadow: 0 0 8px #BCD279;
+    padding: 0 22px 0 7px;
+    padding-right: 22px;
+    color: #9AB83E;
+    cursor: pointer;
   }
-
-    #header .title {
-      font-size: 19px;
-      padding-left: 9px;
-    }
-
-    #header .subtitle {
-      font-style: italic;
-      font-size: 12px;
-      padding-left: 10px;
-    }
 
   #controls {
     position: relative;
-    height: 35px;
+    height: 25px;
     left: 5%;
     width: 90%;
-    margin-top: 2px;
+    margin-top: 24px;
+    z-index: 10000;
   }
 
   #controls li {
@@ -266,16 +258,17 @@ td { vertical-align: top; }
 
     #menu,
     #modes {
-      position: absolute;
-      width: 50%;
-      bottom: 0;
       z-index: 10000;
-      padding: 0;
       cursor: default;
+      padding: 0;
+    }
+
+    #menu {
+      float: left;
     }
 
     #modes {
-      right: 0;
+      float: right;
     }
 
       #controls .item {
@@ -283,14 +276,10 @@ td { vertical-align: top; }
         float: left;
       }
 
-      #controls #modes .item {
-        float: right;
-      }
-
         #gist {
           position: relative;
           top: 1px;
-          padding: 2px 9px 0 9px;
+          padding: 2px 0 0 9px;
           color: #eee;
           font-size: 15px;
           font-style: italic;
@@ -324,6 +313,10 @@ td { vertical-align: top; }
 
         #controls #modes .item h2 {
           margin: 0 0 3px 12px;
+        }
+
+        #controls #modes .item:first-child h2 {
+          margin-left: 0px;
         }
 
           #controls .item h2.hover,
@@ -408,7 +401,7 @@ td { vertical-align: top; }
 
   #editor {
     position: absolute;
-    top: 60px;
+    top: 50px;
     bottom: 8%;
     left: 5%;
     width: 90%;

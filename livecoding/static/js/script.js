@@ -8,6 +8,16 @@ var aigua = (function () {
 
 	return {
 
+		askBeforeNew: function() {
+			var result = aigua.isDirty() ? confirm(aigua.areYouSureText) : true;
+
+			if (result) {
+				aigua.resetScreen();
+				aigua.resetUrl();
+				aigua.resetMenu();
+			}
+		},
+
 		getOAuthToken: function() {
 			return token;
 		},
@@ -19,7 +29,7 @@ var aigua = (function () {
 
 			var gistId = a.pathname.split('/')[1];
 
-			return (gistId.length > 0 && gistId != '#') ? gistId : null;
+			return (gistId.length > 0 && gistId != '!') ? gistId : null;
 		},
 
 		isDirty: function() {
@@ -152,7 +162,7 @@ var aigua = (function () {
 		},
 
 		resetUrl: function() {
-			history.pushState(null, null, '#');
+			history.pushState(null, null, '!');
 			$('#gist').attr('href', '');
 			$('#gist').html('');
 		},
@@ -265,10 +275,10 @@ var aigua = (function () {
 		marker: null,
 		modes: [
 			{
-				name: 'css',
+				name: 'javascript',
 				code: null
 			}, {
-				name: 'javascript',
+				name: 'css',
 				code: null
 			}
 		],
@@ -505,6 +515,14 @@ $(function() {
 		$(this).removeClass('hover');
 	});
 
+	// handle clicking on title
+	$('#header').on('click', function(e) {
+
+		e.preventDefault();
+
+		aigua.askBeforeNew();
+	});
+
 	// handle menu item choices
 	$('#menu .item ul li').on('click', function(e) {
 		e.preventDefault();
@@ -521,13 +539,7 @@ $(function() {
 			case 'file':
 				switch (choice.text()) {
 					case 'new':
-						result = aigua.isDirty() ? confirm(aigua.areYouSureText) : true;
-
-						if (result) {
-							aigua.resetScreen();
-							aigua.resetUrl();
-							aigua.resetMenu();
-						}
+						aigua.askBeforeNew();
 					break;
 
 					case 'savewhat is this?':
