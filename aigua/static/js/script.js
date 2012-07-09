@@ -217,12 +217,10 @@ var aigua = (function () {
 
 		setToClean: function() {
 			$('.dirty').css('visibility', 'hidden');
-			// $('.dirty').hide();
 		},
 
 		setToDirty: function() {
 			$('.dirty').css('visibility', 'visible');
-			// $('.dirty').show();
 		},
 
 		setUrl: function(gistId) {
@@ -264,7 +262,6 @@ var aigua = (function () {
 		handle: null,
 		isLoading: null,
 		lineHeight: 19,
-		// loggedIn: false,
 		marker: null,
 		modes: [
 			{
@@ -442,15 +439,6 @@ $(function() {
 
 		$('#modes').append(div);
 	});
-
-	// if we're logged in, enable the 'save' choice
-	// if (aigua.loggedIn) {
-	// 	$('#save a').hide();
-	// 	$('#save').removeClass('disabled');
-	// } else {
-	// 	$('#save a').show();
-	// 	$('#save').addClass('disabled');
-	// }
 
 
 	// ----------- event handlers section
