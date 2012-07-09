@@ -22,7 +22,7 @@ The beautiful code editor, [CodeMirror](http://codemirror.net/), is an [open sou
     cd livecoding
 	virtualenv venv
 	venv\scripts\activate
-    bin/pip install -r requirements.txt
+    pip install -r requirements.txt
 
 ### Run
 
