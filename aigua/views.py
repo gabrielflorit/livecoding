@@ -11,7 +11,7 @@ from requests import post
 def save_anonymously():
 
     gist = {
-        'description': 'created by water, a live-coding editor (http://water.gabrielflor.it)',
+        'description': 'created by livecoding - http://livecoding.gabrielflor.it',
         'public': 'true',
         'files': {
             'water.js': {
