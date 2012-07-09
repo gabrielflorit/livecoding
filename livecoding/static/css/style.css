@@ -596,6 +596,14 @@ td { vertical-align: top; }
     background-image:         linear-gradient(to bottom, #000000, #555);
   }
 
+    #dragger {
+      position: relative;
+      color: rgba(255, 255, 255, 0.6);
+      text-align: center;
+      font-size: 12px;
+      top: -15px;
+    }
+
     #filler {
       position: relative;
       background: white;

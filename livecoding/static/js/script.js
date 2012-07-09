@@ -275,6 +275,7 @@ var aigua = (function () {
 		bar: null,
 		borderWidth: 2,
 		currentModeIndex: 1,
+		dragger: null,
 		filler: null,
 		handle: null,
 		isLoading: null,
@@ -321,6 +322,7 @@ $(function() {
 	aigua.marker = $('#marker');
 	aigua.filler = $('#filler');
 	aigua.triangle = $('#triangle');
+	aigua.dragger = $('#dragger');
 
 	// set the handle's default width
 	aigua.handle.width(aigua.startingBarWidth);
@@ -375,6 +377,8 @@ $(function() {
 		axis: 'x',
 		
 		drag: function(ui, event) {
+
+			aigua.dragger.hide();
 
 			var position = event.position.left + aigua.handle.width()/2;
 			var markerCenter = aigua.marker.offset().left;
@@ -486,6 +490,8 @@ $(function() {
 
 			// clear out the original number
 			aigua.originalNumber = null;
+
+			aigua.dragger.show();
 		}
 	});
 
