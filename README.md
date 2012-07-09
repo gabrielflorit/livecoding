@@ -8,21 +8,20 @@ The beautiful code editor, [CodeMirror](http://codemirror.net/), is an [open sou
 
 ### Setup
 
+#### Mac/Linux
+
     git clone https://github.com/gabrielflorit/livecoding.git
-
-This app uses virtualenv. If you haven't done so, create one first:
-
     cd livecoding
     virtualenv --no-site-packages .
-
-
-Next, source the virtualenv:
-
     . bin/activate
+    bin/pip install -r requirements.txt
 
+#### Windows
 
-Install dependencies with Pip:
-
+    git clone https://github.com/gabrielflorit/livecoding.git
+    cd livecoding
+	virtualenv venv
+	venv\scripts\activate
     bin/pip install -r requirements.txt
 
 ### Environment Variables
@@ -46,8 +45,8 @@ To generate a random key, fire up the python console:
 
 ### Run
 
-Finally, start the app with [Foreman](http://blog.daviddollar.org/2011/05/06/introducing-foreman.html):
+Finally, start the app:
 
-    foreman start
+    python runserver.py
 
 Hit http://127.0.0.1:5000 and start coding!
