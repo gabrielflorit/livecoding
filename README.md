@@ -1,8 +1,53 @@
-# TODO
+# livecoding
 
-- rename aigua references to livecoding
-- add visual indication that you can drag the bar handle
-- add fullscreen mode
-- add ability to save under github profile
-- add history slider
-- add data tab
+**[livecoding](http://livecoding.gabrielflor.it/)** is a live coding sketchpad. Code modifications are instantly displayed - no need to refresh your browser. Click on a number, adjust its value via the popup slider, and watch your work change on the fly!
+
+100% totally based on Bret Victor's [Inventing on Principle](https://vimeo.com/36579366) talk, which is one of the best talks I've ever seen. If you watch only one talk this year, make sure it's this one.
+
+The beautiful code editor, [CodeMirror](http://codemirror.net/), is an [open source](https://github.com/marijnh/CodeMirror2) project.
+
+### Setup
+
+    git clone https://github.com/gabrielflorit/livecoding.git
+
+This app uses virtualenv. If you haven't done so, create one first:
+
+    cd livecoding
+    virtualenv --no-site-packages .
+
+
+Next, source the virtualenv:
+
+    . bin/activate
+
+
+Install dependencies with Pip:
+
+    bin/pip install -r requirements.txt
+
+### Environment Variables
+
+[Create an app on GitHub](https://github.com/settings/applications/new) (use the two settings below).
+
+* URL: http://localhost:5000/
+* Callback URL: http://localhost:5000/github-logged-in
+
+Next, create an .env file with the following three keys:
+
+    CLIENT_ID=<your github app client id>
+    CLIENT_SECRET=<your github app secret>
+    SECRET_KEY=<a randomly generated key - see below>
+
+To generate a random key, fire up the python console:
+    
+    >>> import os
+    >>> os.urandom(24)
+    '\xfd{H\xe5<\x95\xf9\xe3\x96.5\xd1\x01O<!\xd5\xa2\xa0\x9fR"\xa1\xa8'
+
+### Run
+
+Finally, start the app with [Foreman](http://blog.daviddollar.org/2011/05/06/introducing-foreman.html):
+
+    foreman start
+
+Hit http://127.0.0.1:5000 and start coding!
