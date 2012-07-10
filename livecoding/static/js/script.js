@@ -306,316 +306,325 @@ var aigua = (function () {
 $(function() {
 
 	// ----------- initialization section
+	// do we support this browser?
+	if (navigator && navigator.appVersion.toLowerCase().indexOf('chrome') == -1) {
 
-	// setup the key correctly (linux/windows)
-	var theKey = (navigator && navigator.platform && navigator.platform.toLowerCase().indexOf('linux') != -1) 
-		? 'Ctrl' 
-		: 'Ctrl-Ctrl';
-	var extraKeys = {};
-	var gistId;
-	{extraKeys[theKey] = aigua.respondToKey};
+		$('#browsermessage').fadeIn(1000);
 
-	// set various dom elements
-	aigua.slider = $('#slider');
-	aigua.handle = $('#handle');
-	aigua.bar = $('#bar');
-	aigua.marker = $('#marker');
-	aigua.filler = $('#filler');
-	aigua.triangle = $('#triangle');
-	aigua.dragger = $('#dragger');
-
-	// set the handle's default width
-	aigua.handle.width(aigua.startingBarWidth);
-
-	// set the bar's border width and default width
-	aigua.bar.css('border-width', aigua.borderWidth);
-	aigua.bar.width(aigua.startingBarWidth);
-
-	// set the triangle
-	aigua.triangle.css('border-width', aigua.triangleHeight + 'px ' + aigua.triangleWidth + 'px 0px ' + aigua.triangleWidth + 'px');
-
-	// create codemirror instance
-	aigua.codeMirror = CodeMirror($('#code').get(0), {
-
-		onChange: function(cm, e) {
-			if (!aigua.pause) {
-
-				if (!aigua.isLoading) {
-					aigua.setToDirty();
-				}
-
-				aigua.renderCode();
-			}
-		},
-
-		extraKeys: extraKeys,
-		lineNumbers: true,
-		matchBrackets: true,
-		mode:  'javascript',
-		modeURL: '/mode/%N.js',
-		theme: 'lesser-dark'
-	});
-
-	gistId = aigua.getUrlGistId(location.href);
-	if (gistId) {
-		aigua.loadGist(gistId);
 	} else {
-		aigua.loadGist($("#menu .item h2:contains('examples') + ul li:first").attr('rel'));
-	}
 
-	// pulse numbers and show instructions
- 	aigua.pulseNumbers = true;
-	$('#message').show();
-	aigua.pulse = setInterval(function() {
-		$('#message').animate({opacity: 0.5}).animate({opacity: 1});
-		$('.cm-number').animate({opacity: 0.5}).animate({opacity: 1});
-	}, 1000);
+		// setup the key correctly (linux/windows)
+		var theKey = (navigator && navigator.platform && navigator.platform.toLowerCase().indexOf('linux') != -1) 
+			? 'Ctrl' 
+			: 'Ctrl-Ctrl';
+		var extraKeys = {};
+		var gistId;
+		{extraKeys[theKey] = aigua.respondToKey};
 
-	// initialize slider
-	aigua.handle.draggable({
+		// set various dom elements
+		aigua.slider = $('#slider');
+		aigua.handle = $('#handle');
+		aigua.bar = $('#bar');
+		aigua.marker = $('#marker');
+		aigua.filler = $('#filler');
+		aigua.triangle = $('#triangle');
+		aigua.dragger = $('#dragger');
 
-		axis: 'x',
-		
-		drag: function(ui, event) {
+		// set the handle's default width
+		aigua.handle.width(aigua.startingBarWidth);
 
-			aigua.dragger.hide();
+		// set the bar's border width and default width
+		aigua.bar.css('border-width', aigua.borderWidth);
+		aigua.bar.width(aigua.startingBarWidth);
 
-			var position = event.position.left + aigua.handle.width()/2;
-			var markerCenter = aigua.marker.offset().left;
-			var offset = position - markerCenter;
-			var newNumber;
+		// set the triangle
+		aigua.triangle.css('border-width', aigua.triangleHeight + 'px ' + aigua.triangleWidth + 'px 0px ' + aigua.triangleWidth + 'px');
 
-			// calculate the new number based on the original number
-			// plus the dragging offset
-			newNumber = aigua.modifyNumber(aigua.originalNumber, offset);
+		// create codemirror instance
+		aigua.codeMirror = CodeMirror($('#code').get(0), {
 
-			// replace the selection with the new number
-			aigua.codeMirror.replaceSelection(String(newNumber));
+			onChange: function(cm, e) {
+				if (!aigua.pause) {
 
-			// is the dragging cursor to the right of the marker?
-			if (offset > 0) {
+					if (!aigua.isLoading) {
+						aigua.setToDirty();
+					}
 
-				// if the left bar got stuck, reset the bar width and position
-				if (markerCenter - aigua.bar.offset().left - aigua.borderWidth > aigua.startingBarWidth/2) {
-					aigua.resetBar(markerCenter);
+					aigua.renderCode();
 				}
+			},
 
-				// set the filler width and position
-				aigua.filler.width(offset);
-				aigua.filler.css('left', aigua.startingBarWidth/2);
+			extraKeys: extraKeys,
+			lineNumbers: true,
+			matchBrackets: true,
+			mode:  'javascript',
+			modeURL: '/mode/%N.js',
+			theme: 'lesser-dark'
+		});
 
-				// are we dragging past the initial bar width?
-				if (offset > aigua.startingBarWidth/2 - (aigua.borderWidth)) {
+		gistId = aigua.getUrlGistId(location.href);
+		if (gistId) {
+			aigua.loadGist(gistId);
+			$('#main').fadeIn(1000);
+		} else {
+			aigua.loadGist($("#menu .item h2:contains('examples') + ul li:first").attr('rel'));
+			$('#main').fadeIn(1000);
+		}
 
-					// round the filler edges
-					aigua.filler.addClass('filler-edge-right');
+		// pulse numbers and show instructions
+	 	aigua.pulseNumbers = true;
+		$('#message').show();
+		aigua.pulse = setInterval(function() {
+			$('#message').animate({opacity: 0.5}).animate({opacity: 1});
+			$('.cm-number').animate({opacity: 0.5}).animate({opacity: 1});
+		}, 1000);
 
-					 // add 1 pixel to filler width to prevent square edges
-					 // from hitting the round borders prematurely
-					aigua.filler.width(offset + 1);
+		// initialize slider
+		aigua.handle.draggable({
 
-					// set bar right edge to dragging position
-					aigua.bar.width(position - aigua.bar.offset().left);
-				}
+			axis: 'x',
+			
+			drag: function(ui, event) {
 
-				// reset the width, since fast drags won't trigger a drag call every pixel.
-				else {
-					aigua.resetBar(markerCenter);
-				}
+				aigua.dragger.hide();
 
-			// is the dragging cursor to the left of the marker?
-			} else if (offset < 0) {
+				var position = event.position.left + aigua.handle.width()/2;
+				var markerCenter = aigua.marker.offset().left;
+				var offset = position - markerCenter;
+				var newNumber;
 
-				// set the filler width
-				aigua.filler.width(-offset);
+				// calculate the new number based on the original number
+				// plus the dragging offset
+				newNumber = aigua.modifyNumber(aigua.originalNumber, offset);
 
-				// adjust the filler position
-				aigua.filler.css('left', aigua.startingBarWidth/2 - -offset + aigua.borderWidth/2);
+				// replace the selection with the new number
+				aigua.codeMirror.replaceSelection(String(newNumber));
 
-				// are we dragging past the initial bar width?
-				if (-offset > aigua.startingBarWidth/2) {
+				// is the dragging cursor to the right of the marker?
+				if (offset > 0) {
+
+					// if the left bar got stuck, reset the bar width and position
+					if (markerCenter - aigua.bar.offset().left - aigua.borderWidth > aigua.startingBarWidth/2) {
+						aigua.resetBar(markerCenter);
+					}
+
+					// set the filler width and position
+					aigua.filler.width(offset);
+					aigua.filler.css('left', aigua.startingBarWidth/2);
+
+					// are we dragging past the initial bar width?
+					if (offset > aigua.startingBarWidth/2 - (aigua.borderWidth)) {
+
+						// round the filler edges
+						aigua.filler.addClass('filler-edge-right');
+
+						 // add 1 pixel to filler width to prevent square edges
+						 // from hitting the round borders prematurely
+						aigua.filler.width(offset + 1);
+
+						// set bar right edge to dragging position
+						aigua.bar.width(position - aigua.bar.offset().left);
+					}
+
+					// reset the width, since fast drags won't trigger a drag call every pixel.
+					else {
+						aigua.resetBar(markerCenter);
+					}
+
+				// is the dragging cursor to the left of the marker?
+				} else if (offset < 0) {
+
+					// set the filler width
+					aigua.filler.width(-offset);
 
 					// adjust the filler position
-					aigua.filler.css('left', aigua.borderWidth/2);
+					aigua.filler.css('left', aigua.startingBarWidth/2 - -offset + aigua.borderWidth/2);
 
-					// round the filler edges
-					aigua.filler.addClass('filler-edge-left');
+					// are we dragging past the initial bar width?
+					if (-offset > aigua.startingBarWidth/2) {
 
-					// set bar left edge to dragging position
-					aigua.bar.width(-offset + aigua.startingBarWidth/2);
-					aigua.bar.css('left', position - aigua.borderWidth);
+						// adjust the filler position
+						aigua.filler.css('left', aigua.borderWidth/2);
+
+						// round the filler edges
+						aigua.filler.addClass('filler-edge-left');
+
+						// set bar left edge to dragging position
+						aigua.bar.width(-offset + aigua.startingBarWidth/2);
+						aigua.bar.css('left', position - aigua.borderWidth);
+					}
+
+					// reset the width, since fast drags won't trigger a drag call every pixel.
+					else {
+						aigua.resetBar(markerCenter);
+					}
+
+				// are we at the middle?
+				} else {
+					aigua.filler.width(0);
 				}
-
-				// reset the width, since fast drags won't trigger a drag call every pixel.
-				else {
-					aigua.resetBar(markerCenter);
-				}
-
-			// are we at the middle?
-			} else {
-				aigua.filler.width(0);
 			}
-		}
-	});
+		});
 
-	// populate mode switcher
-	_.each(aigua.modes, function(mode, index) {
+		// populate mode switcher
+		_.each(aigua.modes, function(mode, index) {
 
-		var div = $("<div class='item'></div>");
-		var h2 = $("<h2></h2>");
-		div.append(h2);
+			var div = $("<div class='item'></div>");
+			var h2 = $("<h2></h2>");
+			div.append(h2);
 
-		h2.attr('class', index == aigua.currentModeIndex ? 'active' : 'passive');
-		h2.text(mode.name);
+			h2.attr('class', index == aigua.currentModeIndex ? 'active' : 'passive');
+			h2.text(mode.name);
 
-		$('#modes').append(div);
-	});
+			$('#modes').append(div);
+		});
 
 
-	// ----------- event handlers section
+		// ----------- event handlers section
 
-	// did we keyup the handle key?
-	$(window).keyup(function(e) {
+		// did we keyup the handle key?
+		$(window).keyup(function(e) {
 
-		if (e.which == 17) {
+			if (e.which == 17) {
 
-			// hide the slider
-			aigua.slider.hide();
+				// hide the slider
+				aigua.slider.hide();
 
-			// reset filler width
-			aigua.filler.width(0);
+				// reset filler width
+				aigua.filler.width(0);
 
-			// reset bar width
-			aigua.bar.width(aigua.startingBarWidth);
+				// reset bar width
+				aigua.bar.width(aigua.startingBarWidth);
 
-			// clear out the original number
-			aigua.originalNumber = null;
+				// clear out the original number
+				aigua.originalNumber = null;
 
-			aigua.dragger.show();
-		}
-	});
+				aigua.dragger.show();
+			}
+		});
 
-	// force svg contents to occupy the entire svg container
-	// by rerendering code on window resize
-	$(window).on('resize', function() {
-		aigua.renderCode();
-	});
+		// force svg contents to occupy the entire svg container
+		// by rerendering code on window resize
+		$(window).on('resize', function() {
+			aigua.renderCode();
+		});
 
-	// handle modes switcher
-	$('#modes .item h2').on('click', function(e) {
-		aigua.switchMode($(this).text());
-	});
+		// handle modes switcher
+		$('#modes .item h2').on('click', function(e) {
+			aigua.switchMode($(this).text());
+		});
 
-	// handle menu mouseover/mouseout events
-	$('#menu .item h2').on('mouseover', function(e) {
-		var item = $(this).parents('.item');
+		// handle menu mouseover/mouseout events
+		$('#menu .item h2').on('mouseover', function(e) {
+			var item = $(this).parents('.item');
 
-		$('ul', item).show(); // show this dropdown
-		$(this).addClass('hover'); // add hover class to this h2
-	});
+			$('ul', item).show(); // show this dropdown
+			$(this).addClass('hover'); // add hover class to this h2
+		});
 
-	// handle menu mouseover/mouseout events
-	$('#menu .item').on('mouseout', function(e) {
+		// handle menu mouseover/mouseout events
+		$('#menu .item').on('mouseout', function(e) {
 
-		if ($(e.toElement).parents('.item').get(0) != $(this).get(0)) {
-			aigua.resetMenu();
-		}
-	});
+			if ($(e.toElement).parents('.item').get(0) != $(this).get(0)) {
+				aigua.resetMenu();
+			}
+		});
 
-	// handle menu mouseover/mouseout events
-	$('#menu .item li').on('mouseover', function(e) {
-		var li = $(this);
+		// handle menu mouseover/mouseout events
+		$('#menu .item li').on('mouseover', function(e) {
+			var li = $(this);
 
-		if (li.attr('class') && li.attr('class').indexOf('disabled') != -1) {
+			if (li.attr('class') && li.attr('class').indexOf('disabled') != -1) {
 
-		} else {
-			li.addClass('hover');
-		}
-	});
+			} else {
+				li.addClass('hover');
+			}
+		});
 
-	// handle menu mouseover/mouseout events
-	$('#menu .item li').on('mouseout', function(e) {
-		$(this).removeClass('hover');
-	});
+		// handle menu mouseover/mouseout events
+		$('#menu .item li').on('mouseout', function(e) {
+			$(this).removeClass('hover');
+		});
 
-	// handle clicking on title
-	$('#header').on('click', function(e) {
+		// handle clicking on title
+		$('#header').on('click', function(e) {
 
-		e.preventDefault();
+			e.preventDefault();
 
-		aigua.askBeforeNew();
-	});
+			aigua.askBeforeNew();
+		});
 
-	// handle menu item choices
-	$('#menu .item ul li').on('click', function(e) {
-		e.preventDefault();
+		// handle menu item choices
+		$('#menu .item ul li').on('click', function(e) {
+			e.preventDefault();
 
-		var choice = $(this);
-		var itemName = $('h2', choice.parents('.item')).text();
-		var result;
-		var postData;
-		var js;
-		var css;
-		var a;
-		
-		switch(itemName) {
-			case 'file':
-				switch (choice.text()) {
-					case 'new':
-						aigua.askBeforeNew();
-					break;
+			var choice = $(this);
+			var itemName = $('h2', choice.parents('.item')).text();
+			var result;
+			var postData;
+			var js;
+			var css;
+			var a;
+			
+			switch(itemName) {
+				case 'file':
+					switch (choice.text()) {
+						case 'new':
+							aigua.askBeforeNew();
+						break;
 
-					case 'savewhat is this?':
-						result = confirm('Login to GitHub to save your work under your username.');
-						if (result) {
-							open('/github-login', 'popup', 'width=1015,height=500');
-						}
-					break;
+						case 'savewhat is this?':
+							result = confirm('Login to GitHub to save your work under your username.');
+							if (result) {
+								open('/github-login', 'popup', 'width=1015,height=500');
+							}
+						break;
 
-					case 'save anonymously':
+						case 'save anonymously':
 
-						if (aigua.modes[aigua.currentModeIndex].name == 'javascript') {
+							if (aigua.modes[aigua.currentModeIndex].name == 'javascript') {
 
-							js = aigua.codeMirror.getValue();
-							aigua.switchMode('css', true);
-							css = aigua.codeMirror.getValue();
-							aigua.switchMode('javascript', true);
+								js = aigua.codeMirror.getValue();
+								aigua.switchMode('css', true);
+								css = aigua.codeMirror.getValue();
+								aigua.switchMode('javascript', true);
 
-						} else {
+							} else {
 
-							css = aigua.codeMirror.getValue();
-							aigua.switchMode('javascript', true);
-							js = aigua.codeMirror.getValue();
-							aigua.switchMode('css', true);
+								css = aigua.codeMirror.getValue();
+								aigua.switchMode('javascript', true);
+								js = aigua.codeMirror.getValue();
+								aigua.switchMode('css', true);
 
-						}
+							}
 
-						postData = {
-							'css': css,
-							'js': js
-						};
+							postData = {
+								'css': css,
+								'js': js
+							};
 
-						$.post('/save-anonymously', postData, function(data) {
+							$.post('/save-anonymously', postData, function(data) {
 
-							a = document.createElement('a');
-							a.href = data;
-							aigua.setUrl(a.pathname.split('/')[1]);
-							aigua.setToClean();
-						});
+								a = document.createElement('a');
+								a.href = data;
+								aigua.setUrl(a.pathname.split('/')[1]);
+								aigua.setToClean();
+							});
 
-						aigua.resetMenu();
-					break;
-				}
-			break;
+							aigua.resetMenu();
+						break;
+					}
+				break;
 
-			case 'examples':
-				result = aigua.isDirty() ? confirm(aigua.areYouSureText) : true;
-				if (result) {
-					aigua.loadGist($(this).attr('rel'));
-				}
-			break;
-		}
-	});
+				case 'examples':
+					result = aigua.isDirty() ? confirm(aigua.areYouSureText) : true;
+					if (result) {
+						aigua.loadGist($(this).attr('rel'));
+					}
+				break;
+			}
+		});
+	}
 
 });
 
