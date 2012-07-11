@@ -281,6 +281,7 @@ var aigua = (function () {
 		filler: null,
 		handle: null,
 		isLoading: null,
+		key: null,
 		lineHeight: 19,
 		marker: null,
 		modes: [
@@ -315,24 +316,33 @@ $(function() {
 
 	} else {
 
-		var theKey;
 		var extraKeys = {};
 		var gistId;
+		aigua.key = {};
 
 		// setup the key correctly (linux/windows)
 		if (navigator && navigator.platform && navigator.platform.toLowerCase().indexOf('mac') != -1) {
-			theKey = 'Alt-Alt';
+			aigua.key.Name = 'Alt-Alt';
+			aigua.key.DisplayName = 'Alt';
+			aigua.key.Code = 18;
 		}
 		
 		if (navigator && navigator.platform && navigator.platform.toLowerCase().indexOf('linux') != -1) {
-			theKey = 'Ctrl'; 
+			aigua.key.Name = 'Ctrl';
+			aigua.key.DisplayName = 'Ctrl';
+			aigua.key.Code = 17;
 		}
 		
 		if (navigator && navigator.platform && navigator.platform.toLowerCase().indexOf('win') != -1) {
-			theKey = 'Ctrl-Ctrl';
+			aigua.key.Name = 'Ctrl-Ctrl';
+			aigua.key.DisplayName = 'Ctrl';
+			aigua.key.Code = 17;
 		}
+
+		$('#message .key').text(aigua.key.DisplayName);
+
 		
-		{extraKeys[theKey] = aigua.respondToKey};
+		{extraKeys[aigua.key.Name] = aigua.respondToKey};
 
 		// set various dom elements
 		aigua.ball = $('#ball');
@@ -492,7 +502,7 @@ $(function() {
 		// did we keyup the handle key?
 		$(window).keyup(function(e) {
 
-			if (e.which == 17) {
+			if (e.which == aigua.key.Code) {
 
 				// hide the slider
 				aigua.slider.hide();
