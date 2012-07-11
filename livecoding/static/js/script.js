@@ -270,7 +270,7 @@ var aigua = (function () {
 			aigua.codeMirror.setValue(aigua.modes[aigua.currentModeIndex].code || '');
 
 			aigua.codeMirror.setOption("mode", aigua.modes[aigua.currentModeIndex].name);
-			CodeMirror.autoLoadMode(editor, aigua.modes[aigua.currentModeIndex].name);
+			CodeMirror.autoLoadMode(aigua.codeMirror, aigua.modes[aigua.currentModeIndex].name);
 
 			aigua.pause = false;
 		},
@@ -313,7 +313,7 @@ $(function() {
 
 	// ----------- initialization section
 	// do we support this browser?
-	if (navigator && navigator.appVersion.toLowerCase().indexOf('chrome') == -1) {
+	if (BrowserDetect.browser != 'Chrome' && BrowserDetect.browser != 'Firefox') {
 
 		$('#browsermessage').fadeIn(1000);
 
@@ -324,26 +324,25 @@ $(function() {
 		aigua.key = {};
 
 		// setup the key correctly (linux/windows)
-		if (navigator && navigator.platform && navigator.platform.toLowerCase().indexOf('mac') != -1) {
+		if (BrowserDetect.OS == 'Mac') {
 			aigua.key.Name = 'Alt-Alt';
 			aigua.key.DisplayName = 'Alt';
 			aigua.key.Code = 18;
 		}
 		
-		if (navigator && navigator.platform && navigator.platform.toLowerCase().indexOf('linux') != -1) {
+		if (BrowserDetect.OS == 'Linux') {
 			aigua.key.Name = 'Ctrl';
 			aigua.key.DisplayName = 'Ctrl';
 			aigua.key.Code = 17;
 		}
 		
-		if (navigator && navigator.platform && navigator.platform.toLowerCase().indexOf('win') != -1) {
+		if (BrowserDetect.OS == 'Windows') {
 			aigua.key.Name = 'Ctrl-Ctrl';
 			aigua.key.DisplayName = 'Ctrl';
 			aigua.key.Code = 17;
 		}
 
 		$('#message .key').text(aigua.key.DisplayName);
-
 		
 		{extraKeys[aigua.key.Name] = aigua.respondToKey};
 
@@ -385,6 +384,7 @@ $(function() {
 			matchBrackets: true,
 			mode:  'javascript',
 			modeURL: '/mode/%N.js',
+			readOnly: false,
 			theme: 'lesser-dark'
 		});
 
