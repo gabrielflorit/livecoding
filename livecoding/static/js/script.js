@@ -312,8 +312,9 @@ var aigua = (function () {
 $(function() {
 
 	// ----------- initialization section
-	// do we support this browser?
-	if (BrowserDetect.browser != 'Chrome' && BrowserDetect.browser != 'Firefox') {
+	// do we support this browser/os?
+	if (BrowserDetect.browser != 'Chrome' && BrowserDetect.browser != 'Firefox'
+		&& BrowserDetect.OS != 'Mac' && BrowserDetect.OS != 'Windows') {
 
 		$('#browsermessage').fadeIn(1000);
 
