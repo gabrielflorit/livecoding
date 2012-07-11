@@ -315,12 +315,23 @@ $(function() {
 
 	} else {
 
-		// setup the key correctly (linux/windows)
-		var theKey = (navigator && navigator.platform && navigator.platform.toLowerCase().indexOf('linux') != -1) 
-			? 'Ctrl' 
-			: 'Ctrl-Ctrl';
+		var theKey;
 		var extraKeys = {};
 		var gistId;
+
+		// setup the key correctly (linux/windows)
+		if (navigator && navigator.platform && navigator.platform.toLowerCase().indexOf('mac') != -1) {
+			theKey = 'Alt-Alt';
+		}
+		
+		if (navigator && navigator.platform && navigator.platform.toLowerCase().indexOf('linux') != -1) {
+			theKey = 'Ctrl'; 
+		}
+		
+		if (navigator && navigator.platform && navigator.platform.toLowerCase().indexOf('win') != -1) {
+			theKey = 'Ctrl-Ctrl';
+		}
+		
 		{extraKeys[theKey] = aigua.respondToKey};
 
 		// set various dom elements
