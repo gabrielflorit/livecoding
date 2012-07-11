@@ -667,7 +667,7 @@ body {
 
   #triangle {
     position: absolute;
-    border-color: black transparent transparent transparent;
+    border-color: #9AB83E transparent transparent transparent;
     border-style: solid;
     height: 0;
     width: 0;

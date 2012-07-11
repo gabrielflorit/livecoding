@@ -300,7 +300,7 @@ var aigua = (function () {
 		slider: null,
 		startingBarWidth: 300,
 		triangle: null,
-		triangleHeight: 7,
+		triangleHeight: 5,
 		triangleWidth: 12
 
 	}
