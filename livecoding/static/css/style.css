@@ -620,14 +620,6 @@ body {
     background-image:         linear-gradient(to bottom, #000000, #555);
   }
 
-    #dragger {
-      position: relative;
-      color: rgba(255, 255, 255, 0.6);
-      text-align: center;
-      font-size: 12px;
-      top: -15px;
-    }
-
     #filler {
       position: relative;
       background: white;
@@ -653,12 +645,24 @@ body {
       background-image: linear-gradient(top, #fff 0%, #cfdf9f 19%, #9ab83e 50%, #6f852d 50%, #5a6c24 81%, #9ab83e 100%);
     }
 
-    .filler-edge-right {
-      border-radius: 0 12px 12px 0;
-    }
+    #ball {
+      width: 12px;
+      height: 12px;
+      margin: 0 auto;
 
-    .filler-edge-left {
-      border-radius: 12px 0 0 12px;
+      border-radius: 12px;
+
+      -webkit-background-clip: padding-box; 
+         -moz-background-clip: padding;
+              background-clip: padding-box;
+
+      background-color: #fff;
+      background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #fff), color-stop(19%, #cfdf9f), color-stop(50%, #9ab83e), color-stop(50%, #6f852d), color-stop(81%, #5a6c24), color-stop(100%, #9ab83e));
+      background-image: -webkit-linear-gradient(top, #fff 0%, #cfdf9f 19%, #9ab83e 50%, #6f852d 50%, #5a6c24 81%, #9ab83e 100%);
+      background-image: -moz-linear-gradient(top, #fff 0%, #cfdf9f 19%, #9ab83e 50%, #6f852d 50%, #5a6c24 81%, #9ab83e 100%);
+      background-image: -ms-linear-gradient(top, #fff 0%, #cfdf9f 19%, #9ab83e 50%, #6f852d 50%, #5a6c24 81%, #9ab83e 100%);
+      background-image: -o-linear-gradient(top, #fff 0%, #cfdf9f 19%, #9ab83e 50%, #6f852d 50%, #5a6c24 81%, #9ab83e 100%);
+      background-image: linear-gradient(top, #fff 0%, #cfdf9f 19%, #9ab83e 50%, #6f852d 50%, #5a6c24 81%, #9ab83e 100%);
     }
 
   #triangle {
