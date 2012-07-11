@@ -203,7 +203,9 @@ var aigua = (function () {
 						}
 
 						// select token
-						cm.setSelection({line: cursor.line, ch: token.start}, {line: cursor.line, ch: token.end});
+						aigua.currentSelectionStart = {line: cursor.line, ch: token.start};
+						aigua.currentSelectionEnd   = {line: cursor.line, ch: token.end};
+						cm.setSelection(aigua.currentSelectionStart, aigua.currentSelectionEnd);
 
 						// find coords at token start
 						startCoords = cm.cursorCoords(true);
@@ -278,6 +280,7 @@ var aigua = (function () {
 		bar: null,
 		borderWidth: 2,
 		currentModeIndex: 1,
+		currentSelection: null,
 		filler: null,
 		handle: null,
 		isLoading: null,
@@ -498,6 +501,17 @@ $(function() {
 
 
 		// ----------- event handlers section
+
+		// if we mouseup, and the slider is showing, AND nothing is selected
+		// select the previously selected token
+		$(window).mouseup(function(e) {
+
+			if (aigua.slider.is(':visible') && aigua.codeMirror.getSelection() == '') {
+				aigua.codeMirror.setSelection(aigua.currentSelectionStart, aigua.currentSelectionEnd);
+			}
+
+		});
+
 
 		// did we keyup the handle key?
 		$(window).keyup(function(e) {
