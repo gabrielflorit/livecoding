@@ -313,7 +313,8 @@ $(function() {
 
 	// ----------- initialization section
 	// do we support this browser?
-	if (!(BrowserDetect.browser == 'Chrome' || BrowserDetect.browser == 'Firefox')) {
+	if (!(BrowserDetect.browser == 'Chrome' || BrowserDetect.browser == 'Firefox'
+		|| BrowserDetect.browser == 'Safari')) {
 
 		$('#browsermessage').fadeIn(1000);
 
