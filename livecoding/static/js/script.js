@@ -313,9 +313,8 @@ $(function() {
 
 	// ----------- initialization section
 	// do we support this browser/os?
-	// if (BrowserDetect.browser != 'Chrome' && BrowserDetect.browser != 'Firefox'
-	if (!(BrowserDetect.browser == 'Chrome' || 
-		BrowserDetect.OS == 'Mac' || BrowserDetect.OS != 'Windows')) {
+	if (!(BrowserDetect.browser == 'Chrome' || BrowserDetect.browser == 'Firefox'
+		|| BrowserDetect.OS == 'Mac' || BrowserDetect.OS != 'Windows')) {
 
 		$('#browsermessage').fadeIn(1000);
 
@@ -325,18 +324,18 @@ $(function() {
 		var gistId;
 		aigua.key = {};
 
-		// setup the key correctly (linux/windows)
+		// setup the key correctly (mac/linux/windows)
 		if (BrowserDetect.OS == 'Mac') {
 			aigua.key.Name = 'Alt-Alt';
 			aigua.key.DisplayName = 'Alt';
 			aigua.key.Code = 18;
 		}
 		
-		if (BrowserDetect.OS == 'Linux') {
-			aigua.key.Name = 'Ctrl';
-			aigua.key.DisplayName = 'Ctrl';
-			aigua.key.Code = 17;
-		}
+		// if (BrowserDetect.OS == 'Linux') {
+		// 	aigua.key.Name = 'Ctrl';
+		// 	aigua.key.DisplayName = 'Ctrl';
+		// 	aigua.key.Code = 17;
+		// }
 		
 		if (BrowserDetect.OS == 'Windows') {
 			aigua.key.Name = 'Ctrl-Ctrl';
@@ -511,9 +510,7 @@ $(function() {
 			if (aigua.slider.is(':visible') && aigua.codeMirror.getSelection() == '') {
 				aigua.codeMirror.setSelection(aigua.currentSelectionStart, aigua.currentSelectionEnd);
 			}
-
 		});
-
 
 		// did we keyup the handle key?
 		$(window).keyup(function(e) {
@@ -556,7 +553,7 @@ $(function() {
 		// handle menu mouseover/mouseout events
 		$('#menu .item').on('mouseout', function(e) {
 
-			if ($(e.toElement).parents('.item').get(0) != $(this).get(0)) {
+			if ($(e.relatedTarget).parents('.item').get(0) != $(this).get(0)) {
 				aigua.resetMenu();
 			}
 		});
