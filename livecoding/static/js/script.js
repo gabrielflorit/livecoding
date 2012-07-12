@@ -312,9 +312,8 @@ var aigua = (function () {
 $(function() {
 
 	// ----------- initialization section
-	// do we support this browser/os?
-	if (!(BrowserDetect.browser == 'Chrome' || BrowserDetect.browser == 'Firefox'
-		|| BrowserDetect.OS == 'Mac' || BrowserDetect.OS != 'Windows')) {
+	// do we support this browser?
+	if (!(BrowserDetect.browser == 'Chrome' || BrowserDetect.browser == 'Firefox') {
 
 		$('#browsermessage').fadeIn(1000);
 
@@ -331,11 +330,11 @@ $(function() {
 			aigua.key.Code = 18;
 		}
 		
-		// if (BrowserDetect.OS == 'Linux') {
-		// 	aigua.key.Name = 'Ctrl';
-		// 	aigua.key.DisplayName = 'Ctrl';
-		// 	aigua.key.Code = 17;
-		// }
+		if (BrowserDetect.OS == 'Linux') {
+			aigua.key.Name = 'Ctrl';
+			aigua.key.DisplayName = 'Ctrl';
+			aigua.key.Code = 17;
+		}
 		
 		if (BrowserDetect.OS == 'Windows') {
 			aigua.key.Name = 'Ctrl-Ctrl';
