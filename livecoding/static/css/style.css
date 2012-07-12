@@ -244,7 +244,6 @@ body {
   position: absolute;
   width: 100%;
   height: 100%;
-  background: #121212;
   display: none;
 }
 
@@ -261,12 +260,25 @@ body {
     cursor: pointer;
   }
 
+  #header.full {
+    text-shadow: none;
+    color: #262626;
+  }
+
   #controls {
     position: relative;
     height: 25px;
     left: 5%;
     width: 90%;
     margin-top: 24px;
+    z-index: 10000;
+  }
+
+  #controls.full {
+    background: #8F9D6A;
+    left: 0 !important;
+    width: 100% !important;
+    margin-top: 0 !important;
     z-index: 10000;
   }
 
@@ -299,6 +311,10 @@ body {
       display: none;
     }
 
+    #message.full {
+      color: #262626;
+    }
+
     #modes {
       float: right;
     }
@@ -317,6 +333,10 @@ body {
           font-style: italic;
           text-decoration: none;
           border: solid rgba(0, 0, 0, 0) 1px;
+        }
+
+        #gist.full {
+          color: #262626;
         }
 
         .dirty {
@@ -341,6 +361,10 @@ body {
           color: #eee;
           font-size: 15px;
           border: solid rgba(0, 0, 0, 0) 1px;
+        }
+
+        #controls .item h2.full {
+          color: #262626;
         }
 
         #controls #modes .item h2 {
@@ -438,6 +462,13 @@ body {
     background: #262626;
   }
 
+  #editor.full {
+    top: 24px !important;
+    left: 0 !important;
+    bottom: 0 !important;
+    width: 100% !important;
+  }
+
     #display {
       position: relative;
       float: left;
@@ -455,12 +486,22 @@ body {
               background-clip: padding-box;
     }
 
+    #display.full {
+      top: 0 !important;
+      border: none !important;
+      border-radius: 0 !important;
+    }
+
     #top-edge {
       position: absolute;
       height: 13px;
       width: 100%;
       background-image: url('../../static/img/top-edge.png');
       top: -14px;
+    }
+
+    #top-edge.full {
+      display: none;
     }
 
     #right-edge {
@@ -471,12 +512,20 @@ body {
       right: -14px;
     }
 
+    #right-edge.full {
+      display: none;
+    }
+
     #bottom-edge {
       position: absolute;
       height: 13px;
       width: 100%;
       background-image: url('../../static/img/bottom-edge.png');
       bottom: -14px;
+    }
+
+    #bottom-edge.full {
+      display: none;
     }
 
     #left-edge {
@@ -487,11 +536,19 @@ body {
       left: -13px;
     }
 
+    #left-edge.full {
+      display: none;
+    }
+
     #top-right-corner {
       position: absolute;
       top: -14px;
       right: -14px;
       z-index: 1;
+    }
+
+    #top-right-corner.full {
+      display: none;
     }
 
     #bottom-right-corner {
@@ -501,6 +558,10 @@ body {
       z-index: 1;
     }
 
+    #bottom-right-corner.full {
+      display: none;
+    }
+
     #top-left-corner {
       position: absolute;
       top: -14px;
@@ -508,11 +569,19 @@ body {
       z-index: 1;
     }
 
+    #top-left-corner.full {
+      display: none;
+    }
+
     #bottom-left-corner {
       position: absolute;
       bottom: -14px;
       left: -13px;
       z-index: 1;
+    }
+
+    #bottom-left-corner.full {
+      display: none;
     }
 
       #middle-edge {
@@ -524,6 +593,10 @@ body {
         background-image: url('../../static/img/middle-edge.png');
       }
 
+      #middle-edge.full {
+        display: none;
+      }
+
       #top-middle {
         position: absolute;
         right: -33px;
@@ -531,11 +604,19 @@ body {
         z-index: 1000;
       }
 
+      #top-middle.full {
+        display: none;
+      }
+
       #bottom-middle {
         position: absolute;
         right: -33px;
         bottom: -14px;
         z-index: 1000;
+      }
+
+      #bottom-middle.full {
+        display: none;
       }
 
       svg {
@@ -546,10 +627,21 @@ body {
         height: 90%;
       }
 
+      svg.full {
+        top: 0%;
+        left: 0%;
+        width: 100%;
+        height: 100%;
+      }
+
     #code {
       float: right;
       width: 47.5%;
       height: 100%;
+    }
+
+    #code.full {
+      width: 50%;
     }
 
       .CodeMirror {
@@ -578,6 +670,14 @@ body {
          -moz-background-clip: padding;
               background-clip: padding-box;
     }
+
+    #codeOverlay.full {
+      top: 0 !important;
+
+      border: none !important;
+      border-radius:0 !important;
+    }
+
 
   /* slider elements */
   #slider {

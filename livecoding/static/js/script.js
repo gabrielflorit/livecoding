@@ -129,7 +129,15 @@ var aigua = (function () {
 
 			}
 			catch (error) {}
-			finally {};
+			finally {
+
+				// if (aigua.fullScreenMode) {
+				// 	$('svg').attr('class', 'full');
+				// } else {
+				// 	$('svg').attr('class', '');
+				// }
+			};
+
 		},
 
 		// reset bar position and width:
@@ -259,8 +267,11 @@ var aigua = (function () {
 			aigua.pause = true;
 
 			if (!noTab) {
-				$('#modes h2').attr('class', 'passive');
-				$("#modes h2:contains('" + mode + "')").attr('class', 'active');
+
+				$('#modes h2').not(":contains('" + mode + "')").addClass('passive');
+				$('#modes h2').not(":contains('" + mode + "')").removeClass('active');
+				$("#modes h2:contains('" + mode + "')").addClass('active');
+				$("#modes h2:contains('" + mode + "')").removeClass('passive');
 			}
 
 			aigua.modes[aigua.currentModeIndex].code = aigua.codeMirror.getValue();
@@ -275,6 +286,41 @@ var aigua = (function () {
 			aigua.pause = false;
 		},
 
+		updateScreenMode: function() {
+
+			_.each([
+				'#top-edge',
+				'#right-edge',
+				'#bottom-edge',
+				'#left-edge',
+				'#top-right-corner',
+				'#bottom-right-corner',
+				'#top-left-corner',
+				'#bottom-left-corner',
+				'#middle-edge',
+				'#top-middle',
+				'#bottom-middle',
+				'#header',
+				'#controls',
+				'#editor',
+				'#display',
+				'#codeOverlay',
+				'#gist',
+				'#controls .item h2',
+				'#message',
+				'#code'
+				], function(value, index, list) {
+
+					if (aigua.fullScreenMode) {
+						$(value).addClass('full');
+					} else {
+						$(value).removeClass('full');
+					}
+			});
+
+			aigua.renderCode();
+		},
+
 		areYouSureText: 'Are you sure? You will lose any unsaved changes.',
 		ball: null,
 		bar: null,
@@ -282,6 +328,7 @@ var aigua = (function () {
 		currentModeIndex: 1,
 		currentSelection: null,
 		filler: null,
+		fullScreenMode: true,
 		handle: null,
 		isLoading: null,
 		key: null,
@@ -494,7 +541,7 @@ $(function() {
 			var h2 = $("<h2></h2>");
 			div.append(h2);
 
-			h2.attr('class', index == aigua.currentModeIndex ? 'active' : 'passive');
+			h2.addClass(index == aigua.currentModeIndex ? 'active' : 'passive');
 			h2.text(mode.name);
 
 			$('#modes').append(div);
@@ -649,6 +696,30 @@ $(function() {
 					if (result) {
 						aigua.loadGist($(this).attr('rel'));
 					}
+				break;
+
+				case 'view':
+
+					switch (choice.text()) {
+
+						case 'fullscreen mode':
+
+							aigua.fullScreenMode = true;
+							aigua.updateScreenMode();
+							$(this).text('sketchpad mode');
+
+						break;
+
+						case 'sketchpad mode':
+
+							aigua.fullScreenMode = false;
+							aigua.updateScreenMode();
+							$(this).text('fullscreen mode');
+
+						break;
+
+					}
+
 				break;
 
 				case 'help':
