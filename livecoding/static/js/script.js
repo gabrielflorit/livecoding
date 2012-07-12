@@ -656,7 +656,12 @@ $(function() {
 					switch (choice.text()) {
 
 						case 'about':
-							window.open('http://gabrielflorit.github.com/livecoding/', '_blank');
+							window.open('https://github.com/gabrielflorit/livecoding/', '_blank');
+							aigua.resetMenu();
+						break;
+
+						case 'twitter':
+							window.open('http://twitter.com/gabrielflorit', '_blank');
 							aigua.resetMenu();
 						break;
 
