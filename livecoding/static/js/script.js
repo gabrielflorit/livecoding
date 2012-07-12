@@ -650,6 +650,19 @@ $(function() {
 						aigua.loadGist($(this).attr('rel'));
 					}
 				break;
+
+				case 'help':
+
+					switch (choice.text()) {
+
+						case 'about':
+							window.open('http://gabrielflorit.github.com/livecoding/', '_blank');
+							aigua.resetMenu();
+						break;
+
+					}
+
+				break;
 			}
 		});
 	}
