@@ -313,8 +313,9 @@ $(function() {
 
 	// ----------- initialization section
 	// do we support this browser/os?
-	if (BrowserDetect.browser != 'Chrome' && BrowserDetect.browser != 'Firefox'
-		&& BrowserDetect.OS != 'Mac' && BrowserDetect.OS != 'Windows') {
+	// if (BrowserDetect.browser != 'Chrome' && BrowserDetect.browser != 'Firefox'
+	if (!(BrowserDetect.browser == 'Chrome' || 
+		BrowserDetect.OS == 'Mac' || BrowserDetect.OS != 'Windows')) {
 
 		$('#browsermessage').fadeIn(1000);
 
