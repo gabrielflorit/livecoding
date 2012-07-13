@@ -104,6 +104,12 @@ var aigua = (function () {
 		// run the code and update the display
 		renderCode: function() {
 
+			if (aigua.fullScreenMode) {
+				$('svg').attr('class', 'full');
+			} else {
+				$('svg').attr('class', '');
+			}
+
 			// get the current code
 			var code = aigua.codeMirror.getValue();
 
@@ -129,15 +135,7 @@ var aigua = (function () {
 
 			}
 			catch (error) {}
-			finally {
-
-				// if (aigua.fullScreenMode) {
-				// 	$('svg').attr('class', 'full');
-				// } else {
-				// 	$('svg').attr('class', '');
-				// }
-			};
-
+			finally {}
 		},
 
 		// reset bar position and width:
@@ -288,35 +286,11 @@ var aigua = (function () {
 
 		updateScreenMode: function() {
 
-			_.each([
-				'#top-edge',
-				'#right-edge',
-				'#bottom-edge',
-				'#left-edge',
-				'#top-right-corner',
-				'#bottom-right-corner',
-				'#top-left-corner',
-				'#bottom-left-corner',
-				'#middle-edge',
-				'#top-middle',
-				'#bottom-middle',
-				'#header',
-				'#controls',
-				'#editor',
-				'#display',
-				'#codeOverlay',
-				'#gist',
-				'#controls .item h2',
-				'#message',
-				'#code'
-				], function(value, index, list) {
-
-					if (aigua.fullScreenMode) {
-						$(value).addClass('full');
-					} else {
-						$(value).removeClass('full');
-					}
-			});
+			if (aigua.fullScreenMode) {
+				$('#main').find('*').addClass('full');
+			} else {
+				$('#main').find('*').removeClass('full');
+			}
 
 			aigua.renderCode();
 		},
@@ -328,7 +302,7 @@ var aigua = (function () {
 		currentModeIndex: 1,
 		currentSelection: null,
 		filler: null,
-		fullScreenMode: true,
+		fullScreenMode: false,
 		handle: null,
 		isLoading: null,
 		key: null,

@@ -351,6 +351,12 @@ body {
           visibility: hidden;
         }
 
+        .dirty.full {
+          box-shadow: 0 0 3px 0px rgba(0, 0, 0, 1);
+          background: #262626;
+          border: solid black 1px;
+        }
+
         #controls .item a:hover {
           text-decoration: underline;
         }
@@ -394,6 +400,22 @@ body {
             background-image:         linear-gradient(to bottom, #ccc, #fff);
           }
 
+          #controls .item h2.hover.full,
+          #modes .item h2.active.full {
+            background: white;
+            border-radius: 0;
+
+            box-shadow: none;
+            background-image: none;
+          }
+
+          #modes .item h2.active.full {
+            background: #262626;
+            color: white;
+
+            padding-bottom: 1px;
+          }
+
           #modes .item h2.passive:hover {
             text-decoration: underline;
             cursor: pointer;
@@ -416,6 +438,13 @@ body {
           -webkit-background-clip: padding-box;
              -moz-background-clip: padding;
                   background-clip: padding-box;
+        }
+
+        #controls .item ul.full {
+          background: #fff;
+
+          border: solid #222 1px;
+          border-radius: 0;
         }
 
           #controls .item ul li {
