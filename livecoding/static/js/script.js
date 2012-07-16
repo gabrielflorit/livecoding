@@ -204,6 +204,7 @@ var aigua = (function () {
 
 							// stop pulsing numbers
 							window.clearInterval(aigua.pulseNumbersInterval);
+							window.clearInterval(aigua.pulseMessageInterval);
 							$('#message').hide();
 							aigua.pulseNumbers = false;
 						}
@@ -265,6 +266,15 @@ var aigua = (function () {
 					// is this a hex?
 					if (!aigua.isHexString(hex)) {
 						return;
+					}
+
+					if (aigua.pulseColors) {
+
+						// stop pulsing colors
+						window.clearInterval(aigua.pulseColorsInterval);
+						window.clearInterval(aigua.pulseMessageInterval);
+						$('#message').hide();
+						aigua.pulseColors = false;
 					}
 
 					// select token
@@ -372,6 +382,9 @@ var aigua = (function () {
 		],
 		originalNumber: null,
 		pause: false,
+		pulseColors: true,
+		pulseColorsInterval: null,
+		pulseMessageInterval: null,
 		pulseNumbers: true,
 		pulseNumbersInterval: null,
 		slider: null,
@@ -482,12 +495,47 @@ $(function() {
 			$('#main').fadeIn(1000);
 		}
 
-		// pulse numbers and show instructions
-	 	aigua.pulseNumbers = true;
+		// pulse numbers, colors, message
+
 		$('#message').show();
-		aigua.pulseNumbersInterval = setInterval(function() {
+		aigua.pulseMessageInterval = setInterval(function() {
 			$('#message').animate({opacity: 0.5}).animate({opacity: 1});
-			$('.cm-number').animate({opacity: 0.5}).animate({opacity: 1});
+		}, 1000);
+
+	 	aigua.pulseColors = true;
+		aigua.pulseColorsInterval = setInterval(function() {
+			switch (aigua.modes[aigua.currentModeIndex].name) {
+
+				case 'javascript':
+					$('.cm-string').filter(function(index) {
+
+						var token = $(this).text();
+						return token.length > 1 && aigua.isHexString(token.substring(1, token.length - 1));
+
+					}).animate({opacity: 0.5}).animate({opacity: 1});
+				break;
+
+				case 'css':
+					$('.cm-atom').filter(function(index) {
+
+						var token = $(this).text();
+						return token.length > 1 && aigua.isHexString(token);
+
+					}).animate({opacity: 0.5}).animate({opacity: 1});
+				break;
+			}
+
+		}, 1000);
+		
+	 	aigua.pulseNumbers = true;
+		aigua.pulseNumbersInterval = setInterval(function() {
+			switch (aigua.modes[aigua.currentModeIndex].name) {
+
+				case 'javascript':
+					$('.cm-number').animate({opacity: 0.5}).animate({opacity: 1});
+				break;
+			}
+
 		}, 1000);
 
 		// initialize slider
