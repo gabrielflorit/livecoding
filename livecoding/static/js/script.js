@@ -822,12 +822,12 @@ $(function() {
 
 					switch (choice.text()) {
 
-						case 'about':
+						case 'source code':
 							window.open('https://github.com/gabrielflorit/livecoding/', '_blank');
 							aigua.resetMenu();
 						break;
 
-						case 'twitter':
+						case 'contact':
 							window.open('http://twitter.com/gabrielflorit', '_blank');
 							aigua.resetMenu();
 						break;
