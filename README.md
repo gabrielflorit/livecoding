@@ -29,6 +29,6 @@
 Hit http://127.0.0.1:5000 and start coding!
 
 
-## TODO
+### TODO
 
-- color picker: on load, set to match selected color
+- enable color picker in css tab

@@ -180,42 +180,22 @@ var aigua = (function () {
 
 		respondToKey: function(cm) {
 
-			if (aigua.modes[aigua.currentModeIndex].name == 'javascript') {
+			var cursor;
+			var token;
+			var startCoords;
+			var endCoords;
+			var center;
+			var hex;
 
-				var cursor;
-				var token;
-				var startCoords;
-				var endCoords;
-				var center;
+			// is the slider and mini colors hidden?
+			if (!aigua.slider.is(':visible') && !$(aigua.miniColorsSelector).is(':visible')) {
 
-				// is the slider and mini colors hidden?
-				if (!aigua.slider.is(':visible') && !$(aigua.miniColorsSelector).is(':visible')) {
+				// grab the current token
+				cursor = cm.getCursor();
+				token = cm.getTokenAt(cursor);
 
-					// grab the current token
-					cursor = cm.getCursor();
-					token = cm.getTokenAt(cursor);
-
-					// are we on a RGB string (#012 or #012345)?
-					if (token.className == 'string' &&
-						token.string.length > 1 && aigua.isHexString(token.string.substring(1, token.string.length - 1))) {
-
-						// select token
-						aigua.currentSelectionStart = {line: cursor.line, ch: token.start + 1};
-						aigua.currentSelectionEnd   = {line: cursor.line, ch: token.end - 1};
-						cm.setSelection(aigua.currentSelectionStart, aigua.currentSelectionEnd);
-
-						// show the colorpicker
-						aigua.miniColorsTrigger.click();
-
-						// initialize colorpicker with current color
-						$('#hidden-miniColors').miniColors('value', token.string.substring(2, token.string.length - 1));
-
-						// find coords at token start
-						endCoords = cm.cursorCoords(false);
-
-						$(aigua.miniColorsSelector).css('left', endCoords.x + 10);
-						$(aigua.miniColorsSelector).css('top', endCoords.y - $(aigua.miniColorsSelector).height()/2);
-					}
+				// are we on js mode?
+				if (aigua.modes[aigua.currentModeIndex].name == 'javascript') {
 
 					// are we on a number?
 					if (token.className == 'number') {
@@ -223,7 +203,7 @@ var aigua = (function () {
 						if (aigua.pulseNumbers) {
 
 							// stop pulsing numbers
-							window.clearInterval(aigua.pulse);
+							window.clearInterval(aigua.pulseNumbersInterval);
 							$('#message').hide();
 							aigua.pulseNumbers = false;
 						}
@@ -261,9 +241,52 @@ var aigua = (function () {
 						aigua.triangle.css('top', aigua.bar.offset().top + aigua.bar.height() + aigua.borderWidth * 2);
 
 						aigua.ball.offset({top: aigua.filler.offset().top});
+					
 					}
 				}
+
+				if (token.string.length > 1) {
+
+					switch (aigua.modes[aigua.currentModeIndex].name) {
+
+						case 'javascript':
+							hex = token.string.substring(1, token.string.length - 1);
+							aigua.currentSelectionStart = {line: cursor.line, ch: token.start + 1};
+							aigua.currentSelectionEnd   = {line: cursor.line, ch: token.end - 1};
+						break;
+
+						case 'css':
+							hex = token.string;;
+							aigua.currentSelectionStart = {line: cursor.line, ch: token.start};
+							aigua.currentSelectionEnd   = {line: cursor.line, ch: token.end};
+						break;
+					}
+
+					// is this a hex?
+					if (!aigua.isHexString(hex)) {
+						return;
+					}
+
+					// select token
+					cm.setSelection(aigua.currentSelectionStart, aigua.currentSelectionEnd);
+
+					// show the color picker
+					aigua.miniColorsTrigger.click();
+
+					// initialize color picker with current color
+					$('#hidden-miniColors').miniColors('value', hex.substring(1));
+
+					// find coords at token start
+					startCoords = cm.cursorCoords(true);
+					endCoords = cm.cursorCoords(false);
+					center = startCoords.x + (endCoords.x - startCoords.x)/2;
+
+					// position color picker centered below token
+					$(aigua.miniColorsSelector).css('left', center - $(aigua.miniColorsSelector).width()/2);
+					$(aigua.miniColorsSelector).css('top', endCoords.y + aigua.lineHeight);
+				}
 			}
+			// }
 		},
 
 		setOAuthToken: function(oauthToken) {
@@ -349,8 +372,8 @@ var aigua = (function () {
 		],
 		originalNumber: null,
 		pause: false,
-		pulse: null,
 		pulseNumbers: true,
+		pulseNumbersInterval: null,
 		slider: null,
 		startingBarWidth: 300,
 		triangle: null,
@@ -402,7 +425,7 @@ $(function() {
 		$('#hidden-miniColors').miniColors({
 
 			change: function(hex, rgb) {
-				aigua.codeMirror.replaceSelection(hex);
+				aigua.codeMirror.replaceSelection(hex.toUpperCase());
 			}
 
 		});
@@ -462,7 +485,7 @@ $(function() {
 		// pulse numbers and show instructions
 	 	aigua.pulseNumbers = true;
 		$('#message').show();
-		aigua.pulse = setInterval(function() {
+		aigua.pulseNumbersInterval = setInterval(function() {
 			$('#message').animate({opacity: 0.5}).animate({opacity: 1});
 			$('.cm-number').animate({opacity: 0.5}).animate({opacity: 1});
 		}, 1000);
