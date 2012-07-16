@@ -36,6 +36,11 @@ var aigua = (function () {
 			return $('.dirty').css('visibility') == 'visible';
 		},
 
+		isHexString: function(value) {
+
+			return /(^#[0-9A-F]{6}$)|(^#[0-9A-F]{3}$)/i.test(value);
+		},
+
 		loadGist: function(gistId) {
 
 			aigua.isLoading = true;
@@ -183,17 +188,40 @@ var aigua = (function () {
 				var endCoords;
 				var center;
 
-				// is the slider hidden?
-				if (!aigua.slider.is(':visible')) {
+				// is the slider and mini colors hidden?
+				if (!aigua.slider.is(':visible') && !$(aigua.miniColorsSelector).is(':visible')) {
 
 					// grab the current token
 					cursor = cm.getCursor();
 					token = cm.getTokenAt(cursor);
 
+					// are we on a RGB string (#012 or #012345)?
+					if (token.className == 'string' &&
+						token.string.length > 1 && aigua.isHexString(token.string.substring(1, token.string.length - 1))) {
+
+						// select token
+						aigua.currentSelectionStart = {line: cursor.line, ch: token.start + 1};
+						aigua.currentSelectionEnd   = {line: cursor.line, ch: token.end - 1};
+						cm.setSelection(aigua.currentSelectionStart, aigua.currentSelectionEnd);
+
+						// show the colorpicker
+						aigua.miniColorsTrigger.click();
+
+						// initialize colorpicker with current color
+						$('#hidden-miniColors').miniColors('value', token.string.substring(2, token.string.length - 1));
+
+						// find coords at token start
+						endCoords = cm.cursorCoords(false);
+
+						$(aigua.miniColorsSelector).css('left', endCoords.x + 10);
+						$(aigua.miniColorsSelector).css('top', endCoords.y - $(aigua.miniColorsSelector).height()/2);
+					}
+
 					// are we on a number?
 					if (token.className == 'number') {
 
 						if (aigua.pulseNumbers) {
+
 							// stop pulsing numbers
 							window.clearInterval(aigua.pulse);
 							$('#message').hide();
@@ -299,6 +327,8 @@ var aigua = (function () {
 		ball: null,
 		bar: null,
 		borderWidth: 2,
+		miniColorsSelector: '.miniColors-selector',
+		miniColorsTrigger: null,
 		currentModeIndex: 1,
 		currentSelection: null,
 		filler: null,
@@ -368,6 +398,15 @@ $(function() {
 		
 		{extraKeys[aigua.key.Name] = aigua.respondToKey};
 
+		// initialize mini colors
+		$('#hidden-miniColors').miniColors({
+
+			change: function(hex, rgb) {
+				aigua.codeMirror.replaceSelection(hex);
+			}
+
+		});
+
 		// set various dom elements
 		aigua.ball = $('#ball');
 		aigua.bar = $('#bar');
@@ -376,6 +415,7 @@ $(function() {
 		aigua.marker = $('#marker');
 		aigua.slider = $('#slider');
 		aigua.triangle = $('#triangle');
+		aigua.miniColorsTrigger = $('.miniColors-trigger');
 
 		// set the handle's default width
 		aigua.handle.width(aigua.startingBarWidth);
@@ -538,17 +578,28 @@ $(function() {
 
 			if (e.which == aigua.key.Code) {
 
-				// hide the slider
-				aigua.slider.hide();
+				// if slider is visible
+				if (aigua.slider.is(':visible')) {
+	
+					// hide the slider
+					aigua.slider.hide();
 
-				// reset filler width
-				aigua.filler.width(0);
+					// reset filler width
+					aigua.filler.width(0);
 
-				// reset bar width
-				aigua.bar.width(aigua.startingBarWidth);
+					// reset bar width
+					aigua.bar.width(aigua.startingBarWidth);
 
-				// clear out the original number
-				aigua.originalNumber = null;
+					// clear out the original number
+					aigua.originalNumber = null;
+				}
+
+				// if mini colors is visible
+				if ($(aigua.miniColorsSelector).is(':visible')) {
+
+					// trigger an event which will hide mini colors
+					$(document).trigger('mousedown');
+				}
 			}
 		});
 
