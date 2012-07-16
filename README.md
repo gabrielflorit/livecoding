@@ -27,8 +27,3 @@
     python runserver.py
 
 Hit http://127.0.0.1:5000 and start coding!
-
-
-### TODO
-
-- enable color picker in css tab
