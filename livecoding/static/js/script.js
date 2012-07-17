@@ -350,13 +350,13 @@ var aigua = (function () {
 			aigua.pause = false;
 		},
 
-		updateScreenMode: function() {
+		updateScreenLayout: function() {
 
-			if (aigua.fullScreenMode) {
-				$('#main').find('*').addClass('full');
-			} else {
-				$('#main').find('*').removeClass('full');
-			}
+			// if (aigua.fullScreenMode) {
+			// 	$('#main').find('*').addClass('full');
+			// } else {
+			// 	$('#main').find('*').removeClass('full');
+			// }
 
 			aigua.renderCode();
 		},
@@ -370,7 +370,6 @@ var aigua = (function () {
 		currentModeIndex: 1,
 		currentSelection: null,
 		filler: null,
-		fullScreenMode: false,
 		handle: null,
 		isLoading: null,
 		key: null,
@@ -392,6 +391,7 @@ var aigua = (function () {
 		pulseMessageInterval: null,
 		pulseNumbers: true,
 		pulseNumbersInterval: null,
+		screenLayouts: ['sketchpad', 'fullscreen horizontal', 'fullscreen vertical'],
 		slider: null,
 		startingBarWidth: 300,
 		triangle: null,
@@ -803,19 +803,27 @@ $(function() {
 
 					switch (choice.text()) {
 
-						case 'fullscreen mode':
+						case 'sketchpad layout':
 
-							aigua.fullScreenMode = true;
-							aigua.updateScreenMode();
-							$(this).text('sketchpad mode');
+							// aigua.fullScreenMode = false;
+							// aigua.updateScreenMode();
+							// $(this).text('fullscreen mode');
 
 						break;
 
-						case 'sketchpad mode':
+						case 'fullscreen (horizontal) layout':
 
-							aigua.fullScreenMode = false;
-							aigua.updateScreenMode();
-							$(this).text('fullscreen mode');
+							// aigua.fullScreenMode = true;
+							// aigua.updateScreenMode();
+							// $(this).text('sketchpad mode');
+
+						break;
+
+						case 'fullscreen (vertical) layout':
+
+							// aigua.fullScreenMode = true;
+							// aigua.updateScreenMode();
+							// $(this).text('sketchpad mode');
 
 						break;
 
