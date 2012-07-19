@@ -114,10 +114,10 @@ var aigua = (function () {
 		// run the code and update the display
 		renderCode: function() {
 
-			if (aigua.fullScreenMode) {
-				$('svg').attr('class', 'full');
-			} else {
+			if (aigua.screenLayouts[aigua.currentScreenLayoutIndex] == 'sketchpad mode') {
 				$('svg').attr('class', '');
+			} else {
+				$('svg').attr('class', 'full');
 			}
 
 			// get the current code
@@ -138,6 +138,8 @@ var aigua = (function () {
 					break;
 
 					case 'css':
+
+						// if we're on the css tab, don't eval the code - no need
 						$('#aiguaStyle').get(0).textContent = code;
 					break;
 
@@ -301,7 +303,6 @@ var aigua = (function () {
 					$(aigua.miniColorsSelector).css('top', endCoords.y + aigua.lineHeight);
 				}
 			}
-			// }
 		},
 
 		setOAuthToken: function(oauthToken) {
@@ -328,8 +329,10 @@ var aigua = (function () {
 
 		switchMode: function(mode, noTab) {
 
+			// pause aigua: disable code evals from happening on codemirror changes
 			aigua.pause = true;
 
+			// if noTab is true, don't highlight/dehighlight the mode tabs
 			if (!noTab) {
 
 				$('#modes h2').not(":contains('" + mode + "')").addClass('passive');
@@ -338,12 +341,16 @@ var aigua = (function () {
 				$("#modes h2:contains('" + mode + "')").removeClass('passive');
 			}
 
+			// save current code to this mode's 'code' property
 			aigua.modes[aigua.currentModeIndex].code = aigua.codeMirror.getValue();
 
+			// set current mode index to new mode
 			aigua.currentModeIndex = _.indexOf(_.pluck(aigua.modes, 'name'), mode);
 
+			// populate the code mirror tab with the new mode's code
 			aigua.codeMirror.setValue(aigua.modes[aigua.currentModeIndex].code || '');
 
+			// change codemirror's language syntax to the new mode
 			aigua.codeMirror.setOption("mode", aigua.modes[aigua.currentModeIndex].name);
 			CodeMirror.autoLoadMode(aigua.codeMirror, aigua.modes[aigua.currentModeIndex].name);
 
@@ -352,13 +359,42 @@ var aigua = (function () {
 
 		updateScreenLayout: function() {
 
-			// if (aigua.fullScreenMode) {
-			// 	$('#main').find('*').addClass('full');
-			// } else {
-			// 	$('#main').find('*').removeClass('full');
-			// }
+			if (aigua.screenLayouts[aigua.currentScreenLayoutIndex] == 'sketchpad mode') {
+				$('#main').find('*').removeClass('full horizontal');
+			} else {
+				$('#main').find('*').addClass('full');
 
-			aigua.renderCode();
+				if (aigua.screenLayouts[aigua.currentScreenLayoutIndex] == 'fullscreen mode (horizontal)') {
+					$('#main').find('*').addClass('horizontal');
+				}
+				else {
+					$('#main').find('*').removeClass('horizontal');
+				}
+			}
+
+			// render the javascript code
+			// but we can't simply call aigua.renderCode(), because
+			// if we're on css mode, it doesn't actually render code
+			// so we either (1) force it by passing an extra param to aigua.renderCode()
+			// or (2) we do it right here
+			// or (3) we create a global variable, like aigua.pause,
+			// and turn it on, run renderCode(), then turn it off
+
+			// we'll choose (2) - do it right here
+
+			// if we're on javascript mode, call rendercode
+			if (aigua.modes[aigua.currentModeIndex].name == 'javascript') {
+				aigua.renderCode();
+			}
+			// not javascript mode
+			else {
+				// switch modes to javascript, without tabbing
+				aigua.switchMode('javascript', true);
+				// render code
+				aigua.renderCode();
+				// switch back to css
+				aigua.switchMode('css', true);
+			}
 		},
 
 		areYouSureText: 'Are you sure? You will lose any unsaved changes.',
@@ -368,6 +404,7 @@ var aigua = (function () {
 		miniColorsSelector: '.miniColors-selector',
 		miniColorsTrigger: null,
 		currentModeIndex: 1,
+		currentScreenLayoutIndex: 0,
 		currentSelection: null,
 		filler: null,
 		handle: null,
@@ -391,7 +428,7 @@ var aigua = (function () {
 		pulseMessageInterval: null,
 		pulseNumbers: true,
 		pulseNumbersInterval: null,
-		screenLayouts: ['sketchpad', 'fullscreen horizontal', 'fullscreen vertical'],
+		screenLayouts: ['sketchpad mode', 'fullscreen mode (vertical)', 'fullscreen mode (horizontal)'],
 		slider: null,
 		startingBarWidth: 300,
 		triangle: null,
@@ -637,6 +674,16 @@ $(function() {
 			$('#modes').append(div);
 		});
 
+		// populate screen layout switcher
+		_.each(aigua.screenLayouts, function(layout, index, list) {
+
+			var li = $('<li />');
+			li.text(layout);
+			li.addClass(index == aigua.currentScreenLayoutIndex ? 'disabled' : '');
+
+			$('#menu .item h2:contains("view")').next().append(li);
+		});
+
 
 		// ----------- event handlers section
 
@@ -801,34 +848,12 @@ $(function() {
 
 				case 'view':
 
-					switch (choice.text()) {
+					$(this).siblings().removeClass('disabled');
+					$(this).addClass('disabled');
 
-						case 'sketchpad layout':
-
-							// aigua.fullScreenMode = false;
-							// aigua.updateScreenMode();
-							// $(this).text('fullscreen mode');
-
-						break;
-
-						case 'fullscreen (horizontal) layout':
-
-							// aigua.fullScreenMode = true;
-							// aigua.updateScreenMode();
-							// $(this).text('sketchpad mode');
-
-						break;
-
-						case 'fullscreen (vertical) layout':
-
-							// aigua.fullScreenMode = true;
-							// aigua.updateScreenMode();
-							// $(this).text('sketchpad mode');
-
-						break;
-
-					}
-
+					aigua.currentScreenLayoutIndex = _.indexOf(aigua.screenLayouts, $(this).text());
+					aigua.updateScreenLayout();
+					aigua.resetMenu();
 				break;
 
 				case 'help':

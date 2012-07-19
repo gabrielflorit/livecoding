@@ -462,8 +462,8 @@ body {
           }
 
           #controls .item ul li.disabled {
-            color: #ccc;
-            font-weight: normal;
+            opacity: 0.25;
+            cursor: default;
           }
 
           #controls .item ul li a {
@@ -519,6 +519,11 @@ body {
       top: 0 !important;
       border: none !important;
       border-radius: 0 !important;
+    }
+
+    #display.horizontal {
+      width: 100%;
+      height: 50%;
     }
 
     #top-edge {
@@ -672,6 +677,13 @@ body {
     #code.full {
       width: 50%;
     }
+
+    #code.horizontal {
+      width: 100%;
+      height: 50%;
+    }
+
+
 
       .CodeMirror {
         position: relative;
