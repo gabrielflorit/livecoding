@@ -82,7 +82,9 @@ def index_with_exclamation_point():
 @app.route('/<int:gistId>')
 def index(gistId):
 
-    return render_template('index.html')
+    return render_template('index.html', vars=dict(
+        version=versioning()
+        ))
 
 
 
