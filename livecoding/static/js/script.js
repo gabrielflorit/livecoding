@@ -440,13 +440,16 @@ var aigua = (function () {
 
 $(function() {
 
-	// ----------- initialization section
+	// ----------- initialization section ---------------------- 
+
 	// do we support this browser?
 	if (!(BrowserDetect.browser == 'Chrome' || BrowserDetect.browser == 'Firefox'
 		|| BrowserDetect.browser == 'Safari')) {
 
+		// we don't - show the 'sorry, upgrade your browser' dialog
 		$('#browsermessage').fadeIn(1000);
 
+	// we do support this browser! 
 	} else {
 
 		var extraKeys = {};
@@ -454,9 +457,11 @@ $(function() {
 		aigua.key = {};
 
 		// setup the key correctly (mac/linux/windows)
+		// aigua.key.Name: CodeMirror will listen for this key - it's the key that triggers slider/color picker
+		// aigua.key.DisplayName: we display this string to the user - it's to inform them of what key to use
 		if (BrowserDetect.OS == 'Mac') {
-			aigua.key.Name = 'Alt-Alt';
-			aigua.key.DisplayName = 'Alt';
+			aigua.key.Name = 'Alt-Alt'; 
+			aigua.key.DisplayName = 'Alt'; 
 			aigua.key.Code = 18;
 		}
 		
@@ -472,13 +477,17 @@ $(function() {
 			aigua.key.Code = 17;
 		}
 
+		// display the key DisplayName to the user - 'Alt', or 'Ctrl', etc
 		$('#message .key').text(aigua.key.DisplayName);
 		
+		// this object will be used by codemirror to respond to THE key
 		{extraKeys[aigua.key.Name] = aigua.respondToKey};
 
 		// initialize mini colors
 		$('#hidden-miniColors').miniColors({
 
+			// when we change a color, replace the old hex string
+			// in codemirror with this new color
 			change: function(hex, rgb) {
 				aigua.codeMirror.replaceSelection(hex.toUpperCase());
 			}
@@ -508,32 +517,65 @@ $(function() {
 		// create codemirror instance
 		aigua.codeMirror = CodeMirror($('#code').get(0), {
 
+			// listen for a change in the codemirror's contents
 			onChange: function(cm, e) {
+
+				// if aigua.pause is true, don't do anything when the code changes
 				if (!aigua.pause) {
 
+					// if we've modified the code, set the 'dirty' flag (the green dot)
+					// but don't do that when we're loading the code
 					if (!aigua.isLoading) {
 						aigua.setToDirty();
 					}
 
+					// call render code every time we change the code's contents
+					// this will re-render the code contents and display the results
+					// on the display panel
 					aigua.renderCode();
 				}
 			},
 
+			// this object holds a reference to THE key we defined above
 			extraKeys: extraKeys,
+
+			// show line numbers
 			lineNumbers: true,
+
+			// match closing brackets
 			matchBrackets: true,
+
+			// set default mode to javascript
 			mode:  'javascript',
+
+			// tell codemirror where to find javascript mode assets
 			modeURL: '/mode/%N.js',
+
+			// allow code modifications
 			readOnly: false,
+
+			// set the theme (a decent twilight-lookalike)
 			theme: 'lesser-dark'
 		});
 
+		// try to grab the gist id from the url
+		// e.g. the '3072416' bit in http://livecoding.gabrielflor.it/3072416
 		gistId = aigua.getUrlGistId(location.href);
+
+		// is there an id in the url?
 		if (gistId) {
+
+			// yes - load its contents
 			aigua.loadGist(gistId);
+
+			// and then do a slow fade in
 			$('#main').fadeIn(1000);
 		} else {
+
+			// no gist - load the first example
 			aigua.loadGist($("#menu .item h2:contains('examples') + ul li:first").attr('rel'));
+
+			// and then do a slow fade in
 			$('#main').fadeIn(1000);
 		}
 
@@ -685,7 +727,7 @@ $(function() {
 		});
 
 
-		// ----------- event handlers section
+		// ----------- event handlers section ----------------------
 
 		// if we mouseup, and the slider is showing, AND nothing is selected
 		// select the previously selected token
