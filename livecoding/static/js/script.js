@@ -641,6 +641,7 @@ $(function() {
 		// initialize slider
 		aigua.handle.draggable({
 
+			// only allow dragging along the x-axis
 			axis: 'x',
 			
 			drag: function(ui, event) {
@@ -745,7 +746,7 @@ $(function() {
 
 		// ----------- event handlers section ----------------------
 
-		// if we mouseup, and the slider is showing, AND nothing is selected
+		// if we mouseup, and the slider is showing, AND nothing is selected,
 		// select the previously selected token
 		$(window).mouseup(function(e) {
 
@@ -832,6 +833,7 @@ $(function() {
 
 			e.preventDefault();
 
+			// ask user 'are you sure' before wiping the codemirror contents
 			aigua.askBeforeNew();
 		});
 
