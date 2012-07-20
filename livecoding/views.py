@@ -1,11 +1,13 @@
 import os
 import datetime
 import requests
+import requests_cache
 import json
 from livecoding import app
 from flask import render_template, send_from_directory, redirect, session, request
 from requests import post
 
+requests_cache.configure('demo_cache')
 
 @app.route('/save-anonymously', methods=['POST'])
 def save_anonymously():
@@ -61,11 +63,12 @@ def save_anonymously():
 
 
 
-@app.route('/favicon.ico')
-def favicon():
+@app.route('/loadremoteurl', methods=['POST'])
+def loadremoteurl():
 
-    return send_from_directory(os.path.join(app.root_path, 'static/img'),
-                               'favicon.ico', mimetype='image/vnd.microsoft.icon')
+    r = requests.get(request.form['url'])
+
+    return r.text
 
 
 
@@ -85,6 +88,15 @@ def index(gistId):
     return render_template('index.html', vars=dict(
         version=versioning()
         ))
+
+
+
+
+@app.route('/favicon.ico')
+def favicon():
+
+    return send_from_directory(os.path.join(app.root_path, 'static/img'),
+                               'favicon.ico', mimetype='image/vnd.microsoft.icon')
 
 
 
