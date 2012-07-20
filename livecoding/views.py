@@ -1,13 +1,10 @@
 import os
 import datetime
 import requests
-import requests_cache
 import json
 from livecoding import app
 from flask import render_template, send_from_directory, redirect, session, request
 from requests import post
-
-requests_cache.configure('demo_cache')
 
 @app.route('/save-anonymously', methods=['POST'])
 def save_anonymously():

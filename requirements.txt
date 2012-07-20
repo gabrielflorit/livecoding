@@ -1,4 +1,3 @@
 Flask
 gunicorn
 requests
-requests-cache
