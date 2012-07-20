@@ -497,18 +497,24 @@ $(function() {
 			aigua.key.Name = 'Alt-Alt'; 
 			aigua.key.DisplayName = 'Alt'; 
 			aigua.key.Code = 18;
+
+			{extraKeys['Alt-S'] = aigua.saveAnonymously};
 		}
 		
 		if (BrowserDetect.OS == 'Linux') {
 			aigua.key.Name = 'Ctrl';
 			aigua.key.DisplayName = 'Ctrl';
 			aigua.key.Code = 17;
+
+			{extraKeys['Ctrl-S'] = aigua.saveAnonymously};
 		}
 		
 		if (BrowserDetect.OS == 'Windows') {
 			aigua.key.Name = 'Ctrl-Ctrl';
 			aigua.key.DisplayName = 'Ctrl';
 			aigua.key.Code = 17;
+
+			{extraKeys['Ctrl-S'] = aigua.saveAnonymously};
 		}
 
 		// display the key DisplayName to the user - 'Alt', or 'Ctrl', etc
