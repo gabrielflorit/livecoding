@@ -305,6 +305,40 @@ var aigua = (function () {
 			}
 		},
 
+		saveAnonymously: function() {
+
+			var js;
+			var css;
+			var postData;
+
+			if (aigua.modes[aigua.currentModeIndex].name == 'javascript') {
+				js = aigua.codeMirror.getValue();
+				css = _.find(aigua.modes, function(value) {
+					return value.name == 'css';
+				}).code;
+			}
+			else {
+				css = aigua.codeMirror.getValue();
+				js = _.find(aigua.modes, function(value) {
+					return value.name == 'javascript';
+				}).code;
+			}
+
+			postData = {
+				'css': css,
+				'js': js
+			};
+
+			$.post('/save-anonymously', postData, function(data) {
+
+				var a;
+				a = document.createElement('a');
+				a.href = data;
+				aigua.setUrl(a.pathname.split('/')[1]);
+				aigua.setToClean();
+			});
+		},
+
 		setOAuthToken: function(oauthToken) {
 			token = oauthToken;
 		},
@@ -844,10 +878,6 @@ $(function() {
 			var choice = $(this);
 			var itemName = $('h2', choice.parents('.item')).text();
 			var result;
-			var postData;
-			var js;
-			var css;
-			var a;
 			
 			switch(itemName) {
 				case 'file':
@@ -864,36 +894,7 @@ $(function() {
 						break;
 
 						case 'save anonymously':
-
-							if (aigua.modes[aigua.currentModeIndex].name == 'javascript') {
-
-								js = aigua.codeMirror.getValue();
-								aigua.switchMode('css', true);
-								css = aigua.codeMirror.getValue();
-								aigua.switchMode('javascript', true);
-
-							} else {
-
-								css = aigua.codeMirror.getValue();
-								aigua.switchMode('javascript', true);
-								js = aigua.codeMirror.getValue();
-								aigua.switchMode('css', true);
-
-							}
-
-							postData = {
-								'css': css,
-								'js': js
-							};
-
-							$.post('/save-anonymously', postData, function(data) {
-
-								a = document.createElement('a');
-								a.href = data;
-								aigua.setUrl(a.pathname.split('/')[1]);
-								aigua.setToClean();
-							});
-
+							aigua.saveAnonymously();
 							aigua.resetMenu();
 						break;
 					}
