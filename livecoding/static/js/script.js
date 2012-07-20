@@ -579,29 +579,42 @@ $(function() {
 			$('#main').fadeIn(1000);
 		}
 
-		// pulse numbers, colors, message
-
+		// show the 'click a number' message
 		$('#message').show();
+
+		// pulse the message
 		aigua.pulseMessageInterval = setInterval(function() {
 			$('#message').animate({opacity: 0.5}).animate({opacity: 1});
 		}, 1000);
 
+		// pulse colors (e.g. '#CF2626' or '#FFF')
 	 	aigua.pulseColors = true;
 		aigua.pulseColorsInterval = setInterval(function() {
 			switch (aigua.modes[aigua.currentModeIndex].name) {
 
+				// if we're on the javascript tab, colors will be
+				// in a <span class='cm-string'></span>
 				case 'javascript':
 					$('.cm-string').filter(function(index) {
 
+						// check the string (using a regular expression)
+						// to make sure it's a valid color hex
+						// but first, remove the first and last characters,
+						// which will be either single or double quotes
 						var token = $(this).text();
 						return token.length > 1 && aigua.isHexString(token.substring(1, token.length - 1));
 
 					}).animate({opacity: 0.5}).animate({opacity: 1});
 				break;
 
+				// if we're on the css tab, colors will be
+				// in a <span class='cm-atom'></span> element
 				case 'css':
 					$('.cm-atom').filter(function(index) {
 
+						// check the string (using a regular expression)
+						// to make sure it's a valid color hex
+						// no need to remove the first and last characters
 						var token = $(this).text();
 						return token.length > 1 && aigua.isHexString(token);
 
@@ -611,10 +624,13 @@ $(function() {
 
 		}, 1000);
 		
+		// pulse numbers
 	 	aigua.pulseNumbers = true;
 		aigua.pulseNumbersInterval = setInterval(function() {
 			switch (aigua.modes[aigua.currentModeIndex].name) {
 
+				// this is pretty convenient - codemirror will wrap numbers
+				// in a <span class='cm-number'></span> element
 				case 'javascript':
 					$('.cm-number').animate({opacity: 0.5}).animate({opacity: 1});
 				break;
