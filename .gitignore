@@ -166,3 +166,5 @@ pip-log.txt
 
 venv
 .env
+
+demo_cache.sqlite
