@@ -18,6 +18,9 @@ def save_anonymously():
             },
             'water.css': {
                 'content': request.form['css']
+            },
+            'water.json': {
+                'content': request.form['json']
             }
         }
     }
