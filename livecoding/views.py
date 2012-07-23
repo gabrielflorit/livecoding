@@ -63,16 +63,6 @@ def save_anonymously():
 
 
 
-@app.route('/loadremoteurl', methods=['POST'])
-def loadremoteurl():
-
-    r = requests.get(request.form['url'])
-
-    return r.text
-
-
-
-
 @app.route('/!')
 def index_with_exclamation_point():
 
