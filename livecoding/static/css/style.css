@@ -713,10 +713,7 @@ body {
     }
 
     #codeOverlay.full {
-      top: 0 !important;
-
-      border: none !important;
-      border-radius:0 !important;
+      display: none;
     }
 
 
