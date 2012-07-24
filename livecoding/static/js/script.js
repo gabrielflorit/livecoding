@@ -7,6 +7,7 @@ var livecoding = (function () {
 	return {
 		json: null
 	}
+
 }());
 
 
@@ -234,7 +235,8 @@ var aigua = (function () {
 				token = cm.getTokenAt(cursor);
 
 				// are we on js mode?
-				if (aigua.modes[aigua.currentModeIndex].name == 'javascript') {
+				if (aigua.modes[aigua.currentModeIndex].name == 'javascript' ||
+					aigua.modes[aigua.currentModeIndex].name == 'json') {
 
 					// are we on a number?
 					if (token.className == 'number') {
@@ -475,6 +477,10 @@ var aigua = (function () {
 
 				case 'javascript':
 					aigua.renderCode();
+					// switch modes to css, without tabbing
+					aigua.switchMode('css', true);
+					// switch back to javascript
+					aigua.switchMode('javascript', true);
 				break;
 
 				case 'css':
@@ -488,6 +494,10 @@ var aigua = (function () {
 
 				case 'json':
 					aigua.renderCode();
+					// switch modes to javascript, without tabbing
+					aigua.switchMode('javascript', true);
+					// switch back to json
+					aigua.switchMode('json', true);
 				break;
 			}
 		},
