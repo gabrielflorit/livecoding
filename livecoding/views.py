@@ -33,32 +33,32 @@ def save_anonymously():
 
 
 
-# @app.route('/github-login')
-# def github_login():
+@app.route('/github-login')
+def github_login():
 
-#     # take user to github for authentication
-#     return redirect('https://github.com/login/oauth/authorize?client_id=' + os.getenv('CLIENT_ID') + '&scope=gist')
-
-
+    # take user to github for authentication
+    return redirect('https://github.com/login/oauth/authorize?client_id=' + os.getenv('CLIENT_ID') + '&scope=gist')
 
 
-# @app.route('/github-logged-in')
-# def github_logged_in():
 
-#     # get temporary code
-#     tempcode = request.args.get('code', '')
 
-#     # construct data and headers to send to github
-#     data = {'client_id': os.getenv('CLIENT_ID'), 'client_secret': os.getenv('CLIENT_SECRET'), 'code': tempcode }
-#     headers = {'content-type': 'application/json', 'accept': 'application/json'}
+@app.route('/github-logged-in')
+def github_logged_in():
 
-#     # request an access token
-#     r = requests.post('https://github.com/login/oauth/access_token', data=json.dumps(data), headers=headers)
+    # get temporary code
+    tempcode = request.args.get('code', '')
 
-#     # grab access token
-#     token = json.loads(r.text)['access_token']
+    # construct data and headers to send to github
+    data = {'client_id': os.getenv('CLIENT_ID'), 'client_secret': os.getenv('CLIENT_SECRET'), 'code': tempcode }
+    headers = {'content-type': 'application/json', 'accept': 'application/json'}
 
-#     return render_template('token.html', vars=dict(token = token))
+    # request an access token
+    r = requests.post('https://github.com/login/oauth/access_token', data=json.dumps(data), headers=headers)
+
+    # grab access token
+    token = json.loads(r.text)['access_token']
+
+    return render_template('token.html', vars=dict(token = token))
 
 
 

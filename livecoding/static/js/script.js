@@ -27,10 +27,6 @@ var aigua = (function () {
 			}
 		},
 
-		getOAuthToken: function() {
-			return token;
-		},
-
 		getUrlGistId: function(url) {
 
 			var a = document.createElement('a');
@@ -92,6 +88,39 @@ var aigua = (function () {
 				}
 			});
 
+		},
+
+		logIn: function(oauthToken) {
+			token = oauthToken;
+			localStorage['aigua.token'] = token;
+
+			aigua.resetMenu();
+
+			$.get('https://api.github.com/user?access_token=' + token, function(user) {
+				aigua.user = user;
+				var userh2 = $('#controls .item h2.user');
+				userh2.css('background-image', 'url(' + aigua.user.avatar_url + ')');
+				userh2.css('cursor', 'pointer');
+				userh2.click(function(e) {
+					window.open(aigua.user.html_url);
+
+					aigua.resetMenu();
+				});
+				$('li:contains("login")').text('logout');
+			});
+		},
+
+		logOut: function() {
+			token = null;
+			aigua.user = null;
+			localStorage.removeItem('aigua.token');
+
+			aigua.resetMenu();
+
+			var userh2 = $('#controls .item h2.user');
+			userh2.removeAttr('style');
+			userh2.unbind('click');
+			$('li:contains("logout")').text('login');
 		},
 
 		// modify a number by a certain distance
@@ -395,10 +424,6 @@ var aigua = (function () {
 			});
 		},
 
-		setOAuthToken: function(oauthToken) {
-			token = oauthToken;
-		},
-
 		setToClean: function() {
 			$('.dirty').css('visibility', 'hidden');
 		},
@@ -541,7 +566,8 @@ var aigua = (function () {
 		startingBarWidth: 300,
 		triangle: null,
 		triangleHeight: 5,
-		triangleWidth: 12
+		triangleWidth: 12,
+		user: null
 
 	}
 }());
@@ -671,6 +697,11 @@ $(function() {
 			// set the theme (a decent twilight-lookalike)
 			theme: 'lesser-dark'
 		});
+
+		// if token is in localstorage, log in
+		if (localStorage['aigua.token']) {
+			aigua.logIn(localStorage['aigua.token']);
+		}
 
 		// try to grab the gist id from the url
 		// e.g. the '3072416' bit in http://livecoding.gabrielflor.it/3072416
@@ -916,6 +947,7 @@ $(function() {
 
 			$('ul', item).show(); // show this dropdown
 			$(this).addClass('hover'); // add hover class to this h2
+			$(this).children().addClass('hover'); // add hover class to this h2
 		});
 
 		// handle menu mouseover/mouseout events
@@ -958,20 +990,32 @@ $(function() {
 			var choice = $(this);
 			var itemName = $('h2', choice.parents('.item')).text();
 			var result;
-			
+
+			switch(choice.text()) {
+				case 'login':
+					open('/github-login', 'popup', 'width=1015,height=500');
+
+				break;
+
+				case 'logout':
+					aigua.logOut();
+				break;
+			}
+
 			switch(itemName) {
+
 				case 'file':
 					switch (choice.text()) {
 						case 'new':
 							aigua.askBeforeNew();
 						break;
 
-						case 'savewhat is this?':
-							result = confirm('Login to GitHub to save your work under your username.');
-							if (result) {
-								open('/github-login', 'popup', 'width=1015,height=500');
-							}
-						break;
+						// case 'savewhat is this?':
+						// 	result = confirm('Login to GitHub to save your work under your username.');
+						// 	if (result) {
+						// 		open('/github-login', 'popup', 'width=1015,height=500');
+						// 	}
+						// break;
 
 						case 'save anonymously':
 							aigua.saveAnonymously();

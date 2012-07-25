@@ -409,6 +409,20 @@ body {
             background-image: none;
           }
 
+          #controls .item h2.user {
+            background: url(../img/user_white_17x15.png) no-repeat center center;
+            background-size: 17px 15px, auto;
+          }
+
+          #controls .item h2.user.hover {
+            background: #FFF url(../img/user_black_17x15.png) no-repeat center center;
+          }
+
+          #controls .item h2.user.full {
+            background: url(../img/user_black_17x15.png) no-repeat center center;
+          }
+
+
           #modes .item h2.active.full {
             background: #262626;
             color: white;
