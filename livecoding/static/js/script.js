@@ -27,10 +27,60 @@ var aigua = (function () {
 			}
 		},
 
-		getUrlGistId: function(url) {
+		createPostDataObject: function() {
+
+			var js;
+			var css;
+			var json;
+
+			switch(aigua.modes[aigua.currentModeIndex].name) {
+
+				case 'javascript':
+					js = aigua.codeMirror.getValue();
+					css = _.find(aigua.modes, function(value) {
+						return value.name == 'css';
+					}).code;
+					json = _.find(aigua.modes, function(value) {
+						return value.name == 'json';
+					}).code;
+				break;
+
+				case 'css':
+					css = aigua.codeMirror.getValue();
+					js = _.find(aigua.modes, function(value) {
+						return value.name == 'javascript';
+					}).code;
+					json = _.find(aigua.modes, function(value) {
+						return value.name == 'json';
+					}).code;
+				break;
+
+				case 'json':
+					json = aigua.codeMirror.getValue();
+					css = _.find(aigua.modes, function(value) {
+						return value.name == 'css';
+					}).code;
+					js = _.find(aigua.modes, function(value) {
+						return value.name == 'javascript';
+					}).code;
+				break;
+			}
+
+			return {
+				'js': js,
+				'css': css,
+				'json': json
+			}
+		},
+
+		getOAuthToken: function() {
+			return token;
+		},
+
+		getUrlGistId: function() {
 
 			var a = document.createElement('a');
-			a.href = url;
+			a.href = location.href;
 
 			var gistId = a.pathname.split('/')[1];
 
@@ -58,6 +108,8 @@ var aigua = (function () {
 				url: 'https://api.github.com/gists/' + gistId + '?callback=?',
 				dataType: 'json',
 				success: function (data) {
+
+					aigua.currentGistIsAnonymous = data.data.user ? false : true;
 
 					var js = data.data.files['water.js'];
 					var css = data.data.files['water.css'];
@@ -372,61 +424,65 @@ var aigua = (function () {
 
 		save: function() {
 
+			// possible scenarios:
+			// 1) this is a new gist (url has no gist id)
+			//			create new gist (POST /gists)
+			// 2) this is an existing gist, but not owned by user
+			//			fork gist (POST /gists/:id/fork)
+			// 3) this is an existing gist, owned by user
+			//			save gist (POST /gists/:id)
+
+			var postData = aigua.createPostDataObject();
+			postData['token'] = aigua.getOAuthToken();
+
+			// 1) this is a new gist
+			//			create new gist (POST /gists)
+			if (!aigua.getUrlGistId()) {
+
+				$.post('/create-new', postData, function(data) {
+					aigua.setUrl(data);
+					aigua.setToClean();
+					aigua.currentGistIsAnonymous = false;
+				});
+
+			} else {
+
+				// 2) this is an existing gist, but not owned by user
+				//			fork gist (POST /gists/:id/fork)
+				postData['id'] = aigua.getUrlGistId();
+				if (aigua.currentGistIsAnonymous) {
+
+					$.post('/fork', postData, function(data) {
+						aigua.setUrl(data);
+						aigua.setToClean();
+						aigua.currentGistIsAnonymous = false;
+					});
+
+				}
+				// 3) this is an existing gist, owned by user
+				//			save gist (POST /gists/:id)
+				else {
+
+					$.post('/save', postData, function(data) {
+						aigua.setUrl(data);
+						aigua.setToClean();
+						aigua.currentGistIsAnonymous = false;
+					});
+
+				}
+			}
+
 		},
 
 		saveAnonymously: function() {
 
-			var js;
-			var css;
-			var json;
-			var postData;
-
-			switch(aigua.modes[aigua.currentModeIndex].name) {
-
-				case 'javascript':
-					js = aigua.codeMirror.getValue();
-					css = _.find(aigua.modes, function(value) {
-						return value.name == 'css';
-					}).code;
-					json = _.find(aigua.modes, function(value) {
-						return value.name == 'json';
-					}).code;
-				break;
-
-				case 'css':
-					css = aigua.codeMirror.getValue();
-					js = _.find(aigua.modes, function(value) {
-						return value.name == 'javascript';
-					}).code;
-					json = _.find(aigua.modes, function(value) {
-						return value.name == 'json';
-					}).code;
-				break;
-
-				case 'json':
-					json = aigua.codeMirror.getValue();
-					css = _.find(aigua.modes, function(value) {
-						return value.name == 'css';
-					}).code;
-					js = _.find(aigua.modes, function(value) {
-						return value.name == 'javascript';
-					}).code;
-				break;
-			}
-
-			postData = {
-				'js': js,
-				'css': css,
-				'json': json,
-			};
+			var postData = aigua.createPostDataObject();
 
 			$.post('/save-anonymously', postData, function(data) {
 
-				var a;
-				a = document.createElement('a');
-				a.href = data;
-				aigua.setUrl(a.pathname.split('/')[1]);
+				aigua.setUrl(data);
 				aigua.setToClean();
+				aigua.currentGistIsAnonymous = true;
 			});
 		},
 
@@ -537,6 +593,7 @@ var aigua = (function () {
 		ball: null,
 		bar: null,
 		borderWidth: 2,
+		currentGistIsAnonymous: null,
 		miniColorsSelector: '.miniColors-selector',
 		miniColorsTrigger: null,
 		currentModeIndex: 1,
@@ -714,7 +771,7 @@ $(function() {
 
 		// try to grab the gist id from the url
 		// e.g. the '3072416' bit in http://livecoding.gabrielflor.it/3072416
-		gistId = aigua.getUrlGistId(location.href);
+		gistId = aigua.getUrlGistId();
 
 		// is there an id in the url?
 		if (gistId) {
@@ -742,7 +799,7 @@ $(function() {
 		}, 1000);
 
 		// pulse colors (e.g. '#CF2626' or '#FFF')
-	 	aigua.pulseColors = true;
+		aigua.pulseColors = true;
 		aigua.pulseColorsInterval = setInterval(function() {
 			switch (aigua.modes[aigua.currentModeIndex].name) {
 
@@ -779,7 +836,7 @@ $(function() {
 		}, 1000);
 		
 		// pulse numbers
-	 	aigua.pulseNumbers = true;
+		aigua.pulseNumbers = true;
 		aigua.pulseNumbersInterval = setInterval(function() {
 			switch (aigua.modes[aigua.currentModeIndex].name) {
 
@@ -1026,13 +1083,6 @@ $(function() {
 							}
 							aigua.resetMenu();
 						break;
-
-						// case 'savewhat is this?':
-						// 	result = confirm('Login to GitHub to save your work under your username.');
-						// 	if (result) {
-						// 		open('/github-login', 'popup', 'width=1015,height=500');
-						// 	}
-						// break;
 
 						case 'save anonymously':
 							aigua.saveAnonymously();

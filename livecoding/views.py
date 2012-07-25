@@ -28,7 +28,99 @@ def save_anonymously():
     headers = {'content-type': 'application/json', 'accept': 'application/json'}
     r = requests.post('https://api.github.com/gists', data=json.dumps(gist), headers=headers)
 
-    return json.loads(r.text)['html_url']
+    return json.loads(r.text)['id']
+
+
+
+
+@app.route('/create-new', methods=['POST'])
+def create_new():
+
+    gist = {
+        'description': 'created by livecoding - http://livecoding.gabrielflor.it',
+        'public': 'true',
+        'files': {
+            'water.js': {
+                'content': request.form['js']
+            },
+            'water.css': {
+                'content': request.form['css']
+            },
+            'water.json': {
+                'content': request.form['json']
+            }
+        }
+    }
+
+    token = request.form['token']
+
+    headers = {'content-type': 'application/json', 'accept': 'application/json'}
+    r = requests.post('https://api.github.com/gists?access_token=' + token, data=json.dumps(gist), headers=headers)
+
+    return json.loads(r.text)['id']
+
+
+
+
+@app.route('/fork', methods=['POST'])
+def fork():
+
+    gistId = request.form['id']
+    token = request.form['token']
+
+    headers = {'content-type': 'application/json', 'accept': 'application/json'}
+
+    # fork
+    r = requests.post('https://api.github.com/gists/' + gistId + '/fork?access_token=' + token, headers=headers)
+    forkedGistId = json.loads(r.text)['id']
+
+    # now save as user
+    gist = {
+        'files': {
+            'water.js': {
+                'content': request.form['js']
+            },
+            'water.css': {
+                'content': request.form['css']
+            },
+            'water.json': {
+                'content': request.form['json']
+            }
+        }
+    }
+
+    r = requests.post('https://api.github.com/gists/' + forkedGistId + '?access_token=' + token, data=json.dumps(gist), headers=headers)
+
+    return json.loads(r.text)['id']
+
+
+
+
+@app.route('/save', methods=['POST'])
+def save():
+
+    gistId = request.form['id']
+    token = request.form['token']
+
+    headers = {'content-type': 'application/json', 'accept': 'application/json'}
+
+    gist = {
+        'files': {
+            'water.js': {
+                'content': request.form['js']
+            },
+            'water.css': {
+                'content': request.form['css']
+            },
+            'water.json': {
+                'content': request.form['json']
+            }
+        }
+    }
+
+    r = requests.post('https://api.github.com/gists/' + gistId + '?access_token=' + token, data=json.dumps(gist), headers=headers)
+
+    return json.loads(r.text)['id']
 
 
 
