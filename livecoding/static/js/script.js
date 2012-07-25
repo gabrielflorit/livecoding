@@ -107,6 +107,7 @@ var aigua = (function () {
 					aigua.resetMenu();
 				});
 				$('li:contains("login")').text('logout');
+				$('li').filter(function() { return $(this).text() == 'save'; } ).removeClass('disabled');
 			});
 		},
 
@@ -121,6 +122,7 @@ var aigua = (function () {
 			userh2.removeAttr('style');
 			userh2.unbind('click');
 			$('li:contains("logout")').text('login');
+			$('li').filter(function() { return $(this).text() == 'save'; } ).addClass('disabled');
 		},
 
 		// modify a number by a certain distance
@@ -366,6 +368,10 @@ var aigua = (function () {
 					$(aigua.miniColorsSelector).css('top', endCoords.y + aigua.lineHeight);
 				}
 			}
+		},
+
+		save: function() {
+
 		},
 
 		saveAnonymously: function() {
@@ -701,6 +707,9 @@ $(function() {
 		// if token is in localstorage, log in
 		if (localStorage['aigua.token']) {
 			aigua.logIn(localStorage['aigua.token']);
+		} else {
+		// we still call log out to make sure all UI-related elements are set correctly
+			aigua.logOut();
 		}
 
 		// try to grab the gist id from the url
@@ -994,7 +1003,6 @@ $(function() {
 			switch(choice.text()) {
 				case 'login':
 					open('/github-login', 'popup', 'width=1015,height=500');
-
 				break;
 
 				case 'logout':
@@ -1008,6 +1016,15 @@ $(function() {
 					switch (choice.text()) {
 						case 'new':
 							aigua.askBeforeNew();
+						break;
+
+						case 'save':
+							if (!aigua.user) {
+								alert('Please login to save your work under your GitHub username.');
+							} else {
+								aigua.save();
+							}
+							aigua.resetMenu();
 						break;
 
 						// case 'savewhat is this?':
