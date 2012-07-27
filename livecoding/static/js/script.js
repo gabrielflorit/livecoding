@@ -422,7 +422,7 @@ var aigua = (function () {
 			}
 		},
 
-		save: function() {
+		saveAsUser: function() {
 
 			// possible scenarios:
 			// 1) this is a new gist (url has no gist id)
@@ -484,6 +484,16 @@ var aigua = (function () {
 				aigua.setToClean();
 				aigua.currentGistIsAnonymous = true;
 			});
+		},
+
+		saveAsUserOrAnonymously: function() {
+
+			if (localStorage['aigua.token']) {
+				aigua.saveAsUser();
+			} else {
+				aigua.saveAnonymously();
+			}
+
 		},
 
 		setToClean: function() {
@@ -661,7 +671,7 @@ $(function() {
 			aigua.key.DisplayName = 'Alt'; 
 			aigua.key.Code = 18;
 
-			{extraKeys['Alt-S'] = aigua.saveAnonymously};
+			{extraKeys['Alt-S'] = aigua.saveAsUserOrAnonymously};
 		}
 		
 		if (BrowserDetect.OS == 'Linux') {
@@ -669,7 +679,7 @@ $(function() {
 			aigua.key.DisplayName = 'Ctrl';
 			aigua.key.Code = 17;
 
-			{extraKeys['Ctrl-S'] = aigua.saveAnonymously};
+			{extraKeys['Ctrl-S'] = aigua.saveAsUserOrAnonymously};
 		}
 		
 		if (BrowserDetect.OS == 'Windows') {
@@ -677,7 +687,7 @@ $(function() {
 			aigua.key.DisplayName = 'Ctrl';
 			aigua.key.Code = 17;
 
-			{extraKeys['Ctrl-S'] = aigua.saveAnonymously};
+			{extraKeys['Ctrl-S'] = aigua.saveAsUserOrAnonymously};
 		}
 
 		// display the key DisplayName to the user - 'Alt', or 'Ctrl', etc
@@ -1079,7 +1089,7 @@ $(function() {
 							if (!aigua.user) {
 								alert('Please login to save your work under your GitHub username.');
 							} else {
-								aigua.save();
+								aigua.saveAsUser();
 							}
 							aigua.resetMenu();
 						break;
