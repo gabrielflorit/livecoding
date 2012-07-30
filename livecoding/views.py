@@ -76,6 +76,7 @@ def fork():
 
     # now save as user
     gist = {
+        'description': 'created by livecoding - http://livecoding.gabrielflor.it/' + forkedGistId,
         'files': {
             'water.js': {
                 'content': request.form['js']
@@ -105,6 +106,7 @@ def save():
     headers = {'content-type': 'application/json', 'accept': 'application/json'}
 
     gist = {
+        'description': 'created by livecoding - http://livecoding.gabrielflor.it/' + gistId,
         'files': {
             'water.js': {
                 'content': request.form['js']
