@@ -422,7 +422,12 @@ var aigua = (function () {
 			}
 		},
 
+		// TODO: clean up all the code duplication
 		saveAsUser: function() {
+
+			$('#gist').hide();
+			$('.save-confirmation').show();
+			$('.save-confirmation').text('saving...');
 
 			// possible scenarios:
 			// 1) this is a new gist (url has no gist id)
@@ -443,6 +448,11 @@ var aigua = (function () {
 					aigua.setUrl(data);
 					aigua.setToClean();
 					aigua.currentGistIsAnonymous = false;
+
+					$('.save-confirmation').text('saved at ' + new Date().toLocaleTimeString());
+					$('.save-confirmation').fadeOut(2000, function() {
+						$('#gist').fadeIn(250);
+					});
 				});
 
 			} else {
@@ -456,6 +466,11 @@ var aigua = (function () {
 						aigua.setUrl(data);
 						aigua.setToClean();
 						aigua.currentGistIsAnonymous = false;
+
+						$('.save-confirmation').text('saved at ' + new Date().toLocaleTimeString());
+						$('.save-confirmation').fadeOut(2000, function() {
+							$('#gist').fadeIn(250);
+						});
 					});
 
 				}
@@ -467,6 +482,11 @@ var aigua = (function () {
 						aigua.setUrl(data);
 						aigua.setToClean();
 						aigua.currentGistIsAnonymous = false;
+
+						$('.save-confirmation').text('saved at ' + new Date().toLocaleTimeString());
+						$('.save-confirmation').fadeOut(2000, function() {
+							$('#gist').fadeIn(250);
+						});
 					});
 
 				}
@@ -476,6 +496,10 @@ var aigua = (function () {
 
 		saveAnonymously: function() {
 
+			$('#gist').hide();
+			$('.save-confirmation').show();
+			$('.save-confirmation').text('saving...');
+
 			var postData = aigua.createPostDataObject();
 
 			$.post('/save-anonymously', postData, function(data) {
@@ -483,6 +507,12 @@ var aigua = (function () {
 				aigua.setUrl(data);
 				aigua.setToClean();
 				aigua.currentGistIsAnonymous = true;
+
+				$('.save-confirmation').text('saved at ' + new Date().toLocaleTimeString());
+				$('.save-confirmation').fadeOut(2000, function() {
+					$('#gist').fadeIn(250);
+				});
+
 			});
 		},
 

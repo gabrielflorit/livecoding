@@ -324,7 +324,12 @@ body {
         float: left;
       }
 
-        #gist {
+        .save-confirmation {
+          display: none;
+        }
+
+        #gist,
+        .save-confirmation {
           position: relative;
           top: 1px;
           padding: 2px 9px 0 9px;
@@ -335,7 +340,8 @@ body {
           border: solid rgba(0, 0, 0, 0) 1px;
         }
 
-        #gist.full {
+        #gist.full,
+        .save-confirmation.full {
           color: #262626;
         }
 
