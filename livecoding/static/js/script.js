@@ -425,6 +425,8 @@ var aigua = (function () {
 		// TODO: clean up all the code duplication
 		saveAsUser: function() {
 
+			aigua.setToClean();
+
 			$('#gist').hide();
 			$('.save-confirmation').show();
 			$('.save-confirmation').text('saving...');
@@ -446,11 +448,10 @@ var aigua = (function () {
 
 				$.post('/create-new', postData, function(data) {
 					aigua.setUrl(data);
-					aigua.setToClean();
 					aigua.currentGistIsAnonymous = false;
 
 					$('.save-confirmation').text('saved at ' + new Date().toLocaleTimeString());
-					$('.save-confirmation').fadeOut(2000, function() {
+					$('.save-confirmation').fadeOut(1500, function() {
 						$('#gist').fadeIn(250);
 					});
 				});
@@ -464,11 +465,10 @@ var aigua = (function () {
 
 					$.post('/fork', postData, function(data) {
 						aigua.setUrl(data);
-						aigua.setToClean();
 						aigua.currentGistIsAnonymous = false;
 
 						$('.save-confirmation').text('saved at ' + new Date().toLocaleTimeString());
-						$('.save-confirmation').fadeOut(2000, function() {
+						$('.save-confirmation').fadeOut(1500, function() {
 							$('#gist').fadeIn(250);
 						});
 					});
@@ -480,11 +480,10 @@ var aigua = (function () {
 
 					$.post('/save', postData, function(data) {
 						aigua.setUrl(data);
-						aigua.setToClean();
 						aigua.currentGistIsAnonymous = false;
 
 						$('.save-confirmation').text('saved at ' + new Date().toLocaleTimeString());
-						$('.save-confirmation').fadeOut(2000, function() {
+						$('.save-confirmation').fadeOut(1500, function() {
 							$('#gist').fadeIn(250);
 						});
 					});
@@ -496,6 +495,8 @@ var aigua = (function () {
 
 		saveAnonymously: function() {
 
+			aigua.setToClean();
+
 			$('#gist').hide();
 			$('.save-confirmation').show();
 			$('.save-confirmation').text('saving...');
@@ -505,11 +506,10 @@ var aigua = (function () {
 			$.post('/save-anonymously', postData, function(data) {
 
 				aigua.setUrl(data);
-				aigua.setToClean();
 				aigua.currentGistIsAnonymous = true;
 
 				$('.save-confirmation').text('saved at ' + new Date().toLocaleTimeString());
-				$('.save-confirmation').fadeOut(2000, function() {
+				$('.save-confirmation').fadeOut(1500, function() {
 					$('#gist').fadeIn(250);
 				});
 
