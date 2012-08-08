@@ -168,3 +168,7 @@ venv
 .env
 
 demo_cache.sqlite
+/bin
+/include
+/lib
+.Python
