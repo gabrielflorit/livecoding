@@ -1,0 +1,41 @@
+<!doctype html>
+<head>
+	<meta charset="utf-8">
+	<title>livecoding</title>
+	<script>
+		var livecoding = (function () {
+
+			return {
+				json: null,
+
+				renderCode: function(code) {
+					try { eval(code); }
+					catch (error) {
+						console.log(error);
+					}
+					finally {}
+				}
+
+			}
+
+		}());
+	</script>
+	<style>
+      svg {
+        position: absolute;
+        top: 0%;
+        left: 0%;
+        width: 100%;
+        height: 100%;
+      }
+	</style>
+	<style id='style'></style>
+	<link rel="stylesheet" href="static/css/iframe.css">
+</head>
+<body>
+	<svg></svg>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+	<script>window.jQuery || document.write('<script src="static/js/libs/jquery-1.7.1.min.js"><\/script>')</script>
+	<script src="static/js/libs/d3.v2.min.js"></script>
+</body>
+</html>

@@ -2,15 +2,6 @@
 	Gabriel Florit
 */
 
-var livecoding = (function () {
-
-	return {
-		json: null
-	}
-
-}());
-
-
 var aigua = (function () {
 
 	var token = null;
@@ -214,54 +205,55 @@ var aigua = (function () {
 		renderCode: function() {
 
 			if (aigua.screenLayouts[aigua.currentScreenLayoutIndex] == 'sketchpad mode') {
-				$('svg').attr('class', '');
+				$('svg', $('iframe').contents()).attr('class', '');
 			} else {
-				$('svg').attr('class', 'full');
+				$('svg', $('iframe').contents()).attr('class', 'full');
 			}
 
 			// get the current code
 			var code = aigua.codeMirror.getValue();
 
-			try {
+			switch (aigua.modes[aigua.currentModeIndex].name) {
 
-				switch (aigua.modes[aigua.currentModeIndex].name) {
+				case 'javascript':
 
-					case 'javascript':
+					// clear out the display contents
+					$('svg', $('iframe').contents()).empty();
 
-						// clear out the display contents
-						$('svg').empty();
+					// run the code
+					frames[0].livecoding.renderCode(code);
 
-						// run the code
-						eval(code);
+				break;
 
-					break;
+				case 'css':
 
-					case 'css':
+					// if we're on the css tab, don't eval the code - no need
+					$('#style', $('iframe').contents()).get(0).textContent = code;
+				break;
 
-						// if we're on the css tab, don't eval the code - no need
-						$('#aiguaStyle').get(0).textContent = code;
-					break;
+				case 'json':
 
-					case 'json':
-
+					try {
+	
 						// update the global json object
-						livecoding.json = JSON.parse(code);
+						frames[0].livecoding.json = JSON.parse(code);
 
 						// clear out the display contents
-						$('svg').empty();
+						$('svg', $('iframe').contents()).empty();
 
 						// run the code
-						eval(_.find(aigua.modes, function(value) {
+						frames[0].livecoding.renderCode(_.find(aigua.modes, function(value) {
 							return value.name == 'javascript';
 						}).code || '');
-
-					break;
-
-				}
+	
+					}
+					catch (error) {
+						console.log(error);
+					}
+					finally {}
+				break;
 
 			}
-			catch (error) {}
-			finally {}
 		},
 
 		// reset bar position and width:
@@ -291,8 +283,8 @@ var aigua = (function () {
 			aigua.codeMirror.setValue('');
 			aigua.switchMode('javascript');
 
-			$('svg').remove();
-			$('#display').append('<svg></svg>');
+			$('svg', $('iframe').contents()).remove();
+			$('body', $('iframe').contents()).append('<svg></svg>');
 		},
 
 		resetUrl: function() {
@@ -676,6 +668,7 @@ var aigua = (function () {
 }());
 
 $(function() {
+$('iframe').load(function() {
 
 	// ----------- initialization section ---------------------- 
 
@@ -1168,6 +1161,6 @@ $(function() {
 			}
 		});
 	}
-
+});
 });
 

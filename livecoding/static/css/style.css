@@ -673,15 +673,16 @@ body {
         display: none;
       }
 
-      svg {
+      iframe {
         position: absolute;
         top: 5%;
         left: 5%;
         width: 90%;
         height: 90%;
+        border: none;
       }
 
-      svg.full {
+      iframe.full {
         top: 0%;
         left: 0%;
         width: 100%;
