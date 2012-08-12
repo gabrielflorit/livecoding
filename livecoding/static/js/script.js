@@ -95,8 +95,6 @@ var aigua = (function () {
 					aigua.switchMode('html', true);
 					if (html) {
 						aigua.codeMirror.setValue(html.content);
-					} else {
-						aigua.codeMirror.setValue('<svg></svg>');
 					}
 
 					aigua.switchMode('javascript');
@@ -433,57 +431,34 @@ var aigua = (function () {
 			// 3) this is an existing gist, owned by user
 			//			save gist (POST /gists/:id)
 
+			var saveUrl = '';
 			var postData = aigua.createPostDataObject();
 			postData['token'] = aigua.getOAuthToken();
 
 			// 1) this is a new gist
 			//			create new gist (POST /gists)
 			if (!aigua.getUrlGistId()) {
-
-				$.post('/create-new', postData, function(data) {
-					aigua.setUrl(data);
-					aigua.currentGistIsAnonymous = false;
-
-					$('.save-confirmation').text('saved at ' + new Date().toLocaleTimeString());
-					$('.save-confirmation').fadeOut(1500, function() {
-						$('#gist').fadeIn(250);
-					});
-				});
-
+				saveUrl = '/create-new';
 			} else {
 
 				// 2) this is an existing gist, but not owned by user
 				//			fork gist (POST /gists/:id/fork)
 				postData['id'] = aigua.getUrlGistId();
 				if (aigua.currentGistIsAnonymous) {
-
-					$.post('/fork', postData, function(data) {
-						aigua.setUrl(data);
-						aigua.currentGistIsAnonymous = false;
-
-						$('.save-confirmation').text('saved at ' + new Date().toLocaleTimeString());
-						$('.save-confirmation').fadeOut(1500, function() {
-							$('#gist').fadeIn(250);
-						});
-					});
-
+					saveUrl = '/fork';
 				}
 				// 3) this is an existing gist, owned by user
 				//			save gist (POST /gists/:id)
 				else {
-
-					$.post('/save', postData, function(data) {
-						aigua.setUrl(data);
-						aigua.currentGistIsAnonymous = false;
-
-						$('.save-confirmation').text('saved at ' + new Date().toLocaleTimeString());
-						$('.save-confirmation').fadeOut(1500, function() {
-							$('#gist').fadeIn(250);
-						});
-					});
-
+					saveUrl = '/save';
 				}
 			}
+
+			$.post(saveUrl, postData, function(data) {
+				aigua.setUrl(data);
+				aigua.currentGistIsAnonymous = false;
+				aigua.showSaveConfirmation();
+			});
 
 		},
 
@@ -501,12 +476,7 @@ var aigua = (function () {
 
 				aigua.setUrl(data);
 				aigua.currentGistIsAnonymous = true;
-
-				$('.save-confirmation').text('saved at ' + new Date().toLocaleTimeString());
-				$('.save-confirmation').fadeOut(1500, function() {
-					$('#gist').fadeIn(250);
-				});
-
+				aigua.showSaveConfirmation();
 			});
 		},
 
@@ -536,6 +506,13 @@ var aigua = (function () {
 
 			$('#gist').attr('href', gistUrl);
 			$('#gist').html(gistUrl);
+		},
+
+		showSaveConfirmation: function() {
+			$('.save-confirmation').text('saved at ' + new Date().toLocaleTimeString());
+			$('.save-confirmation').fadeOut(1500, function() {
+				$('#gist').fadeIn(250);
+			});
 		},
 
 		switchMode: function(mode, noTab) {
