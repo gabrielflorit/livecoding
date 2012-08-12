@@ -14,7 +14,7 @@ def save_anonymously():
         'public': 'true',
         'files': {
             'water.js': {
-                'content': request.form['js']
+                'content': request.form['javascript']
             },
             'water.css': {
                 'content': request.form['css']
@@ -41,7 +41,7 @@ def create_new():
         'public': 'true',
         'files': {
             'water.js': {
-                'content': request.form['js']
+                'content': request.form['javascript']
             },
             'water.css': {
                 'content': request.form['css']
@@ -79,7 +79,7 @@ def fork():
         'description': 'created by livecoding - http://livecoding.gabrielflor.it/' + forkedGistId,
         'files': {
             'water.js': {
-                'content': request.form['js']
+                'content': request.form['javascript']
             },
             'water.css': {
                 'content': request.form['css']
@@ -109,7 +109,7 @@ def save():
         'description': 'created by livecoding - http://livecoding.gabrielflor.it/' + gistId,
         'files': {
             'water.js': {
-                'content': request.form['js']
+                'content': request.form['javascript']
             },
             'water.css': {
                 'content': request.form['css']

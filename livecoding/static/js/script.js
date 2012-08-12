@@ -18,51 +18,26 @@ var aigua = (function () {
 			}
 		},
 
-		// TODO
 		createPostDataObject: function() {
 
-			var js;
-			var css;
-			var json;
+			var result = {};
+			var currentMode = aigua.modes[aigua.currentModeIndex].name;
 
-			switch(aigua.modes[aigua.currentModeIndex].name) {
+			_.each(aigua.modes, function(value, index, list) {
 
-				case 'javascript':
-					js = aigua.codeMirror.getValue();
-					css = _.find(aigua.modes, function(value) {
-						return value.name == 'css';
-					}).code;
-					json = _.find(aigua.modes, function(value) {
-						return value.name == 'json';
-					}).code;
-				break;
+				var name = value.name;
 
-				case 'css':
-					css = aigua.codeMirror.getValue();
-					js = _.find(aigua.modes, function(value) {
-						return value.name == 'javascript';
+				if (currentMode == name) {
+					result[name] = aigua.codeMirror.getValue();
+				} else {
+					result[name] = _.find(aigua.modes, function(value) {
+						return value.name == name;
 					}).code;
-					json = _.find(aigua.modes, function(value) {
-						return value.name == 'json';
-					}).code;
-				break;
+				}
 
-				case 'json':
-					json = aigua.codeMirror.getValue();
-					css = _.find(aigua.modes, function(value) {
-						return value.name == 'css';
-					}).code;
-					js = _.find(aigua.modes, function(value) {
-						return value.name == 'javascript';
-					}).code;
-				break;
-			}
+			});
 
-			return {
-				'js': js,
-				'css': css,
-				'json': json
-			}
+			return result;
 		},
 
 		getOAuthToken: function() {
@@ -84,7 +59,6 @@ var aigua = (function () {
 		},
 
 		isHexString: function(value) {
-
 			return /(^#[0-9A-F]{6}$)|(^#[0-9A-F]{3}$)/i.test(value);
 		},
 
@@ -103,28 +77,32 @@ var aigua = (function () {
 
 					aigua.currentGistIsAnonymous = data.data.user ? false : true;
 
-					// TODO
-					var js = data.data.files['water.js'];
+					var html = data.data.files['water.html'];
+					var javascript = data.data.files['water.js'];
 					var css = data.data.files['water.css'];
 					var json = data.data.files['water.json'];
 
 					aigua.switchMode('json', true);
-
 					if (json) {
 						aigua.codeMirror.setValue(json.content);
 					}
 
 					aigua.switchMode('css', true);
-
 					if (css) {
 						aigua.codeMirror.setValue(css.content);
 					}
 
-					aigua.switchMode('javascript');
+					aigua.switchMode('html', true);
+					if (html) {
+						aigua.codeMirror.setValue(html.content);
+					} else {
+						aigua.codeMirror.setValue('<svg></svg>');
+					}
 
-					if (js) {
-						aigua.codeMirror.setValue(js.content);
-						aigua.codeMirror.setValue(js.content); // don't know why i have to do this twice
+					aigua.switchMode('javascript');
+					if (javascript) {
+						aigua.codeMirror.setValue(javascript.content);
+						aigua.codeMirror.setValue(javascript.content); // don't know why i have to do this twice
 					}
 
 					aigua.setUrl(gistId);
@@ -215,8 +193,19 @@ var aigua = (function () {
 			// get the current code
 			var code = aigua.codeMirror.getValue();
 
-			// TODO
 			switch (aigua.modes[aigua.currentModeIndex].name) {
+
+				case 'html':
+
+					// replace iframe body html with incoming html
+					$('body', $('iframe').contents()).html(code);
+
+					// run the code
+					frames[0].livecoding.renderCode(_.find(aigua.modes, function(value) {
+						return value.name == 'javascript';
+					}).code || '');
+	
+				break;
 
 				case 'javascript':
 
@@ -278,17 +267,12 @@ var aigua = (function () {
 
 		resetScreen: function() {
 
-			// TODO
-			aigua.switchMode('javascript', true);
-			aigua.codeMirror.setValue('');
-			aigua.switchMode('css', true);
-			aigua.codeMirror.setValue('');
-			aigua.switchMode('json', true);
-			aigua.codeMirror.setValue('');
-			aigua.switchMode('javascript');
+			_.each(aigua.modes, function(value, index, list) {
+				aigua.switchMode(value.name, true);
+				aigua.codeMirror.setValue('');
+			});
 
-			$('svg', $('iframe').contents()).remove();
-			$('body', $('iframe').contents()).append('<svg></svg>');
+			aigua.switchMode('html');
 		},
 
 		resetUrl: function() {
@@ -304,7 +288,7 @@ var aigua = (function () {
 			var startCoords;
 			var endCoords;
 			var center;
-			var hex;
+			var hex = '';
 
 			// is the slider and mini colors hidden?
 			if (!aigua.slider.is(':visible') && !$(aigua.miniColorsSelector).is(':visible')) {
@@ -313,7 +297,6 @@ var aigua = (function () {
 				cursor = cm.getCursor();
 				token = cm.getTokenAt(cursor);
 
-				// TODO
 				// are we on js mode?
 				if (aigua.modes[aigua.currentModeIndex].name == 'javascript' ||
 					aigua.modes[aigua.currentModeIndex].name == 'json') {
@@ -367,7 +350,6 @@ var aigua = (function () {
 					}
 				}
 
-				// TODO
 				if (token.string.length > 1) {
 
 					switch (aigua.modes[aigua.currentModeIndex].name) {
@@ -565,10 +547,22 @@ var aigua = (function () {
 			// populate the code mirror tab with the new mode's code
 			aigua.codeMirror.setValue(aigua.modes[aigua.currentModeIndex].code || '');
 
-			// TODO
 			// change codemirror's language syntax to the new mode
-			aigua.codeMirror.setOption("mode", aigua.modes[aigua.currentModeIndex].name == 'json' ? 'application/json' : aigua.modes[aigua.currentModeIndex].name);
-			CodeMirror.autoLoadMode(aigua.codeMirror, aigua.modes[aigua.currentModeIndex].name == 'json' ? 'javascript' : aigua.modes[aigua.currentModeIndex].name);
+			var codeMirrorOptionMode, codeMirrorLoadMode;
+
+			if (aigua.modes[aigua.currentModeIndex].name == 'json') {
+				codeMirrorOptionMode = 'application/json';
+				codeMirrorLoadMode = 'javascript';
+			} else if (aigua.modes[aigua.currentModeIndex].name == 'html') {
+				codeMirrorOptionMode = 'text/html';
+				codeMirrorLoadMode = 'htmlmixed';
+			} else {
+				codeMirrorOptionMode = aigua.modes[aigua.currentModeIndex].name;
+				codeMirrorLoadMode = aigua.modes[aigua.currentModeIndex].name;
+			}
+
+			aigua.codeMirror.setOption("mode", codeMirrorOptionMode);
+			CodeMirror.autoLoadMode(aigua.codeMirror, codeMirrorLoadMode);
 
 			aigua.pause = false;
 		},
@@ -599,8 +593,15 @@ var aigua = (function () {
 			// we'll choose (2) - do it right here
 
 			// if we're on javascript mode, call rendercode
-			// TODO
 			switch(aigua.modes[aigua.currentModeIndex].name) {
+
+				case 'html':
+					aigua.renderCode();
+					// switch modes to css, without tabbing
+					aigua.switchMode('css', true);
+					// switch back to javascript
+					aigua.switchMode('html', true);
+				break;
 
 				case 'javascript':
 					aigua.renderCode();
@@ -636,7 +637,7 @@ var aigua = (function () {
 		currentGistIsAnonymous: null,
 		miniColorsSelector: '.miniColors-selector',
 		miniColorsTrigger: null,
-		currentModeIndex: 1,
+		currentModeIndex: 0,
 		currentScreenLayoutIndex: 0,
 		currentSelection: null,
 		filler: null,
@@ -843,7 +844,6 @@ $('iframe').load(function() {
 		}, 1000);
 
 		// pulse colors (e.g. '#CF2626' or '#FFF')
-		// TODO
 		aigua.pulseColors = true;
 		aigua.pulseColorsInterval = setInterval(function() {
 			switch (aigua.modes[aigua.currentModeIndex].name) {
@@ -881,7 +881,6 @@ $('iframe').load(function() {
 		}, 1000);
 		
 		// pulse numbers
-		// TODO
 		aigua.pulseNumbers = true;
 		aigua.pulseNumbersInterval = setInterval(function() {
 			switch (aigua.modes[aigua.currentModeIndex].name) {
