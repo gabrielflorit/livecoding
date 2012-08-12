@@ -197,10 +197,10 @@ var aigua = (function () {
 
 				case 'html':
 
-					// replace iframe body html with incoming html
+					// replace html
 					$('body', $('iframe').contents()).html(code);
 
-					// run the code
+					// run the javascript code
 					frames[0].livecoding.renderCode(_.find(aigua.modes, function(value) {
 						return value.name == 'javascript';
 					}).code || '');
@@ -209,18 +209,30 @@ var aigua = (function () {
 
 				case 'javascript':
 
-					// clear out the display contents
-					$('svg', $('iframe').contents()).empty();
+					// replace html
+					$('body', $('iframe').contents()).html(_.find(aigua.modes, function(value) {
+						return value.name == 'html';
+					}).code || '');
 
-					// run the code
+					// run the javascript code
 					frames[0].livecoding.renderCode(code);
 
 				break;
 
 				case 'css':
 
-					// if we're on the css tab, don't eval the code - no need
+					// set css
 					$('#style', $('iframe').contents()).get(0).textContent = code;
+
+					// replace html
+					$('body', $('iframe').contents()).html(_.find(aigua.modes, function(value) {
+						return value.name == 'html';
+					}).code || '');
+
+					// run the javascript code
+					frames[0].livecoding.renderCode(_.find(aigua.modes, function(value) {
+						return value.name == 'javascript';
+					}).code || '');
 				break;
 
 				case 'json':
@@ -230,10 +242,12 @@ var aigua = (function () {
 						// update the global json object
 						frames[0].livecoding.json = JSON.parse(code);
 
-						// clear out the display contents
-						$('svg', $('iframe').contents()).empty();
+						// replace html
+						$('body', $('iframe').contents()).html(_.find(aigua.modes, function(value) {
+							return value.name == 'html';
+						}).code || '');
 
-						// run the code
+						// run the javascript code
 						frames[0].livecoding.renderCode(_.find(aigua.modes, function(value) {
 							return value.name == 'javascript';
 						}).code || '');

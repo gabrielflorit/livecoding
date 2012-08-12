@@ -13,6 +13,9 @@ def save_anonymously():
         'description': 'created by livecoding - http://livecoding.gabrielflor.it',
         'public': 'true',
         'files': {
+            'water.html': {
+                'content': request.form['html']
+            },
             'water.js': {
                 'content': request.form['javascript']
             },
@@ -40,6 +43,9 @@ def create_new():
         'description': 'created by livecoding - http://livecoding.gabrielflor.it',
         'public': 'true',
         'files': {
+            'water.html': {
+                'content': request.form['html']
+            },
             'water.js': {
                 'content': request.form['javascript']
             },
@@ -78,6 +84,9 @@ def fork():
     gist = {
         'description': 'created by livecoding - http://livecoding.gabrielflor.it/' + forkedGistId,
         'files': {
+            'water.html': {
+                'content': request.form['html']
+            },
             'water.js': {
                 'content': request.form['javascript']
             },
@@ -108,6 +117,9 @@ def save():
     gist = {
         'description': 'created by livecoding - http://livecoding.gabrielflor.it/' + gistId,
         'files': {
+            'water.html': {
+                'content': request.form['html']
+            },
             'water.js': {
                 'content': request.form['javascript']
             },
