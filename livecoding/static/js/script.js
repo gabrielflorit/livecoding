@@ -18,6 +18,7 @@ var aigua = (function () {
 			}
 		},
 
+		// TODO
 		createPostDataObject: function() {
 
 			var js;
@@ -102,6 +103,7 @@ var aigua = (function () {
 
 					aigua.currentGistIsAnonymous = data.data.user ? false : true;
 
+					// TODO
 					var js = data.data.files['water.js'];
 					var css = data.data.files['water.css'];
 					var json = data.data.files['water.json'];
@@ -213,6 +215,7 @@ var aigua = (function () {
 			// get the current code
 			var code = aigua.codeMirror.getValue();
 
+			// TODO
 			switch (aigua.modes[aigua.currentModeIndex].name) {
 
 				case 'javascript':
@@ -275,6 +278,7 @@ var aigua = (function () {
 
 		resetScreen: function() {
 
+			// TODO
 			aigua.switchMode('javascript', true);
 			aigua.codeMirror.setValue('');
 			aigua.switchMode('css', true);
@@ -309,6 +313,7 @@ var aigua = (function () {
 				cursor = cm.getCursor();
 				token = cm.getTokenAt(cursor);
 
+				// TODO
 				// are we on js mode?
 				if (aigua.modes[aigua.currentModeIndex].name == 'javascript' ||
 					aigua.modes[aigua.currentModeIndex].name == 'json') {
@@ -362,6 +367,7 @@ var aigua = (function () {
 					}
 				}
 
+				// TODO
 				if (token.string.length > 1) {
 
 					switch (aigua.modes[aigua.currentModeIndex].name) {
@@ -559,6 +565,7 @@ var aigua = (function () {
 			// populate the code mirror tab with the new mode's code
 			aigua.codeMirror.setValue(aigua.modes[aigua.currentModeIndex].code || '');
 
+			// TODO
 			// change codemirror's language syntax to the new mode
 			aigua.codeMirror.setOption("mode", aigua.modes[aigua.currentModeIndex].name == 'json' ? 'application/json' : aigua.modes[aigua.currentModeIndex].name);
 			CodeMirror.autoLoadMode(aigua.codeMirror, aigua.modes[aigua.currentModeIndex].name == 'json' ? 'javascript' : aigua.modes[aigua.currentModeIndex].name);
@@ -592,6 +599,7 @@ var aigua = (function () {
 			// we'll choose (2) - do it right here
 
 			// if we're on javascript mode, call rendercode
+			// TODO
 			switch(aigua.modes[aigua.currentModeIndex].name) {
 
 				case 'javascript':
@@ -639,6 +647,9 @@ var aigua = (function () {
 		marker: null,
 		modes: [
 			{
+				name: 'html',
+				code: null
+			}, {
 				name: 'javascript',
 				code: null
 			}, {
@@ -832,6 +843,7 @@ $('iframe').load(function() {
 		}, 1000);
 
 		// pulse colors (e.g. '#CF2626' or '#FFF')
+		// TODO
 		aigua.pulseColors = true;
 		aigua.pulseColorsInterval = setInterval(function() {
 			switch (aigua.modes[aigua.currentModeIndex].name) {
@@ -869,6 +881,7 @@ $('iframe').load(function() {
 		}, 1000);
 		
 		// pulse numbers
+		// TODO
 		aigua.pulseNumbers = true;
 		aigua.pulseNumbersInterval = setInterval(function() {
 			switch (aigua.modes[aigua.currentModeIndex].name) {
