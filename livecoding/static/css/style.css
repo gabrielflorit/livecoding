@@ -492,28 +492,19 @@ body {
           }
 
           #controls .item h2.user {
-            background: url(../img/user_white_17x15.png);
+            background-image: url(../img/user_white_17x15.png);
             background-repeat: no-repeat;
             background-position: center center;
             background-size: 17px 15px, auto;
           }
 
           #controls .item h2.user.hover {
-            background: #FFF url(../img/user_black_17x15.png);
-            background-size: 17px 15px, auto;
+            background-image: #FFF url(../img/user_black_17x15.png);
           }
 
           #controls .item h2.user.full {
-            background: url(../img/user_black_17x15.png);
-            background-size: 17px 15px, auto;
+            background-image: url(../img/user_black_17x15.png);
           }
-
-          #controls .item h2.user.loggedIn {
-            background-repeat: no-repeat;
-            background-position: center center;
-            background-size: 17px 15px, auto;
-          }
-
 
           #modes .item h2.active.full {
             background: #262626;

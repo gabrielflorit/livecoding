@@ -130,7 +130,6 @@ var aigua = (function () {
 			$.get('https://api.github.com/user?access_token=' + token, function(user) {
 				aigua.user = user;
 				var userh2 = $('#controls .item h2.user');
-				userh2.addClass('loggedIn');
 				userh2.css('background-image', 'url(' + aigua.user.avatar_url + ')');
 				userh2.css('cursor', 'pointer');
 				userh2.click(function(e) {
@@ -151,7 +150,6 @@ var aigua = (function () {
 			aigua.resetMenu();
 
 			var userh2 = $('#controls .item h2.user');
-			userh2.removeClass('loggedIn');
 			userh2.removeAttr('style');
 			userh2.unbind('click');
 			$('li:contains("logout")').text('login');
