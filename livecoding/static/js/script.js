@@ -1117,6 +1117,7 @@ $(function() {
 				var choice = $(this);
 				var itemName = $('h2', choice.parents('.item')).text();
 				var result;
+				var width, height;
 
 				switch(choice.text()) {
 					case 'login':
@@ -1155,18 +1156,46 @@ $(function() {
 					case 'examples':
 						result = aigua.isDirty() ? confirm(aigua.areYouSureText) : true;
 						if (result) {
-							aigua.loadGist($(this).attr('rel'));
+							aigua.loadGist(choice.attr('rel'));
 						}
 					break;
 
 					case 'view':
+						choice.siblings().removeClass('disabled');
+						choice.addClass('disabled');
 
-						$(this).siblings().removeClass('disabled');
-						$(this).addClass('disabled');
-
-						aigua.currentScreenLayoutIndex = _.indexOf(aigua.screenLayouts, $(this).text());
+						aigua.currentScreenLayoutIndex = _.indexOf(aigua.screenLayouts, choice.text());
 						aigua.updateScreenLayout();
 						aigua.resetMenu();
+					break;
+
+					case 'resolution':
+
+						choice.siblings().removeClass('disabled');
+						choice.addClass('disabled');
+
+						// reset
+						if (choice.text() == 'reset') {
+
+							$('iframe').css('width', '');
+							$('iframe').css('height', '');
+							$('iframe').css('border', '');
+
+						}
+						// set width and height
+						else {
+
+							width = choice.attr('rel').split('x')[0];
+							height = choice.attr('rel').split('x')[1];
+
+							$('iframe').css('width', width);
+							$('iframe').css('height', height);
+							$('iframe').css('border', 'solid gray 1px');
+						}
+
+						aigua.renderCode();
+						aigua.resetMenu();
+
 					break;
 
 					case 'help':
