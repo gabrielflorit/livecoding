@@ -54,6 +54,11 @@ var aigua = (function () {
 			return (gistId.length > 0 && gistId != '!') ? gistId : null;
 		},
 
+		hidePopup: function() {
+			$('#popup .containerItem').fadeOut();
+			$('#popup').fadeOut();
+		},
+
 		isDirty: function() {
 			return $('.dirty').css('visibility') == 'visible';
 		},
@@ -561,15 +566,15 @@ var aigua = (function () {
 		updateScreenLayout: function() {
 
 			if (aigua.screenLayouts[aigua.currentScreenLayoutIndex] == 'sketchpad mode') {
-				$('#main').find('*').removeClass('full horizontal');
+				$('body').find('*').removeClass('full horizontal');
 			} else {
-				$('#main').find('*').addClass('full');
+				$('body').find('*').addClass('full');
 
 				if (aigua.screenLayouts[aigua.currentScreenLayoutIndex] == 'fullscreen mode (horizontal)') {
-					$('#main').find('*').addClass('horizontal');
+					$('body').find('*').addClass('horizontal');
 				}
 				else {
-					$('#main').find('*').removeClass('horizontal');
+					$('body').find('*').removeClass('horizontal');
 				}
 			}
 
@@ -684,6 +689,9 @@ $('iframe').load(function() {
 
 	// we do support this browser! 
 	} else {
+
+		$('#popup').fadeIn();
+		$('#popup .about').fadeIn();
 
 		var extraKeys = {};
 		var gistId;
@@ -1002,6 +1010,15 @@ $('iframe').load(function() {
 			}
 		});
 
+		// if 'esc', hide popup
+		$(window).keydown(function(e) {
+
+			if (e.which == 27) {
+				aigua.hidePopup();
+			}
+
+		});
+
 		// did we keyup the handle key?
 		$(window).keyup(function(e) {
 
@@ -1158,10 +1175,26 @@ $('iframe').load(function() {
 							aigua.resetMenu();
 						break;
 
+						case 'updates':
+							$('#popup').fadeIn();
+							$('#popup .updates').fadeIn();
+						break;
+
+						case 'about':
+							$('#popup').fadeIn();
+							$('#popup .about').fadeIn();
+						break;
 					}
 
 				break;
 			}
+		});
+
+		// close popup
+		$('#popup .close').click(function(e) {
+			e.preventDefault();
+
+			aigua.hidePopup();
 		});
 	}
 });

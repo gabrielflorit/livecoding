@@ -221,6 +221,69 @@ body {
   background: #121212;
 }
 
+#popup {
+  display: none;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: #4d4d4d;
+  z-index: 100000;
+  opacity: 0.96;
+  color: white;
+  font-family: 'Consolas', 'Bitstream Vera Sans Mono', 'DejaVu Sans Mono', 'Monaco', Courier, monospace;
+}
+
+  #popup .container {
+    position: absolute;
+    top: 50px;
+    bottom: 8%;
+    left: 5%;
+    float: left;
+    width: 45%;
+    color: white;
+    background: #121212;
+    border-radius: 7px;
+  }
+
+  #popup .container.full {
+    top: 24px;
+    left: 0;
+    bottom: 0;
+    width: 50%;
+  }
+
+    #popup .close {
+      position: absolute;
+      right: 7px;
+      top: 2px;
+      font-weight: bold;
+      font-size: 18px;
+    }
+
+    #popup .close:hover {
+      text-shadow: 0 0 8px #BCD279;
+      color: #9AB83E;
+      cursor: pointer;
+    }
+
+    #popup .containerItem {
+      padding: 11px 37px;
+      display: none;
+    }
+
+      #popup .containerItem p {
+        margin-top: 2em;
+      }
+
+      #popup .containerItem ul {
+        list-style: disc;
+      }
+
+        #popup .containerItem span {
+          text-shadow: 0 0 8px #BCD279;
+          color: #9AB83E;
+        }
+
 #browsermessage {
   width: 35%;
   margin: 0 auto;
