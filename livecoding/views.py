@@ -186,7 +186,7 @@ def iframe():
 
 
 @app.route('/', defaults={'gistId': None})
-@app.route('/<int:gistId>')
+@app.route('/<gistId>')
 def index(gistId):
 
     return render_template('index.html', vars=dict(
