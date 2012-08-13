@@ -505,6 +505,13 @@ body {
 
           #controls .item h2.user.full {
             background: url(../img/user_black_17x15.png);
+            background-size: 17px 15px, auto;
+          }
+
+          #controls .item h2.user.loggedIn {
+            background-repeat: no-repeat;
+            background-position: center center;
+            background-size: 17px 15px, auto;
           }
 
 
