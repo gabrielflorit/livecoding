@@ -138,7 +138,9 @@ var aigua = (function () {
 					aigua.resetMenu();
 				});
 				$('li:contains("login")').text('logout');
-				$('li').filter(function() { return $(this).text() == 'save'; } ).removeClass('disabled');
+				$('li').filter(function() {
+					return $(this).text() == 'save' || $(this).text() == 'save privately';
+				} ).removeClass('disabled');
 			});
 		},
 
@@ -425,7 +427,7 @@ var aigua = (function () {
 		},
 
 		// TODO: clean up all the code duplication
-		saveAsUser: function() {
+		saveAsUser: function(privateGist) {
 
 			aigua.setToClean();
 
@@ -437,13 +439,18 @@ var aigua = (function () {
 			// 1) this is a new gist (url has no gist id)
 			//			create new gist (POST /gists)
 			// 2) this is an existing gist, but not owned by user
-			//			fork gist (POST /gists/:id/fork)
+			//			create new gist (POST /gists)
 			// 3) this is an existing gist, owned by user
 			//			save gist (POST /gists/:id)
 
 			var saveUrl = '';
 			var postData = aigua.createPostDataObject();
 			postData['token'] = aigua.getOAuthToken();
+			if (privateGist) {
+				postData['privateGist'] = true;
+			} else {
+				postData['privateGist'] = false;
+			}
 
 			// 1) this is a new gist
 			//			create new gist (POST /gists)
@@ -452,10 +459,10 @@ var aigua = (function () {
 			} else {
 
 				// 2) this is an existing gist, but not owned by user
-				//			fork gist (POST /gists/:id/fork)
+				//			create new gist (POST /gists)
 				postData['id'] = aigua.getUrlGistId();
 				if (aigua.currentGistIsAnonymous) {
-					saveUrl = '/fork';
+					saveUrl = '/create-new';
 				}
 				// 3) this is an existing gist, owned by user
 				//			save gist (POST /gists/:id)
@@ -1141,6 +1148,15 @@ $(function() {
 									alert('Please login to save your work under your GitHub username.');
 								} else {
 									aigua.saveAsUser();
+								}
+								aigua.resetMenu();
+							break;
+
+							case 'save privately':
+								if (!aigua.user) {
+									alert('Please login to save your work privately under your GitHub username.');
+								} else {
+									aigua.saveAsUser(true);
 								}
 								aigua.resetMenu();
 							break;
