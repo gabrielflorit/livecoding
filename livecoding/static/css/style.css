@@ -313,14 +313,14 @@ body {
 
 #main {
   position: absolute;
-  min-width: 1230px;
+  min-width: 1245px;
   width: 100%;
   height: 100%;
   display: none;
 }
 
 #main.full {
-  min-width: 1107px;
+  min-width: 1120px;
 }
 
   #header {
@@ -383,7 +383,7 @@ body {
       float: right;
       color: white;
       font-size: 15px;
-      padding: 2px 9px 0 0;
+      padding: 2px 0px 0 0;
       display: none;
     }
 
