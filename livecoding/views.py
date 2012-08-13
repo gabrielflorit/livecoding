@@ -41,7 +41,7 @@ def create_new():
 
     gist = {
         'description': 'created by livecoding - http://livecoding.gabrielflor.it',
-        'public': str(request.form['privateGist']),
+        'public': str(request.form['public']),
         'files': {
             'water.html': {
                 'content': request.form['html']

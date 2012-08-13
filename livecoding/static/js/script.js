@@ -447,9 +447,9 @@ var aigua = (function () {
 			var postData = aigua.createPostDataObject();
 			postData['token'] = aigua.getOAuthToken();
 			if (privateGist) {
-				postData['privateGist'] = true;
+				postData['public'] = false;
 			} else {
-				postData['privateGist'] = false;
+				postData['public'] = true;
 			}
 
 			// 1) this is a new gist
