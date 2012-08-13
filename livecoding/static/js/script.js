@@ -208,7 +208,7 @@ var aigua = (function () {
 				case 'html':
 
 					// replace html
-					$('body', $('iframe').contents()).html(code);
+					$('body #main', $('iframe').contents()).html(code);
 
 					// run the javascript code
 					frames[0].livecoding.renderCode(_.find(aigua.modes, function(value) {
@@ -220,7 +220,7 @@ var aigua = (function () {
 				case 'javascript':
 
 					// replace html
-					$('body', $('iframe').contents()).html(_.find(aigua.modes, function(value) {
+					$('body #main', $('iframe').contents()).html(_.find(aigua.modes, function(value) {
 						return value.name == 'html';
 					}).code || '');
 
@@ -235,7 +235,7 @@ var aigua = (function () {
 					$('#style', $('iframe').contents()).get(0).textContent = code;
 
 					// replace html
-					$('body', $('iframe').contents()).html(_.find(aigua.modes, function(value) {
+					$('body #main', $('iframe').contents()).html(_.find(aigua.modes, function(value) {
 						return value.name == 'html';
 					}).code || '');
 
@@ -253,7 +253,7 @@ var aigua = (function () {
 						frames[0].livecoding.json = JSON.parse(code);
 
 						// replace html
-						$('body', $('iframe').contents()).html(_.find(aigua.modes, function(value) {
+						$('body #main', $('iframe').contents()).html(_.find(aigua.modes, function(value) {
 							return value.name == 'html';
 						}).code || '');
 
