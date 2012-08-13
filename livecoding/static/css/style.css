@@ -234,21 +234,13 @@ body {
 }
 
   #popup .container {
-    position: absolute;
-    top: 50px;
-    left: 5%;
-    float: left;
-    width: 45%;
+    position: relative;
+    top: 15%;
+    width: 65%;
+    margin: 0 auto;
     color: white;
     background: #121212;
     border-radius: 7px;
-  }
-
-  #popup .container.full {
-    top: 24px;
-    left: 0;
-    bottom: 0;
-    width: 50%;
   }
 
     #popup .close {
