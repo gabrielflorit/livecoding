@@ -687,7 +687,7 @@ $(function() {
 // do a slow fade in
 $('#main').fadeIn(1000);
 
-$('iframe').load(function() {
+$('iframe').ready(function() {
 
 	// ----------- initialization section ---------------------- 
 
