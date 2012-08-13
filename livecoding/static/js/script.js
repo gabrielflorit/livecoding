@@ -239,26 +239,31 @@ var aigua = (function () {
 
 				case 'json':
 
-					try {
+					if (code.length > 0) {
 	
-						// update the global json object
-						frames[0].livecoding.json = JSON.parse(code);
+						try {
+		
+							// update the global json object
+							frames[0].livecoding.json = JSON.parse(code);
 
-						// replace html
-						$('body #livecoding-main', $('iframe').contents()).html(_.find(aigua.modes, function(value) {
-							return value.name == 'html';
-						}).code || '');
+							// replace html
+							$('body #livecoding-main', $('iframe').contents()).html(_.find(aigua.modes, function(value) {
+								return value.name == 'html';
+							}).code || '');
 
-						// run the javascript code
-						frames[0].livecoding.renderCode(_.find(aigua.modes, function(value) {
-							return value.name == 'javascript';
-						}).code || '');
+							// run the javascript code
+							frames[0].livecoding.renderCode(_.find(aigua.modes, function(value) {
+								return value.name == 'javascript';
+							}).code || '');
+		
+						}
+						catch (error) {
+							console.log(error);
+						}
+						finally {}
 	
 					}
-					catch (error) {
-						console.log(error);
-					}
-					finally {}
+
 				break;
 
 			}
