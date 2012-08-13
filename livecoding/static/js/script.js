@@ -1203,7 +1203,7 @@ $(function() {
 		}
 	};
 
-	$('#iframeContainer').append('<iframe src="/iframe" scrolling="no"></iframe>');
+	$('#iframeContainer').append('<iframe src="/iframe" scrolling="yes"></iframe>');
 
 });
 
