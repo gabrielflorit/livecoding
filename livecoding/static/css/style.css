@@ -236,7 +236,6 @@ body {
   #popup .container {
     position: absolute;
     top: 50px;
-    bottom: 8%;
     left: 5%;
     float: left;
     width: 45%;
@@ -271,12 +270,21 @@ body {
       display: none;
     }
 
+      #popup .containerItem a {
+        color: white;
+      }
+
       #popup .containerItem p {
+        margin-bottom: 0.5em;
+      }
+
+      #popup .containerItem h3 {
         margin-top: 2em;
       }
 
       #popup .containerItem ul {
         list-style: disc;
+        margin: 0 0 1.5em 0;
       }
 
         #popup .containerItem span {

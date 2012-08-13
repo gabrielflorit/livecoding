@@ -55,6 +55,11 @@ var aigua = (function () {
 		},
 
 		hidePopup: function() {
+
+			if ($('#popup .about').is(':visible')) {
+				localStorage.livecoding_about = $('#popup .about').attr('rel');
+			}
+
 			$('#popup .containerItem').fadeOut();
 			$('#popup').fadeOut();
 		},
@@ -689,9 +694,13 @@ $('iframe').load(function() {
 
 	// we do support this browser! 
 	} else {
+	
+		if (!localStorage.livecoding_about
+			|| localStorage.livecoding_about != $('#popup .about').attr('rel')) {
 
-		$('#popup').fadeIn();
-		$('#popup .about').fadeIn();
+			$('#popup').fadeIn();
+			$('#popup .about').fadeIn();
+		}
 
 		var extraKeys = {};
 		var gistId;
@@ -1173,11 +1182,6 @@ $('iframe').load(function() {
 						case 'contact':
 							window.open('http://twitter.com/gabrielflorit', '_blank');
 							aigua.resetMenu();
-						break;
-
-						case 'updates':
-							$('#popup').fadeIn();
-							$('#popup .updates').fadeIn();
 						break;
 
 						case 'about':
