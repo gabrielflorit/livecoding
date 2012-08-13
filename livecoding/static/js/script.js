@@ -681,6 +681,10 @@ var aigua = (function () {
 }());
 
 $(function() {
+
+// do a slow fade in
+$('#main').fadeIn(1000);
+
 $('iframe').load(function() {
 
 	// ----------- initialization section ---------------------- 
@@ -694,7 +698,7 @@ $('iframe').load(function() {
 
 	// we do support this browser! 
 	} else {
-	
+
 		if (!localStorage.livecoding_about
 			|| localStorage.livecoding_about != $('#popup .about').attr('rel')) {
 
@@ -831,16 +835,10 @@ $('iframe').load(function() {
 
 			// yes - load its contents
 			aigua.loadGist(gistId);
-
-			// and then do a slow fade in
-			$('#main').fadeIn(1000);
 		} else {
 
 			// no gist - load the first example
 			aigua.loadGist($("#menu .item h2:contains('examples') + ul li:first").attr('rel'));
-
-			// and then do a slow fade in
-			$('#main').fadeIn(1000);
 		}
 
 		// show the 'click a number' message
