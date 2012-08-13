@@ -138,9 +138,7 @@ var aigua = (function () {
 					aigua.resetMenu();
 				});
 				$('li:contains("login")').text('logout');
-				$('li').filter(function() {
-					return $(this).text() == 'save' || $(this).text() == 'save privately';
-				} ).removeClass('disabled');
+				$('li').filter(function() { return $(this).text() == 'save'; } ).removeClass('disabled');
 			});
 		},
 
@@ -427,7 +425,7 @@ var aigua = (function () {
 		},
 
 		// TODO: clean up all the code duplication
-		saveAsUser: function(privateGist) {
+		saveAsUser: function() {
 
 			aigua.setToClean();
 
@@ -439,18 +437,13 @@ var aigua = (function () {
 			// 1) this is a new gist (url has no gist id)
 			//			create new gist (POST /gists)
 			// 2) this is an existing gist, but not owned by user
-			//			create new gist (POST /gists)
+			//			fork gist (POST /gists/:id/fork)
 			// 3) this is an existing gist, owned by user
 			//			save gist (POST /gists/:id)
 
 			var saveUrl = '';
 			var postData = aigua.createPostDataObject();
 			postData['token'] = aigua.getOAuthToken();
-			if (privateGist) {
-				postData['public'] = false;
-			} else {
-				postData['public'] = true;
-			}
 
 			// 1) this is a new gist
 			//			create new gist (POST /gists)
@@ -459,10 +452,10 @@ var aigua = (function () {
 			} else {
 
 				// 2) this is an existing gist, but not owned by user
-				//			create new gist (POST /gists)
+				//			fork gist (POST /gists/:id/fork)
 				postData['id'] = aigua.getUrlGistId();
 				if (aigua.currentGistIsAnonymous) {
-					saveUrl = '/create-new';
+					saveUrl = '/fork';
 				}
 				// 3) this is an existing gist, owned by user
 				//			save gist (POST /gists/:id)
@@ -1152,15 +1145,6 @@ $(function() {
 								aigua.resetMenu();
 							break;
 
-							case 'save privately':
-								if (!aigua.user) {
-									alert('Please login to save your work privately under your GitHub username.');
-								} else {
-									aigua.saveAsUser(true);
-								}
-								aigua.resetMenu();
-							break;
-
 							case 'save anonymously':
 								aigua.saveAnonymously();
 								aigua.resetMenu();
@@ -1222,4 +1206,3 @@ $(function() {
 	$('#iframeContainer').append('<iframe src="/iframe" scrolling="yes"></iframe>');
 
 });
-

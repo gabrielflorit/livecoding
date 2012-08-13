@@ -41,7 +41,7 @@ def create_new():
 
     gist = {
         'description': 'created by livecoding - http://livecoding.gabrielflor.it',
-        'public': str(request.form['public']),
+        'public': 'true',
         'files': {
             'water.html': {
                 'content': request.form['html']
@@ -68,40 +68,40 @@ def create_new():
 
 
 
-# @app.route('/fork', methods=['POST'])
-# def fork():
+@app.route('/fork', methods=['POST'])
+def fork():
 
-#     gistId = request.form['id']
-#     token = request.form['token']
+    gistId = request.form['id']
+    token = request.form['token']
 
-#     headers = {'content-type': 'application/json', 'accept': 'application/json'}
+    headers = {'content-type': 'application/json', 'accept': 'application/json'}
 
-#     # fork
-#     r = requests.post('https://api.github.com/gists/' + gistId + '/fork?access_token=' + token, headers=headers)
-#     forkedGistId = json.loads(r.text)['id']
+    # fork
+    r = requests.post('https://api.github.com/gists/' + gistId + '/fork?access_token=' + token, headers=headers)
+    forkedGistId = json.loads(r.text)['id']
 
-#     # now save as user
-#     gist = {
-#         'description': 'created by livecoding - http://livecoding.gabrielflor.it/' + forkedGistId,
-#         'files': {
-#             'water.html': {
-#                 'content': request.form['html']
-#             },
-#             'water.js': {
-#                 'content': request.form['javascript']
-#             },
-#             'water.css': {
-#                 'content': request.form['css']
-#             },
-#             'water.json': {
-#                 'content': request.form['json']
-#             }
-#         }
-#     }
+    # now save as user
+    gist = {
+        'description': 'created by livecoding - http://livecoding.gabrielflor.it/' + forkedGistId,
+        'files': {
+            'water.html': {
+                'content': request.form['html']
+            },
+            'water.js': {
+                'content': request.form['javascript']
+            },
+            'water.css': {
+                'content': request.form['css']
+            },
+            'water.json': {
+                'content': request.form['json']
+            }
+        }
+    }
 
-#     r = requests.post('https://api.github.com/gists/' + forkedGistId + '?access_token=' + token, data=json.dumps(gist), headers=headers)
+    r = requests.post('https://api.github.com/gists/' + forkedGistId + '?access_token=' + token, data=json.dumps(gist), headers=headers)
 
-#     return json.loads(r.text)['id']
+    return json.loads(r.text)['id']
 
 
 
@@ -186,7 +186,7 @@ def iframe():
 
 
 @app.route('/', defaults={'gistId': None})
-@app.route('/<gistId>')
+@app.route('/<int:gistId>')
 def index(gistId):
 
     return render_template('index.html', vars=dict(
