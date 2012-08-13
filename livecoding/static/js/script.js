@@ -645,6 +645,7 @@ var aigua = (function () {
 		currentSelection: null,
 		filler: null,
 		handle: null,
+		iframeLoaded: null,
 		isLoading: null,
 		key: null,
 		lineHeight: 19,
@@ -684,524 +685,527 @@ var aigua = (function () {
 
 $(function() {
 
-// do a slow fade in
-$('#main').fadeIn(1000);
+	// do a slow fade in
+	$('#main').fadeIn(1000);
 
-$('iframe').ready(function() {
+	aigua.iframeLoaded = function() {
 
-	// ----------- initialization section ---------------------- 
+		// ----------- initialization section ---------------------- 
 
-	// do we support this browser?
-	if (!(BrowserDetect.browser == 'Chrome' || BrowserDetect.browser == 'Firefox'
-		|| BrowserDetect.browser == 'Safari')) {
+		// do we support this browser?
+		if (!(BrowserDetect.browser == 'Chrome' || BrowserDetect.browser == 'Firefox'
+			|| BrowserDetect.browser == 'Safari')) {
 
-		// we don't - show the 'sorry, upgrade your browser' dialog
-		$('#browsermessage').fadeIn(1000);
+			// we don't - show the 'sorry, upgrade your browser' dialog
+			$('#browsermessage').fadeIn(1000);
 
-	// we do support this browser! 
-	} else {
-
-		if (!localStorage.livecoding_about
-			|| localStorage.livecoding_about != $('#popup .about').attr('rel')) {
-
-			$('#popup').fadeIn();
-			$('#popup .about').fadeIn();
-		}
-
-		var extraKeys = {};
-		var gistId;
-		aigua.key = {};
-
-		// setup the key correctly (mac/linux/windows)
-		// aigua.key.Name: CodeMirror will listen for this key - it's the key that triggers slider/color picker
-		// aigua.key.DisplayName: we display this string to the user - it's to inform them of what key to use
-		if (BrowserDetect.OS == 'Mac') {
-			aigua.key.Name = 'Alt-Alt'; 
-			aigua.key.DisplayName = 'Alt'; 
-			aigua.key.Code = 18;
-
-			{extraKeys['Alt-S'] = aigua.saveAsUserOrAnonymously};
-		}
-		
-		if (BrowserDetect.OS == 'Linux') {
-			aigua.key.Name = 'Ctrl';
-			aigua.key.DisplayName = 'Ctrl';
-			aigua.key.Code = 17;
-
-			{extraKeys['Ctrl-S'] = aigua.saveAsUserOrAnonymously};
-		}
-		
-		if (BrowserDetect.OS == 'Windows') {
-			aigua.key.Name = 'Ctrl-Ctrl';
-			aigua.key.DisplayName = 'Ctrl';
-			aigua.key.Code = 17;
-
-			{extraKeys['Ctrl-S'] = aigua.saveAsUserOrAnonymously};
-		}
-
-		// display the key DisplayName to the user - 'Alt', or 'Ctrl', etc
-		$('#message .key').text(aigua.key.DisplayName);
-		
-		// this object will be used by codemirror to respond to THE key
-		{extraKeys[aigua.key.Name] = aigua.respondToKey};
-
-		// initialize mini colors
-		$('#hidden-miniColors').miniColors({
-
-			// when we change a color, replace the old hex string
-			// in codemirror with this new color
-			change: function(hex, rgb) {
-				aigua.codeMirror.replaceSelection(hex.toUpperCase());
-			}
-
-		});
-
-		// set various dom elements
-		aigua.ball = $('#ball');
-		aigua.bar = $('#bar');
-		aigua.filler = $('#filler');
-		aigua.handle = $('#handle');
-		aigua.marker = $('#marker');
-		aigua.slider = $('#slider');
-		aigua.triangle = $('#triangle');
-		aigua.miniColorsTrigger = $('.miniColors-trigger');
-
-		// set the handle's default width
-		aigua.handle.width(aigua.startingBarWidth);
-
-		// set the bar's border width and default width
-		aigua.bar.css('border-width', aigua.borderWidth);
-		aigua.bar.width(aigua.startingBarWidth);
-
-		// set the triangle
-		aigua.triangle.css('border-width', aigua.triangleHeight + 'px ' + aigua.triangleWidth + 'px 0px ' + aigua.triangleWidth + 'px');
-
-		// create codemirror instance
-		aigua.codeMirror = CodeMirror($('#code').get(0), {
-
-			// listen for a change in the codemirror's contents
-			onChange: function(cm, e) {
-
-				// if aigua.pause is true, don't do anything when the code changes
-				if (!aigua.pause) {
-
-					// if we've modified the code, set the 'dirty' flag (the green dot)
-					// but don't do that when we're loading the code
-					if (!aigua.isLoading) {
-						aigua.setToDirty();
-					}
-
-					// call render code every time we change the code's contents
-					// this will re-render the code contents and display the results
-					// on the display panel
-					aigua.renderCode();
-				}
-			},
-
-			// this object holds a reference to THE key we defined above
-			extraKeys: extraKeys,
-
-			// show line numbers
-			lineNumbers: true,
-
-			// match closing brackets
-			matchBrackets: true,
-
-			// set default mode to javascript
-			mode:  'javascript',
-
-			// tell codemirror where to find javascript mode assets
-			modeURL: '/mode/%N.js',
-
-			// allow code modifications
-			readOnly: false,
-
-			// set the theme (a decent twilight-lookalike)
-			theme: 'lesser-dark'
-		});
-
-		// if token is in localstorage, log in
-		if (localStorage['aigua.token']) {
-			aigua.logIn(localStorage['aigua.token']);
-		} else {
-		// we still call log out to make sure all UI-related elements are set correctly
-			aigua.logOut();
-		}
-
-		// try to grab the gist id from the url
-		// e.g. the '3072416' bit in http://livecoding.gabrielflor.it/3072416
-		gistId = aigua.getUrlGistId();
-
-		// is there an id in the url?
-		if (gistId) {
-
-			// yes - load its contents
-			aigua.loadGist(gistId);
+		// we do support this browser! 
 		} else {
 
-			// no gist - load the first example
-			aigua.loadGist($("#menu .item h2:contains('examples') + ul li:first").attr('rel'));
-		}
+			if (!localStorage.livecoding_about
+				|| localStorage.livecoding_about != $('#popup .about').attr('rel')) {
 
-		// show the 'click a number' message
-		$('#message').show();
-
-		// pulse the message
-		aigua.pulseMessageInterval = setInterval(function() {
-			$('#message').animate({opacity: 0.5}).animate({opacity: 1});
-		}, 1000);
-
-		// pulse colors (e.g. '#CF2626' or '#FFF')
-		aigua.pulseColors = true;
-		aigua.pulseColorsInterval = setInterval(function() {
-			switch (aigua.modes[aigua.currentModeIndex].name) {
-
-				// if we're on the javascript tab, colors will be
-				// in a <span class='cm-string'></span>
-				case 'javascript':
-					$('.cm-string').filter(function(index) {
-
-						// check the string (using a regular expression)
-						// to make sure it's a valid color hex
-						// but first, remove the first and last characters,
-						// which will be either single or double quotes
-						var token = $(this).text();
-						return token.length > 1 && aigua.isHexString(token.substring(1, token.length - 1));
-
-					}).animate({opacity: 0.5}).animate({opacity: 1});
-				break;
-
-				// if we're on the css tab, colors will be
-				// in a <span class='cm-atom'></span> element
-				case 'css':
-					$('.cm-atom').filter(function(index) {
-
-						// check the string (using a regular expression)
-						// to make sure it's a valid color hex
-						// no need to remove the first and last characters
-						var token = $(this).text();
-						return token.length > 1 && aigua.isHexString(token);
-
-					}).animate({opacity: 0.5}).animate({opacity: 1});
-				break;
+				$('#popup').fadeIn();
+				$('#popup .about').fadeIn();
 			}
 
-		}, 1000);
-		
-		// pulse numbers
-		aigua.pulseNumbers = true;
-		aigua.pulseNumbersInterval = setInterval(function() {
-			switch (aigua.modes[aigua.currentModeIndex].name) {
+			var extraKeys = {};
+			var gistId;
+			aigua.key = {};
 
-				// this is pretty convenient - codemirror will wrap numbers
-				// in a <span class='cm-number'></span> element
-				case 'javascript':
-					$('.cm-number').animate({opacity: 0.5}).animate({opacity: 1});
-				break;
+			// setup the key correctly (mac/linux/windows)
+			// aigua.key.Name: CodeMirror will listen for this key - it's the key that triggers slider/color picker
+			// aigua.key.DisplayName: we display this string to the user - it's to inform them of what key to use
+			if (BrowserDetect.OS == 'Mac') {
+				aigua.key.Name = 'Alt-Alt'; 
+				aigua.key.DisplayName = 'Alt'; 
+				aigua.key.Code = 18;
+
+				{extraKeys['Alt-S'] = aigua.saveAsUserOrAnonymously};
 			}
-
-		}, 1000);
-
-		// initialize slider
-		aigua.handle.draggable({
-
-			// only allow dragging along the x-axis
-			axis: 'x',
 			
-			drag: function(ui, event) {
+			if (BrowserDetect.OS == 'Linux') {
+				aigua.key.Name = 'Ctrl';
+				aigua.key.DisplayName = 'Ctrl';
+				aigua.key.Code = 17;
 
-				var position = event.position.left + aigua.handle.width()/2;
-				var markerCenter = aigua.marker.offset().left;
-				var offset = position - markerCenter;
-				var newNumber;
+				{extraKeys['Ctrl-S'] = aigua.saveAsUserOrAnonymously};
+			}
+			
+			if (BrowserDetect.OS == 'Windows') {
+				aigua.key.Name = 'Ctrl-Ctrl';
+				aigua.key.DisplayName = 'Ctrl';
+				aigua.key.Code = 17;
 
-				// calculate the new number based on the original number
-				// plus the dragging offset
-				newNumber = aigua.modifyNumber(aigua.originalNumber, offset);
+				{extraKeys['Ctrl-S'] = aigua.saveAsUserOrAnonymously};
+			}
 
-				// replace the selection with the new number
-				aigua.codeMirror.replaceSelection(String(newNumber));
+			// display the key DisplayName to the user - 'Alt', or 'Ctrl', etc
+			$('#message .key').text(aigua.key.DisplayName);
+			
+			// this object will be used by codemirror to respond to THE key
+			{extraKeys[aigua.key.Name] = aigua.respondToKey};
 
-				// is the dragging cursor to the right of the marker?
-				if (offset > 0) {
+			// initialize mini colors
+			$('#hidden-miniColors').miniColors({
 
-					// if the left bar got stuck, reset the bar width and position
-					if (markerCenter - aigua.bar.offset().left - aigua.borderWidth > aigua.startingBarWidth/2) {
-						aigua.resetBar(markerCenter);
+				// when we change a color, replace the old hex string
+				// in codemirror with this new color
+				change: function(hex, rgb) {
+					aigua.codeMirror.replaceSelection(hex.toUpperCase());
+				}
+
+			});
+
+			// set various dom elements
+			aigua.ball = $('#ball');
+			aigua.bar = $('#bar');
+			aigua.filler = $('#filler');
+			aigua.handle = $('#handle');
+			aigua.marker = $('#marker');
+			aigua.slider = $('#slider');
+			aigua.triangle = $('#triangle');
+			aigua.miniColorsTrigger = $('.miniColors-trigger');
+
+			// set the handle's default width
+			aigua.handle.width(aigua.startingBarWidth);
+
+			// set the bar's border width and default width
+			aigua.bar.css('border-width', aigua.borderWidth);
+			aigua.bar.width(aigua.startingBarWidth);
+
+			// set the triangle
+			aigua.triangle.css('border-width', aigua.triangleHeight + 'px ' + aigua.triangleWidth + 'px 0px ' + aigua.triangleWidth + 'px');
+
+			// create codemirror instance
+			aigua.codeMirror = CodeMirror($('#code').get(0), {
+
+				// listen for a change in the codemirror's contents
+				onChange: function(cm, e) {
+
+					// if aigua.pause is true, don't do anything when the code changes
+					if (!aigua.pause) {
+
+						// if we've modified the code, set the 'dirty' flag (the green dot)
+						// but don't do that when we're loading the code
+						if (!aigua.isLoading) {
+							aigua.setToDirty();
+						}
+
+						// call render code every time we change the code's contents
+						// this will re-render the code contents and display the results
+						// on the display panel
+						aigua.renderCode();
 					}
+				},
 
-					// set the filler width and position
-					aigua.filler.width(offset);
-					aigua.filler.css('left', aigua.startingBarWidth/2);
+				// this object holds a reference to THE key we defined above
+				extraKeys: extraKeys,
 
-					// are we dragging past the initial bar width?
-					if (offset > aigua.startingBarWidth/2 - 6) {
+				// show line numbers
+				lineNumbers: true,
 
-						// set bar right edge to dragging position
-						aigua.bar.width(position - aigua.bar.offset().left + 5);
-					}
+				// match closing brackets
+				matchBrackets: true,
 
-					// reset the width, since fast drags won't trigger a drag call every pixel.
-					else {
-						aigua.resetBar(markerCenter);
+				// set default mode to javascript
+				mode:  'javascript',
 
-						// show the ball
-						aigua.ball.show();
-					}
+				// tell codemirror where to find javascript mode assets
+				modeURL: '/mode/%N.js',
 
-				// is the dragging cursor to the left of the marker?
-				} else if (offset < 0) {
+				// allow code modifications
+				readOnly: false,
 
-					// set the filler width
-					aigua.filler.width(-offset);
+				// set the theme (a decent twilight-lookalike)
+				theme: 'lesser-dark'
+			});
 
-					// adjust the filler position
-					aigua.filler.css('left', aigua.startingBarWidth/2 - -offset + aigua.borderWidth/2);
+			// if token is in localstorage, log in
+			if (localStorage['aigua.token']) {
+				aigua.logIn(localStorage['aigua.token']);
+			} else {
+			// we still call log out to make sure all UI-related elements are set correctly
+				aigua.logOut();
+			}
 
-					// are we dragging past the initial bar width?
-					if (-offset > aigua.startingBarWidth/2 - 6) {
+			// try to grab the gist id from the url
+			// e.g. the '3072416' bit in http://livecoding.gabrielflor.it/3072416
+			gistId = aigua.getUrlGistId();
+
+			// is there an id in the url?
+			if (gistId) {
+
+				// yes - load its contents
+				aigua.loadGist(gistId);
+			} else {
+
+				// no gist - load the first example
+				aigua.loadGist($("#menu .item h2:contains('examples') + ul li:first").attr('rel'));
+			}
+
+			// show the 'click a number' message
+			$('#message').show();
+
+			// pulse the message
+			aigua.pulseMessageInterval = setInterval(function() {
+				$('#message').animate({opacity: 0.5}).animate({opacity: 1});
+			}, 1000);
+
+			// pulse colors (e.g. '#CF2626' or '#FFF')
+			aigua.pulseColors = true;
+			aigua.pulseColorsInterval = setInterval(function() {
+				switch (aigua.modes[aigua.currentModeIndex].name) {
+
+					// if we're on the javascript tab, colors will be
+					// in a <span class='cm-string'></span>
+					case 'javascript':
+						$('.cm-string').filter(function(index) {
+
+							// check the string (using a regular expression)
+							// to make sure it's a valid color hex
+							// but first, remove the first and last characters,
+							// which will be either single or double quotes
+							var token = $(this).text();
+							return token.length > 1 && aigua.isHexString(token.substring(1, token.length - 1));
+
+						}).animate({opacity: 0.5}).animate({opacity: 1});
+					break;
+
+					// if we're on the css tab, colors will be
+					// in a <span class='cm-atom'></span> element
+					case 'css':
+						$('.cm-atom').filter(function(index) {
+
+							// check the string (using a regular expression)
+							// to make sure it's a valid color hex
+							// no need to remove the first and last characters
+							var token = $(this).text();
+							return token.length > 1 && aigua.isHexString(token);
+
+						}).animate({opacity: 0.5}).animate({opacity: 1});
+					break;
+				}
+
+			}, 1000);
+			
+			// pulse numbers
+			aigua.pulseNumbers = true;
+			aigua.pulseNumbersInterval = setInterval(function() {
+				switch (aigua.modes[aigua.currentModeIndex].name) {
+
+					// this is pretty convenient - codemirror will wrap numbers
+					// in a <span class='cm-number'></span> element
+					case 'javascript':
+						$('.cm-number').animate({opacity: 0.5}).animate({opacity: 1});
+					break;
+				}
+
+			}, 1000);
+
+			// initialize slider
+			aigua.handle.draggable({
+
+				// only allow dragging along the x-axis
+				axis: 'x',
+				
+				drag: function(ui, event) {
+
+					var position = event.position.left + aigua.handle.width()/2;
+					var markerCenter = aigua.marker.offset().left;
+					var offset = position - markerCenter;
+					var newNumber;
+
+					// calculate the new number based on the original number
+					// plus the dragging offset
+					newNumber = aigua.modifyNumber(aigua.originalNumber, offset);
+
+					// replace the selection with the new number
+					aigua.codeMirror.replaceSelection(String(newNumber));
+
+					// is the dragging cursor to the right of the marker?
+					if (offset > 0) {
+
+						// if the left bar got stuck, reset the bar width and position
+						if (markerCenter - aigua.bar.offset().left - aigua.borderWidth > aigua.startingBarWidth/2) {
+							aigua.resetBar(markerCenter);
+						}
+
+						// set the filler width and position
+						aigua.filler.width(offset);
+						aigua.filler.css('left', aigua.startingBarWidth/2);
+
+						// are we dragging past the initial bar width?
+						if (offset > aigua.startingBarWidth/2 - 6) {
+
+							// set bar right edge to dragging position
+							aigua.bar.width(position - aigua.bar.offset().left + 5);
+						}
+
+						// reset the width, since fast drags won't trigger a drag call every pixel.
+						else {
+							aigua.resetBar(markerCenter);
+
+							// show the ball
+							aigua.ball.show();
+						}
+
+					// is the dragging cursor to the left of the marker?
+					} else if (offset < 0) {
+
+						// set the filler width
+						aigua.filler.width(-offset);
 
 						// adjust the filler position
-						aigua.filler.css('left', aigua.borderWidth/2 + 7);
+						aigua.filler.css('left', aigua.startingBarWidth/2 - -offset + aigua.borderWidth/2);
 
-						// set bar left edge to dragging position
-						aigua.bar.width(-offset + aigua.startingBarWidth/2 + 7);
-						aigua.bar.css('left', position - aigua.borderWidth - 7);
+						// are we dragging past the initial bar width?
+						if (-offset > aigua.startingBarWidth/2 - 6) {
+
+							// adjust the filler position
+							aigua.filler.css('left', aigua.borderWidth/2 + 7);
+
+							// set bar left edge to dragging position
+							aigua.bar.width(-offset + aigua.startingBarWidth/2 + 7);
+							aigua.bar.css('left', position - aigua.borderWidth - 7);
+						}
+
+						// reset the width, since fast drags won't trigger a drag call every pixel.
+						else {
+							aigua.resetBar(markerCenter);
+
+							// show the ball
+							aigua.ball.show();
+						}
+
+					// are we at the middle?
+					} else {
+						aigua.filler.width(0);
 					}
-
-					// reset the width, since fast drags won't trigger a drag call every pixel.
-					else {
-						aigua.resetBar(markerCenter);
-
-						// show the ball
-						aigua.ball.show();
-					}
-
-				// are we at the middle?
-				} else {
-					aigua.filler.width(0);
 				}
-			}
-		});
+			});
 
-		// populate mode switcher
-		_.each(aigua.modes, function(mode, index) {
+			// populate mode switcher
+			_.each(aigua.modes, function(mode, index) {
 
-			var div = $("<div class='item'></div>");
-			var h2 = $("<h2></h2>");
-			div.append(h2);
+				var div = $("<div class='item'></div>");
+				var h2 = $("<h2></h2>");
+				div.append(h2);
 
-			h2.addClass(index == aigua.currentModeIndex ? 'active' : 'passive');
-			h2.text(mode.name);
+				h2.addClass(index == aigua.currentModeIndex ? 'active' : 'passive');
+				h2.text(mode.name);
 
-			$('#modes').append(div);
-		});
+				$('#modes').append(div);
+			});
 
-		// populate screen layout switcher
-		_.each(aigua.screenLayouts, function(layout, index, list) {
+			// populate screen layout switcher
+			_.each(aigua.screenLayouts, function(layout, index, list) {
 
-			var li = $('<li />');
-			li.text(layout);
-			li.addClass(index == aigua.currentScreenLayoutIndex ? 'disabled' : '');
+				var li = $('<li />');
+				li.text(layout);
+				li.addClass(index == aigua.currentScreenLayoutIndex ? 'disabled' : '');
 
-			$('#menu .item h2:contains("view")').next().append(li);
-		});
+				$('#menu .item h2:contains("view")').next().append(li);
+			});
 
 
-		// ----------- event handlers section ----------------------
+			// ----------- event handlers section ----------------------
 
-		// if we mouseup, and the slider is showing, AND nothing is selected,
-		// select the previously selected token
-		$(window).mouseup(function(e) {
+			// if we mouseup, and the slider is showing, AND nothing is selected,
+			// select the previously selected token
+			$(window).mouseup(function(e) {
 
-			if (aigua.slider.is(':visible') && aigua.codeMirror.getSelection() == '') {
-				aigua.codeMirror.setSelection(aigua.currentSelectionStart, aigua.currentSelectionEnd);
-			}
-		});
+				if (aigua.slider.is(':visible') && aigua.codeMirror.getSelection() == '') {
+					aigua.codeMirror.setSelection(aigua.currentSelectionStart, aigua.currentSelectionEnd);
+				}
+			});
 
-		// if 'esc', hide popup
-		$(window).keydown(function(e) {
+			// if 'esc', hide popup
+			$(window).keydown(function(e) {
 
-			if (e.which == 27) {
-				aigua.hidePopup();
-			}
-
-		});
-
-		// did we keyup the handle key?
-		$(window).keyup(function(e) {
-
-			if (e.which == aigua.key.Code) {
-
-				// if slider is visible
-				if (aigua.slider.is(':visible')) {
-	
-					// hide the slider
-					aigua.slider.hide();
-
-					// reset filler width
-					aigua.filler.width(0);
-
-					// reset bar width
-					aigua.bar.width(aigua.startingBarWidth);
-
-					// clear out the original number
-					aigua.originalNumber = null;
+				if (e.which == 27) {
+					aigua.hidePopup();
 				}
 
-				// if mini colors is visible
-				if ($(aigua.miniColorsSelector).is(':visible')) {
+			});
 
-					// trigger an event which will hide mini colors
-					$(document).trigger('mousedown');
+			// did we keyup the handle key?
+			$(window).keyup(function(e) {
+
+				if (e.which == aigua.key.Code) {
+
+					// if slider is visible
+					if (aigua.slider.is(':visible')) {
+		
+						// hide the slider
+						aigua.slider.hide();
+
+						// reset filler width
+						aigua.filler.width(0);
+
+						// reset bar width
+						aigua.bar.width(aigua.startingBarWidth);
+
+						// clear out the original number
+						aigua.originalNumber = null;
+					}
+
+					// if mini colors is visible
+					if ($(aigua.miniColorsSelector).is(':visible')) {
+
+						// trigger an event which will hide mini colors
+						$(document).trigger('mousedown');
+					}
 				}
-			}
-		});
+			});
 
-		// force svg contents to occupy the entire svg container
-		// by rerendering code on window resize
-		$(window).on('resize', function() {
-			aigua.renderCode();
-		});
+			// force svg contents to occupy the entire svg container
+			// by rerendering code on window resize
+			$(window).on('resize', function() {
+				aigua.renderCode();
+			});
 
-		// handle modes switcher
-		$('#modes .item h2').on('click', function(e) {
-			aigua.switchMode($(this).text());
-		});
+			// handle modes switcher
+			$('#modes .item h2').on('click', function(e) {
+				aigua.switchMode($(this).text());
+			});
 
-		// handle menu mouseover/mouseout events
-		$('#menu .item h2').on('mouseover', function(e) {
-			var item = $(this).parents('.item');
+			// handle menu mouseover/mouseout events
+			$('#menu .item h2').on('mouseover', function(e) {
+				var item = $(this).parents('.item');
 
-			$('ul', item).show(); // show this dropdown
-			$(this).addClass('hover'); // add hover class to this h2
-			$(this).children().addClass('hover'); // add hover class to this h2
-		});
+				$('ul', item).show(); // show this dropdown
+				$(this).addClass('hover'); // add hover class to this h2
+				$(this).children().addClass('hover'); // add hover class to this h2
+			});
 
-		// handle menu mouseover/mouseout events
-		$('#menu .item').on('mouseout', function(e) {
+			// handle menu mouseover/mouseout events
+			$('#menu .item').on('mouseout', function(e) {
 
-			if ($(e.relatedTarget).parents('.item').get(0) != $(this).get(0)) {
-				aigua.resetMenu();
-			}
-		});
-
-		// handle menu mouseover/mouseout events
-		$('#menu .item li').on('mouseover', function(e) {
-			var li = $(this);
-
-			if (li.attr('class') && li.attr('class').indexOf('disabled') != -1) {
-
-			} else {
-				li.addClass('hover');
-			}
-		});
-
-		// handle menu mouseover/mouseout events
-		$('#menu .item li').on('mouseout', function(e) {
-			$(this).removeClass('hover');
-		});
-
-		// handle clicking on title
-		$('#header').on('click', function(e) {
-
-			e.preventDefault();
-
-			// ask user 'are you sure' before wiping the codemirror contents
-			aigua.askBeforeNew();
-		});
-
-		// handle menu item choices
-		$('#menu .item ul li').on('click', function(e) {
-			e.preventDefault();
-
-			var choice = $(this);
-			var itemName = $('h2', choice.parents('.item')).text();
-			var result;
-
-			switch(choice.text()) {
-				case 'login':
-					open('/github-login', 'popup', 'width=1015,height=500');
-				break;
-
-				case 'logout':
-					aigua.logOut();
-				break;
-			}
-
-			switch(itemName) {
-
-				case 'file':
-					switch (choice.text()) {
-						case 'new':
-							aigua.askBeforeNew();
-						break;
-
-						case 'save':
-							if (!aigua.user) {
-								alert('Please login to save your work under your GitHub username.');
-							} else {
-								aigua.saveAsUser();
-							}
-							aigua.resetMenu();
-						break;
-
-						case 'save anonymously':
-							aigua.saveAnonymously();
-							aigua.resetMenu();
-						break;
-					}
-				break;
-
-				case 'examples':
-					result = aigua.isDirty() ? confirm(aigua.areYouSureText) : true;
-					if (result) {
-						aigua.loadGist($(this).attr('rel'));
-					}
-				break;
-
-				case 'view':
-
-					$(this).siblings().removeClass('disabled');
-					$(this).addClass('disabled');
-
-					aigua.currentScreenLayoutIndex = _.indexOf(aigua.screenLayouts, $(this).text());
-					aigua.updateScreenLayout();
+				if ($(e.relatedTarget).parents('.item').get(0) != $(this).get(0)) {
 					aigua.resetMenu();
-				break;
+				}
+			});
 
-				case 'help':
+			// handle menu mouseover/mouseout events
+			$('#menu .item li').on('mouseover', function(e) {
+				var li = $(this);
 
-					switch (choice.text()) {
+				if (li.attr('class') && li.attr('class').indexOf('disabled') != -1) {
 
-						case 'source code':
-							window.open('https://github.com/gabrielflorit/livecoding/', '_blank');
-							aigua.resetMenu();
-						break;
+				} else {
+					li.addClass('hover');
+				}
+			});
 
-						case 'contact':
-							window.open('http://twitter.com/gabrielflorit', '_blank');
-							aigua.resetMenu();
-						break;
+			// handle menu mouseover/mouseout events
+			$('#menu .item li').on('mouseout', function(e) {
+				$(this).removeClass('hover');
+			});
 
-						case 'about':
-							$('#popup').fadeIn();
-							$('#popup .about').fadeIn();
-						break;
-					}
+			// handle clicking on title
+			$('#header').on('click', function(e) {
 
-				break;
-			}
-		});
+				e.preventDefault();
 
-		// close popup
-		$('#popup .close').click(function(e) {
-			e.preventDefault();
+				// ask user 'are you sure' before wiping the codemirror contents
+				aigua.askBeforeNew();
+			});
 
-			aigua.hidePopup();
-		});
+			// handle menu item choices
+			$('#menu .item ul li').on('click', function(e) {
+				e.preventDefault();
 
-	}
-});
+				var choice = $(this);
+				var itemName = $('h2', choice.parents('.item')).text();
+				var result;
+
+				switch(choice.text()) {
+					case 'login':
+						open('/github-login', 'popup', 'width=1015,height=500');
+					break;
+
+					case 'logout':
+						aigua.logOut();
+					break;
+				}
+
+				switch(itemName) {
+
+					case 'file':
+						switch (choice.text()) {
+							case 'new':
+								aigua.askBeforeNew();
+							break;
+
+							case 'save':
+								if (!aigua.user) {
+									alert('Please login to save your work under your GitHub username.');
+								} else {
+									aigua.saveAsUser();
+								}
+								aigua.resetMenu();
+							break;
+
+							case 'save anonymously':
+								aigua.saveAnonymously();
+								aigua.resetMenu();
+							break;
+						}
+					break;
+
+					case 'examples':
+						result = aigua.isDirty() ? confirm(aigua.areYouSureText) : true;
+						if (result) {
+							aigua.loadGist($(this).attr('rel'));
+						}
+					break;
+
+					case 'view':
+
+						$(this).siblings().removeClass('disabled');
+						$(this).addClass('disabled');
+
+						aigua.currentScreenLayoutIndex = _.indexOf(aigua.screenLayouts, $(this).text());
+						aigua.updateScreenLayout();
+						aigua.resetMenu();
+					break;
+
+					case 'help':
+
+						switch (choice.text()) {
+
+							case 'source code':
+								window.open('https://github.com/gabrielflorit/livecoding/', '_blank');
+								aigua.resetMenu();
+							break;
+
+							case 'contact':
+								window.open('http://twitter.com/gabrielflorit', '_blank');
+								aigua.resetMenu();
+							break;
+
+							case 'about':
+								$('#popup').fadeIn();
+								$('#popup .about').fadeIn();
+							break;
+						}
+
+					break;
+				}
+			});
+
+			// close popup
+			$('#popup .close').click(function(e) {
+				e.preventDefault();
+
+				aigua.hidePopup();
+			});
+
+		}
+	};
+
+	$('#iframeContainer').append('<iframe src="/iframe" scrolling="no"></iframe>');
+
 });
 
