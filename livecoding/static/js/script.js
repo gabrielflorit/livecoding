@@ -192,12 +192,6 @@ var aigua = (function () {
 		// run the code and update the display
 		renderCode: function() {
 
-			if (aigua.screenLayouts[aigua.currentScreenLayoutIndex] == 'sketchpad mode') {
-				$('svg', $('iframe').contents()).attr('class', '');
-			} else {
-				$('svg', $('iframe').contents()).attr('class', 'full');
-			}
-
 			// get the current code
 			var code = aigua.codeMirror.getValue();
 
