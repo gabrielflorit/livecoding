@@ -313,9 +313,14 @@ body {
 
 #main {
   position: absolute;
+  min-width: 1230px;
   width: 100%;
   height: 100%;
   display: none;
+}
+
+#main.full {
+  min-width: 1107px;
 }
 
   #header {
