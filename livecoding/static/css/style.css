@@ -559,6 +559,17 @@ body {
             cursor: default;
           }
 
+          #controls .item ul li.separator {
+            border: solid rgba(0, 0, 0, 0) 1px;
+            border-top: solid rgba(0, 0, 0, 0.25) 1px;
+            height: 1px;
+            background: none;
+          }
+
+          #controls .item ul li.separator:hover {
+            cursor: pointer;
+          }
+
           #controls .item ul li a {
             color: #222;
             font-weight: normal;

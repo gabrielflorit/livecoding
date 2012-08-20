@@ -638,7 +638,7 @@ var aigua = (function () {
 		miniColorsSelector: '.miniColors-selector',
 		miniColorsTrigger: null,
 		currentModeIndex: 0,
-		currentScreenLayoutIndex: 0,
+		currentScreenLayoutIndex: 2,
 		currentSelection: null,
 		filler: null,
 		handle: null,
@@ -669,7 +669,7 @@ var aigua = (function () {
 		pulseMessageInterval: null,
 		pulseNumbers: true,
 		pulseNumbersInterval: null,
-		screenLayouts: ['sketchpad mode', 'fullscreen mode (vertical)', 'fullscreen mode (horizontal)'],
+		screenLayouts: ['fullscreen mode (horizontal)', 'fullscreen mode (vertical)', 'sketchpad mode'],
 		slider: null,
 		startingBarWidth: 300,
 		triangle: null,
@@ -1000,9 +1000,10 @@ $(function() {
 
 				var li = $('<li />');
 				li.text(layout);
+				li.addClass('screenLayout');
 				li.addClass(index == aigua.currentScreenLayoutIndex ? 'disabled' : '');
 
-				$('#menu .item h2:contains("view")').next().append(li);
+				$('#menu .item h2:contains("view")').next().prepend(li);
 			});
 
 
@@ -1160,12 +1161,33 @@ $(function() {
 					break;
 
 					case 'view':
-						choice.siblings().removeClass('disabled');
-						choice.addClass('disabled');
 
-						aigua.currentScreenLayoutIndex = _.indexOf(aigua.screenLayouts, choice.text());
-						aigua.updateScreenLayout();
-						aigua.resetMenu();
+						// did we click on a screen layout item?
+						if (choice.attr('class').indexOf('screenLayout') != -1) {
+
+							choice.siblings('.screenLayout').removeClass('disabled');
+							choice.addClass('disabled');
+
+							aigua.currentScreenLayoutIndex = _.indexOf(aigua.screenLayouts, choice.text());
+							aigua.updateScreenLayout();
+							aigua.resetMenu();
+
+						}
+						else {
+
+							switch (choice.text()) {
+
+								case 'single page':
+
+									window.open('/s/' + aigua.getUrlGistId(), '_blank');
+									aigua.resetMenu();
+
+								break;
+
+							}
+
+						}
+
 					break;
 
 					case 'resolution':
