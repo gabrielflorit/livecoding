@@ -196,6 +196,28 @@ def index(gistId):
 
 
 
+@app.route('/s/<gistId>')
+def solo(gistId):
+
+    headers = {'content-type': 'application/json', 'accept': 'application/json'}
+
+    r = requests.get('https://api.github.com/gists/' + gistId, headers=headers)
+
+    theCss = json.loads(r.text)['files']['water.css']['content'] if ('water.css' in json.loads(r.text)['files']) else ''
+    theJs = json.loads(r.text)['files']['water.js']['content'] if ('water.js' in json.loads(r.text)['files']) else ''
+    theJson = json.loads(r.text)['files']['water.json']['content'] if ('water.json' in json.loads(r.text)['files']) else '""'
+    theHtml = json.loads(r.text)['files']['water.html']['content'] if ('water.html' in json.loads(r.text)['files']) else ''
+
+    return render_template('solo.html', vars=dict(
+        css=theCss,
+        js=theJs,
+        json=theJson,
+        html=theHtml
+        ))
+
+
+
+
 @app.route('/favicon.ico')
 def favicon():
 
