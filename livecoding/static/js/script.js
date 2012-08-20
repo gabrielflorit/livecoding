@@ -827,7 +827,7 @@ $(function() {
 			}
 
 			// try to grab the gist id from the url
-			// e.g. the '3072416' bit in http://livecoding.gabrielflor.it/3072416
+			// e.g. the '3072416' bit in http://livecoding.io/3072416
 			gistId = aigua.getUrlGistId();
 
 			// is there an id in the url?
