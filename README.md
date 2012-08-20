@@ -10,9 +10,9 @@
 
     git clone https://github.com/gabrielflorit/livecoding.git
     cd livecoding
-    virtualenv --no-site-packages .
-    . bin/activate
-    bin/pip install -r requirements.txt
+    virtualenv venv
+    . venv/bin/activate
+    venv/bin/pip install -r requirements.txt
 
 #### Windows
 
