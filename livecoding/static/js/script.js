@@ -1110,6 +1110,13 @@ $(function() {
 				aigua.askBeforeNew();
 			});
 
+			$(window).on('beforeunload', function() {
+
+				if (aigua.isDirty()) {
+					return aigua.areYouSureText;
+				}
+			});
+
 			// handle menu item choices
 			$('#menu .item ul li').on('click', function(e) {
 				e.preventDefault();
