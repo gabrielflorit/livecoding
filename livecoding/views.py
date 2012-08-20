@@ -10,7 +10,7 @@ from requests import post
 def save_anonymously():
 
     gist = {
-        'description': 'created by livecoding.io - http://livecoding.io',
+        'description': 'created by livecoding - http://livecoding.io',
         'public': 'true',
         'files': {
             'water.html': {
@@ -40,7 +40,7 @@ def save_anonymously():
 def create_new():
 
     gist = {
-        'description': 'created by livecoding.io - http://livecoding.io',
+        'description': 'created by livecoding - http://livecoding.io',
         'public': 'true',
         'files': {
             'water.html': {
@@ -82,7 +82,7 @@ def fork():
 
     # now save as user
     gist = {
-        'description': 'created by livecoding.io - http://livecoding.io/' + forkedGistId,
+        'description': 'created by livecoding - http://livecoding.io/' + forkedGistId,
         'files': {
             'water.html': {
                 'content': request.form['html']
@@ -115,7 +115,7 @@ def save():
     headers = {'content-type': 'application/json', 'accept': 'application/json'}
 
     gist = {
-        'description': 'created by livecoding.io - http://livecoding.io/' + gistId,
+        'description': 'created by livecoding - http://livecoding.io/' + gistId,
         'files': {
             'water.html': {
                 'content': request.form['html']
