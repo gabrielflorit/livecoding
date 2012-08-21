@@ -646,9 +646,7 @@ var aigua = (function () {
 		isLoading: null,
 		key: null,
 		libraries: [
-			{ selected: false, name: 'D3' },
-			{ selected: false, name: 'Highcharts' },
-			{ selected: false, name: 'Underscore' }
+			{ name: 'd3' }
 		],
 		lineHeight: 19,
 		marker: null,
@@ -1213,13 +1211,16 @@ $(function() {
 
 					case 'libraries':
 
-						if ($(this).attr('class').indexOf('selected') == -1 ) {
-							$(this).addClass('selected');
-							// $('head', $('iframe').contents()).append('<script src="static/js/libs/' + choice.text() + '.js"></script>');
+						if (choice.attr('class').indexOf('selected') == -1 ) {
+							choice.addClass('selected');
+							frames[0].livecoding.addJs(choice.text());
 						}
 						else {
-							$(this).removeClass('selected');
+							choice.removeClass('selected');
+							frames[0].livecoding.removeJs(choice.text());
 						}
+
+						aigua.resetMenu();
 
 					break;
 
