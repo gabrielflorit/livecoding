@@ -37,6 +37,15 @@ var aigua = (function () {
 
 			});
 
+			var selectedLibraries = $('li[class*="selected"]', $('#menu .item h2:contains("libraries")').next());
+
+			// add options
+			result.options = JSON.stringify({
+				libraries: _.map(selectedLibraries, function(value) {
+					return $(value).text();
+				})
+			});
+
 			return result;
 		},
 
@@ -91,6 +100,30 @@ var aigua = (function () {
 					var javascript = data.data.files['water.js'];
 					var css = data.data.files['water.css'];
 					var json = data.data.files['water.json'];
+
+					var options;
+					if (data.data.files['options.json']) {
+						options = JSON.parse(data.data.files['options.json'].content);
+					} else {
+						options = { libraries: [] };
+					}
+
+					// iterate over every library in the options object
+					_.each(options.libraries, function(value) {
+
+						var library = value;
+
+						// find the library menu item and select it
+						var libraryItem = $(_.find($('li', $('#menu .item h2:contains("libraries")').next()), function(value) {
+
+							return $(value).text() == library;
+
+						}));
+						libraryItem.addClass('selected');
+
+						// add library to dom
+						frames[0].livecoding.addJs(libraryItem.text());
+					});
 
 					aigua.switchMode('json', true);
 					if (json) {
@@ -655,7 +688,8 @@ var aigua = (function () {
 		isLoading: null,
 		key: null,
 		libraries: [
-			{ name: 'd3' }
+			{ name: 'd3' },
+			{ name: 'Highcharts' }
 		],
 		lineHeight: 19,
 		marker: null,
@@ -1207,7 +1241,10 @@ $(function() {
 
 								case 'single page':
 
-									window.open('/s/' + aigua.getUrlGistId(), '_blank');
+									result = aigua.isDirty() ? confirm("Are you sure? Your unsaved changes will not be reflected when viewing as a single page.") : true;
+									if (result) {
+										window.open('/s/' + aigua.getUrlGistId(), '_blank');
+									}
 									aigua.resetMenu();
 
 								break;
@@ -1223,10 +1260,12 @@ $(function() {
 						if (choice.attr('class').indexOf('selected') == -1 ) {
 							choice.addClass('selected');
 							frames[0].livecoding.addJs(choice.text());
+							aigua.setToDirty();
 						}
 						else {
 							choice.removeClass('selected');
 							frames[0].livecoding.removeJs(choice.text());
+							aigua.setToDirty();
 						}
 
 						aigua.resetMenu();

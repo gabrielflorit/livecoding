@@ -24,6 +24,9 @@ def save_anonymously():
             },
             'water.json': {
                 'content': request.form['json']
+            },
+            'options.json': {
+                'content': request.form['options']
             }
         }
     }
@@ -54,6 +57,9 @@ def create_new():
             },
             'water.json': {
                 'content': request.form['json']
+            },
+            'options.json': {
+                'content': request.form['options']
             }
         }
     }
@@ -95,6 +101,9 @@ def fork():
             },
             'water.json': {
                 'content': request.form['json']
+            },
+            'options.json': {
+                'content': request.form['options']
             }
         }
     }
@@ -128,6 +137,9 @@ def save():
             },
             'water.json': {
                 'content': request.form['json']
+            },
+            'options.json': {
+                'content': request.form['options']
             }
         }
     }
@@ -207,12 +219,14 @@ def solo(gistId):
     theJs = json.loads(r.text)['files']['water.js']['content'] if ('water.js' in json.loads(r.text)['files']) else ''
     theJson = json.loads(r.text)['files']['water.json']['content'] if ('water.json' in json.loads(r.text)['files']) else '""'
     theHtml = json.loads(r.text)['files']['water.html']['content'] if ('water.html' in json.loads(r.text)['files']) else ''
+    theLibraries = json.loads(json.loads(r.text)['files']['options.json']['content'])['libraries'] if ('options.json' in json.loads(r.text)['files']) else []
 
     return render_template('solo.html', vars=dict(
         css=theCss,
         js=theJs,
         json=theJson,
-        html=theHtml
+        html=theHtml,
+        libraries=theLibraries
         ))
 
 
