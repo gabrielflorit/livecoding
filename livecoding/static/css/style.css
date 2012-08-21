@@ -313,7 +313,7 @@ body {
 
   #header {
     position: relative;
-    top: -7px;
+    top: -5px;
     float: left;
     font-family: 'Consolas', 'Bitstream Vera Sans Mono', 'DejaVu Sans Mono', 'Monaco', Courier, monospace;
     font-size: 25px;
@@ -403,10 +403,10 @@ body {
         #gist,
         .save-confirmation {
           position: relative;
-          top: 1px;
+          top: 3px;
           padding: 2px 9px 0 9px;
           color: #eee;
-          font-size: 15px;
+          font-size: 12px;
           font-style: italic;
           text-decoration: none;
           border: solid rgba(0, 0, 0, 0) 1px;
@@ -452,7 +452,7 @@ body {
         }
 
         #controls #modes .item h2 {
-          margin: 0 0 3px 12px;
+          margin: 0 0 3px 6px;
         }
 
           #controls .item h2.hover,
