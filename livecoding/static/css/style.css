@@ -441,7 +441,7 @@ body {
 
         #controls .item h2 {
           margin: 0 0 3px 0;
-          padding: 2px 9px 0 9px;
+          padding: 2px 6px 0 6px;
           color: #eee;
           font-size: 15px;
           border: solid rgba(0, 0, 0, 0) 1px;
@@ -568,6 +568,18 @@ body {
 
           #controls .item ul li.separator:hover {
             cursor: pointer;
+          }
+
+          #controls .item ul li.selected {
+            position: relative;
+          }
+
+          #controls .item ul li.selected:before {
+            content: "✓";
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 100;
           }
 
           #controls .item ul li a {

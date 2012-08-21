@@ -645,6 +645,11 @@ var aigua = (function () {
 		iframeLoaded: null,
 		isLoading: null,
 		key: null,
+		libraries: [
+			{ selected: false, name: 'D3' },
+			{ selected: false, name: 'Highcharts' },
+			{ selected: false, name: 'Underscore' }
+		],
 		lineHeight: 19,
 		marker: null,
 		modes: [
@@ -1006,6 +1011,15 @@ $(function() {
 				$('#menu .item h2:contains("view")').next().prepend(li);
 			});
 
+			// populate libraries dropdown
+			_.each(aigua.libraries, function(value) {
+
+				var li = $('<li />');
+				li.text(value.name);
+
+				$('#menu .item h2:contains("libraries")').next().append(li);
+			});
+
 
 			// ----------- event handlers section ----------------------
 
@@ -1193,6 +1207,18 @@ $(function() {
 
 							}
 
+						}
+
+					break;
+
+					case 'libraries':
+
+						if ($(this).attr('class').indexOf('selected') == -1 ) {
+							$(this).addClass('selected');
+							// $('head', $('iframe').contents()).append('<script src="static/js/libs/' + choice.text() + '.js"></script>');
+						}
+						else {
+							$(this).removeClass('selected');
 						}
 
 					break;
