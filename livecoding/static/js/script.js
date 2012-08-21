@@ -288,9 +288,18 @@ var aigua = (function () {
 
 		resetScreen: function() {
 
+			// clear out all the modes (html, css, etc)
 			_.each(aigua.modes, function(value, index, list) {
 				aigua.switchMode(value.name, true);
 				aigua.codeMirror.setValue('');
+			});
+
+			// uncheck all items from the libraries dropdown
+			$('li', $('#menu .item h2:contains("libraries")').next()).removeClass('selected');
+
+			// remove all js libraries from DOM
+			_.each(aigua.libraries, function(value) {
+				frames[0].livecoding.removeJs(value.name);
 			});
 
 			aigua.switchMode('html');
