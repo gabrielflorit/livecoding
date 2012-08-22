@@ -166,7 +166,7 @@ def save():
     headers = {'content-type': 'application/json', 'accept': 'application/json'}
 
     # create the livecoding url
-    livecodingUrl = 'http://livecoding.io/' + forkedGistId
+    livecodingUrl = 'http://livecoding.io/' + gistId
 
     gist = {
         'description': 'created by http://livecoding.io/' + gistId,
