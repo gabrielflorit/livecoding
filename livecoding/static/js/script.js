@@ -689,7 +689,8 @@ var aigua = (function () {
 		key: null,
 		libraries: [
 			{ name: 'd3' },
-			{ name: 'Highcharts' }
+			{ name: 'Highcharts' },
+			{ name: 'crossfilter' }
 		],
 		lineHeight: 19,
 		marker: null,
