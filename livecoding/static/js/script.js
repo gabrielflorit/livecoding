@@ -348,9 +348,6 @@ var aigua = (function () {
 
 			var cursor;
 			var token;
-			var startCoords;
-			var endCoords;
-			var center;
 			var hex = '';
 
 			// is the slider and mini colors hidden?
@@ -360,59 +357,12 @@ var aigua = (function () {
 				cursor = cm.getCursor();
 				token = cm.getTokenAt(cursor);
 
-				// are we on js mode?
-				if (aigua.modes[aigua.currentModeIndex].name == 'javascript' ||
-					aigua.modes[aigua.currentModeIndex].name == 'json') {
-
-					// are we on a number?
-					if (token.className == 'number') {
-
-						if (aigua.pulseNumbers) {
-
-							// stop pulsing numbers
-							window.clearInterval(aigua.pulseNumbersInterval);
-							window.clearInterval(aigua.pulseMessageInterval);
-							$('#message').hide();
-							aigua.pulseNumbers = false;
-						}
-
-						// show the slider
-						aigua.slider.show();
-
-						// save the original number
-						if (aigua.originalNumber == null) {
-							aigua.originalNumber = Number(token.string);
-						}
-
-						// select token
-						aigua.currentSelectionStart = {line: cursor.line, ch: token.start};
-						aigua.currentSelectionEnd   = {line: cursor.line, ch: token.end};
-						cm.setSelection(aigua.currentSelectionStart, aigua.currentSelectionEnd);
-
-						// find coords at token start
-						startCoords = cm.cursorCoords(true);
-						endCoords = cm.cursorCoords(false);
-
-						// center marker on token
-						center = startCoords.x + (endCoords.x - startCoords.x)/2;
-						aigua.marker.css('left', center);
-
-						// center handle on token
-						aigua.handle.css('left', center - aigua.handle.width()/2);
-
-						// center bar above token
-						aigua.bar.css('left', center - aigua.bar.width()/2 - aigua.borderWidth);
-						aigua.bar.css('top', startCoords.y - aigua.lineHeight);
-
-						// center triangle on token
-						aigua.triangle.css('left', center - aigua.triangleWidth);
-						aigua.triangle.css('top', aigua.bar.offset().top + aigua.bar.height() + aigua.borderWidth * 2);
-
-						aigua.ball.offset({top: aigua.filler.offset().top});
-					
-					}
+				// handle numbers
+				if (token.className == 'number' || token.className == 'cm-number') {
+					aigua.showSlider(cm, cursor, token);
 				}
 
+				// handle colors
 				if (token.string.length > 1) {
 
 					switch (aigua.modes[aigua.currentModeIndex].name) {
@@ -435,32 +385,7 @@ var aigua = (function () {
 						return;
 					}
 
-					if (aigua.pulseColors) {
-
-						// stop pulsing colors
-						window.clearInterval(aigua.pulseColorsInterval);
-						window.clearInterval(aigua.pulseMessageInterval);
-						$('#message').hide();
-						aigua.pulseColors = false;
-					}
-
-					// select token
-					cm.setSelection(aigua.currentSelectionStart, aigua.currentSelectionEnd);
-
-					// show the color picker
-					aigua.miniColorsTrigger.click();
-
-					// initialize color picker with current color
-					$('#hidden-miniColors').miniColors('value', hex.substring(1));
-
-					// find coords at token start
-					startCoords = cm.cursorCoords(true);
-					endCoords = cm.cursorCoords(false);
-					center = startCoords.x + (endCoords.x - startCoords.x)/2;
-
-					// position color picker centered below token
-					$(aigua.miniColorsSelector).css('left', center - $(aigua.miniColorsSelector).width()/2);
-					$(aigua.miniColorsSelector).css('top', endCoords.y + aigua.lineHeight);
+					aigua.showColorSelector(cm, hex);
 				}
 			}
 		},
@@ -559,11 +484,121 @@ var aigua = (function () {
 			$('#gist').html(gistUrl);
 		},
 
+		showColorSelector: function(cm, hex) {
+
+			var startCoords;
+			var endCoords;
+			var center;
+
+			if (aigua.pulseColors) {
+
+				// stop pulsing colors
+				window.clearInterval(aigua.pulseColorsInterval);
+				window.clearInterval(aigua.pulseMessageInterval);
+				$('#message').hide();
+				aigua.pulseColors = false;
+			}
+
+			// select token
+			cm.setSelection(aigua.currentSelectionStart, aigua.currentSelectionEnd);
+
+			// show the color picker
+			aigua.miniColorsTrigger.click();
+
+			// initialize color picker with current color
+			$('#hidden-miniColors').miniColors('value', hex.substring(1));
+
+			// find coords at token start
+			startCoords = cm.cursorCoords(true);
+			endCoords = cm.cursorCoords(false);
+			center = startCoords.x + (endCoords.x - startCoords.x)/2;
+
+			// position color picker centered below token
+			$(aigua.miniColorsSelector).css('left', center - $(aigua.miniColorsSelector).width()/2);
+			$(aigua.miniColorsSelector).css('top', endCoords.y + aigua.lineHeight);
+		},
+
 		showSaveConfirmation: function() {
 			$('.save-confirmation').text('saved at ' + new Date().toLocaleTimeString());
 			$('.save-confirmation').fadeOut(1500, function() {
 				$('#gist').fadeIn(250);
 			});
+		},
+
+		showSlider: function(cm, cursor, token) {
+
+			var startCoords;
+			var endCoords;
+			var center;
+			var value;
+			var suffix;
+
+			if (aigua.pulseNumbers) {
+
+				// stop pulsing numbers
+				window.clearInterval(aigua.pulseNumbersInterval);
+				window.clearInterval(aigua.pulseMessageInterval);
+				$('#message').hide();
+				aigua.pulseNumbers = false;
+			}
+
+			// show the slider
+			aigua.slider.show();
+
+			// if this isn't a number, e.g. 10px or 1.0em or 100%, strip the suffix
+			if (isNaN(token.string)) {
+
+				// TODO: this isn't elegant. make it elegant!
+				if (token.string.indexOf('px') != -1) {
+					suffix = 'px';
+				}
+
+				if (token.string.indexOf('em') != -1) {
+					suffix = 'em';
+				}
+
+				if (token.string.indexOf('%') != -1) {
+					suffix = '%';
+				}
+
+			}
+			else {
+				suffix = '';
+			}
+
+			// save the original number
+			if (aigua.originalNumber == null) {
+				aigua.originalNumber = {
+					value: Number(token.string.replace(suffix, '')),
+					suffix: suffix
+				};
+			}
+
+			// select token
+			aigua.currentSelectionStart = {line: cursor.line, ch: token.start};
+			aigua.currentSelectionEnd   = {line: cursor.line, ch: token.end};
+			cm.setSelection(aigua.currentSelectionStart, aigua.currentSelectionEnd);
+
+			// find coords at token start
+			startCoords = cm.cursorCoords(true);
+			endCoords = cm.cursorCoords(false);
+
+			// center marker on token
+			center = startCoords.x + (endCoords.x - startCoords.x)/2;
+			aigua.marker.css('left', center);
+
+			// center handle on token
+			aigua.handle.css('left', center - aigua.handle.width()/2);
+
+			// center bar above token
+			aigua.bar.css('left', center - aigua.bar.width()/2 - aigua.borderWidth);
+			aigua.bar.css('top', startCoords.y - aigua.lineHeight);
+
+			// center triangle on token
+			aigua.triangle.css('left', center - aigua.triangleWidth);
+			aigua.triangle.css('top', aigua.bar.offset().top + aigua.bar.height() + aigua.borderWidth * 2);
+
+			aigua.ball.offset({top: aigua.filler.offset().top});
 		},
 
 		switchMode: function(mode, noTab) {
@@ -968,10 +1003,10 @@ $(function() {
 
 					// calculate the new number based on the original number
 					// plus the dragging offset
-					newNumber = aigua.modifyNumber(aigua.originalNumber, offset);
+					newNumber = aigua.modifyNumber(aigua.originalNumber.value, offset);
 
 					// replace the selection with the new number
-					aigua.codeMirror.replaceSelection(String(newNumber));
+					aigua.codeMirror.replaceSelection(String(newNumber) + aigua.originalNumber.suffix);
 
 					// is the dragging cursor to the right of the marker?
 					if (offset > 0) {
