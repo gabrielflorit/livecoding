@@ -112,7 +112,7 @@ var aigua = (function () {
 				dataType: 'json',
 				success: function (data) {
 
-					aigua.currentGistIsAnonymous = data.data.user ? false : true;
+					aigua.currentGistUserId = data.data.user ? data.data.user.id : null;
 
 					var html = data.data.files['water.html'];
 					var javascript = data.data.files['water.js'];
@@ -460,12 +460,14 @@ var aigua = (function () {
 				saveUrl = '/create-new';
 			} else {
 
+				postData['id'] = aigua.getUrlGistId();
+
 				// 2) this is an existing gist, but not owned by user
 				//			fork gist (POST /gists/:id/fork)
-				postData['id'] = aigua.getUrlGistId();
-				if (aigua.currentGistIsAnonymous) {
+				if (!aigua.currentGistUserId || aigua.currentGistUserId != aigua.user.id) {
 					saveUrl = '/fork';
 				}
+
 				// 3) this is an existing gist, owned by user
 				//			save gist (POST /gists/:id)
 				else {
@@ -475,7 +477,7 @@ var aigua = (function () {
 
 			$.post(saveUrl, postData, function(data) {
 				aigua.setUrl(data);
-				aigua.currentGistIsAnonymous = false;
+				aigua.currentGistUserId = aigua.user;
 				aigua.showSaveConfirmation();
 			});
 
@@ -494,7 +496,7 @@ var aigua = (function () {
 			$.post('/save-anonymously', postData, function(data) {
 
 				aigua.setUrl(data);
-				aigua.currentGistIsAnonymous = true;
+				aigua.currentGistUserId = null;
 				aigua.showSaveConfirmation();
 			});
 		},
@@ -782,7 +784,7 @@ var aigua = (function () {
 		ball: null,
 		bar: null,
 		borderWidth: 2,
-		currentGistIsAnonymous: null,
+		currentGistUserId: null,
 		miniColorsSelector: '.miniColors-selector',
 		miniColorsTrigger: null,
 		currentModeIndex: 0,
