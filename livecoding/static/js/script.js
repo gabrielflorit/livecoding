@@ -39,11 +39,19 @@ var aigua = (function () {
 
 			var selectedLibraries = $('li[class*="selected"]', $('#menu .item h2:contains("libraries")').next());
 
-			// add options
 			result.options = JSON.stringify({
+
+				// add libraries (e.g. d3, highcharts)
 				libraries: _.map(selectedLibraries, function(value) {
 					return $(value).text();
-				})
+				}),
+
+				// add current mode (e.g. html)
+				mode: aigua.modes[aigua.currentModeIndex].name,
+
+				// add current mode (e.g. sketchpad mode)
+				layout: aigua.screenLayouts[aigua.currentScreenLayoutIndex]
+
 			});
 
 			return result;
@@ -105,8 +113,21 @@ var aigua = (function () {
 					if (data.data.files['options.json']) {
 						options = JSON.parse(data.data.files['options.json'].content);
 					} else {
-						options = { libraries: [] };
+						options = {
+							libraries: []
+						};
 					}
+
+					if (!options.mode) {
+						options.mode = aigua.modes[0].name;
+					}
+
+					if (!options.layout) {
+						options.layout = aigua.screenLayouts[2];
+					}
+
+					// switch to the default layout
+					aigua.switchLayout(options.layout);
 
 					// iterate over every library in the options object
 					_.each(options.libraries, function(value) {
@@ -145,6 +166,9 @@ var aigua = (function () {
 						aigua.codeMirror.setValue(javascript.content);
 						aigua.codeMirror.setValue(javascript.content); // don't know why i have to do this twice
 					}
+
+					// switch to the default mode
+					aigua.switchMode(options.mode);
 
 					aigua.setUrl(gistId);
 
@@ -585,6 +609,17 @@ var aigua = (function () {
 			aigua.triangle.css('top', aigua.bar.offset().top + aigua.bar.height() + aigua.borderWidth * 2);
 
 			aigua.ball.offset({top: aigua.filler.offset().top});
+		},
+
+		switchLayout: function(choice) {
+
+			var layoutItems = $('.screenLayout');
+			layoutItems.siblings('.screenLayout').removeClass('disabled');
+			$('.screenLayout:contains("' + choice + '")').addClass('disabled');
+
+			aigua.currentScreenLayoutIndex = _.indexOf(aigua.screenLayouts, choice);
+			aigua.updateScreenLayout();
+			aigua.resetMenu();
 		},
 
 		switchMode: function(mode, noTab) {
@@ -1250,12 +1285,7 @@ $(function() {
 						// did we click on a screen layout item?
 						if (choice.attr('class').indexOf('screenLayout') != -1) {
 
-							choice.siblings('.screenLayout').removeClass('disabled');
-							choice.addClass('disabled');
-
-							aigua.currentScreenLayoutIndex = _.indexOf(aigua.screenLayouts, choice.text());
-							aigua.updateScreenLayout();
-							aigua.resetMenu();
+							aigua.switchLayout(choice.text());
 
 						}
 						else {
