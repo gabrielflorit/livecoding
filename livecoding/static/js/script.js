@@ -603,6 +603,9 @@ var aigua = (function () {
 				codeMirrorLoadMode = aigua.modes[aigua.currentModeIndex].name;
 			}
 
+			// remove all code folding markers
+			$('.CodeMirror-gutter-text pre').removeClass('codeFolded');
+
 			aigua.codeMirror.setOption("mode", codeMirrorOptionMode);
 			CodeMirror.autoLoadMode(aigua.codeMirror, codeMirrorLoadMode);
 
@@ -842,6 +845,9 @@ $(function() {
 						aigua.renderCode();
 					}
 				},
+
+				// enable code folding
+				onGutterClick: CodeMirror.newFoldFunction(CodeMirror.braceRangeFinder),
 
 				// this object holds a reference to THE key we defined above
 				extraKeys: extraKeys,

@@ -812,6 +812,16 @@ body {
           height: 100% !important;
         }
 
+        .CodeMirror .codeFolded {
+          color: white;
+          cursor: pointer;
+          font-weight: bold;
+        }
+
+        .CodeMirror .codeFolded:hover {
+          text-decoration: underline;
+        }
+
     #codeOverlay {
       position: relative;
       top: -1px;
