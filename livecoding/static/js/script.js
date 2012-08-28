@@ -531,7 +531,7 @@ var aigua = (function () {
 			var endCoords;
 			var center;
 			var value;
-			var suffix;
+			var suffix = '';
 
 			if (aigua.pulseNumbers) {
 
@@ -546,25 +546,11 @@ var aigua = (function () {
 			aigua.slider.show();
 
 			// if this isn't a number, e.g. 10px or 1.0em or 100%, strip the suffix
-			if (isNaN(token.string)) {
-
-				// TODO: this isn't elegant. make it elegant!
-				if (token.string.indexOf('px') != -1) {
-					suffix = 'px';
+			_.each(['px', 'em', '%'], function(value) {
+				if (token.string.indexOf(value) != -1) {
+					suffix = value;
 				}
-
-				if (token.string.indexOf('em') != -1) {
-					suffix = 'em';
-				}
-
-				if (token.string.indexOf('%') != -1) {
-					suffix = '%';
-				}
-
-			}
-			else {
-				suffix = '';
-			}
+			});
 
 			// save the original number
 			if (aigua.originalNumber == null) {
