@@ -39,7 +39,7 @@ var aigua = (function () {
 
 			var selectedLibraries = $('li[class*="selected"]', $('#menu .item h2:contains("libraries")').next());
 
-			result.options = JSON.stringify({
+			var options = {
 
 				// add libraries (e.g. d3, highcharts)
 				libraries: _.map(selectedLibraries, function(value) {
@@ -50,9 +50,19 @@ var aigua = (function () {
 				mode: aigua.modes[aigua.currentModeIndex].name,
 
 				// add current mode (e.g. sketchpad mode)
-				layout: aigua.screenLayouts[aigua.currentScreenLayoutIndex]
+				layout: aigua.screenLayouts[aigua.currentScreenLayoutIndex],
 
-			});
+				// add current resolution (e.g. 320x480)
+				resolution: $('li[class*="disabled"]', $('#menu .item h2:contains("resolution")').next()).text()
+
+			};
+
+			// don't include resolution if it's set to nothing
+			if (options.resolution == 'reset') {
+				delete options.resolution;
+			}
+
+			result.options = JSON.stringify(options, null, 4); // pretty print
 
 			return result;
 		},
@@ -126,8 +136,17 @@ var aigua = (function () {
 						options.layout = aigua.screenLayouts[2];
 					}
 
+					if (!options.resolution) {
+						options.resolution = $('li:first', $('#menu .item h2:contains("resolution")').next());
+					} else {
+						options.resolution = $('li:contains("' + options.resolution + '")', $('#menu .item h2:contains("resolution")').next());
+					}
+
 					// switch to the default layout
 					aigua.switchLayout(options.layout);
+
+					// switch to the default resolution
+					aigua.switchResolution(options.resolution);
 
 					// iterate over every library in the options object
 					_.each(options.libraries, function(value) {
@@ -666,6 +685,34 @@ var aigua = (function () {
 			CodeMirror.autoLoadMode(aigua.codeMirror, codeMirrorLoadMode);
 
 			aigua.pause = false;
+		},
+
+		switchResolution: function(resolution) {
+
+			resolution.siblings().removeClass('disabled');
+			resolution.addClass('disabled');
+
+			// reset
+			if (resolution.text() == 'reset') {
+
+				$('iframe').css('width', '');
+				$('iframe').css('height', '');
+				$('iframe').css('border', '');
+
+			}
+			// set width and height
+			else {
+
+				width = resolution.attr('rel').split('x')[0];
+				height = resolution.attr('rel').split('x')[1];
+
+				$('iframe').css('width', width);
+				$('iframe').css('height', height);
+				$('iframe').css('border', 'solid gray 1px');
+			}
+
+			aigua.renderCode();
+			aigua.resetMenu();
 		},
 
 		updateScreenLayout: function() {
@@ -1327,30 +1374,7 @@ $(function() {
 
 					case 'resolution':
 
-						choice.siblings().removeClass('disabled');
-						choice.addClass('disabled');
-
-						// reset
-						if (choice.text() == 'reset') {
-
-							$('iframe').css('width', '');
-							$('iframe').css('height', '');
-							$('iframe').css('border', '');
-
-						}
-						// set width and height
-						else {
-
-							width = choice.attr('rel').split('x')[0];
-							height = choice.attr('rel').split('x')[1];
-
-							$('iframe').css('width', width);
-							$('iframe').css('height', height);
-							$('iframe').css('border', 'solid gray 1px');
-						}
-
-						aigua.renderCode();
-						aigua.resetMenu();
+						aigua.switchResolution(choice);
 
 					break;
 
