@@ -963,14 +963,9 @@ $(function() {
 			// pulse numbers
 			aigua.pulseNumbers = true;
 			aigua.pulseNumbersInterval = setInterval(function() {
-				switch (aigua.modes[aigua.currentModeIndex].name) {
-
-					// this is pretty convenient - codemirror will wrap numbers
-					// in a <span class='cm-number'></span> element
-					case 'javascript':
-						$('.cm-number').animate({opacity: 0.5}).animate({opacity: 1});
-					break;
-				}
+				// this is pretty convenient - codemirror will wrap numbers
+				// in a <span class='cm-number'></span> element
+				$('.cm-number').animate({opacity: 0.5}).animate({opacity: 1});
 
 			}, 1000);
 
