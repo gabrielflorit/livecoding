@@ -29,11 +29,7 @@
 				},
 
 				renderCode: function(code) {
-					try { eval(code); }
-					catch (error) {
-						console.log(error);
-					}
-					finally {}
+					eval(code);
 				}
 
 			}
