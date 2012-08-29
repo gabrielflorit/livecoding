@@ -801,14 +801,20 @@ var aigua = (function () {
 		key: null,
 		libraries: [
 			{
-				name: 'd3',
-				obj: 'd3'
-			}, {
-				name: 'Highcharts',
-				obj: 'Highcharts'
-			}, {
 				name: 'crossfilter',
 				obj: 'crossfilter'
+			},
+			{
+				name: 'd3',
+				obj: 'd3'
+			},
+			{
+				name: 'Highcharts',
+				obj: 'Highcharts'
+			},
+			{
+				name: 'Underscore',
+				obj: '_'
 			}
 		],
 		lineHeight: 19,
