@@ -153,16 +153,18 @@ var aigua = (function () {
 
 						var library = value;
 
+						// add library to dom
+						frames[0].livecoding.addJs(_.find(aigua.libraries, function(value) {
+							return value.name == library;
+						}));
+
 						// find the library menu item and select it
-						var libraryItem = $(_.find($('li', $('#menu .item h2:contains("libraries")').next()), function(value) {
+						$(_.find($('li', $('#menu .item h2:contains("libraries")').next()), function(value) {
 
 							return $(value).text() == library;
 
-						}));
-						libraryItem.addClass('selected');
+						})).addClass('selected');
 
-						// add library to dom
-						frames[0].livecoding.addJs(libraryItem.text());
 					});
 
 					aigua.switchMode('json', true);
@@ -375,7 +377,9 @@ var aigua = (function () {
 
 			// remove all js libraries from DOM
 			_.each(aigua.libraries, function(value) {
-				frames[0].livecoding.removeJs(value.name);
+				frames[0].livecoding.removeJs(_.find(aigua.libraries, function(val) {
+					return val.name == value.name;
+				}));
 			});
 
 			aigua.switchMode('html');
@@ -796,9 +800,16 @@ var aigua = (function () {
 		isLoading: null,
 		key: null,
 		libraries: [
-			{ name: 'd3' },
-			{ name: 'Highcharts' },
-			{ name: 'crossfilter' }
+			{
+				name: 'd3',
+				obj: 'd3'
+			}, {
+				name: 'Highcharts',
+				obj: 'Highcharts'
+			}, {
+				name: 'crossfilter',
+				obj: 'crossfilter'
+			}
 		],
 		lineHeight: 19,
 		marker: null,
@@ -1361,12 +1372,16 @@ $(function() {
 
 						if (choice.attr('class').indexOf('selected') == -1 ) {
 							choice.addClass('selected');
-							frames[0].livecoding.addJs(choice.text());
+							frames[0].livecoding.addJs(_.find(aigua.libraries, function(value) {
+								return value.name == choice.text();
+							}));
 							aigua.setToDirty();
 						}
 						else {
 							choice.removeClass('selected');
-							frames[0].livecoding.removeJs(choice.text());
+							frames[0].livecoding.removeJs(_.find(aigua.libraries, function(value) {
+								return value.name == choice.text();
+							}));
 							aigua.setToDirty();
 						}
 

@@ -6,12 +6,15 @@
 		var livecoding = (function () {
 
 			return {
-				addJs: function(name) {
+				addJs: function(library) {
+
+					var name = library.name;
+					var obj = library.obj;
 
 					if ($('body script[src*="' + name + '.js"]').length == 0) {
 						$('body').append('<script src="static/js/libs/' + name + '.js"><\/script>');
 
-						while (eval("!" + name)) {
+						while (eval("!" + obj)) {
 						}
 
 						parent.aigua.renderCode();
@@ -21,15 +24,21 @@
 
 				json: null,
 
-				removeJs: function(name) {
+				removeJs: function(library) {
 
-					eval(name + " = undefined;");
+					var obj = library.obj;
+
+					eval(obj + " = undefined;");
 					parent.aigua.renderCode();
 
 				},
 
 				renderCode: function(code) {
-					eval(code);
+					try { eval(code); }
+					catch (error) {
+						console.error(error);
+					}
+					finally {}
 				}
 
 			}
