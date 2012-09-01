@@ -481,7 +481,7 @@ var aigua = (function () {
 
 			$.post(saveUrl, postData, function(data) {
 				aigua.setUrl(data);
-				aigua.currentGistUserId = aigua.user;
+				aigua.currentGistUserId = aigua.user.id;
 				aigua.showSaveConfirmation();
 			});
 
