@@ -12,12 +12,13 @@
 					var obj = library.obj;
 
 					if ($('body script[src*="' + name + '.js"]').length == 0) {
-						$('body').append('<script src="static/js/libs/' + name + '.js"><\/script>');
 
-						while (eval("!" + obj)) {
-						}
+						var script = $('<script src="static/js/libs/' + name + '.js"><\/script>');
+						script.ready(function(e) {
+ 							parent.aigua.renderCode();
+ 						})
 
-						parent.aigua.renderCode();
+						$('body').append(script);						
 					}
 
 				},
