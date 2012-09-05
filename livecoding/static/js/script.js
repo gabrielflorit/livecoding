@@ -693,6 +693,28 @@ var aigua = (function () {
 			aigua.pause = false;
 		},
 
+		switchToNextLayout: function() {
+
+			// if we're on the last one, go to the first one
+			// else go to the next one
+			if (aigua.currentScreenLayoutIndex == aigua.screenLayouts.length - 1) {
+				aigua.switchLayout(aigua.screenLayouts[0]);
+			} else {
+				aigua.switchLayout(aigua.screenLayouts[aigua.currentScreenLayoutIndex + 1]);
+			}
+		},
+
+		switchToPreviousLayout: function() {
+
+			// if we're on the first one, go to the last one
+			// else go to the previous one
+			if (aigua.currentScreenLayoutIndex == 0) {
+				aigua.switchLayout(aigua.screenLayouts[aigua.screenLayouts.length - 1]);
+			} else {
+				aigua.switchLayout(aigua.screenLayouts[aigua.currentScreenLayoutIndex - 1]);
+			}
+		},
+
 		switchToNextMode: function() {
 
 			// if we're on the last one, go to the first one
@@ -711,7 +733,7 @@ var aigua = (function () {
 			if (aigua.currentModeIndex == 0) {
 				aigua.switchMode(aigua.modes[aigua.modes.length - 1].name);
 			} else {
-				aigua.switchMode(aigua.modes[aigua.currentModeIndex - 1].name)
+				aigua.switchMode(aigua.modes[aigua.currentModeIndex - 1].name);
 			}
 		},
 
@@ -931,6 +953,8 @@ $(function() {
 				{extraKeys['Ctrl-S'] = aigua.saveAsUserOrAnonymously};
 				{extraKeys['Ctrl-/'] = aigua.switchToNextMode};
 				{extraKeys['Ctrl-.'] = aigua.switchToPreviousMode};
+				{extraKeys["Ctrl-'"] = aigua.switchToPreviousLayout};
+				{extraKeys['Ctrl-;'] = aigua.switchToNextLayout};
 			}
 
 			// display the key DisplayName to the user - 'Alt', or 'Ctrl', etc
