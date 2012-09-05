@@ -693,6 +693,28 @@ var aigua = (function () {
 			aigua.pause = false;
 		},
 
+		switchToNextMode: function() {
+
+			// if we're on the last one, go to the first one
+			// else go to the next one
+			if (aigua.currentModeIndex == aigua.modes.length - 1) {
+				aigua.switchMode(aigua.modes[0].name);
+			} else {
+				aigua.switchMode(aigua.modes[aigua.currentModeIndex + 1].name);
+			}
+		},
+
+		switchToPreviousMode: function() {
+
+			// if we're on the first one, go to the last one
+			// else go to the previous one
+			if (aigua.currentModeIndex == 0) {
+				aigua.switchMode(aigua.modes[aigua.modes.length - 1].name);
+			} else {
+				aigua.switchMode(aigua.modes[aigua.currentModeIndex - 1].name)
+			}
+		},
+
 		switchResolution: function(resolution) {
 
 			resolution.siblings().removeClass('disabled');
@@ -907,6 +929,8 @@ $(function() {
 				aigua.key.Code = 17;
 
 				{extraKeys['Ctrl-S'] = aigua.saveAsUserOrAnonymously};
+				{extraKeys['Ctrl-/'] = aigua.switchToNextMode};
+				{extraKeys['Ctrl-.'] = aigua.switchToPreviousMode};
 			}
 
 			// display the key DisplayName to the user - 'Alt', or 'Ctrl', etc
