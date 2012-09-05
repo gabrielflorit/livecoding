@@ -935,6 +935,10 @@ $(function() {
 				aigua.key.Code = 18;
 
 				{extraKeys['Alt-S'] = aigua.saveAsUserOrAnonymously};
+				{extraKeys['Cmd-/'] = aigua.switchToNextMode};
+				{extraKeys['Cmd-.'] = aigua.switchToPreviousMode};
+				{extraKeys["Cmd-'"] = aigua.switchToPreviousLayout};
+				{extraKeys['Cmd-;'] = aigua.switchToNextLayout};
 			}
 			
 			if (BrowserDetect.OS == 'Linux') {
