@@ -926,6 +926,8 @@ $(function() {
 			var gistId;
 			aigua.key = {};
 
+			var shortcuts = [];
+
 			// setup the key correctly (mac/linux/windows)
 			// aigua.key.Name: CodeMirror will listen for this key - it's the key that triggers slider/color picker
 			// aigua.key.DisplayName: we display this string to the user - it's to inform them of what key to use
@@ -934,11 +936,20 @@ $(function() {
 				aigua.key.DisplayName = 'Alt'; 
 				aigua.key.Code = 18;
 
+				// TODO: consolidate code duplication here
 				{extraKeys['Alt-S'] = aigua.saveAsUserOrAnonymously};
 				{extraKeys['Cmd-/'] = aigua.switchToNextMode};
 				{extraKeys['Cmd-.'] = aigua.switchToPreviousMode};
 				{extraKeys["Cmd-'"] = aigua.switchToPreviousLayout};
 				{extraKeys['Cmd-;'] = aigua.switchToNextLayout};
+
+				shortcuts = [
+					{ shortcut: 'Alt + S', name: 'save document' },
+					{ shortcut: '⌘ + /', name: 'next mode' },
+					{ shortcut: '⌘ + .', name: 'previous mode' },
+					{ shortcut: "⌘ + '", name: 'next layout' },
+					{ shortcut: '⌘ + ;', name: 'previous layout' }
+				];
 			}
 			
 			if (BrowserDetect.OS == 'Linux') {
@@ -954,12 +965,31 @@ $(function() {
 				aigua.key.DisplayName = 'Ctrl';
 				aigua.key.Code = 17;
 
+				// TODO: consolidate code duplication here
 				{extraKeys['Ctrl-S'] = aigua.saveAsUserOrAnonymously};
 				{extraKeys['Ctrl-/'] = aigua.switchToNextMode};
 				{extraKeys['Ctrl-.'] = aigua.switchToPreviousMode};
 				{extraKeys["Ctrl-'"] = aigua.switchToPreviousLayout};
 				{extraKeys['Ctrl-;'] = aigua.switchToNextLayout};
+
+				shortcuts = [
+					{ shortcut: 'Ctrl + S', name: 'save document' },
+					{ shortcut: 'Ctrl + /', name: 'next mode' },
+					{ shortcut: 'Ctrl + .', name: 'previous mode' },
+					{ shortcut: "Ctrl + '", name: 'next layout' },
+					{ shortcut: 'Ctrl + ;', name: 'previous layout' }
+				];
 			}
+
+			// add keyboard shortcuts to popup
+			_.each(shortcuts, function(value) {
+				var li = $('<li></li>');
+				var span = $('<span></span>');
+				span.text(value.shortcut);
+				li.append(span);
+				li.append(value.name);
+				$('#popup .keyboard ul').append(li);
+			});
 
 			// display the key DisplayName to the user - 'Alt', or 'Ctrl', etc
 			$('#message .key').text(aigua.key.DisplayName);
@@ -1470,6 +1500,13 @@ $(function() {
 							case 'about':
 								$('#popup').fadeIn();
 								$('#popup .about').fadeIn();
+								aigua.resetMenu();
+							break;
+
+							case 'keyboard shortcuts':
+								$('#popup').fadeIn();
+								$('#popup .keyboard').fadeIn();
+								aigua.resetMenu();
 							break;
 						}
 

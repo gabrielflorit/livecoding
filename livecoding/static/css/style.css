@@ -284,6 +284,22 @@ body {
           color: #9AB83E;
         }
 
+        #popup .containerItem ul.keys {
+          list-style: none;
+        }
+
+        #popup .containerItem ul.keys li {
+          margin: 0.5em 0;
+        }
+
+        #popup .containerItem ul.keys span {
+          text-shadow: 1px 1px 2px #919191;
+          background: white;
+          color: #121212;
+          padding: 0.25em 0.5em;
+          margin: 0 0.5em 0 0;
+        }
+
 #browsermessage {
   width: 35%;
   margin: 0 auto;
