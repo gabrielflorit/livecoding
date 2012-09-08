@@ -347,6 +347,36 @@ var aigua = (function () {
 			}
 		},
 
+		// TODO: improve by creating a list of snippet objects, each
+		// object containing the snippet as key, and two properties,
+		// the replacement, and the mode to run under
+		replaceSnippet: function(cm) {
+			var cursor = cm.getCursor();
+			var line = cursor.line;
+			var ch = cursor.ch;
+
+			// if we're on ch = 3 or later, inspect the token starting 3 characters ago
+			if (ch >= 3) {
+				var token = cm.getTokenAt({line: line, ch: ch - 2});
+
+				switch(token.string) {
+
+					case 'bor':
+						cm.replaceRange('border: solid #FF0000 1px;',
+							{line: line, ch: ch - 3}, {line: line, ch: ch});
+					break;
+
+					case 'bac':
+						cm.replaceRange('background: #FF0000;',
+							{line: line, ch: ch - 3}, {line: line, ch: ch});
+					break;
+
+					default:
+					break;
+				}
+			}
+		},
+
 		// reset bar position and width:
 		// center bar over the token
 		// set bar width to default starting width
@@ -942,13 +972,17 @@ $(function() {
 				{extraKeys['Cmd-.'] = aigua.switchToPreviousMode};
 				{extraKeys["Cmd-'"] = aigua.switchToPreviousLayout};
 				{extraKeys['Cmd-;'] = aigua.switchToNextLayout};
+				{extraKeys['Tab']   = aigua.replaceSnippet};
+//				{extraKeys['Cmd-\\'] = aigua.switchToNextLayout};
 
 				shortcuts = [
 					{ shortcut: 'Alt + S', name: 'save document' },
 					{ shortcut: '⌘ + /', name: 'next mode' },
 					{ shortcut: '⌘ + .', name: 'previous mode' },
 					{ shortcut: "⌘ + '", name: 'next layout' },
-					{ shortcut: '⌘ + ;', name: 'previous layout' }
+					{ shortcut: '⌘ + ;', name: 'previous layout' },
+					{ shortcut: '"bor" + Tab', name: '"border: solid #FF0000 1px;"' },
+					{ shortcut: '"bac" + Tab', name: '"background: #FF0000;"' }
 				];
 			}
 			
@@ -971,13 +1005,16 @@ $(function() {
 				{extraKeys['Ctrl-.'] = aigua.switchToPreviousMode};
 				{extraKeys["Ctrl-'"] = aigua.switchToPreviousLayout};
 				{extraKeys['Ctrl-;'] = aigua.switchToNextLayout};
+				{extraKeys['Tab']    = aigua.replaceSnippet};
 
 				shortcuts = [
 					{ shortcut: 'Ctrl + S', name: 'save document' },
 					{ shortcut: 'Ctrl + /', name: 'next mode' },
 					{ shortcut: 'Ctrl + .', name: 'previous mode' },
 					{ shortcut: "Ctrl + '", name: 'next layout' },
-					{ shortcut: 'Ctrl + ;', name: 'previous layout' }
+					{ shortcut: 'Ctrl + ;', name: 'previous layout' },
+					{ shortcut: '"bor" + Tab', name: '"border: solid #FF0000 1px;"' },
+					{ shortcut: '"bac" + Tab', name: '"background: #FF0000;"' }
 				];
 			}
 
