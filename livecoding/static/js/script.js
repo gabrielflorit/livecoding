@@ -22,61 +22,28 @@ var aigua = (function () {
 
 			var cursor = cm.getCursor();
 			var line = cm.getLine(cursor.line);
-			var keyword = {start: '', end: ''};
+			var keyword;
+			var mode = aigua.modes[aigua.currentModeIndex].name;
 
-			// first - what mode are we on?
-			switch(aigua.modes[aigua.currentModeIndex].name) {
-
-				case 'html':
-					keyword = {start: "<!--", end: '-->'}
-
-					// does this line start and end with the keywords? if so, remove it.
-					if (line.substring(0, keyword.start.length) == keyword.start
-						&& line.substring(line.length - keyword.end.length, line.length) == keyword.end) {
-						cm.setLine(cursor.line, line.substring(keyword.start.length, line.length - keyword.end.length));
-					}
-					// otherwise add the keywords to beginning and end of line
-					else {
-						cm.setLine(cursor.line, keyword.start + line + keyword.end);
-					}
-
-				break;
-
-				case 'javascript':
-
-					keyword = {start: "//", end: ''}
-
-					// does this line start with keyword? if so, remove it.
-					if (line.substring(0, keyword.start.length) == keyword.start) {
-						cm.setLine(cursor.line, line.substring(keyword.start.length, line.length));
-					}
-					// otherwise add the keyword to beginning of line
-					else {
-						cm.setLine(cursor.line, keyword.start + line);
-					}
-
-				break;
-
-				case 'css':
-					keyword = {start: "/*", end: '*/'}
-
-					// does this line start and end with the keywords? if so, remove it.
-					if (line.substring(0, keyword.start.length) == keyword.start
-						&& line.substring(line.length - keyword.end.length, line.length) == keyword.end) {
-						cm.setLine(cursor.line, line.substring(keyword.start.length, line.length - keyword.end.length));
-					}
-					// otherwise add the keywords to beginning and end of line
-					else {
-						cm.setLine(cursor.line, keyword.start + line + keyword.end);
-					}
-				break;
-
-				case 'json':
-					// nothing to do here - json doesn't support comments!
-				break;
-
+			if (mode == 'html') {
+				keyword = {start: "<!--", end: '-->'};
+			} else if (mode == 'css') {
+				keyword = {start: "/*", end: '*/'};
+			} else if (mode == 'javascript') {
+				keyword = {start: "//", end: ''};
+			} else {
+				keyword = {start: '', end: ''};
 			}
 
+			// does this line start and end with the keywords? if so, remove it.
+			if (line.substring(0, keyword.start.length) == keyword.start
+				&& line.substring(line.length - keyword.end.length, line.length) == keyword.end) {
+				cm.setLine(cursor.line, line.substring(keyword.start.length, line.length - keyword.end.length));
+			}
+			// otherwise add the keywords to beginning and end of line
+			else {
+				cm.setLine(cursor.line, keyword.start + line + keyword.end);
+			}
 		},
 
 		createPostDataObject: function() {
