@@ -28,6 +28,18 @@ var aigua = (function () {
 			switch(aigua.modes[aigua.currentModeIndex].name) {
 
 				case 'html':
+					keyword = {start: "<!--", end: '-->'}
+
+					// does this line start and end with the keywords? if so, remove it.
+					if (line.substring(0, keyword.start.length) == keyword.start
+						&& line.substring(line.length - keyword.end.length, line.length) == keyword.end) {
+						cm.setLine(cursor.line, line.substring(keyword.start.length, line.length - keyword.end.length));
+					}
+					// otherwise add the keywords to beginning and end of line
+					else {
+						cm.setLine(cursor.line, keyword.start + line + keyword.end);
+					}
+
 				break;
 
 				case 'javascript':
@@ -46,6 +58,17 @@ var aigua = (function () {
 				break;
 
 				case 'css':
+					keyword = {start: "/*", end: '*/'}
+
+					// does this line start and end with the keywords? if so, remove it.
+					if (line.substring(0, keyword.start.length) == keyword.start
+						&& line.substring(line.length - keyword.end.length, line.length) == keyword.end) {
+						cm.setLine(cursor.line, line.substring(keyword.start.length, line.length - keyword.end.length));
+					}
+					// otherwise add the keywords to beginning and end of line
+					else {
+						cm.setLine(cursor.line, keyword.start + line + keyword.end);
+					}
 				break;
 
 				case 'json':
