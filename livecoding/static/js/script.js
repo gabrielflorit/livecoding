@@ -949,6 +949,16 @@ var aigua = (function () {
 				keyword: 'bac',
 				snippet: 'background: #FF0000;',
 				mode: 'css'
+			},
+			{
+				keyword: 'mar',
+				snippet: 'margin: 0em 0em 0em 0em;',
+				mode: 'css'
+			},
+			{
+				keyword: 'pad',
+				snippet: 'padding: 0em 0em 0em 0em;',
+				mode: 'css'
 			}
 		],
 		startingBarWidth: 300,
@@ -1001,12 +1011,12 @@ $(function() {
 				aigua.key.Code = 18;
 
 				// TODO: consolidate code duplication here
-				{extraKeys['Alt-S'] = aigua.saveAsUserOrAnonymously};
-				{extraKeys['Cmd-/'] = aigua.switchToNextMode};
-				{extraKeys['Cmd-.'] = aigua.switchToPreviousMode};
-				{extraKeys["Cmd-'"] = aigua.switchToPreviousLayout};
-				{extraKeys['Cmd-;'] = aigua.switchToNextLayout};
-				{extraKeys['Tab']   = aigua.replaceSnippet};
+				{extraKeys['Alt-S']  = aigua.saveAsUserOrAnonymously};
+				{extraKeys['Cmd-/']  = aigua.switchToNextMode};
+				{extraKeys['Cmd-.']  = aigua.switchToPreviousMode};
+				{extraKeys["Cmd-'"]  = aigua.switchToPreviousLayout};
+				{extraKeys['Cmd-;']  = aigua.switchToNextLayout};
+				{extraKeys['Tab']    = aigua.replaceSnippet};
 				{extraKeys['Cmd-\\'] = aigua.comment};
 
 				shortcuts = [
@@ -1017,7 +1027,7 @@ $(function() {
 							{ shortcut: '⌘ + .', name: 'previous mode' },
 							{ shortcut: "⌘ + '", name: 'next layout' },
 							{ shortcut: '⌘ + ;', name: 'previous layout' },
-							{ shortcut: "⌘ + \\", name: 'comment/uncomment (currently only for javascript mode)' }
+							{ shortcut: "⌘ + \\", name: 'comment/uncomment' }
 						]
 					}
 				];
@@ -1037,12 +1047,13 @@ $(function() {
 				aigua.key.Code = 17;
 
 				// TODO: consolidate code duplication here
-				{extraKeys['Ctrl-S'] = aigua.saveAsUserOrAnonymously};
-				{extraKeys['Ctrl-/'] = aigua.switchToNextMode};
-				{extraKeys['Ctrl-.'] = aigua.switchToPreviousMode};
-				{extraKeys["Ctrl-'"] = aigua.switchToPreviousLayout};
-				{extraKeys['Ctrl-;'] = aigua.switchToNextLayout};
-				{extraKeys['Tab']    = aigua.replaceSnippet};
+				{extraKeys['Ctrl-S']  = aigua.saveAsUserOrAnonymously};
+				{extraKeys['Ctrl-/']  = aigua.switchToNextMode};
+				{extraKeys['Ctrl-.']  = aigua.switchToPreviousMode};
+				{extraKeys["Ctrl-'"]  = aigua.switchToPreviousLayout};
+				{extraKeys['Ctrl-;']  = aigua.switchToNextLayout};
+				{extraKeys['Tab']     = aigua.replaceSnippet};
+				{extraKeys['Ctrl-\\'] = aigua.comment};
 
 				shortcuts = [
 					{
@@ -1051,7 +1062,8 @@ $(function() {
 							{ shortcut: 'Ctrl + /', name: 'next mode' },
 							{ shortcut: 'Ctrl + .', name: 'previous mode' },
 							{ shortcut: "Ctrl + '", name: 'next layout' },
-							{ shortcut: 'Ctrl + ;', name: 'previous layout' }
+							{ shortcut: 'Ctrl + ;', name: 'previous layout' },
+							{ shortcut: "Ctrl + \\", name: 'comment/uncomment' }
 						]
 					}
 				];
