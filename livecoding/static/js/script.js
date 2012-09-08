@@ -359,20 +359,14 @@ var aigua = (function () {
 			if (ch >= 3) {
 				var token = cm.getTokenAt({line: line, ch: ch - 2});
 
-				switch(token.string) {
+				// is there a snippet for this keyword?
+				var snippet = _.find(aigua.snippets, function(value) {
+					return value.keyword == token.string;
+				});
 
-					case 'bor':
-						cm.replaceRange('border: solid #FF0000 1px;',
-							{line: line, ch: ch - 3}, {line: line, ch: ch});
-					break;
-
-					case 'bac':
-						cm.replaceRange('background: #FF0000;',
-							{line: line, ch: ch - 3}, {line: line, ch: ch});
-					break;
-
-					default:
-					break;
+				// if we found a snippet, replace it only if we're on the right mode
+				if (snippet && aigua.modes[aigua.currentModeIndex].name == snippet.mode) {
+					cm.replaceRange(snippet.snippet, {line: line, ch: ch - 3}, {line: line, ch: ch});
 				}
 			}
 		},
@@ -917,6 +911,18 @@ var aigua = (function () {
 		pulseNumbersInterval: null,
 		screenLayouts: ['fullscreen mode (horizontal)', 'fullscreen mode (vertical)', 'sketchpad mode'],
 		slider: null,
+		snippets: [
+			{
+				keyword: 'bor',
+				snippet: 'border: solid #FF0000 1px;',
+				mode: 'css'
+			},
+			{
+				keyword: 'bac',
+				snippet: 'background: #FF0000;',
+				mode: 'css'
+			}
+		],
 		startingBarWidth: 300,
 		triangle: null,
 		triangleHeight: 5,
@@ -976,13 +982,15 @@ $(function() {
 //				{extraKeys['Cmd-\\'] = aigua.switchToNextLayout};
 
 				shortcuts = [
-					{ shortcut: 'Alt + S', name: 'save document' },
-					{ shortcut: '⌘ + /', name: 'next mode' },
-					{ shortcut: '⌘ + .', name: 'previous mode' },
-					{ shortcut: "⌘ + '", name: 'next layout' },
-					{ shortcut: '⌘ + ;', name: 'previous layout' },
-					{ shortcut: '"bor" + Tab', name: '"border: solid #FF0000 1px;"' },
-					{ shortcut: '"bac" + Tab', name: '"background: #FF0000;"' }
+					{
+						section: 'general', shortcuts: [
+							{ shortcut: 'Alt + S', name: 'save document' },
+							{ shortcut: '⌘ + /', name: 'next mode' },
+							{ shortcut: '⌘ + .', name: 'previous mode' },
+							{ shortcut: "⌘ + '", name: 'next layout' },
+							{ shortcut: '⌘ + ;', name: 'previous layout' }
+						]
+					}
 				];
 			}
 			
@@ -1008,24 +1016,53 @@ $(function() {
 				{extraKeys['Tab']    = aigua.replaceSnippet};
 
 				shortcuts = [
-					{ shortcut: 'Ctrl + S', name: 'save document' },
-					{ shortcut: 'Ctrl + /', name: 'next mode' },
-					{ shortcut: 'Ctrl + .', name: 'previous mode' },
-					{ shortcut: "Ctrl + '", name: 'next layout' },
-					{ shortcut: 'Ctrl + ;', name: 'previous layout' },
-					{ shortcut: '"bor" + Tab', name: '"border: solid #FF0000 1px;"' },
-					{ shortcut: '"bac" + Tab', name: '"background: #FF0000;"' }
+					{
+						section: 'general', shortcuts: [
+							{ shortcut: 'Ctrl + S', name: 'save document' },
+							{ shortcut: 'Ctrl + /', name: 'next mode' },
+							{ shortcut: 'Ctrl + .', name: 'previous mode' },
+							{ shortcut: "Ctrl + '", name: 'next layout' },
+							{ shortcut: 'Ctrl + ;', name: 'previous layout' }
+						]
+					}
 				];
 			}
 
+			// group snippets by mode
+			var snippets = _.chain(aigua.snippets)
+				.groupBy(function(value) {
+					return value.mode;
+				})
+				.map(function(value) {
+					var shortcuts = _.map(value, function(value) {
+						return { shortcut: value.keyword + ' + Tab', name: value.snippet };
+					});
+
+					return { section: 'snippets (' + value[0].mode + ')', shortcuts: shortcuts };
+				})
+				.each(function(value) {
+					shortcuts.push(value);
+				});
+
 			// add keyboard shortcuts to popup
 			_.each(shortcuts, function(value) {
-				var li = $('<li></li>');
-				var span = $('<span></span>');
-				span.text(value.shortcut);
-				li.append(span);
-				li.append(value.name);
-				$('#popup .keyboard ul').append(li);
+
+				var h3 = $('<h3></h3>');
+				h3.text(value.section);
+				$('#popup .keyboard').append(h3);
+
+				var ul = $('<ul class="keys"></ul>');
+
+				_.each(value.shortcuts, function(value) {
+					var li = $('<li></li>');
+					var span = $('<span></span>');
+					span.text(value.shortcut);
+					li.append(span);
+					li.append(value.name);
+					ul.append(li);
+				});
+
+				$('#popup .keyboard').append(ul);
 			});
 
 			// display the key DisplayName to the user - 'Alt', or 'Ctrl', etc
