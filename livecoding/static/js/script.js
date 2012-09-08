@@ -49,6 +49,7 @@ var aigua = (function () {
 				break;
 
 				case 'json':
+					// nothing to do here - json doesn't support comments!
 				break;
 
 			}
