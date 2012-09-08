@@ -18,6 +18,43 @@ var aigua = (function () {
 			}
 		},
 
+		comment: function(cm) {
+
+			var cursor = cm.getCursor();
+			var line = cm.getLine(cursor.line);
+			var keyword = {start: '', end: ''};
+
+			// first - what mode are we on?
+			switch(aigua.modes[aigua.currentModeIndex].name) {
+
+				case 'html':
+				break;
+
+				case 'javascript':
+
+					keyword = {start: "//", end: ''}
+
+					// does this line start with keyword? if so, remove it.
+					if (line.substring(0, keyword.start.length) == keyword.start) {
+						cm.setLine(cursor.line, line.substring(keyword.start.length, line.length));
+					}
+					// otherwise add the keyword to beginning of line
+					else {
+						cm.setLine(cursor.line, keyword.start + line);
+					}
+
+				break;
+
+				case 'css':
+				break;
+
+				case 'json':
+				break;
+
+			}
+
+		},
+
 		createPostDataObject: function() {
 
 			var result = {};
@@ -979,7 +1016,7 @@ $(function() {
 				{extraKeys["Cmd-'"] = aigua.switchToPreviousLayout};
 				{extraKeys['Cmd-;'] = aigua.switchToNextLayout};
 				{extraKeys['Tab']   = aigua.replaceSnippet};
-//				{extraKeys['Cmd-\\'] = aigua.switchToNextLayout};
+				{extraKeys['Cmd-\\'] = aigua.comment};
 
 				shortcuts = [
 					{
@@ -988,7 +1025,8 @@ $(function() {
 							{ shortcut: '⌘ + /', name: 'next mode' },
 							{ shortcut: '⌘ + .', name: 'previous mode' },
 							{ shortcut: "⌘ + '", name: 'next layout' },
-							{ shortcut: '⌘ + ;', name: 'previous layout' }
+							{ shortcut: '⌘ + ;', name: 'previous layout' },
+							{ shortcut: "⌘ + \\", name: 'comment/uncomment (currently only for javascript mode)' }
 						]
 					}
 				];
