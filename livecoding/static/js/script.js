@@ -20,30 +20,7 @@ var aigua = (function () {
 
 		comment: function(cm) {
 
-			var cursor = cm.getCursor();
-			var line = cm.getLine(cursor.line);
-			var keyword;
-			var mode = aigua.modes[aigua.currentModeIndex].name;
-
-			if (mode == 'html') {
-				keyword = {start: "<!--", end: '-->'};
-			} else if (mode == 'css') {
-				keyword = {start: "/*", end: '*/'};
-			} else if (mode == 'javascript') {
-				keyword = {start: "//", end: ''};
-			} else {
-				keyword = {start: '', end: ''};
-			}
-
-			// does this line start and end with the keywords? if so, remove it.
-			if (line.substring(0, keyword.start.length) == keyword.start
-				&& line.substring(line.length - keyword.end.length, line.length) == keyword.end) {
-				cm.setLine(cursor.line, line.substring(keyword.start.length, line.length - keyword.end.length));
-			}
-			// otherwise add the keywords to beginning and end of line
-			else {
-				cm.setLine(cursor.line, keyword.start + line + keyword.end);
-			}
+			aigua.masterComment(cm, true);
 		},
 
 		createPostDataObject: function() {
@@ -97,6 +74,11 @@ var aigua = (function () {
 
 		getOAuthToken: function() {
 			return token;
+		},
+
+		getSelectedRange: function(cm) {
+			var range = { from: cm.getCursor(true), to: cm.getCursor(false) };
+			return range;
 		},
 
 		getUrlGistId: function() {
@@ -260,6 +242,12 @@ var aigua = (function () {
 			userh2.unbind('click');
 			$('li:contains("logout")').text('login');
 			$('li').filter(function() { return $(this).text() == 'save'; } ).addClass('disabled');
+		},
+
+		masterComment: function(cm, comment) {
+
+			var range = aigua.getSelectedRange(cm);
+			cm.commentRange(comment, range.from, range.to);
 		},
 
 		// modify a number by a certain distance
@@ -745,6 +733,22 @@ var aigua = (function () {
 			aigua.pause = false;
 		},
 
+		switchToCss: function() {
+			aigua.switchMode('css');
+		},
+
+		switchToHtml: function() {
+			aigua.switchMode('html');
+		},
+
+		switchToJavaScript: function() {
+			aigua.switchMode('javascript');
+		},
+
+		switchToJson: function() {
+			aigua.switchMode('json');
+		},
+
 		switchToNextLayout: function() {
 
 			// if we're on the last one, go to the first one
@@ -764,28 +768,6 @@ var aigua = (function () {
 				aigua.switchLayout(aigua.screenLayouts[aigua.screenLayouts.length - 1]);
 			} else {
 				aigua.switchLayout(aigua.screenLayouts[aigua.currentScreenLayoutIndex - 1]);
-			}
-		},
-
-		switchToNextMode: function() {
-
-			// if we're on the last one, go to the first one
-			// else go to the next one
-			if (aigua.currentModeIndex == aigua.modes.length - 1) {
-				aigua.switchMode(aigua.modes[0].name);
-			} else {
-				aigua.switchMode(aigua.modes[aigua.currentModeIndex + 1].name);
-			}
-		},
-
-		switchToPreviousMode: function() {
-
-			// if we're on the first one, go to the last one
-			// else go to the previous one
-			if (aigua.currentModeIndex == 0) {
-				aigua.switchMode(aigua.modes[aigua.modes.length - 1].name);
-			} else {
-				aigua.switchMode(aigua.modes[aigua.currentModeIndex - 1].name);
 			}
 		},
 
@@ -815,6 +797,11 @@ var aigua = (function () {
 
 			aigua.renderCode();
 			aigua.resetMenu();
+		},
+
+		uncomment: function(cm) {
+
+			aigua.masterComment(cm, false);
 		},
 
 		updateScreenLayout: function() {
@@ -1014,24 +1001,41 @@ $(function() {
 				aigua.key.DisplayName = 'Alt'; 
 				aigua.key.Code = 18;
 
-				// TODO: consolidate code duplication here
 				{extraKeys['Alt-S']  = aigua.saveAsUserOrAnonymously};
-				{extraKeys['Cmd-/']  = aigua.switchToNextMode};
-				{extraKeys['Cmd-.']  = aigua.switchToPreviousMode};
+				{extraKeys['Cmd-/']  = aigua.comment};
+				{extraKeys['Cmd-.']  = aigua.uncomment};
+
+				{extraKeys['Cmd-1']  = aigua.switchToHtml};
+				{extraKeys['Cmd-2']  = aigua.switchToJavaScript};
+				{extraKeys['Cmd-3']  = aigua.switchToCss};
+				{extraKeys['Cmd-4']  = aigua.switchToJson};
+
 				{extraKeys["Cmd-'"]  = aigua.switchToPreviousLayout};
 				{extraKeys['Cmd-;']  = aigua.switchToNextLayout};
+
 				{extraKeys['Tab']    = aigua.replaceSnippet};
-				{extraKeys['Cmd-\\'] = aigua.comment};
+
 
 				shortcuts = [
 					{
 						section: 'general', shortcuts: [
-							{ shortcut: 'Alt + S', name: 'save document' },
-							{ shortcut: '⌘ + /', name: 'next mode' },
-							{ shortcut: '⌘ + .', name: 'previous mode' },
-							{ shortcut: "⌘ + '", name: 'next layout' },
-							{ shortcut: '⌘ + ;', name: 'previous layout' },
-							{ shortcut: "⌘ + \\", name: 'comment/uncomment' }
+							{ shortcut: 'Alt + S', name: 'save document'       },
+							{ shortcut: '⌘ + /',  name: 'comment selection'   },
+							{ shortcut: "⌘ + .",  name: 'uncomment selection' }
+						]
+					},
+					{
+						section: 'modes', shortcuts: [
+							{ shortcut: '⌘ + 1', name: 'html'       },
+							{ shortcut: '⌘ + 2', name: 'javascript' },
+							{ shortcut: '⌘ + 3', name: 'css'        },
+							{ shortcut: '⌘ + 4', name: 'json'       }
+						]
+					},
+					{
+						section: 'layouts', shortcuts: [
+							{ shortcut: "⌘ + '", name: 'next layout'     },
+							{ shortcut: '⌘ + ;', name: 'previous layout' }
 						]
 					}
 				];
@@ -1050,24 +1054,40 @@ $(function() {
 				aigua.key.DisplayName = 'Ctrl';
 				aigua.key.Code = 17;
 
-				// TODO: consolidate code duplication here
 				{extraKeys['Ctrl-S']  = aigua.saveAsUserOrAnonymously};
-				{extraKeys['Ctrl-/']  = aigua.switchToNextMode};
-				{extraKeys['Ctrl-.']  = aigua.switchToPreviousMode};
+				{extraKeys['Ctrl-/']  = aigua.comment};
+				{extraKeys['Ctrl-.']  = aigua.uncomment};
+
+				{extraKeys['Ctrl-1']  = aigua.switchToHtml};
+				{extraKeys['Ctrl-2']  = aigua.switchToJavaScript};
+				{extraKeys['Ctrl-3']  = aigua.switchToCss};
+				{extraKeys['Ctrl-4']  = aigua.switchToJson};
+
 				{extraKeys["Ctrl-'"]  = aigua.switchToPreviousLayout};
 				{extraKeys['Ctrl-;']  = aigua.switchToNextLayout};
-				{extraKeys['Tab']     = aigua.replaceSnippet};
-				{extraKeys['Ctrl-\\'] = aigua.comment};
+
+				{extraKeys['Tab']    = aigua.replaceSnippet};
 
 				shortcuts = [
 					{
 						section: 'general', shortcuts: [
-							{ shortcut: 'Ctrl + S', name: 'save document' },
-							{ shortcut: 'Ctrl + /', name: 'next mode' },
-							{ shortcut: 'Ctrl + .', name: 'previous mode' },
-							{ shortcut: "Ctrl + '", name: 'next layout' },
-							{ shortcut: 'Ctrl + ;', name: 'previous layout' },
-							{ shortcut: "Ctrl + \\", name: 'comment/uncomment' }
+							{ shortcut: 'Ctrl + S', name: 'save document'       },
+							{ shortcut: 'Ctrl + /',  name: 'comment selection'   },
+							{ shortcut: "Ctrl + .",  name: 'uncomment selection' }
+						]
+					},
+					{
+						section: 'modes', shortcuts: [
+							{ shortcut: 'Ctrl + 1', name: 'html'       },
+							{ shortcut: 'Ctrl + 2', name: 'javascript' },
+							{ shortcut: 'Ctrl + 3', name: 'css'        },
+							{ shortcut: 'Ctrl + 4', name: 'json'       }
+						]
+					},
+					{
+						section: 'layouts', shortcuts: [
+							{ shortcut: "Ctrl + '", name: 'next layout'     },
+							{ shortcut: 'Ctrl + ;', name: 'previous layout' }
 						]
 					}
 				];
@@ -1090,11 +1110,10 @@ $(function() {
 				});
 
 			// add keyboard shortcuts to popup
-			_.each(shortcuts, function(value) {
+			_.each(shortcuts, function(value, index) {
 
 				var h3 = $('<h3></h3>');
 				h3.text(value.section);
-				$('#popup .keyboard').append(h3);
 
 				var ul = $('<ul class="keys"></ul>');
 
@@ -1107,7 +1126,14 @@ $(function() {
 					ul.append(li);
 				});
 
-				$('#popup .keyboard').append(ul);
+				if (index % 2 == 0) {
+					$('#popup .keyboard .left').append(h3);
+					$('#popup .keyboard .left').append(ul);
+				} else {
+					$('#popup .keyboard .right').append(h3);
+					$('#popup .keyboard .right').append(ul);
+				}
+
 			});
 
 			// display the key DisplayName to the user - 'Alt', or 'Ctrl', etc

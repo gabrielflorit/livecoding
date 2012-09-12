@@ -257,6 +257,16 @@ body {
       cursor: pointer;
     }
 
+    #popup .keyboard .left {
+      width: 50%;
+      float: left;
+    }
+
+    #popup .keyboard .right {
+      width: 50%;
+      float: right;
+    }
+
     #popup .containerItem {
       padding: 11px 37px;
       display: none;
