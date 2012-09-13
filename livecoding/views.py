@@ -78,7 +78,6 @@ def create_new():
     livecodingUrl = 'http://livecoding.io/' + gistId
 
     gist = {
-        'description': 'created by http://livecoding.io',
         'public': 'true',
         'files': {
             'README.md': {
@@ -127,7 +126,6 @@ def fork():
 
     # now save as user
     gist = {
-        'description': 'created by http://livecoding.io',
         'files': {
             'README.md': {
                 'content':  ('View this code at <a href="%s">%s</a>' % (livecodingUrl, livecodingUrl))
@@ -169,7 +167,6 @@ def save():
     livecodingUrl = 'http://livecoding.io/' + gistId
 
     gist = {
-        'description': 'created by http://livecoding.io/' + gistId,
         'files': {
             'README.md': {
                 'content':  ('View this code at <a href="%s">%s</a>' % (livecodingUrl, livecodingUrl))
