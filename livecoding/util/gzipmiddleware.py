@@ -1,5 +1,6 @@
 import gzip
 import StringIO
+from datetime import datetime, timedelta
 
 class GzipMiddleware(object):
     def __init__(self, app, compresslevel=9):
@@ -33,12 +34,21 @@ class GzipMiddleware(object):
         output.close()
         buffer.seek(0)
         result = buffer.getvalue()
+
+        expires = datetime.utcnow() + timedelta(days=(30))
+        expires = expires.strftime("%a, %d %b %Y %H:%M:%S GMT")
+
         headers = []
         for name, value in start_response_args[1]:
             if name.lower() != 'content-length':
-                 headers.append((name, value))
+                if name.lower() == 'expires':
+                    headers.append((name, expires))
+                else:
+                    headers.append((name, value))
+
         headers.append(('Content-Length', str(len(result))))
         headers.append(('Content-Encoding', 'gzip'))
+
         start_response(start_response_args[0], headers, start_response_args[2])
         buffer.close()
         return [result]
