@@ -707,6 +707,9 @@ var aigua = (function () {
 			// save cursor line and position to this mode's 'position' property
 			aigua.modes[aigua.currentModeIndex].cursor = aigua.codeMirror.getCursor();
 
+			// save scroll info to this mode's 'scrollInfo' property
+			aigua.modes[aigua.currentModeIndex].scrollInfo = aigua.codeMirror.getScrollInfo();
+
 			// set current mode index to new mode
 			aigua.currentModeIndex = _.indexOf(_.pluck(aigua.modes, 'name'), mode);
 
@@ -717,6 +720,13 @@ var aigua = (function () {
 			if (aigua.modes[aigua.currentModeIndex].cursor) {
 				aigua.codeMirror.setCursor(aigua.modes[aigua.currentModeIndex].cursor);
 			}
+
+			// scroll to saved position
+			if (aigua.modes[aigua.currentModeIndex].scrollInfo) {
+				aigua.codeMirror.scrollTo(aigua.modes[aigua.currentModeIndex].scrollInfo.x, aigua.modes[aigua.currentModeIndex].scrollInfo.y);
+			}
+
+
 			aigua.codeMirror.focus();
 
 			// change codemirror's language syntax to the new mode
@@ -928,19 +938,23 @@ var aigua = (function () {
 			{
 				name: 'html',
 				code: null,
-				cursor: null
+				cursor: null,
+				scrollInfo: null
 			}, {
 				name: 'javascript',
 				code: null,
-				cursor: null
+				cursor: null,
+				scrollInfo: null
 			}, {
 				name: 'css',
 				code: null,
-				cursor: null
+				cursor: null,
+				scrollInfo: null
 			}, {
 				name: 'json',
 				code: null,
-				cursor: null
+				cursor: null,
+				scrollInfo: null
 			}
 		],
 		originalNumber: null,
