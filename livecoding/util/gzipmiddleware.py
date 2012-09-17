@@ -43,6 +43,8 @@ class GzipMiddleware(object):
             if name.lower() != 'content-length':
                 if name.lower() == 'expires':
                     headers.append((name, expires))
+                elif name.lower() == 'cache-control':
+                    headers.append((name, 'public, max-age=2592000'))
                 else:
                     headers.append((name, value))
 
