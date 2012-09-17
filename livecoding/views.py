@@ -247,7 +247,8 @@ def iframe():
 def index(gistId):
 
     return render_template('index.html', vars=dict(
-        version=versioning()
+        version=versioning(),
+        gaId=os.getenv('GOOGLE_ANALYTICS_ID')
         ))
 
 
