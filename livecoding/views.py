@@ -272,7 +272,8 @@ def solo(gistId):
         js=theJs,
         json=theJson,
         html=theHtml,
-        libraries=theLibraries
+        libraries=theLibraries,
+        gistId=gistId
         ))
 
 
