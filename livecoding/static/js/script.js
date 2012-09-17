@@ -704,11 +704,20 @@ var aigua = (function () {
 			// save current code to this mode's 'code' property
 			aigua.modes[aigua.currentModeIndex].code = aigua.codeMirror.getValue();
 
+			// save cursor line and position to this mode's 'position' property
+			aigua.modes[aigua.currentModeIndex].cursor = aigua.codeMirror.getCursor();
+
 			// set current mode index to new mode
 			aigua.currentModeIndex = _.indexOf(_.pluck(aigua.modes, 'name'), mode);
 
 			// populate the code mirror tab with the new mode's code
 			aigua.codeMirror.setValue(aigua.modes[aigua.currentModeIndex].code || '');
+
+			// set cursor 
+			if (aigua.modes[aigua.currentModeIndex].cursor) {
+				aigua.codeMirror.setCursor(aigua.modes[aigua.currentModeIndex].cursor);
+			}
+			aigua.codeMirror.focus();
 
 			// change codemirror's language syntax to the new mode
 			var codeMirrorOptionMode, codeMirrorLoadMode;
@@ -918,16 +927,20 @@ var aigua = (function () {
 		modes: [
 			{
 				name: 'html',
-				code: null
+				code: null,
+				cursor: null
 			}, {
 				name: 'javascript',
-				code: null
+				code: null,
+				cursor: null
 			}, {
 				name: 'css',
-				code: null
+				code: null,
+				cursor: null
 			}, {
 				name: 'json',
-				code: null
+				code: null,
+				cursor: null
 			}
 		],
 		originalNumber: null,
