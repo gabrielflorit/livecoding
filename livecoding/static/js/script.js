@@ -793,6 +793,11 @@ var aigua = (function () {
 				$('iframe').css('width', width);
 				$('iframe').css('height', height);
 				$('iframe').css('border', 'solid gray 1px');
+
+				// take into account the scrollbar width
+				while($('html', $('iframe').contents()).width() != width) {
+					$('iframe').css('width', $('iframe').width() + 1);
+				}
 			}
 
 			aigua.renderCode();
