@@ -146,7 +146,7 @@ var aigua = (function () {
 						options.layout = aigua.screenLayouts[2];
 					}
 
-					if (!options.resolution) {
+					if (!options.resolution || options.resolution.indexOf('(') != -1) {
 						options.resolution = $('li:first', $('#menu .item h2:contains("resolution")').next());
 					} else {
 						options.resolution = $('li:contains("' + options.resolution + '")', $('#menu .item h2:contains("resolution")').next());
