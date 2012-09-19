@@ -916,6 +916,10 @@ var aigua = (function () {
 				obj: 'd3'
 			},
 			{
+				name: 'Handlebars',
+				obj: 'Handlebars'
+			},
+			{
 				name: 'Highcharts',
 				obj: 'Highcharts'
 			},
