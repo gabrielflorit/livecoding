@@ -932,6 +932,10 @@ var aigua = (function () {
 				obj: 'THREE'
 			},
 			{
+				name: 'TouchSwipe',
+				obj: '$.fn.swipe'
+			},
+			{
 				name: 'Underscore',
 				obj: '_'
 			}
