@@ -924,16 +924,20 @@ var aigua = (function () {
 				obj: 'Highcharts'
 			},
 			{
+				name: 'jQuery.Flickable',
+				obj: '$.fn.flickable'
+			},
+			{
+				name: 'jQuery.TouchSwipe',
+				obj: '$.fn.swipe'
+			},
+			{
 				name: 'Raphael',
 				obj: 'Raphael'
 			},
 			{
 				name: 'three.js',
 				obj: 'THREE'
-			},
-			{
-				name: 'TouchSwipe',
-				obj: '$.fn.swipe'
 			},
 			{
 				name: 'Underscore',
