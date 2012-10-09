@@ -1299,8 +1299,8 @@ $(function() {
 				aigua.loadGist($("#menu .item h2:contains('examples') + ul li:first").attr('rel'));
 			}
 
-			// // show the 'click a number' message
-			// $('#message').show();
+			// show the 'click a number' message
+			$('#message').show();
 
 			// // pulse the message
 			// aigua.pulseMessageInterval = setInterval(function() {
