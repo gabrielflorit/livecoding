@@ -928,7 +928,7 @@ var aigua = (function () {
 				obj: 'Highcharts'
 			},
 			{
-				name: 'kinetic',
+				name: 'KineticJS',
 				obj: 'Kinetic'
 			},
 			{
