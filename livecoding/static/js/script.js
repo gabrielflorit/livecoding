@@ -928,6 +928,10 @@ var aigua = (function () {
 				obj: 'Highcharts'
 			},
 			{
+				name: 'kinetic',
+				obj: 'Kinetic'
+			},
+			{
 				name: 'jQuery.Flickable',
 				obj: '$.fn.flickable'
 			},
