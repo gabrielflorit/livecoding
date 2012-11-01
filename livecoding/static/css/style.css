@@ -393,6 +393,14 @@ body {
       float: left;
     }
 
+    #pauseExecution {
+      font-family: 'Consolas', 'Bitstream Vera Sans Mono', 'DejaVu Sans Mono', 'Monaco', Courier, monospace;
+      font-size: 22px;
+      margin: 0 0 0 1em;
+      color: #FFF;
+      display: none;
+    }
+
     #message {
       position: absolute;
       top: -22px;

@@ -283,83 +283,97 @@ var aigua = (function () {
 			return d3.round(result, decimalPlaces);
 		},
 
+		pauseResumeExecution: function() {
+			if (!aigua.pauseExecution) {
+				aigua.pauseExecution = !aigua.pauseExecution;
+				$('#pauseExecution').show();
+			} else {
+				aigua.pauseExecution = !aigua.pauseExecution;
+				$('#pauseExecution').hide();
+				aigua.renderCode();
+			}
+		},
+
 		// run the code and update the display
 		renderCode: function() {
 
 			// get the current code
-			var code = aigua.codeMirror.getValue();
+			if (!aigua.pauseExecution) {
 
-			switch (aigua.modes[aigua.currentModeIndex].name) {
+				var code = aigua.codeMirror.getValue();
 
-				case 'html':
+				switch (aigua.modes[aigua.currentModeIndex].name) {
 
-					// replace html
-					$('body #livecoding-main', $('iframe').contents()).html(code);
+					case 'html':
 
-					// run the javascript code
-					frames[0].livecoding.renderCode(_.find(aigua.modes, function(value) {
-						return value.name == 'javascript';
-					}).code || '');
-	
-				break;
+						// replace html
+						$('body #livecoding-main', $('iframe').contents()).html(code);
 
-				case 'javascript':
-
-					// replace html
-					$('body #livecoding-main', $('iframe').contents()).html(_.find(aigua.modes, function(value) {
-						return value.name == 'html';
-					}).code || '');
-
-					// run the javascript code
-					frames[0].livecoding.renderCode(code);
-
-				break;
-
-				case 'css':
-
-					// set css
-					$('#style', $('iframe').contents()).get(0).textContent = code;
-
-					// replace html
-					$('body #livecoding-main', $('iframe').contents()).html(_.find(aigua.modes, function(value) {
-						return value.name == 'html';
-					}).code || '');
-
-					// run the javascript code
-					frames[0].livecoding.renderCode(_.find(aigua.modes, function(value) {
-						return value.name == 'javascript';
-					}).code || '');
-				break;
-
-				case 'json':
-
-					if (code.length > 0) {
-	
-						try {
+						// run the javascript code
+						frames[0].livecoding.renderCode(_.find(aigua.modes, function(value) {
+							return value.name == 'javascript';
+						}).code || '');
 		
-							// update the global json object
-							frames[0].livecoding.json = JSON.parse(code);
+					break;
 
-							// replace html
-							$('body #livecoding-main', $('iframe').contents()).html(_.find(aigua.modes, function(value) {
-								return value.name == 'html';
-							}).code || '');
+					case 'javascript':
 
-							// run the javascript code
-							frames[0].livecoding.renderCode(_.find(aigua.modes, function(value) {
-								return value.name == 'javascript';
-							}).code || '');
+						// replace html
+						$('body #livecoding-main', $('iframe').contents()).html(_.find(aigua.modes, function(value) {
+							return value.name == 'html';
+						}).code || '');
+
+						// run the javascript code
+						frames[0].livecoding.renderCode(code);
+
+					break;
+
+					case 'css':
+
+						// set css
+						$('#style', $('iframe').contents()).get(0).textContent = code;
+
+						// replace html
+						$('body #livecoding-main', $('iframe').contents()).html(_.find(aigua.modes, function(value) {
+							return value.name == 'html';
+						}).code || '');
+
+						// run the javascript code
+						frames[0].livecoding.renderCode(_.find(aigua.modes, function(value) {
+							return value.name == 'javascript';
+						}).code || '');
+					break;
+
+					case 'json':
+
+						if (code.length > 0) {
+		
+							try {
+			
+								// update the global json object
+								frames[0].livecoding.json = JSON.parse(code);
+
+								// replace html
+								$('body #livecoding-main', $('iframe').contents()).html(_.find(aigua.modes, function(value) {
+									return value.name == 'html';
+								}).code || '');
+
+								// run the javascript code
+								frames[0].livecoding.renderCode(_.find(aigua.modes, function(value) {
+									return value.name == 'javascript';
+								}).code || '');
+			
+							}
+							catch (error) {
+								console.log(error);
+							}
+							finally {}
 		
 						}
-						catch (error) {
-							console.log(error);
-						}
-						finally {}
-	
-					}
 
-				break;
+					break;
 
+				}
 			}
 		},
 
@@ -983,6 +997,7 @@ var aigua = (function () {
 		],
 		originalNumber: null,
 		pause: false,
+		pauseExecution: false,
 		pulseColors: true,
 		pulseColorsInterval: null,
 		pulseMessageInterval: null,
@@ -1075,13 +1090,16 @@ $(function() {
 
 				{extraKeys['Tab']    = aigua.replaceSnippet};
 
+				{extraKeys['Cmd-\\'] = aigua.pauseResumeExecution};
+
 
 				shortcuts = [
 					{
 						section: 'general', shortcuts: [
 							{ shortcut: 'Alt + S', name: 'save document'       },
 							{ shortcut: '⌘ + /',  name: 'comment selection'   },
-							{ shortcut: "⌘ + .",  name: 'uncomment selection' }
+							{ shortcut: "⌘ + .",  name: 'uncomment selection' },
+							{ shortcut: "⌘ + \\",  name: 'pause/resume execution' }
 						]
 					},
 					{
