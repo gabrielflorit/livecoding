@@ -962,6 +962,10 @@ var aigua = (function () {
 				obj: 'SwipeView'
 			},
 			{
+				name: 'Processing',
+				obj: 'Processing'
+			},
+			{
 				name: 'three.js',
 				obj: 'THREE'
 			},
