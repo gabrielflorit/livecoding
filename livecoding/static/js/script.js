@@ -1314,17 +1314,6 @@ $(function() {
 			// e.g. the '3072416' bit in http://livecoding.io/3072416
 			gistId = aigua.getUrlGistId();
 
-			// is there an id in the url?
-			if (gistId) {
-
-				// yes - load its contents
-				aigua.loadGist(gistId);
-			} else {
-
-				// no gist - load the first example
-				aigua.loadGist($("#menu .item h2:contains('examples') + ul li:first").attr('rel'));
-			}
-
 			// show the 'click a number' message
 			$('#message').show();
 
@@ -1493,6 +1482,21 @@ $(function() {
 
 				$('#menu .item h2:contains("libraries")').next().append(li);
 			});
+
+			// is there an id in the url?
+			if (gistId) {
+
+				// yes - load its contents
+				aigua.loadGist(gistId);
+			} else {
+
+				// no gist - load the first example
+				// aigua.loadGist($("#menu .item h2:contains('examples') + ul li:first").attr('rel'));
+				aigua.loadGist($("#menu .item h2:contains('examples') + ul li").eq(2).attr('rel'));
+				// aigua.askBeforeNew();
+				// aigua.switchLayout('fullscreen mode (vertical)');
+				// aigua.setToClean();
+			}
 
 
 			// ----------- event handlers section ----------------------
