@@ -1681,6 +1681,20 @@ $(function() {
 
 								break;
 
+								case 'stats':
+
+									$('#stats').toggle();
+
+									if ($('#stats').is(':visible')) {
+										choice.addClass('selected');
+									} else {
+										choice.removeClass('selected');
+									}
+
+									aigua.resetMenu();
+
+								break;
+
 							}
 
 						}

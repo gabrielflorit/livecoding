@@ -355,6 +355,14 @@ body {
     color: #262626;
   }
 
+  #stats {
+    display: none;
+  }
+
+  #stats.full {
+    top: 25px !important;
+  }
+
   #controls {
     position: relative;
     height: 25px;
