@@ -292,4 +292,4 @@ def favicon():
 
 def versioning():
 
-    return datetime.date.today().strftime('%y%m%d%s')
+    return datetime.date.today().strftime('%y%m%d')
