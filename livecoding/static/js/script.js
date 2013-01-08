@@ -55,16 +55,13 @@ var aigua = (function () {
 				mode: aigua.modes[aigua.currentModeIndex].name,
 
 				// add current mode (e.g. sketchpad mode)
-				layout: aigua.screenLayouts[aigua.currentScreenLayoutIndex],
-
-				// add current resolution (e.g. 320x480)
-				resolution: $('li[class*="disabled"]', $('#menu .item h2:contains("resolution")').next()).text()
-
+				layout: aigua.screenLayouts[aigua.currentScreenLayoutIndex]
 			};
 
 			// don't include resolution if it's set to nothing
-			if (options.resolution == 'reset') {
-				delete options.resolution;
+			if (options.resolution != 'reset') {
+				// add current resolution (e.g. 320x480)
+				options.resolution = $('li[class*="disabled"]', $('#menu .item h2:contains("resolution")').next()).text();
 			}
 
 			result.options = JSON.stringify(options, null, 4); // pretty print

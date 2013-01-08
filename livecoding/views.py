@@ -13,26 +13,33 @@ def save_anonymously():
         'description': 'created by http://livecoding.io',
         'public': 'true',
         'files': {
-            'water.html': {
-                'content': request.form['html']
-            },
-            'water.js': {
-                'content': request.form['javascript']
-            },
-            'water.css': {
-                'content': request.form['css']
-            },
-            'water.json': {
-                'content': request.form['json']
-            },
             'options.json': {
                 'content': request.form['options']
             }
         }
     }
 
-    headers = {'content-type': 'application/json', 'accept': 'application/json'}
-    r = requests.post('https://api.github.com/gists', data=json.dumps(gist), headers=headers)
+    if len(request.form['html']) > 0:
+        gist['files']['water.html'] = {
+            'content': request.form['html']
+        }
+
+    if len(request.form['javascript']) > 0:
+        gist['files']['water.js'] = {
+            'content': request.form['javascript']
+        }
+
+    if len(request.form['css']) > 0:
+        gist['files']['water.css'] = {
+            'content': request.form['css']
+        }
+
+    if len(request.form['json']) > 0:
+        gist['files']['water.json'] = {
+            'content': request.form['json']
+        }
+
+    r = requests.post('https://api.github.com/gists', data=json.dumps(gist))
 
     return json.loads(r.text)['id']
 
@@ -46,30 +53,36 @@ def create_new():
         'description': 'created by http://livecoding.io',
         'public': 'true',
         'files': {
-            'water.html': {
-                'content': request.form['html']
-            },
-            'water.js': {
-                'content': request.form['javascript']
-            },
-            'water.css': {
-                'content': request.form['css']
-            },
-            'water.json': {
-                'content': request.form['json']
-            },
             'options.json': {
                 'content': request.form['options']
             }
         }
     }
 
+    if len(request.form['html']) > 0:
+        gist['files']['water.html'] = {
+            'content': request.form['html']
+        }
+
+    if len(request.form['javascript']) > 0:
+        gist['files']['water.js'] = {
+            'content': request.form['javascript']
+        }
+
+    if len(request.form['css']) > 0:
+        gist['files']['water.css'] = {
+            'content': request.form['css']
+        }
+
+    if len(request.form['json']) > 0:
+        gist['files']['water.json'] = {
+            'content': request.form['json']
+        }
+
     token = request.form['token']
 
-    headers = {'content-type': 'application/json', 'accept': 'application/json'}
-
     # create the gist
-    r = requests.post('https://api.github.com/gists?access_token=' + token, data=json.dumps(gist), headers=headers)
+    r = requests.post('https://api.github.com/gists?access_token=' + token, data=json.dumps(gist))
 
     # get the newly created gist id
     gistId = json.loads(r.text)['id']
@@ -77,32 +90,12 @@ def create_new():
     # create the livecoding url
     livecodingUrl = 'http://livecoding.io/' + gistId
 
-    gist = {
-        'public': 'true',
-        'files': {
-            'README.md': {
-                'content':  ('View this code at <a href="%s">%s</a>' % (livecodingUrl, livecodingUrl))
-            },
-            'water.html': {
-                'content': request.form['html']
-            },
-            'water.js': {
-                'content': request.form['javascript']
-            },
-            'water.css': {
-                'content': request.form['css']
-            },
-            'water.json': {
-                'content': request.form['json']
-            },
-            'options.json': {
-                'content': request.form['options']
-            }
-        }
+    gist['files']['README.md'] = {
+        'content':  ('View this code at <a href="%s">%s</a>' % (livecodingUrl, livecodingUrl))
     }
 
     # save again, this time including the README.md
-    r = requests.post('https://api.github.com/gists/' + gistId + '?access_token=' + token, data=json.dumps(gist), headers=headers)
+    r = requests.post('https://api.github.com/gists/' + gistId + '?access_token=' + token, data=json.dumps(gist))
 
     return gistId
 
@@ -115,10 +108,8 @@ def fork():
     gistId = request.form['id']
     token = request.form['token']
 
-    headers = {'content-type': 'application/json', 'accept': 'application/json'}
-
     # fork
-    r = requests.post('https://api.github.com/gists/' + gistId + '/fork?access_token=' + token, headers=headers)
+    r = requests.post('https://api.github.com/gists/' + gistId + '/fork?access_token=' + token)
     forkedGistId = json.loads(r.text)['id']
 
     # create the livecoding url
@@ -130,25 +121,33 @@ def fork():
             'README.md': {
                 'content':  ('View this code at <a href="%s">%s</a>' % (livecodingUrl, livecodingUrl))
             },
-            'water.html': {
-                'content': request.form['html']
-            },
-            'water.js': {
-                'content': request.form['javascript']
-            },
-            'water.css': {
-                'content': request.form['css']
-            },
-            'water.json': {
-                'content': request.form['json']
-            },
             'options.json': {
                 'content': request.form['options']
             }
         }
     }
 
-    r = requests.post('https://api.github.com/gists/' + forkedGistId + '?access_token=' + token, data=json.dumps(gist), headers=headers)
+    if len(request.form['html']) > 0:
+        gist['files']['water.html'] = {
+            'content': request.form['html']
+        }
+
+    if len(request.form['javascript']) > 0:
+        gist['files']['water.js'] = {
+            'content': request.form['javascript']
+        }
+
+    if len(request.form['css']) > 0:
+        gist['files']['water.css'] = {
+            'content': request.form['css']
+        }
+
+    if len(request.form['json']) > 0:
+        gist['files']['water.json'] = {
+            'content': request.form['json']
+        }
+
+    r = requests.post('https://api.github.com/gists/' + forkedGistId + '?access_token=' + token, data=json.dumps(gist))
 
     return json.loads(r.text)['id']
 
@@ -161,8 +160,6 @@ def save():
     gistId = request.form['id']
     token = request.form['token']
 
-    headers = {'content-type': 'application/json', 'accept': 'application/json'}
-
     # create the livecoding url
     livecodingUrl = 'http://livecoding.io/' + gistId
 
@@ -171,25 +168,33 @@ def save():
             'README.md': {
                 'content':  ('View this code at <a href="%s">%s</a>' % (livecodingUrl, livecodingUrl))
             },
-            'water.html': {
-                'content': request.form['html']
-            },
-            'water.js': {
-                'content': request.form['javascript']
-            },
-            'water.css': {
-                'content': request.form['css']
-            },
-            'water.json': {
-                'content': request.form['json']
-            },
             'options.json': {
                 'content': request.form['options']
             }
         }
     }
 
-    r = requests.post('https://api.github.com/gists/' + gistId + '?access_token=' + token, data=json.dumps(gist), headers=headers)
+    if len(request.form['html']) > 0:
+        gist['files']['water.html'] = {
+            'content': request.form['html']
+        }
+
+    if len(request.form['javascript']) > 0:
+        gist['files']['water.js'] = {
+            'content': request.form['javascript']
+        }
+
+    if len(request.form['css']) > 0:
+        gist['files']['water.css'] = {
+            'content': request.form['css']
+        }
+
+    if len(request.form['json']) > 0:
+        gist['files']['water.json'] = {
+            'content': request.form['json']
+        }
+
+    r = requests.post('https://api.github.com/gists/' + gistId + '?access_token=' + token, data=json.dumps(gist))
 
     return json.loads(r.text)['id']
 
@@ -213,10 +218,9 @@ def github_logged_in():
 
     # construct data and headers to send to github
     data = {'client_id': os.getenv('CLIENT_ID'), 'client_secret': os.getenv('CLIENT_SECRET'), 'code': tempcode }
-    headers = {'content-type': 'application/json', 'accept': 'application/json'}
 
     # request an access token
-    r = requests.post('https://github.com/login/oauth/access_token', data=json.dumps(data), headers=headers)
+    r = requests.post('https://github.com/login/oauth/access_token', data=json.dumps(data))
 
     # grab access token
     token = json.loads(r.text)['access_token']
@@ -257,9 +261,7 @@ def index(gistId):
 @app.route('/s/<gistId>')
 def solo(gistId):
 
-    headers = {'content-type': 'application/json', 'accept': 'application/json'}
-
-    r = requests.get('https://api.github.com/gists/' + gistId, headers=headers)
+    r = requests.get('https://api.github.com/gists/' + gistId)
 
     theCss = json.loads(r.text)['files']['water.css']['content'] if ('water.css' in json.loads(r.text)['files']) else ''
     theJs = json.loads(r.text)['files']['water.js']['content'] if ('water.js' in json.loads(r.text)['files']) else ''
@@ -290,4 +292,4 @@ def favicon():
 
 def versioning():
 
-    return datetime.date.today().strftime('%y%m%d')
+    return datetime.date.today().strftime('%y%m%d%s')
