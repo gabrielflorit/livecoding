@@ -5,6 +5,10 @@
 	<meta name='viewport' content='width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1'>
 	<title>livecoding</title>
 	<script>
+		var log = function(o) {
+			$('#livecoding-pre').html(JSON.stringify(o, null, 4));
+		};
+
 		var livecoding = (function () {
 
 			return {
@@ -58,6 +62,7 @@
 	<script src='static/js/libs/yepnope-1.5.4.js'></script>
 </head>
 <body>
+	<pre id='livecoding-pre'></pre>
 	<div id='livecoding-main'>
 	</div>
 	<script src='//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js'></script>

@@ -219,6 +219,16 @@ td { vertical-align: top; }
    This example overrides the primary ('mobile first') styles
    Modify as content requires.
    ========================================================================== */
+#livecoding-pre {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: #000;
+  color: #FFF;
+  padding: 0;
+  margin: 0;
+}
+
 #livecoding_watermark {
   position: absolute;
   top: 0;
