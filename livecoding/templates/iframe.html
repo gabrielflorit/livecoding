@@ -41,6 +41,7 @@
 				},
 
 				renderCode: function(code) {
+					$('#livecoding-pre').html('');
 					try { eval(code); }
 					catch (error) {
 						console.error(error);
