@@ -382,19 +382,16 @@ var aigua = (function () {
 			var line = cursor.line;
 			var ch = cursor.ch;
 
-			// if we're on ch = 3 or later, inspect the token starting 3 characters ago
-			if (ch >= 3) {
-				var token = cm.getTokenAt({line: line, ch: ch - 2});
+			var token = cm.getTokenAt({line: line, ch: ch});
 
-				// is there a snippet for this keyword?
-				var snippet = _.find(aigua.snippets, function(value) {
-					return value.keyword == token.string;
-				});
+			// is there a snippet for this keyword?
+			var snippet = _.find(aigua.snippets, function(value) {
+				return value.keyword == token.string;
+			});
 
-				// if we found a snippet, replace it only if we're on the right mode
-				if (snippet && aigua.modes[aigua.currentModeIndex].name == snippet.mode) {
-					cm.replaceRange(snippet.snippet, {line: line, ch: ch - 3}, {line: line, ch: ch});
-				}
+			// if we found a snippet, replace it only if we're on the right mode
+			if (snippet && aigua.modes[aigua.currentModeIndex].name == snippet.mode) {
+				cm.replaceRange(snippet.snippet, {line: line, ch: ch - token.string.length}, {line: line, ch: ch});
 			}
 		},
 
@@ -1026,6 +1023,46 @@ var aigua = (function () {
 				keyword: 'pad',
 				snippet: 'padding: 0em 0em 0em 0em;',
 				mode: 'css'
+			},
+			{
+				keyword: 'each',
+				snippet: '.each(function(v, i) {})',
+				mode: 'javascript'
+			},
+			{
+				keyword: 'map',
+				snippet: '.map(function(v, i) {})',
+				mode: 'javascript'
+			},
+			{
+				keyword: 'find',
+				snippet: '.find(function(v, i) {})',
+				mode: 'javascript'
+			},
+			{
+				keyword: 'filter',
+				snippet: '.filter(function(v, i) {})',
+				mode: 'javascript'
+			},
+			{
+				keyword: 'reject',
+				snippet: '.reject(function(v, i) {})',
+				mode: 'javascript'
+			},
+			{
+				keyword: 'sort',
+				snippet: '.sortBy(function(v, i) {})',
+				mode: 'javascript'
+			},
+			{
+				keyword: 'group',
+				snippet: '.groupBy(function(v, i) {})',
+				mode: 'javascript'
+			},
+			{
+				keyword: 'count',
+				snippet: '.countBy(function(v, i) {})',
+				mode: 'javascript'
 			}
 		],
 		startingBarWidth: 300,
