@@ -948,6 +948,10 @@ var aigua = (function () {
 				obj: '$.fn.swipe'
 			},
 			{
+				name: 'Leaflet',
+				obj: 'L'
+			},
+			{
 				name: 'Raphael',
 				obj: 'Raphael'
 			},
