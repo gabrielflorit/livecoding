@@ -211,6 +211,7 @@ var aigua = (function () {
 					if (aigua.currentGistUserId == aigua.user.id) {
 						// disable 'save as public gist' or 'save as private gist', depending
 						// on whether this is a private or public gist
+						$('#menu li:contains("save as ' + (/^\d+$/g.test(gistId) ? 'public' : 'private') + ' gist")').removeClass('disabled');
 						$('#menu li:contains("save as ' + (/^\d+$/g.test(gistId) ? 'private' : 'public') + ' gist")').addClass('disabled');
 					}
 				}
@@ -545,7 +546,8 @@ var aigua = (function () {
 				aigua.currentGistUserId = aigua.user.id;
 				aigua.showSaveConfirmation();
 
-				$('#menu li:contains("save as ' + (publicGist ? 'private' : 'public') + ' gist")').addClass('disabled');
+				$('#menu li:contains("save as ' + (publicGist ? 'private' : 'public') + ' gist")').removeClass('disabled');
+				$('#menu li:contains("save as ' + (publicGist ? 'public' : 'private') + ' gist")').addClass('disabled');
 			});
 
 		},
