@@ -985,6 +985,10 @@ var aigua = (function () {
 				obj: 'THREE'
 			},
 			{
+				name: 'TopoJSON',
+				obj: 'topojson'
+			},
+			{
 				name: 'Underscore',
 				obj: '_'
 			}
