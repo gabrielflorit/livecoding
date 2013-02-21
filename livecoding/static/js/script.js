@@ -15,6 +15,12 @@ var aigua = (function () {
 				aigua.resetScreen();
 				aigua.resetUrl();
 				aigua.resetMenu();
+
+				if (aigua.currentGistUserId == aigua.user.id) {
+					// disable 'save as public gist' or 'save as private gist', depending
+					// on whether this is a private or public gist
+					$('#menu li:contains("save as public gist"), #menu li:contains("save as private gist")').removeClass('disabled');
+				}
 			}
 		},
 
