@@ -703,6 +703,16 @@ var aigua = (function () {
 			aigua.ball.offset({top: aigua.filler.offset().top});
 		},
 
+		startAnimate: function() {
+			frames[0].livecoding.startAnimate();
+			$('#startAnimation').show();
+		},
+
+		stopAnimate: function() {
+			frames[0].livecoding.stopAnimate();
+			$('#startAnimation').hide();
+		},
+
 		switchLayout: function(choice) {
 
 			var layoutItems = $('.screenLayout');
@@ -1157,6 +1167,8 @@ $(function() {
 
 				{extraKeys['Cmd-\\'] = aigua.pauseResumeExecution};
 
+				{extraKeys['Cmd-9'] = aigua.startAnimate};
+				{extraKeys['Cmd-0'] = aigua.stopAnimate};
 
 				shortcuts = [
 					{
@@ -1164,7 +1176,9 @@ $(function() {
 							{ shortcut: 'Alt + S', name: 'save document'       },
 							{ shortcut: '⌘ + /',  name: 'comment selection'   },
 							{ shortcut: "⌘ + .",  name: 'uncomment selection' },
-							{ shortcut: "⌘ + \\",  name: 'pause/resume execution' }
+							{ shortcut: "⌘ + \\",  name: 'pause/resume execution' },
+							{ shortcut: "⌘ + 9",  name: 'start animation' },
+							{ shortcut: "⌘ + 0",  name: 'stop animation' }
 						]
 					},
 					{

@@ -17,6 +17,7 @@
 	{{vars.html|safe}}
 	<script src='//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js'></script>
 	<script>window.jQuery || document.write('<script src="../static/js/libs/jquery-1.7.1.min.js"><\/script>')</script>
+	<script src='../static/js/libs/requestAnimationFrame.js'></script>
 	{% for library in vars.libraries %}
 		<script src='../static/js/libs/{{ library }}.js'></script>
 	{% endfor %}
@@ -28,7 +29,31 @@
 			};
 
 			var livecoding = {
-				json: {{vars.json|safe}}
+				json: {{vars.json|safe}},
+
+				_animate: function() {
+
+					livecoding.rAF = requestAnimationFrame(livecoding._animate);
+					livecoding.animate();
+				},
+
+				animate: function() {},
+
+				rAF: null,
+
+				setAnimate: function(f) {
+					livecoding.animate = f;
+				},
+
+				startAnimate: function() {
+					livecoding.stopAnimate();
+					livecoding._animate();
+				},
+
+				stopAnimate: function() {
+					cancelAnimationFrame(livecoding.rAF);
+				}
+
 			};
 
 			{{vars.js|safe}}

@@ -409,6 +409,36 @@ body {
       display: none;
     }
 
+    #startAnimation {
+      font-family: 'Consolas', 'Bitstream Vera Sans Mono', 'DejaVu Sans Mono', 'Monaco', Courier, monospace;
+      font-size: 22px;
+      margin: 0 0 0 1em;
+      color: #FFF;
+      text-shadow: 0 0 8px #BCD279;
+      display: none;
+      -webkit-animation: myanim 0.75s 1 alternate ease-out backwards; /* Chrome, Safari 5 */
+         -moz-animation: myanim 0.75s 1 alternate ease-out backwards; /* Firefox 5-15 */
+           -o-animation: myanim 0.75s 1 alternate ease-out backwards; /* Opera 12+ */
+              animation: myanim 0.75s 1 alternate ease-out backwards; /* Chrome, Firefox 16+, IE 10+, Safari 5 */
+    }
+
+    @-webkit-keyframes myanim {
+        0%   { opacity: 0; }
+      100%   { opacity: 1; }
+    }
+    @-moz-keyframes myanim {
+        0%   { opacity: 0; }
+      100%   { opacity: 1; }
+    }
+    @-o-keyframes myanim {
+        0%   { opacity: 0; }
+      100%   { opacity: 1; }
+    }
+    @keyframes myanim {
+        0%   { opacity: 0; }
+      100%   { opacity: 1; }
+    }
+
     #message {
       position: absolute;
       top: -22px;

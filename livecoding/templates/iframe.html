@@ -47,6 +47,36 @@
 						console.error(error);
 					}
 					finally {}
+				},
+
+				_animate: function() {
+
+					livecoding.rAF = requestAnimationFrame(livecoding._animate);
+					livecoding.animate();
+				},
+
+				animate: function() {},
+
+				_animateInit: function() {},
+
+				rAF: null,
+
+				setAnimate: function(f) {
+					livecoding.animate = f;
+				},
+
+				setAnimateInit: function(f) {
+					livecoding._animateInit = f;
+				},
+
+				startAnimate: function() {
+					livecoding.stopAnimate();
+					livecoding._animateInit();
+					livecoding._animate();
+				},
+
+				stopAnimate: function() {
+					cancelAnimationFrame(livecoding.rAF);
 				}
 
 			}
@@ -59,8 +89,6 @@
 	</script>
 	<link rel='stylesheet' href='static/css/iframe.css'>
 	<style id='style'></style>
-	<script src='static/js/libs/modernizr-2.6.1.js'></script>
-	<script src='static/js/libs/yepnope-1.5.4.js'></script>
 </head>
 <body>
 	<pre id='livecoding-pre'></pre>
@@ -68,5 +96,6 @@
 	</div>
 	<script src='//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js'></script>
 	<script>window.jQuery || document.write('<script src="static/js/libs/jquery-1.7.1.min.js"><\/script>')</script>
+	<script src='static/js/libs/requestAnimationFrame.js'></script>
 </body>
 </html>
