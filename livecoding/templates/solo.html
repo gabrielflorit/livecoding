@@ -39,14 +39,21 @@
 
 				animate: function() {},
 
+				_animateInit: function() {},
+
 				rAF: null,
 
 				setAnimate: function(f) {
 					livecoding.animate = f;
 				},
 
+				setAnimateInit: function(f) {
+					livecoding._animateInit = f;
+				},
+
 				startAnimate: function() {
 					livecoding.stopAnimate();
+					livecoding._animateInit();
 					livecoding._animate();
 				},
 
