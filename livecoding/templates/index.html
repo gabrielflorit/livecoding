@@ -10,17 +10,17 @@
 	<title>livecoding</title>
 	<meta name="description" content="livecoding is an interactive sketchpad. Code modifications are instantly displayed - no need to refresh your browser. Click on a number, adjust its value via the popup slider, and watch your work change on the fly! 100% totally based on Bret Victor's Inventing on Principle talk.">
 
-	<link rel="stylesheet" href="static/css/style.css?v={{vars.version}}">
-	<link rel="stylesheet" href="static/js/libs/codemirror/codemirror.css">
-	<link rel="stylesheet" href="static/js/libs/codemirror/theme/lesser-dark.css">
-	<link rel="stylesheet" href="static/css/jquery.miniColors.css">
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}?v={{vars.version}}">
+	<link rel="stylesheet" href="{{ url_for('static', filename='js/libs/codemirror/codemirror.css') }}">
+	<link rel="stylesheet" href="{{ url_for('static', filename='js/libs/codemirror/theme/lesser-dark.css') }}">
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/jquery.miniColors.css') }}">
 
 	<!-- More ideas for your <head> here: h5bp.com/d/head-Tips -->
 
 	<!-- All JavaScript at the bottom, except this Modernizr build.
 			 Modernizr enables HTML5 elements & feature detects for optimal performance.
 			 Create your own custom Modernizr build: www.modernizr.com/download/ -->
-	<script src="static/js/libs/modernizr-2.5.3.min.js"></script>
+	<script src="{{ url_for('static', filename='js/libs/modernizr-2.5.3.min.js') }}"></script>
 
 	<script type="text/javascript">
 
@@ -184,15 +184,15 @@
 		</div>
 		<div id='editor'>
 			<div id='display'>
-				<img id='top-middle' src='static/img/top-middle.png' width='66px' height='31px' />
-				<img id='bottom-middle' src='static/img/bottom-middle.png' width='66px' height='31px' />
+				<img id='top-middle' src="{{ url_for('static', filename='img/top-middle.png') }}" width='66px' height='31px' />
+				<img id='bottom-middle' src="{{ url_for('static', filename='img/bottom-middle.png') }}" width='66px' height='31px' />
 				<div id='middle-edge'></div>
 				<div id='iframeContainer'></div>
 			</div>
-			<img id='top-right-corner' src='static/img/top-right-corner.png' width='26px' height='26px' />
-			<img id='bottom-right-corner' src='static/img/bottom-right-corner.png' width='26px' height='26px' />
-			<img id='top-left-corner' src='static/img/top-left-corner.png' width='26px' height='26px' />
-			<img id='bottom-left-corner' src='static/img/bottom-left-corner.png' width='26px' height='26px' />
+			<img id='top-right-corner' src="{{ url_for('static', filename='img/top-right-corner.png') }}" width='26px' height='26px' />
+			<img id='bottom-right-corner' src="{{ url_for('static', filename='img/bottom-right-corner.png') }}" width='26px' height='26px' />
+			<img id='top-left-corner' src="{{ url_for('static', filename='img/top-left-corner.png') }}" width='26px' height='26px' />
+			<img id='bottom-left-corner' src="{{ url_for('static', filename='img/bottom-left-corner.png') }}" width='26px' height='26px' />
 			<div id='top-edge'></div>
 			<div id='right-edge'></div>
 			<div id='bottom-edge'></div>
@@ -207,23 +207,22 @@
 	<footer>
 	</footer>
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-	<script>window.jQuery || document.write('<script src="static/js/libs/jquery-1.7.1.min.js"><\/script>')</script>
 
-	<script src="static/js/libs/codemirror/codemirror.js"></script>
-	<script src="static/js/libs/codemirror/utils/loadmode.js"></script>
-	<script src="static/js/libs/codemirror/mode/javascript.js"></script>
-	<script src="static/js/libs/codemirror/mode/css.js"></script>
-	<script src="static/js/libs/codemirror/mode/xml.js"></script>
-	<script src="static/js/libs/codemirror/mode/htmlmixed.js"></script>
-	<script src="static/js/libs/codemirror/utils/foldcode.js"></script>
-	<script src="static/js/libs/codemirror/utils/formatting.js"></script>
-	<script src="static/js/libs/d3.js"></script>
-	<script src="static/js/libs/jquery-ui-1.8.20.custom.min.js"></script>
-	<script src="static/js/libs/Underscore.js"></script>
-	<script src="static/js/libs/browserDetect.js"></script>
-	<script src="static/js/libs/jquery.miniColors.min.js"></script>
-	<script src="static/js/plugins.js"></script>
-	<script src="static/js/libs/Stats.js"></script>
-	<script src="static/js/script.js?v=1{{vars.version}}"></script>
+	<script src="{{ url_for('static', filename='js/libs/codemirror/codemirror.js') }}"></script>
+	<script src="{{ url_for('static', filename='js/libs/codemirror/utils/loadmode.js') }}"></script>
+	<script src="{{ url_for('static', filename='js/libs/codemirror/mode/javascript.js') }}"></script>
+	<script src="{{ url_for('static', filename='js/libs/codemirror/mode/css.js') }}"></script>
+	<script src="{{ url_for('static', filename='js/libs/codemirror/mode/xml.js') }}"></script>
+	<script src="{{ url_for('static', filename='js/libs/codemirror/mode/htmlmixed.js') }}"></script>
+	<script src="{{ url_for('static', filename='js/libs/codemirror/utils/foldcode.js') }}"></script>
+	<script src="{{ url_for('static', filename='js/libs/codemirror/utils/formatting.js') }}"></script>
+	<script src="{{ url_for('static', filename='js/libs/d3.js') }}"></script>
+	<script src="{{ url_for('static', filename='js/libs/jquery-ui-1.8.20.custom.min.js') }}"></script>
+	<script src="{{ url_for('static', filename='js/libs/Underscore.js') }}"></script>
+	<script src="{{ url_for('static', filename='js/libs/browserDetect.js') }}"></script>
+	<script src="{{ url_for('static', filename='js/libs/jquery.miniColors.min.js') }}"></script>
+	<script src="{{ url_for('static', filename='js/plugins.js') }}"></script>
+	<script src="{{ url_for('static', filename='js/libs/Stats.js') }}"></script>
+	<script src="{{ url_for('static', filename='js/script.js') }}?v={{vars.version}}"></script>
 </body>
 </html>
