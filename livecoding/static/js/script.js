@@ -94,6 +94,16 @@ var aigua = (function () {
 			return (gistId.length > 0 && gistId != '!') ? gistId : null;
 		},
 
+		getUrlGistVersionId: function() {
+
+			var a = document.createElement('a');
+			a.href = location.href;
+
+			var parts = a.pathname.split('/');
+
+			return parts.length == 3 ? parts[2] : null;
+		},
+
 		hidePopup: function() {
 
 			if ($('#popup .about').is(':visible')) {
@@ -112,7 +122,7 @@ var aigua = (function () {
 			return /(^#[0-9A-F]{6}$)|(^#[0-9A-F]{3}$)/i.test(value);
 		},
 
-		loadGist: function(gistId) {
+		loadGist: function(gistId, versionId) {
 
 			aigua.isLoading = true;
 
@@ -120,8 +130,10 @@ var aigua = (function () {
 			aigua.resetMenu();
 			aigua.setToClean();
 
+			var url = 'https://api.github.com/gists/' + gistId + (versionId ? '/' + versionId : ''); 
+
 			$.ajax({
-				url: 'https://api.github.com/gists/' + gistId + '?callback=?',
+				url: url + '?callback=?',
 				dataType: 'json',
 				success: function (data) {
 
@@ -204,7 +216,7 @@ var aigua = (function () {
 					// switch to the default mode
 					aigua.switchMode(options.mode);
 
-					aigua.setUrl(gistId);
+					aigua.setUrl(gistId, versionId);
 
 					aigua.isLoading = false;
 
@@ -448,7 +460,7 @@ var aigua = (function () {
 		},
 
 		resetUrl: function() {
-			history.pushState(null, null, '!');
+			history.pushState(null, null, '/!');
 			$('#gist').attr('href', '');
 			$('#gist').html('');
 		},
@@ -590,11 +602,13 @@ var aigua = (function () {
 			$('.dirty').css('visibility', 'visible');
 		},
 
-		setUrl: function(gistId) {
-			history.pushState(null, null, gistId);
+		setUrl: function(gistId, versionId) {
+			var gistAndVersionIds = '/' + gistId + (versionId ? '/' + versionId : '');
 
-			var gistBaseUrl = 'https://gist.github.com/';
-			gistUrl = gistBaseUrl + gistId;
+			history.pushState(null, null, gistAndVersionIds);
+
+			var gistBaseUrl = 'https://gist.github.com';
+			gistUrl = gistBaseUrl + gistAndVersionIds;
 
 			$('#gist').attr('href', gistUrl);
 			$('#gist').html(gistUrl);
@@ -1138,7 +1152,6 @@ $(function() {
 			}
 
 			var extraKeys = {};
-			var gistId;
 			aigua.key = {};
 
 			var shortcuts = [];
@@ -1382,7 +1395,7 @@ $(function() {
 
 				// try to grab the gist id from the url
 				// e.g. the '3072416' bit in http://livecoding.io/3072416
-				gistId = aigua.getUrlGistId();
+				var gistId = aigua.getUrlGistId();
 
 				// show the 'click a number' message
 				$('#message').show();
@@ -1505,8 +1518,10 @@ $(function() {
 				// is there an id in the url?
 				if (gistId) {
 
+					var versionId = aigua.getUrlGistVersionId();
+
 					// yes - load its contents
-					aigua.loadGist(gistId);
+					aigua.loadGist(gistId, versionId);
 				} else {
 
 					// no gist - load the second example
@@ -1707,7 +1722,7 @@ $(function() {
 
 										result = aigua.isDirty() ? confirm("Are you sure? Your unsaved changes will not be reflected when viewing as a single page.") : true;
 										if (result) {
-											window.open('/s/' + aigua.getUrlGistId(), '_blank');
+											window.open('/s' + location.pathname, '_blank');
 										}
 										aigua.resetMenu();
 

@@ -44,6 +44,8 @@ def save_anonymously():
     return json.loads(r.text)['id']
 
 
+
+
 @app.route('/create-new', methods=['POST'])
 def create_new():
 
@@ -252,9 +254,10 @@ def iframe():
 
 
 
-@app.route('/', defaults={'gistId': None})
-@app.route('/<gistId>')
-def index(gistId):
+@app.route('/', defaults={'gistId': None, 'versionId': None})
+@app.route('/<gistId>', defaults={'versionId': None})
+@app.route('/<gistId>/<versionId>')
+def index(gistId, versionId):
 
     return render_template('index.html', vars=dict(
         version=versioning(),
@@ -264,10 +267,16 @@ def index(gistId):
 
 
 
-@app.route('/s/<gistId>')
-def solo(gistId):
+@app.route('/s/<gistId>', defaults={'versionId': None})
+@app.route('/s/<gistId>/<versionId>')
+def solo(gistId, versionId):
 
-    r = requests.get('https://api.github.com/gists/' + gistId)
+    if versionId is not None:
+        versionId = '/' + versionId
+    else:
+        versionId = ''
+
+    r = requests.get('https://api.github.com/gists/' + gistId + versionId)
 
     theCss = json.loads(r.text)['files']['water.css']['content'] if ('water.css' in json.loads(r.text)['files']) else ''
     theJs = json.loads(r.text)['files']['water.js']['content'] if ('water.js' in json.loads(r.text)['files']) else ''
@@ -281,7 +290,7 @@ def solo(gistId):
         json=theJson,
         html=theHtml,
         libraries=theLibraries,
-        gistId=gistId
+        gistAndVersionIds=(gistId + versionId)
         ))
 
 
