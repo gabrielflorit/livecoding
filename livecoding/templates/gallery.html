@@ -11,19 +11,28 @@
 		  max-width: 320px;
 		  margin: 0 auto;
 		  margin-top: 2em;
+		  position: relative;
 		}
 
 		#gallery .revision {
 		  margin: 0em 0em 2em 0em;
+		  display: none;
+		  position: absolute;
 		}
 
-		#gallery p.date {
+		.number,
+		.date {
 		  padding: 0em 0em 0em 0em;
 		  margin: 0.5em 0em 0em 0em;
-		  text-align: right;
+		  float: left;
 		  color: #222;
 		  font-family: Arial, Helvetica, sans-serif;
 		  font-size: 0.7em;
+		}
+
+		.date {
+			float: right;
+			text-align: right;
 		}
 
 		#gallery img {
@@ -33,6 +42,11 @@
 
 		a {
 		  text-decoration: none;
+		}
+
+		.dateAndNumber {
+			width: 100%;
+			overflow: hidden;
 		}
 	</style>
 	<script type="text/javascript">
@@ -51,43 +65,12 @@
 </head>
 <body>
 	<div id='livecoding_watermark'><a target='_blank' href='/{{vars.gistAndVersionIds}}'>made with <span>livecoding.io</span></a></div>
-	<h2>this gist has <span></span> revisions</h2>
+	<h2 class='loading'></h2>
 	<div id='gallery'></div>
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-	<script>
-		var gistId = {{vars.gistId}};
-		var url = 'https://api.github.com/gists/' + gistId;
-		var captureUrl = 'http://guarded-castle-8005.herokuapp.com';
-
-		$.ajax({
-			url: url + '?callback=?',
-			dataType: 'json',
-			success: function (json) {
-
-				console.log(json);
-
-				var history = json.data.history;
-				var version;
-				var html = '';
-				for (var i = 0; i < history.length; i++) {
-					version = history[i].version;
-					html += '<div class="revision">';
-					html +=   '<a href="http://livecoding.io' + '/' + gistId + '/' + version + '">';
-					html +=     '<img src="' + captureUrl + '/' + gistId + '/' + version + '">';
-					html +=     '</img>';
-					html +=   '</a>';
-					html +=   '<p class="date">';
-					html +=     new Date(history[i]['committed_at']).toLocaleString();
-					html +=   '</p>';
-					html += '</div>';
-				}
-				$('#gallery').html(html);
-
-				$('h2 span').html(history.length);
-
-			}
-		});
-
-	</script>
+	<script src="{{ url_for('static', filename='js/gallery.js') }}"></script>
+	<script src="{{ url_for('static', filename='js/libs/jquery.imagesloaded.min.js') }}"></script>
+	<script src="{{ url_for('static', filename='js/libs/requestAnimationFrame.js') }}"></script>
+	<script>var gistId = {{vars.gistId}};</script>
 </body>
 </html>
