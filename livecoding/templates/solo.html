@@ -64,6 +64,9 @@
 
 			{{vars.js|safe}}
 
+			var hideWatermark = '{{vars.hideWatermark}}' == 'True';
+			if (hideWatermark) $('#livecoding_watermark').hide();
+
 		});
 	</script>
 </body>

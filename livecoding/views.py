@@ -295,13 +295,16 @@ def solo(gistId, versionId):
     theHtml = json.loads(r.text)['files']['water.html']['content'] if ('water.html' in json.loads(r.text)['files']) else ''
     theLibraries = json.loads(json.loads(r.text)['files']['options.json']['content'])['libraries'] if ('options.json' in json.loads(r.text)['files']) else []
 
+    hideWatermark = request.args.get('hideWatermark', False)
+
     return render_template('solo.html', vars=dict(
         css=theCss,
         js=theJs,
         json=theJson,
         html=theHtml,
         libraries=theLibraries,
-        gistAndVersionIds=(gistId + versionId)
+        gistAndVersionIds=(gistId + versionId),
+        hideWatermark=hideWatermark
         ))
 
 
