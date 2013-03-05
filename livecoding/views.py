@@ -262,7 +262,18 @@ def index(gistId, versionId):
     return render_template('index.html', vars=dict(
         version=versioning(),
         gaId=os.getenv('GOOGLE_ANALYTICS_ID')
-        ))
+    ))
+
+
+
+
+@app.route('/gallery/<gistId>')
+def gallery(gistId):
+
+    return render_template('gallery.html', vars=dict(
+        gistId=gistId,
+        gaId=os.getenv('GOOGLE_ANALYTICS_ID')
+    ))
 
 
 

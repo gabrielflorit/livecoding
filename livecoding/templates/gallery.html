@@ -1,0 +1,93 @@
+<!doctype html>
+<head>
+	<meta name='content-type' content='text/html; charset=UTF-8' />
+	<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+	<meta name='viewport' content='width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1'>
+	<title>livecoding</title>
+	<link rel='stylesheet' href="{{ url_for('static', filename='css/iframe.css') }}">
+	<style>
+		h2,
+		#gallery {
+		  max-width: 320px;
+		  margin: 0 auto;
+		  margin-top: 2em;
+		}
+
+		#gallery .revision {
+		  margin: 0em 0em 2em 0em;
+		}
+
+		#gallery p.date {
+		  padding: 0em 0em 0em 0em;
+		  margin: 0.5em 0em 0em 0em;
+		  text-align: right;
+		  color: #222;
+		  font-family: Arial, Helvetica, sans-serif;
+		  font-size: 0.7em;
+		}
+
+		#gallery img {
+		  width: 100%;
+		  border: solid #CCC 1px;
+		}
+
+		a {
+		  text-decoration: none;
+		}
+	</style>
+	<script type="text/javascript">
+
+		var _gaq = _gaq || [];
+		_gaq.push(['_setAccount', '{{vars.gaId}}']);
+		_gaq.push(['_trackPageview']);
+
+		(function() {
+			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		})();
+
+	</script>
+</head>
+<body>
+	<div id='livecoding_watermark'><a target='_blank' href='/{{vars.gistAndVersionIds}}'>made with <span>livecoding.io</span></a></div>
+	<h2>this gist has <span></span> revisions</h2>
+	<div id='gallery'></div>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+	<script>
+		var gistId = {{vars.gistId}};
+		var url = 'https://api.github.com/gists/' + gistId;
+		var captureUrl = 'http://guarded-castle-8005.herokuapp.com';
+
+		$.ajax({
+			url: url + '?callback=?',
+			dataType: 'json',
+			success: function (json) {
+
+				console.log(json);
+
+				var history = json.data.history;
+				var version;
+				var html = '';
+				for (var i = 0; i < history.length; i++) {
+					version = history[i].version;
+					html += '<div class="revision">';
+					html +=   '<a href="http://livecoding.io' + '/' + gistId + '/' + version + '">';
+					html +=     '<img src="' + captureUrl + '/' + gistId + '/' + version + '">';
+					html +=     '</img>';
+					html +=   '</a>';
+					html +=   '<p class="date">';
+					html +=     new Date(history[i]['committed_at']).toLocaleString();
+					html +=   '</p>';
+					html += '</div>';
+				}
+				$('#gallery').html(html);
+
+				$('h2 span').html(history.length);
+
+			}
+		});
+
+	</script>
+</body>
+</html>
