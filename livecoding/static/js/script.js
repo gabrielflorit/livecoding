@@ -1728,6 +1728,11 @@ $(function() {
 
 									break;
 
+									case 'gallery':
+										window.open('/gallery' + location.pathname, '_blank');
+										aigua.resetMenu();
+									break;
+
 									case 'stats':
 
 										$('#stats').toggle();
