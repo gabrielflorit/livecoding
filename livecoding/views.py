@@ -171,7 +171,7 @@ def create_new():
     r = requests.post('https://api.github.com/gists/' + gistId + '?access_token=' + token, data=json.dumps(gist))
 
     # add to mongodb
-    if isPublic:
+    if jsonText['public'] is True:
         document = users.find_one({'username': username})
 
         # is there an entry for this user?
@@ -246,8 +246,31 @@ def fork():
             }
 
         r = requests.post('https://api.github.com/gists/' + forkedGistId + '?access_token=' + token, data=json.dumps(gist))
+        jsonText = json.loads(r.text)
+        gistId = jsonText['id']
 
-        return json.loads(r.text)['id']
+        if jsonText['public'] is True:
+            username = jsonText['user']['login']
+            updated_at = jsonText['updated_at']
+
+            document = users.find_one({'username': username})
+
+            # is there an entry for this user?
+            if document is not None:
+                users.update({'username': username}, {'$push': {'gists': {'_id': gistId, 'modified': updated_at}}})
+            else:
+            # user isn't in mongo yet - add it
+                users.insert({
+                    "username": username,
+                    "gists": [
+                        {
+                            "_id": gistId,
+                            "modified": updated_at
+                        }
+                    ]
+                })
+
+        return gistId
 
 
 
