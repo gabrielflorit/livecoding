@@ -21,6 +21,28 @@ users = connection[db_name].users
 
 
 
+def addGistToMongo(username, gistId, updated_at):
+
+    document = users.find_one({'username': username})
+
+    # is there an entry for this user?
+    if document is not None:
+        users.update({'username': username}, {'$push': {'gists': {'_id': gistId, 'modified': updated_at}}})
+    else:
+    # user isn't in mongo yet - add it
+        users.insert({
+            "username": username,
+            "gists": [
+                {
+                    "_id": gistId,
+                    "modified": updated_at
+                }
+            ]
+        })
+
+
+
+
 @app.route('/gallery')
 def gallery():
     return render_template('gallery.html', vars=dict(
@@ -61,6 +83,23 @@ def gists_by_username(username):
 
 
 
+def addFilesToGist(request, gist):
+
+    if len(request.form['html']) > 0:
+        gist['files']['water.html'] = { 'content': request.form['html'] }
+
+    if len(request.form['javascript']) > 0:
+        gist['files']['water.js'] = { 'content': request.form['javascript'] }
+
+    if len(request.form['css']) > 0:
+        gist['files']['water.css'] = { 'content': request.form['css'] }
+
+    if len(request.form['json']) > 0:
+        gist['files']['water.json'] = { 'content': request.form['json'] }
+
+
+
+
 @app.route('/save-anonymously', methods=['POST'])
 def save_anonymously():
 
@@ -74,40 +113,12 @@ def save_anonymously():
         }
     }
 
-    if len(request.form['html']) > 0:
-        gist['files']['water.html'] = {
-            'content': request.form['html']
-        }
-
-    if len(request.form['javascript']) > 0:
-        gist['files']['water.js'] = {
-            'content': request.form['javascript']
-        }
-
-    if len(request.form['css']) > 0:
-        gist['files']['water.css'] = {
-            'content': request.form['css']
-        }
-
-    if len(request.form['json']) > 0:
-        gist['files']['water.json'] = {
-            'content': request.form['json']
-        }
-
     r = requests.post('https://api.github.com/gists', data=json.dumps(gist))
     jsonText = json.loads(r.text)
     gistId = jsonText['id']
 
     # add to mongo
-    users.insert({
-        "username": None,
-        "gists": [
-            {
-                "_id": gistId,
-                "modified": jsonText['updated_at']
-            }
-        ]
-    })
+    addGistToMongo(None, gistId, jsonText['updated_at'])
 
     return gistId
 
@@ -129,25 +140,7 @@ def create_new():
         }
     }
 
-    if len(request.form['html']) > 0:
-        gist['files']['water.html'] = {
-            'content': request.form['html']
-        }
-
-    if len(request.form['javascript']) > 0:
-        gist['files']['water.js'] = {
-            'content': request.form['javascript']
-        }
-
-    if len(request.form['css']) > 0:
-        gist['files']['water.css'] = {
-            'content': request.form['css']
-        }
-
-    if len(request.form['json']) > 0:
-        gist['files']['water.json'] = {
-            'content': request.form['json']
-        }
+    addFilesToGist(request, gist)
 
     token = request.form['token']
 
@@ -157,8 +150,6 @@ def create_new():
     # get the newly created gist id
     jsonText = json.loads(r.text)
     gistId = jsonText['id']
-    username = jsonText['user']['login']
-    updated_at = jsonText['updated_at']
 
     # create the livecoding url
     livecodingUrl = 'http://livecoding.io/' + gistId
@@ -172,22 +163,7 @@ def create_new():
 
     # add to mongodb
     if jsonText['public'] is True:
-        document = users.find_one({'username': username})
-
-        # is there an entry for this user?
-        if document is not None:
-            users.update({'username': username}, {'$push': {'gists': {'_id': gistId, 'modified': updated_at}}})
-        else:
-        # user isn't in mongo yet - add it
-            users.insert({
-                "username": username,
-                "gists": [
-                    {
-                        "_id": gistId,
-                        "modified": updated_at
-                    }
-                ]
-            })
+        addGistToMongo(jsonText['user']['login'], gistId, jsonText['updated_at'])
 
     return gistId
 
@@ -225,50 +201,14 @@ def fork():
             }
         }
 
-        if len(request.form['html']) > 0:
-            gist['files']['water.html'] = {
-                'content': request.form['html']
-            }
-
-        if len(request.form['javascript']) > 0:
-            gist['files']['water.js'] = {
-                'content': request.form['javascript']
-            }
-
-        if len(request.form['css']) > 0:
-            gist['files']['water.css'] = {
-                'content': request.form['css']
-            }
-
-        if len(request.form['json']) > 0:
-            gist['files']['water.json'] = {
-                'content': request.form['json']
-            }
+        addFilesToGist(request, gist)
 
         r = requests.post('https://api.github.com/gists/' + forkedGistId + '?access_token=' + token, data=json.dumps(gist))
         jsonText = json.loads(r.text)
         gistId = jsonText['id']
 
         if jsonText['public'] is True:
-            username = jsonText['user']['login']
-            updated_at = jsonText['updated_at']
-
-            document = users.find_one({'username': username})
-
-            # is there an entry for this user?
-            if document is not None:
-                users.update({'username': username}, {'$push': {'gists': {'_id': gistId, 'modified': updated_at}}})
-            else:
-            # user isn't in mongo yet - add it
-                users.insert({
-                    "username": username,
-                    "gists": [
-                        {
-                            "_id": gistId,
-                            "modified": updated_at
-                        }
-                    ]
-                })
+            addGistToMongo(jsonText['user']['login'], gistId, jsonText['updated_at'])
 
         return gistId
 
@@ -295,29 +235,23 @@ def save():
         }
     }
 
-    if len(request.form['html']) > 0:
-        gist['files']['water.html'] = {
-            'content': request.form['html']
-        }
-
-    if len(request.form['javascript']) > 0:
-        gist['files']['water.js'] = {
-            'content': request.form['javascript']
-        }
-
-    if len(request.form['css']) > 0:
-        gist['files']['water.css'] = {
-            'content': request.form['css']
-        }
-
-    if len(request.form['json']) > 0:
-        gist['files']['water.json'] = {
-            'content': request.form['json']
-        }
+    addFilesToGist(request, gist)
 
     r = requests.post('https://api.github.com/gists/' + gistId + '?access_token=' + token, data=json.dumps(gist))
+    jsonText = json.loads(r.text)
+    gistId = jsonText['id']
 
-    return json.loads(r.text)['id']
+    if jsonText['public'] is True:
+        username = jsonText['user']['login']
+        updated_at = jsonText['updated_at']
+
+        # find this user's document, the gist, and update its modified field
+        users.update(
+            { 'username': username, 'gists._id': gistId },
+            { '$set': { 'gists.$.modified': updated_at } }
+        )
+
+    return gistId
 
 
 
@@ -376,17 +310,6 @@ def index(gistId, versionId):
         version=versioning(),
         gaId=os.getenv('GOOGLE_ANALYTICS_ID')
     ))
-
-
-
-
-# @app.route('/gallery/<gistId>')
-# def gallery(gistId):
-
-#     return render_template('gallery.html', vars=dict(
-#         gistId=gistId,
-#         gaId=os.getenv('GOOGLE_ANALYTICS_ID')
-#     ))
 
 
 
