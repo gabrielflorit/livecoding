@@ -143,6 +143,8 @@ def save_anonymously():
         }
     }
 
+    addFilesToGist(request, gist)
+
     r = requests.post('https://api.github.com/gists?' + getClientIdAndSecretParams(), data=json.dumps(gist))
     jsonText = json.loads(r.text)
     gistId = jsonText['id']
