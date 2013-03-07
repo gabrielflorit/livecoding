@@ -63,10 +63,30 @@ def user(token):
 @app.route('/gists')
 def gists():
 
-    gists = users.find_one()['gists']
-    # TODO: get 10 most recent gists
+    gists = users.aggregate([
+        { '$unwind': '$gists' },
+        { '$sort': { 'gists.modified': -1 } },
+        { '$project': { '_id': 0, 'gists': 1 } },
+        { '$limit': 10 }
+    ])
 
-    return json.dumps(gists, default=json_util.default)
+    return json.dumps(gists['result'], default=json_util.default)
+
+
+
+
+@app.route('/gists_except/<username>')
+def gists_except(username):
+
+    gists = users.aggregate([
+        { '$match': { 'username' : { '$ne': username } } },
+        { '$unwind': '$gists' },
+        { '$sort': { 'gists.modified': -1 } },
+        { '$project': { '_id': 0, 'gists': 1 } },
+        { '$limit': 10 }
+    ])
+
+    return json.dumps(gists['result'], default=json_util.default)
 
 
 
@@ -74,11 +94,15 @@ def gists():
 @app.route('/gists/<username>')
 def gists_by_username(username):
 
+    gists = users.aggregate([
+        { '$match': { 'username' : username } },
+        { '$unwind': '$gists' },
+        { '$sort': { 'gists.modified': -1 } },
+        { '$project': { '_id': 0, 'gists': 1 } },
+        { '$limit': 10 }
+    ])
 
-    gists = users.find_one({'username': username})['gists']
-    # TODO: get 10 most recent gists
-
-    return json.dumps(gists, default=json_util.default)
+    return json.dumps(gists['result'], default=json_util.default)
 
 
 
