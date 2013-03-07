@@ -5,50 +5,7 @@
 	<meta name='viewport' content='width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1'>
 	<title>livecoding</title>
 	<link rel='stylesheet' href="{{ url_for('static', filename='css/iframe.css') }}">
-	<style>
-		h2,
-		#gallery {
-		  max-width: 320px;
-		  margin: 0 auto;
-		  margin-top: 2em;
-		  position: relative;
-		}
-
-		#gallery .revision {
-		  margin: 0em 0em 2em 0em;
-		  display: none;
-		  position: absolute;
-		}
-
-		.number,
-		.date {
-		  padding: 0em 0em 0em 0em;
-		  margin: 0.5em 0em 0em 0em;
-		  float: left;
-		  color: #222;
-		  font-family: Arial, Helvetica, sans-serif;
-		  font-size: 0.7em;
-		}
-
-		.date {
-			float: right;
-			text-align: right;
-		}
-
-		#gallery img {
-		  width: 100%;
-		  border: solid #CCC 1px;
-		}
-
-		a {
-		  text-decoration: none;
-		}
-
-		.dateAndNumber {
-			width: 100%;
-			overflow: hidden;
-		}
-	</style>
+	<link rel='stylesheet' href="{{ url_for('static', filename='css/gallery.css') }}">
 	<script type="text/javascript">
 
 		var _gaq = _gaq || [];
@@ -64,13 +21,25 @@
 	</script>
 </head>
 <body>
-	<div id='livecoding_watermark'><a target='_blank' href='/{{vars.gistAndVersionIds}}'>made with <span>livecoding.io</span></a></div>
-	<h2 class='loading'>loading - this might take a minute or two</h2>
-	<div id='gallery'></div>
+	<header>
+		<span>livecoding</span> an interactive sketchpad
+	</header>
+	<div class='thumbnails new'>
+		<h4>new sketch</h4>
+		<ul>
+			<li><p><a href='/'>+</a></p></li>
+		</ul>
+	</div>
+	<div class='thumbnails user'>
+		<h4>your sketches</h4>
+		<ul></ul>
+	</div>
+	<div class='thumbnails community'>
+		<h4>community sketches</h4>
+		<ul></ul>	
+	</div>
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
 	<script src="{{ url_for('static', filename='js/gallery.js') }}"></script>
-	<script src="{{ url_for('static', filename='js/libs/jquery.imagesloaded.min.js') }}"></script>
-	<script src="{{ url_for('static', filename='js/libs/requestAnimationFrame.js') }}"></script>
-	<script>var gistId = {{vars.gistId}};</script>
+	<script src="{{ url_for('static', filename='js/libs/Underscore.js') }}"></script>
 </body>
 </html>

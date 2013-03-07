@@ -2,9 +2,68 @@ import os
 import datetime
 import requests
 import json
+import pymongo
 from livecoding import app
 from flask import render_template, send_from_directory, redirect, session, request
 from requests import post
+from pymongo import MongoClient
+from bson import json_util
+
+
+
+
+@app.route('/gallery')
+def gallery():
+    return render_template('gallery.html', vars=dict(
+        gaId=os.getenv('GOOGLE_ANALYTICS_ID')
+    ))
+
+
+
+
+@app.route('/user/<token>')
+def user(token):
+    r = requests.get('https://api.github.com/user?access_token=' + token + '&client_id=' + os.getenv('CLIENT_ID') + '&client_secret=' + os.getenv('CLIENT_SECRET'))
+    return r.text
+
+
+
+
+@app.route('/gists')
+def gists():
+
+    constr = os.getenv('MONGOHQ_URL')
+    db_name = constr.split('/')[-1]
+
+    # TODO: create connection once, or per http request?
+    connection = MongoClient(constr)
+    users = connection[db_name].users
+    gists = users.find_one()
+
+    # TODO: get 10 most recent gists
+
+    return json.dumps(gists['gists'], default=json_util.default)
+
+
+
+
+@app.route('/gists/<username>')
+def gists_by_username(username):
+
+    constr = os.getenv('MONGOHQ_URL')
+    db_name = constr.split('/')[-1]
+
+    # TODO: create connection once, or per http request?
+    connection = MongoClient(constr)
+    users = connection[db_name].users
+    gists = users.find_one({'username': username})
+
+    # TODO: get 10 most recent gists
+
+    return json.dumps(gists['gists'], default=json_util.default)
+
+
+
 
 @app.route('/save-anonymously', methods=['POST'])
 def save_anonymously():
@@ -267,13 +326,13 @@ def index(gistId, versionId):
 
 
 
-@app.route('/gallery/<gistId>')
-def gallery(gistId):
+# @app.route('/gallery/<gistId>')
+# def gallery(gistId):
 
-    return render_template('gallery.html', vars=dict(
-        gistId=gistId,
-        gaId=os.getenv('GOOGLE_ANALYTICS_ID')
-    ))
+#     return render_template('gallery.html', vars=dict(
+#         gistId=gistId,
+#         gaId=os.getenv('GOOGLE_ANALYTICS_ID')
+#     ))
 
 
 

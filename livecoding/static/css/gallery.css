@@ -1,0 +1,82 @@
+body {
+	background: #262626;
+	background: #000;
+	margin: 32px 32px;
+}
+
+header {
+	font-family: 'Consolas', 'Bitstream Vera Sans Mono', 'DejaVu Sans Mono', 'Monaco', Courier, monospace;
+	color: white;
+	font-weight: normal;
+	font-size: 0.85em;
+	margin: 0 16px;
+}
+
+header span {
+	text-shadow: 0 0 8px #BCD279;
+	color: #9AB83E;
+	font-size: 2em;
+	margin-right: 32px;
+}
+
+.thumbnails.new {
+	position: absolute;
+}
+
+h4 {
+	font-family: 'Consolas', 'Bitstream Vera Sans Mono', 'DejaVu Sans Mono', 'Monaco', Courier, monospace;
+	color: white;
+	font-weight: normal;
+	margin: 32px 16px 0 16px;
+}
+
+.thumbnails.user h4 {
+	margin-left: 230px;
+}
+
+ul {
+	padding: 0;
+	margin: 0;
+	width: 100%;
+	overflow: hidden;
+}
+
+li a {
+	text-decoration: none !important;
+	color: #000 !important;
+}
+
+li {
+	width: 180px;
+	height: 135px;
+	margin: 16px;
+	list-style: none;
+	border-radius: 2px;
+	float: left;
+	background: #FFF;
+	border: solid #000 1px;
+	box-shadow: 0 0 8px #BCD279;
+	cursor: pointer;
+}
+
+.thumbnails.new li {
+	background: #262626;
+	border: solid #FFF 1px;
+}
+
+.thumbnails.new p {
+	text-align: center;
+	font-family: 'Consolas', 'Bitstream Vera Sans Mono', 'DejaVu Sans Mono', 'Monaco', Courier, monospace;
+	font-size: 6em;
+	padding: 0;
+	margin: 0;
+}
+
+.thumbnails.new a {
+	text-shadow: 0 0 8px #BCD279;
+	color: #FFF !important;
+}
+
+.thumbnails.user li:first-child {
+	margin-left: 230px;
+}
