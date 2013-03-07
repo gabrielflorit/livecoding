@@ -237,7 +237,7 @@ var aigua = (function () {
 
 			aigua.resetMenu();
 
-			$.get('https://api.github.com/user?access_token=' + token, function(user) {
+			$.get('/user/' + token, function(user) {
 				aigua.user = user;
 				var userh2 = $('#controls .item h2.user');
 				userh2.css('background-image', 'url(' + aigua.user.avatar_url + ')');
