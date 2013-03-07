@@ -8,10 +8,13 @@ $(function() {
 			// iterate over gists
 			_.each(gists, function(v) {
 
-				var time = new Date(v.modified).getTime();
+				var gist = v.gists;
+
+				var gistId = gist._id;
+				var time = new Date(gist.modified).getTime();
 
 				// get gist image
-				$.getJSON('http://guarded-castle-8005.herokuapp.com/' + v._id + '/' + time + '?callback=?', function(json) {
+				$.getJSON('http://guarded-castle-8005.herokuapp.com/' + gistId + '/' + time + '?callback=?', function(json) {
 
 					var html = '';
 					html += '<li>';
@@ -39,10 +42,13 @@ $(function() {
 		// get token
 		$.getJSON('/user/' + localStorage['aigua.token'], function(user) {
 			populateGists('/gists/' + user.login, $('.thumbnails.user ul'));
+			populateGists('/gists_except/' + user.login, $('.thumbnails.community ul'));
 		});
 
-	}
+	} else {
 
-	populateGists('/gists', $('.thumbnails.community ul'));
+		populateGists('/gists', $('.thumbnails.community ul'));
+
+	}
 
 });
