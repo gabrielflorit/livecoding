@@ -171,22 +171,23 @@ def create_new():
     r = requests.post('https://api.github.com/gists/' + gistId + '?access_token=' + token, data=json.dumps(gist))
 
     # add to mongodb
-    document = users.find_one({'username': username})
+    if isPublic:
+        document = users.find_one({'username': username})
 
-    # is there an entry for this user?
-    if document is not None:
-        users.update({'username': username}, {'$push': {'gists': {'_id': gistId, 'modified': updated_at}}})
-    else:
-    # user isn't in mongo yet - add it
-        users.insert({
-            "username": username,
-            "gists": [
-                {
-                    "_id": gistId,
-                    "modified": updated_at
-                }
-            ]
-        })
+        # is there an entry for this user?
+        if document is not None:
+            users.update({'username': username}, {'$push': {'gists': {'_id': gistId, 'modified': updated_at}}})
+        else:
+        # user isn't in mongo yet - add it
+            users.insert({
+                "username": username,
+                "gists": [
+                    {
+                        "_id": gistId,
+                        "modified": updated_at
+                    }
+                ]
+            })
 
     return gistId
 
