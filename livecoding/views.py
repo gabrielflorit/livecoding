@@ -41,10 +41,10 @@ def user(token):
 @app.route('/gists')
 def gists():
 
-    gists = users.find_one()
+    gists = users.find_one()['gists']
     # TODO: get 10 most recent gists
 
-    return json.dumps(gists['gists'], default=json_util.default)
+    return json.dumps(gists, default=json_util.default)
 
 
 
@@ -53,10 +53,10 @@ def gists():
 def gists_by_username(username):
 
 
-    gists = users.find_one({'username': username})
+    gists = users.find_one({'username': username})['gists']
     # TODO: get 10 most recent gists
 
-    return json.dumps(gists['gists'], default=json_util.default)
+    return json.dumps(gists, default=json_util.default)
 
 
 
@@ -155,7 +155,10 @@ def create_new():
     r = requests.post('https://api.github.com/gists?access_token=' + token, data=json.dumps(gist))
 
     # get the newly created gist id
-    gistId = json.loads(r.text)['id']
+    jsonText = json.loads(r.text)
+    gistId = jsonText['id']
+    username = jsonText['user']['login']
+    updated_at = jsonText['updated_at']
 
     # create the livecoding url
     livecodingUrl = 'http://livecoding.io/' + gistId
@@ -166,6 +169,24 @@ def create_new():
 
     # save again, this time including the README.md
     r = requests.post('https://api.github.com/gists/' + gistId + '?access_token=' + token, data=json.dumps(gist))
+
+    # add to mongodb
+    document = users.find_one({'username': username})
+
+    # is there an entry for this user?
+    if document is not None:
+        users.update({'username': username}, {'$push': {'gists': {'_id': gistId, 'modified': updated_at}}})
+    else:
+    # user isn't in mongo yet - add it
+        users.insert({
+            "username": username,
+            "gists": [
+                {
+                    "_id": gistId,
+                    "modified": updated_at
+                }
+            ]
+        })
 
     return gistId
 
