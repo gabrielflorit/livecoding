@@ -238,7 +238,7 @@ var aigua = (function () {
 			aigua.resetMenu();
 
 			$.get('/user/' + token, function(user) {
-				aigua.user = user;
+				aigua.user = JSON.parse(user);
 				var userh2 = $('#controls .item h2.user');
 				userh2.css('background-image', 'url(' + aigua.user.avatar_url + ')');
 				userh2.css('cursor', 'pointer');
@@ -558,8 +558,8 @@ var aigua = (function () {
 				aigua.currentGistUserId = aigua.user.id;
 				aigua.showSaveConfirmation();
 
-				$('#menu li:contains("save as ' + (publicGist ? 'private' : 'public') + ' gist")').removeClass('disabled');
-				$('#menu li:contains("save as ' + (publicGist ? 'public' : 'private') + ' gist")').addClass('disabled');
+				$('#menu li:contains("save as ' + (publicGist ? 'private' : 'public') + ' gist")').addClass('disabled');
+				$('#menu li:contains("save as ' + (publicGist ? 'public' : 'private') + ' gist")').removeClass('disabled');
 			});
 
 		},
