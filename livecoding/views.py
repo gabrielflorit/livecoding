@@ -143,7 +143,7 @@ def save_anonymously():
         }
     }
 
-    r = requests.post('https://api.github.com/gists?' + getClientIdAndSecretParams, data=json.dumps(gist))
+    r = requests.post('https://api.github.com/gists?' + getClientIdAndSecretParams(), data=json.dumps(gist))
     jsonText = json.loads(r.text)
     gistId = jsonText['id']
 
@@ -355,7 +355,7 @@ def solo(gistId, versionId):
     else:
         versionId = ''
 
-    r = requests.get('https://api.github.com/gists/' + gistId + versionId + '?' + getClientIdAndSecretParams)
+    r = requests.get('https://api.github.com/gists/' + gistId + versionId + '?' + getClientIdAndSecretParams())
 
     theCss = json.loads(r.text)['files']['water.css']['content'] if ('water.css' in json.loads(r.text)['files']) else ''
     theJs = json.loads(r.text)['files']['water.js']['content'] if ('water.js' in json.loads(r.text)['files']) else ''
