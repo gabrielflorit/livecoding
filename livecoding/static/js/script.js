@@ -950,7 +950,7 @@ var aigua = (function () {
 		miniColorsSelector: '.miniColors-selector',
 		miniColorsTrigger: null,
 		currentModeIndex: 0,
-		currentScreenLayoutIndex: 2,
+		currentScreenLayoutIndex: 1,
 		currentSelection: null,
 		filler: null,
 		handle: null,
@@ -1126,6 +1126,8 @@ var aigua = (function () {
 }());
 
 $(function() {
+
+	$('body').find('*').addClass('full');
 
 	// do a slow fade in
 	$('#main').fadeIn(1000);
@@ -1493,6 +1495,8 @@ $(function() {
 					h2.text(mode.name);
 
 					$('#modes').append(div);
+
+					$('#modes').find('*').addClass('full');
 				});
 
 				// populate screen layout switcher
@@ -1523,12 +1527,7 @@ $(function() {
 					// yes - load its contents
 					aigua.loadGist(gistId, versionId);
 
-				} else {
-
-					// no gist - load the second example
-					// aigua.loadGist($("#menu .item h2:contains('examples') + ul li").eq(2).attr('rel'));
 				}
-
 
 				// ----------- event handlers section ----------------------
 
