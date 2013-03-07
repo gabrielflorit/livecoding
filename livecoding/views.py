@@ -52,9 +52,15 @@ def gallery():
 
 
 
+def getClientIdAndSecretParams():
+    return 'client_id=' + os.getenv('CLIENT_ID') + '&client_secret=' + os.getenv('CLIENT_SECRET')
+
+
+
+
 @app.route('/user/<token>')
 def user(token):
-    r = requests.get('https://api.github.com/user?access_token=' + token + '&client_id=' + os.getenv('CLIENT_ID') + '&client_secret=' + os.getenv('CLIENT_SECRET'))
+    r = requests.get('https://api.github.com/user?access_token=' + token)
     return r.text
 
 
@@ -137,7 +143,7 @@ def save_anonymously():
         }
     }
 
-    r = requests.post('https://api.github.com/gists', data=json.dumps(gist))
+    r = requests.post('https://api.github.com/gists?' + getClientIdAndSecretParams, data=json.dumps(gist))
     jsonText = json.loads(r.text)
     gistId = jsonText['id']
 
@@ -349,7 +355,7 @@ def solo(gistId, versionId):
     else:
         versionId = ''
 
-    r = requests.get('https://api.github.com/gists/' + gistId + versionId + '?client_id=' + os.getenv('CLIENT_ID') + '&client_secret=' + os.getenv('CLIENT_SECRET'))
+    r = requests.get('https://api.github.com/gists/' + gistId + versionId + '?' + getClientIdAndSecretParams)
 
     theCss = json.loads(r.text)['files']['water.css']['content'] if ('water.css' in json.loads(r.text)['files']) else ''
     theJs = json.loads(r.text)['files']['water.js']['content'] if ('water.js' in json.loads(r.text)['files']) else ''
