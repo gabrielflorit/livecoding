@@ -12,6 +12,15 @@ from bson import json_util
 
 
 
+# TODO: create connection once, or per http request?
+constr = os.getenv('MONGOHQ_URL')
+db_name = constr.split('/')[-1]
+connection = MongoClient(constr)
+users = connection[db_name].users
+
+
+
+
 @app.route('/gallery')
 def gallery():
     return render_template('gallery.html', vars=dict(
@@ -32,14 +41,7 @@ def user(token):
 @app.route('/gists')
 def gists():
 
-    constr = os.getenv('MONGOHQ_URL')
-    db_name = constr.split('/')[-1]
-
-    # TODO: create connection once, or per http request?
-    connection = MongoClient(constr)
-    users = connection[db_name].users
     gists = users.find_one()
-
     # TODO: get 10 most recent gists
 
     return json.dumps(gists['gists'], default=json_util.default)
@@ -50,14 +52,8 @@ def gists():
 @app.route('/gists/<username>')
 def gists_by_username(username):
 
-    constr = os.getenv('MONGOHQ_URL')
-    db_name = constr.split('/')[-1]
 
-    # TODO: create connection once, or per http request?
-    connection = MongoClient(constr)
-    users = connection[db_name].users
     gists = users.find_one({'username': username})
-
     # TODO: get 10 most recent gists
 
     return json.dumps(gists['gists'], default=json_util.default)
@@ -99,8 +95,21 @@ def save_anonymously():
         }
 
     r = requests.post('https://api.github.com/gists', data=json.dumps(gist))
+    jsonText = json.loads(r.text)
+    gistId = jsonText['id']
 
-    return json.loads(r.text)['id']
+    # add to mongo
+    users.insert({
+        "username": None,
+        "gists": [
+            {
+                "_id": gistId,
+                "modified": jsonText['updated_at']
+            }
+        ]
+    })
+
+    return gistId
 
 
 
