@@ -43,7 +43,7 @@ def addGistToMongo(username, gistId, updated_at):
 
 
 
-@app.route('/gallery')
+@app.route('/')
 def gallery():
     return render_template('gallery.html', vars=dict(
         gaId=os.getenv('GOOGLE_ANALYTICS_ID')
@@ -309,14 +309,6 @@ def github_logged_in():
 
 
 
-@app.route('/!')
-def index_with_exclamation_point():
-
-    return redirect('/')
-
-
-
-
 @app.route('/iframe')
 def iframe():
 
@@ -325,7 +317,17 @@ def iframe():
 
 
 
-@app.route('/', defaults={'gistId': None, 'versionId': None})
+@app.route('/!')
+def new():
+
+    return render_template('index.html', vars=dict(
+        version=versioning(),
+        gaId=os.getenv('GOOGLE_ANALYTICS_ID')
+    ))
+
+
+
+
 @app.route('/<gistId>', defaults={'versionId': None})
 @app.route('/<gistId>/<versionId>')
 def index(gistId, versionId):

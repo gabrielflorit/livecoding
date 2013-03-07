@@ -1522,10 +1522,11 @@ $(function() {
 
 					// yes - load its contents
 					aigua.loadGist(gistId, versionId);
+
 				} else {
 
 					// no gist - load the second example
-					aigua.loadGist($("#menu .item h2:contains('examples') + ul li").eq(2).attr('rel'));
+					// aigua.loadGist($("#menu .item h2:contains('examples') + ul li").eq(2).attr('rel'));
 				}
 
 
