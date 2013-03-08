@@ -49,7 +49,7 @@ var populateThumbnails = function(gists, node) {
 			html += '    <img class="thumbnail" src="' + json.url + '" />';
 			html += '  </a>';
 			html += '  <div class="info">';
-			html += '    <p class="left"><span class="username">' + username + '</span></p>';
+			html += '    <p class="left"><a class="username" href="/gists/user/' + username + '">' + username + '</a></p>';
 			html += '    <p class="right"><span class="eye">' + views + '</span><img class="eye" src="/static/img/eye.png" /></p>';
 			html += '  </div>';
 			html += '</li>';
