@@ -11,11 +11,12 @@ header {
 	margin: 0 16px;
 }
 
-header span {
+header a {
 	text-shadow: 0 0 8px #BCD279;
-	color: #9AB83E;
+	color: #9AB83E !important;
 	font-size: 3em;
 	margin-right: 32px;
+	text-decoration: none;
 }
 
 .thumbnails.new {
