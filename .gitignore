@@ -173,4 +173,4 @@ demo_cache.sqlite
 /lib
 .Python
 
-livecoding/__init__.cfg
+livecoding/__init__.py
