@@ -33,7 +33,7 @@ $(function() {
 	};
 
 	$('.thumbnails.new li').click(function() {
-		location.href = 'http://livecoding.io';
+		location.href = '/!';
 	});
 
 	// are we logged in?
