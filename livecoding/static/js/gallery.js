@@ -10,24 +10,26 @@ $(function() {
 			// iterate over gists
 			for (var i = 0; i < gists.length; i++) {
 
-				var gist = gists[i].gists;
+				var gist = gists[i];
 
 				allGists.push(gist);
 
-				var gistId = gist._id;
-				var time = new Date(gist.modified).getTime();
+				var gistId = gist.gists._id;
+				var time = new Date(gist.gists.modified).getTime();
 
 				// get gist image
 				$.getJSON('http://guarded-castle-8005.herokuapp.com/' + gistId + '/' + time + '?callback=?', function(json) {
 
-					var views = _.find(allGists, function(v) { return v._id == json.gist; }).views;
+					var match = _.find(allGists, function(v) { return v.gists._id == json.gist; });
+					var views = match.gists.views;
+					var username = match.username ? match.username : 'anonymous';
 
 					var html = '';
 					html += '<li>';
 					html += '  <a href="/' + json.gist + '">';
 					html += '    <img src="' + json.url + '" />';
 					html += '  </a>';
-					html += '  <p class="info">views: ' + views + '</p>';
+					html += '  <p class="info">' + username + ' - views: ' + views + '</p>';
 					html += '</li>';
 					node.append(html);
 
