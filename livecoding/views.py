@@ -177,6 +177,10 @@ def all_gists_except_user():
 
 
 def mongo_gists_user(username):
+
+    if username == 'anonymous':
+        username = None
+
     gists = users.aggregate([
         { '$match': { 'username' : username } },
         { '$unwind': '$gists' },
