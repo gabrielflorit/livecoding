@@ -27,9 +27,12 @@ $(function() {
 					var html = '';
 					html += '<li>';
 					html += '  <a href="/' + json.gist + '">';
-					html += '    <img src="' + json.url + '" />';
+					html += '    <img class="thumbnail" src="' + json.url + '" />';
 					html += '  </a>';
-					html += '  <p class="info">' + username + ' - views: ' + views + '</p>';
+					html += '  <div class="info">';
+					html += '    <p class="left"><span class="username">' + username + '</span></p>';
+					html += '    <p class="right"><span class="eye">' + views + '</span><img class="eye" src="/static/img/eye.png" /></p>';
+					html += '  </div>';
 					html += '</li>';
 					node.append(html);
 

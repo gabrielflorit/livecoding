@@ -61,16 +61,53 @@ li {
 	position: relative;
 }
 
-li p.info {
+li img.thumbnail {
+	vertical-align: baseline;
+}
+
+li .info {
 	position: absolute;
 	bottom: 0;
 	padding: 0;
-	background: rgba(143, 157, 106, 0.75);
+	background: rgba(255, 255, 255, 0.75);
+	border-top: solid rgba(143, 157, 106, 1) 1px;
 	margin: 0;
+	padding: 0;
 	width: 100%;
+	overflow: hidden;
 	color: #000;
-	text-shadow: 1px 1px 2px #FFF;
+	font-family: 'Consolas', 'Bitstream Vera Sans Mono', 'DejaVu Sans Mono', 'Monaco', Courier, monospace;
+}
+
+li .info p {
+	margin: 0;
+	padding: 0;
+	width: 50%;
+	overflow: hidden;
+}
+
+li .info .left {
+	float: left;
+	font-size: 11px;
+	padding: 4px 0 0 0;
+}
+
+li .info .username {
+	margin: 0 4px 0 2px;
+}
+
+li .info .right {
+	float: right;
 	text-align: right;
+}
+
+li .info span.eye {
+}
+
+li .info img.eye {
+	width: 16px;
+	margin: 2px 4px 0 2px;
+	vertical-align: text-top;
 }
 
 .thumbnails.new li {

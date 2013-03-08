@@ -71,7 +71,8 @@ def addGistToMongo(username, gistId, updated_at):
 @app.route('/')
 def gallery():
     return render_template('gallery.html', vars=dict(
-        gaId=os.getenv('GOOGLE_ANALYTICS_ID')
+        gaId=os.getenv('GOOGLE_ANALYTICS_ID'),
+        version=versioning(),
     ))
 
 
@@ -446,4 +447,4 @@ def favicon():
 
 def versioning():
 
-    return datetime.date.today().strftime('%y%m%d')
+    return datetime.date.today().strftime('%y%m%d%H')
