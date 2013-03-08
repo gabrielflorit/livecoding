@@ -4,4 +4,6 @@
 
 100% totally based on Bret Victor's [Inventing on Principle](https://vimeo.com/36579366) talk, which is one of the best I've ever seen. If you watch only one talk this year, make sure it's this one.
 
-See the [wiki](https://github.com/gabrielflorit/livecoding/wiki/_pages) for more information
+
+
+See the [wiki](https://github.com/gabrielflorit/livecoding/wiki/_pages) for more information.
