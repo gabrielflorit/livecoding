@@ -106,8 +106,8 @@ li .info span.eye {
 
 li .info img.eye {
 	width: 16px;
-	margin: 2px 4px 0 2px;
-	vertical-align: text-top;
+	margin: 0 4px 4px 2px;
+	vertical-align: middle;
 }
 
 .thumbnails.new li {
