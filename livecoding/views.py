@@ -130,8 +130,8 @@ def gist(gistId, versionId):
 
 
 
-@app.route('/gists')
-def gists():
+@app.route('/all_gists', methods=['POST'])
+def all_gists():
 
     gists = users.aggregate([
         { '$unwind': '$gists' },
@@ -144,8 +144,11 @@ def gists():
 
 
 
-@app.route('/gists_except/<username>')
-def gists_except(username):
+@app.route('/all_gists_except_user', methods=['POST'])
+def all_gists_except_user():
+
+    username = request.form['user']
+    print username
 
     gists = users.aggregate([
         { '$match': { 'username' : { '$ne': username } } },
@@ -159,8 +162,11 @@ def gists_except(username):
 
 
 
-@app.route('/gists/<username>')
-def gists_by_username(username):
+@app.route('/gists_for_user', methods=['POST'])
+def gists_for_user():
+
+    username = request.form['user']
+    print username
 
     gists = users.aggregate([
         { '$match': { 'username' : username } },

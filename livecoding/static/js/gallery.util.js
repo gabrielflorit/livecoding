@@ -1,9 +1,11 @@
-var populateThumbnails = function(endpoint, node) {
+var populateThumbnails = function(endpoint, data, node) {
 
 	var allGists = [];
 
 	// get gists
-	$.getJSON(endpoint, function(gists) {
+	$.post(endpoint, data, function(json) {
+
+		var gists = JSON.parse(json);
 
 		// iterate over gists
 		for (var i = 0; i < gists.length; i++) {
