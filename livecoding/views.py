@@ -72,7 +72,7 @@ def addGistToMongo(username, gistId, updated_at):
 def gallery():
     return render_template('gallery.html', vars=dict(
         gaId=os.getenv('GOOGLE_ANALYTICS_ID'),
-        version=versioning(),
+        version=versioning()
     ))
 
 
@@ -130,6 +130,21 @@ def gist(gistId, versionId):
 
 
 
+@app.route('/gists/user/<username>', methods=['GET'])
+def gists_user_get(username):
+
+    gists = mongo_gists_user(username)
+
+    return render_template('gists.html', vars=dict(
+        gaId=os.getenv('GOOGLE_ANALYTICS_ID'),
+        version=versioning(),
+        title=username,
+        gists=json.dumps(gists['result'], default=json_util.default)
+    ))
+
+
+
+
 @app.route('/all_gists', methods=['POST'])
 def all_gists():
 
@@ -148,7 +163,6 @@ def all_gists():
 def all_gists_except_user():
 
     username = request.form['user']
-    print username
 
     gists = users.aggregate([
         { '$match': { 'username' : { '$ne': username } } },
@@ -162,18 +176,24 @@ def all_gists_except_user():
 
 
 
-@app.route('/gists_for_user', methods=['POST'])
-def gists_for_user():
-
-    username = request.form['user']
-    print username
-
+def mongo_gists_user(username):
     gists = users.aggregate([
         { '$match': { 'username' : username } },
         { '$unwind': '$gists' },
         { '$sort': { 'gists.modified': -1 } },
         { '$project': { '_id': 0, 'gists': 1, 'username': 1 } }
     ])
+
+    return gists
+
+
+
+
+@app.route('/gists_for_user', methods=['POST'])
+def gists_for_user():
+
+    username = request.form['user']
+    gists = mongo_gists_user(username)
 
     return json.dumps(gists['result'], default=json_util.default)
 

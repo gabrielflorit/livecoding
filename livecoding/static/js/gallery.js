@@ -9,13 +9,13 @@ $(function() {
 
 		// get token
 		$.getJSON('/user/' + localStorage['aigua.token'], function(user) {
-			populateThumbnails('/gists_for_user', {user: user.login}, $('.thumbnails.user ul'));
-			populateThumbnails('/all_gists_except_user', {user: user.login}, $('.thumbnails.community ul'));
+			populateThumbnailsFromEndpoint('/gists_for_user', {user: user.login}, $('.thumbnails.user ul'));
+			populateThumbnailsFromEndpoint('/all_gists_except_user', {user: user.login}, $('.thumbnails.community ul'));
 		});
 
 	} else {
 
-		populateThumbnails('/all_gists', null, $('.thumbnails.community ul'));
+		populateThumbnailsFromEndpoint('/all_gists', null, $('.thumbnails.community ul'));
 
 	}
 

@@ -19,28 +19,21 @@
 		})();
 
 	</script>
+	<script>
+	  var gists = JSON.parse({{vars.gists|tojson|safe}});
+	</script>
 </head>
 <body>
 	<header>
 		<span>livecoding</span> an interactive sketchpad
 	</header>
-	<div class='thumbnails new'>
-		<h4>new sketch</h4>
-		<ul>
-			<li><p><a href='/!'>+</a></p></li>
-		</ul>
-	</div>
- 	<div class='thumbnails user'>
-		<h4>your sketches</h4>
-		<ul></ul>
-	</div>
 	<div class='thumbnails community'>
-		<h4>community sketches</h4>
+		<h4>sketches for: {{vars.title}}</h4>
 		<ul></ul>	
 	</div>
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
 	<script src="{{ url_for('static', filename='js/gallery.util.js') }}?v={{vars.version}}"></script>
-	<script src="{{ url_for('static', filename='js/gallery.js') }}?v={{vars.version}}"></script>
+	<script src="{{ url_for('static', filename='js/gists.js') }}?v={{vars.version}}"></script>
 	<script src="{{ url_for('static', filename='js/libs/Underscore.js') }}"></script>
 </body>
 </html>
