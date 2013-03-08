@@ -6,9 +6,9 @@ $(function() {
 		$.getJSON(endpoint, function(gists) {
 
 			// iterate over gists
-			_.each(gists, function(v) {
+			for (var i = 0; i < gists.length; i++) {
 
-				var gist = v.gists;
+				var gist = gists[i].gists;
 
 				var gistId = gist._id;
 				var time = new Date(gist.modified).getTime();
@@ -26,7 +26,7 @@ $(function() {
 
 				});
 
-			});
+			}
 
 		});
 
