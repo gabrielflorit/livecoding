@@ -42,7 +42,15 @@ def addGistToMongo(username, gistId, updated_at):
 
             users.update(
                 { 'username': username },
-                { '$push': { 'gists': { '_id': gistId, 'modified': updated_at } } }
+                {
+                    '$push': {
+                        'gists': {
+                            '_id': gistId,
+                            'modified': updated_at,
+                            'views': 1
+                        }
+                    }
+                }
             )
 
     # user doesn't exist
@@ -52,7 +60,8 @@ def addGistToMongo(username, gistId, updated_at):
             'username': username,
             'gists': [{
                 '_id': gistId,
-                'modified': updated_at
+                'modified': updated_at,
+                'views': 1
             }]
         })
 
@@ -92,6 +101,29 @@ def gist(gistId, versionId):
         versionId = ''
 
     r = requests.get('https://api.github.com/gists/' + gistId + versionId + '?' + getClientIdAndSecretParams())
+
+    jsonText = json.loads(r.text)
+    gistId = jsonText['id']
+    username = jsonText['user']
+
+    if username is not None:
+        username = username['login']
+
+    document = users.find_one({ 'username': username, 'gists._id': gistId })
+
+    # does this gist exist?
+    if document is not None:
+
+        users.update(
+            { 'username': username, 'gists._id': gistId },
+            { '$inc': { 'gists.$.views': 1 } }
+        )
+
+    # gist does not exist - add it
+    else:
+
+        addGistToMongo(username, gistId, jsonText['updated_at'])
+
     return r.text
 
 
@@ -102,7 +134,7 @@ def gists():
 
     gists = users.aggregate([
         { '$unwind': '$gists' },
-        { '$sort': { 'gists.modified': -1 } },
+        { '$sort': { 'gists.views': -1 } },
         { '$project': { '_id': 0, 'gists': 1 } }
     ])
 
@@ -117,7 +149,7 @@ def gists_except(username):
     gists = users.aggregate([
         { '$match': { 'username' : { '$ne': username } } },
         { '$unwind': '$gists' },
-        { '$sort': { 'gists.modified': -1 } },
+        { '$sort': { 'gists.views': -1 } },
         { '$project': { '_id': 0, 'gists': 1 } }
     ])
 
