@@ -316,15 +316,15 @@ def github_logged_in():
 
     # construct data and headers to send to github
     data = {'client_id': os.getenv('CLIENT_ID'), 'client_secret': os.getenv('CLIENT_SECRET'), 'code': tempcode }
+    headers = {'content-type': 'application/json', 'accept': 'application/json'}
 
     # request an access token
-    r = requests.post('https://github.com/login/oauth/access_token', data=json.dumps(data))
+    r = requests.post('https://github.com/login/oauth/access_token', data=json.dumps(data), headers=headers)
 
     # grab access token
     token = json.loads(r.text)['access_token']
 
     return render_template('token.html', vars=dict(token = token))
-
 
 
 
