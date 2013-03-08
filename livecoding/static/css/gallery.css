@@ -58,6 +58,19 @@ li {
 	background: #FFF;
 	border: solid #000 1px;
 	cursor: pointer;
+	position: relative;
+}
+
+li p.info {
+	position: absolute;
+	bottom: 0;
+	padding: 0;
+	background: rgba(143, 157, 106, 0.75);
+	margin: 0;
+	width: 100%;
+	color: #000;
+	text-shadow: 1px 1px 2px #FFF;
+	text-align: right;
 }
 
 .thumbnails.new li {

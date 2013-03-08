@@ -1,5 +1,7 @@
 $(function() {
 
+	var allGists = [];
+
 	var populateGists = function(endpoint, node) {
 
 		// get gists
@@ -10,17 +12,22 @@ $(function() {
 
 				var gist = gists[i].gists;
 
+				allGists.push(gist);
+
 				var gistId = gist._id;
 				var time = new Date(gist.modified).getTime();
 
 				// get gist image
 				$.getJSON('http://guarded-castle-8005.herokuapp.com/' + gistId + '/' + time + '?callback=?', function(json) {
 
+					var views = _.find(allGists, function(v) { return v._id == json.gist; }).views;
+
 					var html = '';
 					html += '<li>';
 					html += '  <a href="http://livecoding.io/' + json.gist + '">';
 					html += '    <img src="' + json.url + '" />';
 					html += '  </a>';
+					html += '  <p class="info">views: ' + views + '</p>';
 					html += '</li>';
 					node.append(html);
 
