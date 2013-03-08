@@ -25,7 +25,7 @@ $(function() {
 					var username = match.username ? match.username : 'anonymous';
 
 					var html = '';
-					html += '<li>';
+					html += '<li data="' + views + '"">';
 					html += '  <a href="/' + json.gist + '">';
 					html += '    <img class="thumbnail" src="' + json.url + '" />';
 					html += '  </a>';
@@ -35,6 +35,15 @@ $(function() {
 					html += '  </div>';
 					html += '</li>';
 					node.append(html);
+
+					// order thumbnails by view, descending
+					// this is done on every thumbnail insertion
+					// surely there must be a better way!
+					var li = node.children('li');
+					li.detach().sort(function(a, b) {
+						return Number($(a).attr('data')) < Number($(b).attr('data'));
+					});
+					node.append(li);
 
 				});
 
