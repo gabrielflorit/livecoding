@@ -1,20 +1,20 @@
 body {
 	background: #000;
-	margin: 32px 32px;
+	margin: 30px 30px;
 }
 
 header {
 	font-family: 'Consolas', 'Bitstream Vera Sans Mono', 'DejaVu Sans Mono', 'Monaco', Courier, monospace;
 	color: white;
 	font-weight: normal;
-	font-size: 0.85em;
+	font-size: 1em;
 	margin: 0 16px;
 }
 
 header span {
 	text-shadow: 0 0 8px #BCD279;
 	color: #9AB83E;
-	font-size: 2em;
+	font-size: 3em;
 	margin-right: 32px;
 }
 
