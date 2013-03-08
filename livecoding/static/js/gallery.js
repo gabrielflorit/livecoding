@@ -24,7 +24,7 @@ $(function() {
 
 					var html = '';
 					html += '<li>';
-					html += '  <a href="http://livecoding.io/' + json.gist + '">';
+					html += '  <a href="/' + json.gist + '">';
 					html += '    <img src="' + json.url + '" />';
 					html += '  </a>';
 					html += '  <p class="info">views: ' + views + '</p>';
