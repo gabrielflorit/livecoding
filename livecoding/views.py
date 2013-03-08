@@ -135,7 +135,7 @@ def gists():
     gists = users.aggregate([
         { '$unwind': '$gists' },
         { '$sort': { 'gists.views': -1 } },
-        { '$project': { '_id': 0, 'gists': 1 } }
+        { '$project': { '_id': 0, 'gists': 1, 'username': 1 } }
     ])
 
     return json.dumps(gists['result'], default=json_util.default)
@@ -150,7 +150,7 @@ def gists_except(username):
         { '$match': { 'username' : { '$ne': username } } },
         { '$unwind': '$gists' },
         { '$sort': { 'gists.views': -1 } },
-        { '$project': { '_id': 0, 'gists': 1 } }
+        { '$project': { '_id': 0, 'gists': 1, 'username': 1 } }
     ])
 
     return json.dumps(gists['result'], default=json_util.default)
@@ -165,7 +165,7 @@ def gists_by_username(username):
         { '$match': { 'username' : username } },
         { '$unwind': '$gists' },
         { '$sort': { 'gists.modified': -1 } },
-        { '$project': { '_id': 0, 'gists': 1 } }
+        { '$project': { '_id': 0, 'gists': 1, 'username': 1 } }
     ])
 
     return json.dumps(gists['result'], default=json_util.default)
