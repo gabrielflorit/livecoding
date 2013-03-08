@@ -82,6 +82,21 @@ def user(token):
 
 
 
+@app.route('/gist/<gistId>', defaults={'versionId': None})
+@app.route('/gist/<gistId>/<versionId>')
+def gist(gistId, versionId):
+
+    if versionId is not None:
+        versionId = '/' + versionId
+    else:
+        versionId = ''
+
+    r = requests.get('https://api.github.com/gists/' + gistId + versionId + '?' + getClientIdAndSecretParams())
+    return r.text
+
+
+
+
 @app.route('/gists')
 def gists():
 

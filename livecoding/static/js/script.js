@@ -130,23 +130,23 @@ var aigua = (function () {
 			aigua.resetMenu();
 			aigua.setToClean();
 
-			var url = 'https://api.github.com/gists/' + gistId + (versionId ? '/' + versionId : ''); 
-
 			$.ajax({
-				url: url + '?callback=?',
+				url: '/gist/' + gistId + (versionId ? '/' + versionId : ''),
 				dataType: 'json',
 				success: function (data) {
 
-					aigua.currentGistUserId = data.data.user ? data.data.user.id : null;
+					debugger;
 
-					var html = data.data.files['water.html'];
-					var javascript = data.data.files['water.js'];
-					var css = data.data.files['water.css'];
-					var json = data.data.files['water.json'];
+					aigua.currentGistUserId = data.user ? data.user.id : null;
+
+					var html = data.files['water.html'];
+					var javascript = data.files['water.js'];
+					var css = data.files['water.css'];
+					var json = data.files['water.json'];
 
 					var options;
-					if (data.data.files['options.json']) {
-						options = JSON.parse(data.data.files['options.json'].content);
+					if (data.files['options.json']) {
+						options = JSON.parse(data.files['options.json'].content);
 					} else {
 						options = {
 							libraries: []
