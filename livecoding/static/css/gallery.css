@@ -1,5 +1,4 @@
 body {
-	background: #262626;
 	background: #000;
 	margin: 32px 32px;
 }
@@ -55,11 +54,9 @@ li {
 	height: 135px;
 	margin: 16px;
 	list-style: none;
-	border-radius: 2px;
 	float: left;
 	background: #FFF;
 	border: solid #000 1px;
-	box-shadow: 0 0 8px #BCD279;
 	cursor: pointer;
 }
 
