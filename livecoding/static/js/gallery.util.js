@@ -24,7 +24,6 @@ var orderThumbnails = function(node) {
 var populateThumbnails = function(gists, node) {
 
 	var allGists = [];
-	var addedThumbnails = 0;
 
 	// iterate over gists
 	for (var i = 0; i < gists.length; i++) {
@@ -55,11 +54,7 @@ var populateThumbnails = function(gists, node) {
 			html += '</li>';
 			node.append(html);
 
-			addedThumbnails++;
-
-			if (gists.length == addedThumbnails) {
-				orderThumbnails(node);
-			}
+			orderThumbnails(node);
 
 		});
 
