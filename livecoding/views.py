@@ -25,19 +25,35 @@ def addGistToMongo(username, gistId, updated_at):
 
     document = users.find_one({'username': username})
 
-    # is there an entry for this user?
+    # does this user exist?
     if document is not None:
-        users.update({'username': username}, {'$push': {'gists': {'_id': gistId, 'modified': updated_at}}})
+
+        # does this user's gist exist?
+        if users.find_one({'username': username, 'gists._id': gistId}) is not None:
+    
+            # update the user's gist's modified field
+            users.update(
+                { 'username': username, 'gists._id': gistId },
+                { '$set': { 'gists.$.modified': updated_at } }
+            )
+
+        # user's gist is not there - add it
+        else:
+
+            users.update(
+                { 'username': username },
+                { '$push': { 'gists': { '_id': gistId, 'modified': updated_at } } }
+            )
+
+    # user doesn't exist
     else:
-    # user isn't in mongo yet - add it
+
         users.insert({
-            "username": username,
-            "gists": [
-                {
-                    "_id": gistId,
-                    "modified": updated_at
-                }
-            ]
+            'username': username,
+            'gists': [{
+                '_id': gistId,
+                'modified': updated_at
+            }]
         })
 
 
@@ -276,12 +292,7 @@ def save():
     if jsonText['public'] is True:
         username = jsonText['user']['login']
         updated_at = jsonText['updated_at']
-
-        # find this user's document, the gist, and update its modified field
-        users.update(
-            { 'username': username, 'gists._id': gistId },
-            { '$set': { 'gists.$.modified': updated_at } }
-        )
+        addGistToMongo(username, gistId, updated_at)
 
     return gistId
 
