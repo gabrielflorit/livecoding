@@ -346,13 +346,20 @@ body {
     text-shadow: 0 0 8px #BCD279;
     padding: 0 22px 0 7px;
     padding-right: 22px;
-    color: #9AB83E;
-    cursor: pointer;
+  }
+
+  #header a {
+    color: #9AB83E !important;
+    text-decoration: none;
   }
 
   #header.full {
     text-shadow: none;
-    color: #262626;
+  }
+
+  #header.full a {
+    color: #262626 !important;
+    text-decoration: none;
   }
 
   #stats {

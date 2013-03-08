@@ -1616,15 +1616,6 @@ $(function() {
 					$(this).removeClass('hover');
 				});
 
-				// handle clicking on title
-				$('#header').on('click', function(e) {
-
-					e.preventDefault();
-
-					// ask user 'are you sure' before wiping the codemirror contents
-					aigua.askBeforeNew();
-				});
-
 				$(window).on('beforeunload', function() {
 
 					if (aigua.isDirty()) {
