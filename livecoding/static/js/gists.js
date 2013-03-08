@@ -1,5 +1,5 @@
 $(function() {
 
-	populateThumbnails(gists, $('.thumbnails ul'));
+	populateThumbnails(gists, $('.thumbnails ul'), false);
 
 });

@@ -84,18 +84,16 @@ li .info {
 li .info p {
 	margin: 0;
 	padding: 0;
-	width: 50%;
 	overflow: hidden;
 }
 
 li .info .left {
 	float: left;
 	font-size: 11px;
-	padding: 4px 0 0 0;
+	padding: 4px 0 0 4px;
 }
 
 li .info .username {
-	margin: 0 4px 0 2px;
 	color: #CF6A4C !important;
 }
 
@@ -106,9 +104,6 @@ li .info .username:hover {
 li .info .right {
 	float: right;
 	text-align: right;
-}
-
-li .info span.eye {
 }
 
 li .info img.eye {

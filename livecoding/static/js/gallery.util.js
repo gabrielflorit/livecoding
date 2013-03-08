@@ -21,7 +21,26 @@ var orderThumbnails = function(node) {
 
 };
 
-var populateThumbnails = function(gists, node) {
+var getDisplayDate = function(date) {
+
+	var year = Number(date.getFullYear());
+	var month = Number(date.getMonth() + 1);
+	var day = Number(date.getDate());
+
+	var parts = date.toTimeString().split(':');
+
+	var hh = Number(parts[0]);
+	var mm = parts[1];
+	var mode = hh > 11 ? 'PM' : 'AM';
+	if (hh > 12) hh -= 12;
+
+	var hhmm = [hh, mm].join(':');
+
+	return [[month, day, year].join('·'), hhmm, mode].join(' ');
+
+};
+
+var populateThumbnails = function(gists, node, orderByTime) {
 
 	var allGists = [];
 
@@ -41,14 +60,26 @@ var populateThumbnails = function(gists, node) {
 			var match = _.find(allGists, function(v) { return v.gists._id == json.gist; });
 			var views = match.gists.views;
 			var username = match.username ? match.username : 'anonymous';
+			var date = new Date(match.gists.modified);
+
+			var leftInfo = orderByTime ? getDisplayDate(date) : username;
+			var sortField = orderByTime ? date.getTime() : views;
 
 			var html = '';
-			html += '<li data="' + views + '">';
+			html += '<li data="' + sortField + '">';
 			html += '  <a href="/' + json.gist + '">';
 			html += '    <img class="thumbnail" src="' + json.url + '" />';
 			html += '  </a>';
 			html += '  <div class="info">';
-			html += '    <p class="left"><a class="username" href="/gists/user/' + username + '">' + username + '</a></p>';
+			html += '    <p class="left">';
+			if (!orderByTime) {
+				html += '      <a class="username" href="/gists/user/' + username + '">';
+			}
+			html +=          leftInfo;
+			if (!orderByTime) {
+				html += '      </a>';
+			}
+			html += '    </p>';
 			html += '    <p class="right"><span class="eye">' + views + '</span><img class="eye" src="/static/img/eye.png" /></p>';
 			html += '  </div>';
 			html += '</li>';
@@ -62,12 +93,12 @@ var populateThumbnails = function(gists, node) {
 
 };
 
-var populateThumbnailsFromEndpoint = function(endpoint, data, node) {
+var populateThumbnailsFromEndpoint = function(endpoint, data, node, orderByTime) {
 
 	// get gists
 	$.post(endpoint, data, function(gists) {
 
-		populateThumbnails(JSON.parse(gists), node);
+		populateThumbnails(JSON.parse(gists), node, orderByTime);
 
 	});
 
