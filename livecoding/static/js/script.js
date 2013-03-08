@@ -1146,13 +1146,6 @@ $(function() {
 		// we do support this browser! 
 		} else {
 
-			if (!localStorage.livecoding_about
-				|| localStorage.livecoding_about != $('#popup .about').attr('rel')) {
-
-				$('#popup').fadeIn();
-				$('#popup .about').fadeIn();
-			}
-
 			var extraKeys = {};
 			aigua.key = {};
 
@@ -1784,19 +1777,13 @@ $(function() {
 
 							switch (choice.text()) {
 
-								case 'source code':
+								case 'about / source code':
 									window.open('https://github.com/gabrielflorit/livecoding/', '_blank');
 									aigua.resetMenu();
 								break;
 
 								case 'contact':
 									window.open('http://twitter.com/gabrielflorit', '_blank');
-									aigua.resetMenu();
-								break;
-
-								case 'about':
-									$('#popup').fadeIn();
-									$('#popup .about').fadeIn();
 									aigua.resetMenu();
 								break;
 
