@@ -1496,7 +1496,7 @@ $(function() {
 
 					$('#modes').append(div);
 
-					$('#modes').find('*').addClass('full');
+					$('body').find('*').addClass('full');
 				});
 
 				// populate screen layout switcher
