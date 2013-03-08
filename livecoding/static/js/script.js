@@ -135,8 +135,6 @@ var aigua = (function () {
 				dataType: 'json',
 				success: function (data) {
 
-					debugger;
-
 					aigua.currentGistUserId = data.user ? data.user.id : null;
 
 					var html = data.files['water.html'];
