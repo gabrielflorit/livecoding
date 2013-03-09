@@ -8,7 +8,7 @@
 	<title>livecoding</title>
 	<meta name="description" content="livecoding is an interactive sketchpad. Code modifications are instantly displayed - no need to refresh your browser. Click on a number, adjust its value via the popup slider, and watch your work change on the fly! 100% totally based on Bret Victor's Inventing on Principle talk.">
 
-	<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}?v={{vars.version}}">
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 	<link rel="stylesheet" href="{{ url_for('static', filename='js/libs/codemirror/codemirror.css') }}">
 	<link rel="stylesheet" href="{{ url_for('static', filename='js/libs/codemirror/theme/lesser-dark.css') }}">
 	<link rel="stylesheet" href="{{ url_for('static', filename='css/jquery.miniColors.css') }}">
@@ -181,6 +181,6 @@
 	<script src="{{ url_for('static', filename='js/libs/jquery.miniColors.min.js') }}"></script>
 	<script src="{{ url_for('static', filename='js/plugins.js') }}"></script>
 	<script src="{{ url_for('static', filename='js/libs/Stats.js') }}"></script>
-	<script src="{{ url_for('static', filename='js/script.js') }}?v={{vars.version}}10"></script>
+	<script src="{{ url_for('static', filename='js/script.js') }}"></script>
 </body>
 </html>

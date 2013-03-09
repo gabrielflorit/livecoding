@@ -87,8 +87,7 @@ def addGistToMongo(username, gistId, updated_at):
 @app.route('/')
 def gallery():
     return render_template('gallery.html', vars=dict(
-        gaId=os.getenv('GOOGLE_ANALYTICS_ID'),
-        version=versioning()
+        gaId=os.getenv('GOOGLE_ANALYTICS_ID')
     ))
 
 
@@ -153,7 +152,6 @@ def gists_user_get(username):
 
     return render_template('gists.html', vars=dict(
         gaId=os.getenv('GOOGLE_ANALYTICS_ID'),
-        version=versioning(),
         title=username,
         gists=json.dumps(gists['result'], default=json_util.default)
     ))
@@ -437,7 +435,6 @@ def iframe():
 def new():
 
     return render_template('index.html', vars=dict(
-        version=versioning(),
         gaId=os.getenv('GOOGLE_ANALYTICS_ID')
     ))
 
@@ -449,7 +446,6 @@ def new():
 def index(gistId, versionId):
 
     return render_template('index.html', vars=dict(
-        version=versioning(),
         gaId=os.getenv('GOOGLE_ANALYTICS_ID')
     ))
 
@@ -493,10 +489,3 @@ def favicon():
 
     return send_from_directory(os.path.join(app.root_path, 'static/img'),
                                'favicon.ico', mimetype='image/vnd.microsoft.icon')
-
-
-
-
-def versioning():
-
-    return datetime.date.today().strftime('%j') + '02'
