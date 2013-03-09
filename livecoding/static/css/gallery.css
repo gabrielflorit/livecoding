@@ -9,14 +9,28 @@ header {
 	font-weight: normal;
 	font-size: 1em;
 	margin: 0 16px;
+	position: relative;
 }
 
-header a {
+header a.title {
 	text-shadow: 0 0 8px #BCD279;
 	color: #9AB83E !important;
 	font-size: 3em;
 	margin-right: 32px;
 	text-decoration: none;
+}
+
+header a.what {
+	position: absolute;
+	right: 0;
+	bottom: 0;
+	font-size: 3em;
+	text-decoration: none;
+	color: #FFF !important;
+}
+
+header a.what:hover {
+	text-decoration: underline;
 }
 
 .thumbnails.new {
