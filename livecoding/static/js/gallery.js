@@ -1,5 +1,6 @@
 $(function() {
 
+
 	$('.thumbnails.new li').click(function() {
 		location.href = '/!';
 	});
