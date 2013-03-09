@@ -148,10 +148,13 @@ def gists_user_get(username):
 @app.route('/all_gists', methods=['POST'])
 def all_gists():
 
+    limit = int(request.form['limit'])
+
     gists = users.aggregate([
         { '$unwind': '$gists' },
         { '$sort': { 'gists.views': -1 } },
-        { '$project': { '_id': 0, 'gists': 1, 'username': 1 } }
+        { '$project': { '_id': 0, 'gists': 1, 'username': 1 } },
+        { '$limit': limit }
     ])
 
     return json.dumps(gists['result'], default=json_util.default)
@@ -162,13 +165,16 @@ def all_gists():
 @app.route('/all_gists_except_user', methods=['POST'])
 def all_gists_except_user():
 
+    limit = int(request.form['limit'])
+
     username = request.form['user']
 
     gists = users.aggregate([
         { '$match': { 'username' : { '$ne': username } } },
         { '$unwind': '$gists' },
         { '$sort': { 'gists.views': -1 } },
-        { '$project': { '_id': 0, 'gists': 1, 'username': 1 } }
+        { '$project': { '_id': 0, 'gists': 1, 'username': 1 } },
+        { '$limit': limit }
     ])
 
     return json.dumps(gists['result'], default=json_util.default)
