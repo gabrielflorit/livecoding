@@ -86,13 +86,13 @@ def addGistToMongo(username, gistId, updated_at):
 
 @app.route('/')
 def home():
-    return render_template('home.html', vars=dict(
+    return render_template('gallery.html', vars=dict(
         gaId=os.getenv('GOOGLE_ANALYTICS_ID')
     ))
+    # return render_template('home.html', vars=dict(
+    #     gaId=os.getenv('GOOGLE_ANALYTICS_ID')
+    # ))
 # def gallery():
-#     return render_template('gallery.html', vars=dict(
-#         gaId=os.getenv('GOOGLE_ANALYTICS_ID')
-#     ))
 
 
 
