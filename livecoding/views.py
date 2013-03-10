@@ -3,6 +3,7 @@ import datetime
 import requests
 import json
 import pymongo
+import re
 from livecoding import app
 from flask import render_template, send_from_directory, redirect, session, request, url_for
 from requests import post
@@ -39,47 +40,50 @@ users = connection[db_name].users
 
 def addGistToMongo(username, gistId, updated_at):
 
-    document = users.find_one({'username': username})
+    # is the gist public - is it all numbers?
+    if re.match("^[\d]*$", gistId):
 
-    # does this user exist?
-    if document is not None:
+        document = users.find_one({'username': username})
 
-        # does this user's gist exist?
-        if users.find_one({'username': username, 'gists._id': gistId}) is not None:
-    
-            # update the user's gist's modified field
-            users.update(
-                { 'username': username, 'gists._id': gistId },
-                { '$set': { 'gists.$.modified': updated_at } }
-            )
+        # does this user exist?
+        if document is not None:
 
-        # user's gist is not there - add it
-        else:
+            # does this user's gist exist?
+            if users.find_one({'username': username, 'gists._id': gistId}) is not None:
+        
+                # update the user's gist's modified field
+                users.update(
+                    { 'username': username, 'gists._id': gistId },
+                    { '$set': { 'gists.$.modified': updated_at } }
+                )
 
-            users.update(
-                { 'username': username },
-                {
-                    '$push': {
-                        'gists': {
-                            '_id': gistId,
-                            'modified': updated_at,
-                            'views': 1
+            # user's gist is not there - add it
+            else:
+
+                users.update(
+                    { 'username': username },
+                    {
+                        '$push': {
+                            'gists': {
+                                '_id': gistId,
+                                'modified': updated_at,
+                                'views': 1
+                            }
                         }
                     }
-                }
-            )
+                )
 
-    # user doesn't exist
-    else:
+        # user doesn't exist
+        else:
 
-        users.insert({
-            'username': username,
-            'gists': [{
-                '_id': gistId,
-                'modified': updated_at,
-                'views': 1
-            }]
-        })
+            users.insert({
+                'username': username,
+                'gists': [{
+                    '_id': gistId,
+                    'modified': updated_at,
+                    'views': 1
+                }]
+            })
 
 
 
@@ -129,20 +133,23 @@ def gist(gistId, versionId):
     if username is not None:
         username = username['login']
 
-    document = users.find_one({ 'username': username, 'gists._id': gistId })
+    # is the gist public - is it all numbers?
+    if re.match("^[\d]*$", gistId):
 
-    # does this gist exist?
-    if document is not None:
+        document = users.find_one({ 'username': username, 'gists._id': gistId })
 
-        users.update(
-            { 'username': username, 'gists._id': gistId },
-            { '$inc': { 'gists.$.views': 1 } }
-        )
+        # does this gist exist?
+        if document is not None:
 
-    # gist does not exist - add it
-    else:
+            users.update(
+                { 'username': username, 'gists._id': gistId },
+                { '$inc': { 'gists.$.views': 1 } }
+            )
 
-        addGistToMongo(username, gistId, jsonText['updated_at'])
+        # gist does not exist - add it
+        else:
+
+            addGistToMongo(username, gistId, jsonText['updated_at'])
 
     return r.text
 
