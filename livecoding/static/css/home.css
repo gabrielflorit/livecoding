@@ -123,28 +123,31 @@ header a:hover {
 @media screen and (min-width:588px){.popular-inner{width:588px}}
 @media screen and (min-width:784px){.popular-inner{width:784px}}
 
-.popular .top {
+.popular .title, .popular .more {
 	margin: 0 8px;
-	overflow: hidden;
 }
 @media screen and (max-width: 391px) {
-	.popular .top {
+	.popular .title {
 		margin: 0;
 	}
 }
 
 .popular .title {
 	color: #FFF;
-	float: left;
 }
 @media screen and (max-width: 391px) {
-	.popular .title span {
-		font-size: 0.8em;
+	.popular .title {
+		text-align: center;
 	}
 }
 
 .popular .more {
-	float: right;
+	text-align: right;
+}
+@media screen and (max-width: 391px) {
+	.popular .more {
+		text-align: center;
+	}
 }
 
 .popular .more a {
@@ -168,7 +171,7 @@ header a:hover {
 	display: none;
 }
 @media screen and (min-width:180px) {
-	.popular li:nth-child(-n+1) {
+	.popular li:nth-child(-n+3) {
 		display: block;
 	}
 }
