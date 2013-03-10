@@ -174,3 +174,7 @@ demo_cache.sqlite
 .Python
 
 livecoding/__init__.cfg
+
+livecoding/static/js/gallery.util-ck.js
+
+livecoding/static/js/home-ck.js

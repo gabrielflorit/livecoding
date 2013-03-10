@@ -1,0 +1,61 @@
+<!doctype html>
+<head>
+	<meta name='content-type' content='text/html; charset=UTF-8' />
+	<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+	<meta name='viewport' content='width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1'>
+	<title>livecoding.io</title>
+	<link rel='stylesheet' href="{{ url_for('static', filename='css/iframe.css') }}">
+	<link rel='stylesheet' href="{{ url_for('static', filename='css/home.css') }}">
+	<script type="text/javascript">
+
+		var _gaq = _gaq || [];
+		_gaq.push(['_setAccount', '{{vars.gaId}}']);
+		_gaq.push(['_trackPageview']);
+
+		(function() {
+			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		})();
+
+	</script>
+</head>
+<body>
+	<header><a href='/'>livecoding.io</a></header>
+
+	<div class='main-wrapper'>
+
+		<div class='what-is-this'>code with instant feedback</div>
+		<div class='extra'><span>livecoding.io</span> helps you sketch with code, right in your browser.</div>
+
+		<div class='new-text'><a target='_blank' href='/!'>new sketch</a></div>
+		<div class='new-box'>
+			<div>+</div>
+		</div>
+		<div style='visibility: hidden'><a href='/'>learn more</a></div>
+
+	</div>
+
+  <div class='popular'>
+    <div class='popular-inner'>
+      <div class='top'>
+        <p class='title'><span>Popular sketches</span></p>
+        <p class='more'><a href=''>more</a></p>
+      </div>
+      <ul></ul>
+    </div>
+  </div>
+
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+  <script src="{{ url_for('static', filename='js/libs/Underscore.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/gallery.util.js') }}"></script>
+	<script src="{{ url_for('static', filename='js/home.js') }}"></script>
+</body>
+</html>
+
+
+
+
+
+
+

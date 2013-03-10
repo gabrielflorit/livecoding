@@ -40,16 +40,12 @@ var getDisplayDate = function(date) {
 
 };
 
-var populateThumbnails = function(gists, node, orderByTime) {
-
-	var allGists = [];
+var populateThumbnails = function(gists, node, orderByTime, callback) {
 
 	// iterate over gists
 	for (var i = 0; i < gists.length; i++) {
 
 		var gist = gists[i];
-
-		allGists.push(gist);
 
 		var gistId = gist.gists._id;
 		var time = new Date(gist.gists.modified).getTime();
@@ -57,7 +53,7 @@ var populateThumbnails = function(gists, node, orderByTime) {
 		// get gist image
 		$.getJSON('http://guarded-castle-8005.herokuapp.com/' + gistId + '/' + time + '?callback=?', function(json) {
 
-			var match = _.find(allGists, function(v) { return v.gists._id == json.gist; });
+			var match = _.find(gists, function(v) { return v.gists._id == json.gist; });
 			var views = match.gists.views;
 			var username = match.username ? match.username : 'anonymous';
 			var date = new Date(match.gists.modified);
@@ -87,18 +83,23 @@ var populateThumbnails = function(gists, node, orderByTime) {
 
 			orderThumbnails(node);
 
+			// when all gists have been processed, call callback
+			if ($('li', node).length == gists.length) {
+				callback && callback();
+			}
+
 		});
 
 	}
 
 };
 
-var populateThumbnailsFromEndpoint = function(endpoint, data, node, orderByTime) {
+var populateThumbnailsFromEndpoint = function(endpoint, data, node, orderByTime, callback) {
 
 	// get gists
 	$.post(endpoint, data, function(gists) {
 
-		populateThumbnails(JSON.parse(gists), node, orderByTime);
+		populateThumbnails(JSON.parse(gists), node, orderByTime, callback);
 
 	});
 
