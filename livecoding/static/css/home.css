@@ -118,9 +118,10 @@ header a:hover {
 	max-width: 784px;
 	margin: 0 auto;
 }
-@media screen and (max-width:783px){.popular-inner{width:588px}}
-@media screen and (max-width:587px){.popular-inner{width:392px}}
-@media screen and (max-width:391px){.popular-inner{width:180px}}
+@media screen and (min-width:180px){.popular-inner{width:180px}}
+@media screen and (min-width:392px){.popular-inner{width:392px}}
+@media screen and (min-width:588px){.popular-inner{width:588px}}
+@media screen and (min-width:784px){.popular-inner{width:784px}}
 
 .popular .top {
 	margin: 0 8px;
@@ -164,6 +165,27 @@ header a:hover {
 	float: left;
 	margin: 8px;
 	position: relative;
+	display: none;
+}
+@media screen and (min-width:180px) {
+	.popular li:nth-child(-n+1) {
+		display: block;
+	}
+}
+@media screen and (min-width:392px){
+	.popular li:nth-child(-n+4) {
+		display: block;
+	}
+}
+@media screen and (min-width:588px){
+	.popular li:nth-child(-n+6) {
+		display: block;
+	}
+}
+@media screen and (min-width:784px){
+	.popular li:nth-child(-n+8) {
+		display: block;
+	}
 }
 
 @media screen and (max-width: 391px) {
