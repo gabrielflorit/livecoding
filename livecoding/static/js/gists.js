@@ -8,7 +8,7 @@ $(function() {
 
 	if (isUser) {
 		var user = _.last(location.pathname.split('/'));
-		$('.thumbnails-wrapper .title').html('<span>sketches by: <a target="_blank" href="http://github.com/' + user + '">' + user + '</a></span> <span class="total">(1 of 10)</span>');
+		$('.thumbnails-wrapper .title').html('<span>sketches by: <a target="_blank" href="http://github.com/' + user + '">' + user + '</a></span> <span class="total"></span>');
 	}
 
 	var _start = 0;
