@@ -36,24 +36,21 @@
 
 	</div>
 
-  <div class='popular'>
-    <div class='popular-inner'>
-      <p class='title'><span>Popular sketches</span></p>
-      <ul></ul>
-      <p class='more'><a href=''>more</a></p>
-    </div>
-  </div>
+	<div class='popular'>
+		<div class='thumbnails-wrapper'>
+			<p class='title'><span>Popular sketches</span></p>
+			<ul class='thumbnails'></ul>
+			<p class='more'><a href='/gists'>more</a></p>
+		</div>
+	</div>
+
+	<footer>
+		<a href='https://twitter.com/gabrielflorit' target='_blank'>contact</a>
+	</footer>
 
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-  <script src="{{ url_for('static', filename='js/libs/Underscore.js') }}"></script>
-  <script src="{{ url_for('static', filename='js/gallery.util.js') }}"></script>
+	<script src="{{ url_for('static', filename='js/libs/Underscore.js') }}"></script>
+	<script src="{{ url_for('static', filename='js/gists.util.js') }}"></script>
 	<script src="{{ url_for('static', filename='js/home.js') }}"></script>
 </body>
 </html>
-
-
-
-
-
-
-

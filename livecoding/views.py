@@ -69,7 +69,8 @@ def addGistToMongo(username, gistId, updated_at):
                                 'modified': updated_at,
                                 'views': 1
                             }
-                        }
+                        },
+                        '$inc': { 'count': 1 }
                     }
                 )
 
@@ -78,6 +79,7 @@ def addGistToMongo(username, gistId, updated_at):
 
             users.insert({
                 'username': username,
+                'count': 1,
                 'gists': [{
                     '_id': gistId,
                     'modified': updated_at,
@@ -90,13 +92,12 @@ def addGistToMongo(username, gistId, updated_at):
 
 @app.route('/')
 def home():
-    return render_template('gallery.html', vars=dict(
-        gaId=os.getenv('GOOGLE_ANALYTICS_ID')
-    ))
-    # return render_template('home.html', vars=dict(
+    # return render_template('gallery.html', vars=dict(
     #     gaId=os.getenv('GOOGLE_ANALYTICS_ID')
     # ))
-# def gallery():
+    return render_template('home.html', vars=dict(
+        gaId=os.getenv('GOOGLE_ANALYTICS_ID')
+    ))
 
 
 
@@ -155,59 +156,65 @@ def gist(gistId, versionId):
 
 
 
+@app.route('/api/gists/user/<username>/<int:start>/<int:count>')
+def api_gists_username(username, start, count):
 
-@app.route('/gists/user/<username>', methods=['GET'])
-def gists_user_get(username):
+    if username == 'anonymous':
+        username = None
 
-    gists = mongo_gists_user(username)
+    total = users.find_one({ 'username' : username }, { '_id': 0, 'count': 1 })['count']
 
+    gists = users.aggregate([
+        { '$match': { 'username' : username } },
+        { '$unwind': '$gists' },
+        { '$sort': { 'gists.modified': -1 } },
+        { '$project': { '_id': 0, 'gists': 1 } },
+        { '$skip': start },
+        { '$limit': count }
+    ])['result']
+
+    return json.dumps({'gists': gists, 'total': total}, default=json_util.default)
+
+
+
+
+@app.route('/api/gists/<int:start>/<int:count>')
+def api_gists(start, count):
+
+    gists = users.aggregate([
+        { '$unwind': '$gists' },
+        { '$sort': { 'gists.views': -1 } },
+        { '$project': { '_id': 0, 'gists': 1, 'username': 1 } },
+        { '$skip': start },
+        { '$limit': count }
+    ])['result']
+
+    return json.dumps({'gists': gists}, default=json_util.default)
+
+
+
+@app.route('/gists', defaults={'path': ''})
+@app.route('/gists/<path:path>')
+def gists(path):
     return render_template('gists.html', vars=dict(
-        gaId=os.getenv('GOOGLE_ANALYTICS_ID'),
-        title=username,
-        gists=json.dumps(gists['result'], default=json_util.default)
+        gaId=os.getenv('GOOGLE_ANALYTICS_ID')
     ))
 
 
 
 
-@app.route('/all_gists', methods=['POST'])
-def all_gists():
-
-    limit = int(request.form['limit'])
-
-    gists = users.aggregate([
-        { '$unwind': '$gists' },
-        { '$sort': { 'gists.views': -1 } },
-        { '$project': { '_id': 0, 'gists': 1, 'username': 1 } },
-        { '$limit': limit }
-    ])
-
-    return json.dumps(gists['result'], default=json_util.default)
+#     gists = users.aggregate([
+#         { '$match': { 'username' : { '$ne': username } } },
+#         { '$unwind': '$gists' },
+#         { '$sort': { 'gists.views': -1 } },
+#         { '$project': { '_id': 0, 'gists': 1, 'username': 1 } },
+#         { '$limit': limit }
+#     ])
 
 
 
 
-@app.route('/all_gists_except_user', methods=['POST'])
-def all_gists_except_user():
-
-    limit = int(request.form['limit'])
-
-    username = request.form['user']
-
-    gists = users.aggregate([
-        { '$match': { 'username' : { '$ne': username } } },
-        { '$unwind': '$gists' },
-        { '$sort': { 'gists.views': -1 } },
-        { '$project': { '_id': 0, 'gists': 1, 'username': 1 } },
-        { '$limit': limit }
-    ])
-
-    return json.dumps(gists['result'], default=json_util.default)
-
-
-
-
-def mongo_gists_user(username):
+def mongo_gists_user(username, start, count):
 
     if username == 'anonymous':
         username = None
@@ -216,21 +223,12 @@ def mongo_gists_user(username):
         { '$match': { 'username' : username } },
         { '$unwind': '$gists' },
         { '$sort': { 'gists.modified': -1 } },
-        { '$project': { '_id': 0, 'gists': 1, 'username': 1 } }
+        { '$project': { '_id': 0, 'gists': 1, 'username': 1 } },
+        { '$skip': start },
+        { '$limit': count }
     ])
 
     return gists
-
-
-
-
-@app.route('/gists_for_user', methods=['POST'])
-def gists_for_user():
-
-    username = request.form['user']
-    gists = mongo_gists_user(username)
-
-    return json.dumps(gists['result'], default=json_util.default)
 
 
 

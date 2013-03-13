@@ -40,7 +40,11 @@ var getDisplayDate = function(date) {
 
 };
 
-var populateThumbnails = function(gists, node, orderByTime, callback) {
+var populateThumbnails = function(data, node, orderByTime, callback) {
+
+	var processedThumbnails = 0;
+
+	var gists = data.gists;
 
 	// iterate over gists
 	for (var i = 0; i < gists.length; i++) {
@@ -64,7 +68,7 @@ var populateThumbnails = function(gists, node, orderByTime, callback) {
 			var html = '';
 			html += '<li data="' + sortField + '">';
 			html += '  <a href="/' + json.gist + '">';
-			html += '    <img class="thumbnail" src="' + json.url + '" />';
+			html += '    <img class="thumbnail" width="180" height="135" src="' + json.url + '" />';
 			html += '  </a>';
 			html += '  <div class="info">';
 			html += '    <p class="left">';
@@ -83,9 +87,11 @@ var populateThumbnails = function(gists, node, orderByTime, callback) {
 
 			orderThumbnails(node);
 
+			processedThumbnails++;
+
 			// when all gists have been processed, call callback
-			if ($('li', node).length == gists.length) {
-				callback && callback();
+			if (processedThumbnails == gists.length) {
+				callback && callback(data);
 			}
 
 		});
@@ -94,12 +100,12 @@ var populateThumbnails = function(gists, node, orderByTime, callback) {
 
 };
 
-var populateThumbnailsFromEndpoint = function(endpoint, data, node, orderByTime, callback) {
+var populateThumbnailsFromEndpoint = function(endpoint, node, orderByTime, callback) {
 
 	// get gists
-	$.post(endpoint, data, function(gists) {
+	$.getJSON(endpoint, function(json) {
 
-		populateThumbnails(JSON.parse(gists), node, orderByTime, callback);
+		populateThumbnails(json, node, orderByTime, callback);
 
 	});
 

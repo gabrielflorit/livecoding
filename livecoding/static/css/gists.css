@@ -1,0 +1,12 @@
+.thumbnails-wrapper {
+	max-width: 1960px;
+	padding: 3em 0em;
+}
+
+@media screen and (min-width:980px){.thumbnails-wrapper{width:980px}}
+@media screen and (min-width:1176px){.thumbnails-wrapper{width:1176px}}
+@media screen and (min-width:1372px){.thumbnails-wrapper{width:1372px}}
+@media screen and (min-width:1568px){.thumbnails-wrapper{width:1568px}}
+@media screen and (min-width:1764px){.thumbnails-wrapper{width:1764px}}
+@media screen and (min-width:1960px){.thumbnails-wrapper{width:1960px}}
+

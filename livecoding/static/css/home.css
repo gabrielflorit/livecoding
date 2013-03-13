@@ -114,94 +114,99 @@ header a:hover {
 	padding: 1.5em 0;
 }
 
-.popular-inner {
+.popular .thumbnails-wrapper {
 	max-width: 784px;
+}
+.thumbnails-wrapper {
 	margin: 0 auto;
 }
-@media screen and (min-width:180px){.popular-inner{width:180px}}
-@media screen and (min-width:392px){.popular-inner{width:392px}}
-@media screen and (min-width:588px){.popular-inner{width:588px}}
-@media screen and (min-width:784px){.popular-inner{width:784px}}
+@media screen and (min-width:180px){.thumbnails-wrapper{width:180px}}
+@media screen and (min-width:392px){.thumbnails-wrapper{width:392px}}
+@media screen and (min-width:588px){.thumbnails-wrapper{width:588px}}
+@media screen and (min-width:784px){.thumbnails-wrapper{width:784px}}
 
-.popular .title, .popular .more {
+.thumbnails-wrapper .title,
+.thumbnails-wrapper .more {
 	margin: 0 8px;
 }
 @media screen and (max-width: 391px) {
-	.popular .title {
+	.thumbnails-wrapper .title {
 		margin: 0;
 	}
 }
 
-.popular .title {
+.thumbnails-wrapper .title {
 	color: #FFF;
 }
 @media screen and (max-width: 391px) {
-	.popular .title {
+	.thumbnails-wrapper .title {
 		text-align: center;
 	}
 }
 
-.popular .more {
+.more {
 	text-align: right;
 }
 @media screen and (max-width: 391px) {
-	.popular .more {
+	.more {
 		text-align: center;
 	}
 }
 
-.popular .more a {
+.more a {
 	font-size: 0.8em;
 }
 
-.popular ul {
+.thumbnails {
 	margin: 0;
 	padding: 0;
 	width: 100%;
 	overflow: hidden;
 }
 
-.popular li {
+.thumbnails li {
 	background: #FFF;
 	color: #000;
 	list-style: none;
 	float: left;
-	margin: 8px;
 	position: relative;
+	margin: 8px;
+}
+.popular .thumbnails li {
 	display: none;
 }
 @media screen and (min-width:180px) {
-	.popular li:nth-child(-n+3) {
+	.popular .thumbnails li:nth-child(-n+3) {
 		display: block;
 	}
 }
 @media screen and (min-width:392px){
-	.popular li:nth-child(-n+4) {
+	.popular .thumbnails li:nth-child(-n+4) {
 		display: block;
 	}
 }
 @media screen and (min-width:588px){
-	.popular li:nth-child(-n+6) {
+	.popular .thumbnails li:nth-child(-n+6) {
 		display: block;
 	}
 }
 @media screen and (min-width:784px){
-	.popular li:nth-child(-n+8) {
+	.popular .thumbnails li:nth-child(-n+8) {
 		display: block;
 	}
 }
 
 @media screen and (max-width: 391px) {
-	.popular li {
+	.popular .thumbnails li {
 		margin: 8px 0;
 	}
 }
 
-.popular li .thumbnail {
+.thumbnails li .thumbnail {
 	vertical-align: bottom;
 }
 
-.popular li .info {
+.thumbnails li .info {
 	position: absolute;
 	width: 100%;
 	overflow: hidden;
@@ -212,24 +217,28 @@ header a:hover {
 	border-top: solid rgba(143, 157, 106, 1) 1px;
 }
 
-.popular li .info .left {
+.thumbnails li .info .left {
 	float: left;
 	font-size: 0.7em;
 	padding: 0.35em 0 0 0.25em;
 }
 
-.popular li .info .right {
+.thumbnails li .info .right {
 	float: right;
 	text-align: right;
 }
 
-.popular li .info img.eye {
+.thumbnails li .info img.eye {
 	width: 1em;
 	margin: 0 0.25em 0.25em 0.15em;
 	vertical-align: middle;
 }
 
-
+footer {
+	font-size: 0.7em;
+	margin: 3em 0 0 0;
+	text-align: center;
+}
 
 
 
