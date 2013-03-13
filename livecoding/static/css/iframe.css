@@ -227,6 +227,7 @@ td { vertical-align: top; }
   color: #FFF;
   padding: 0;
   margin: 0;
+  z-index: 10;
 }
 
 #livecoding_watermark {
