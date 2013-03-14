@@ -1,6 +1,7 @@
 .thumbnails-wrapper {
 	max-width: 1960px;
 	padding: 3em 0em;
+	min-height: 30em;
 }
 
 @media screen and (min-width:980px){.thumbnails-wrapper{width:980px}}

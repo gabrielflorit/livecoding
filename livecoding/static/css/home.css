@@ -235,9 +235,14 @@ header a:hover {
 }
 
 footer {
-	font-size: 0.7em;
-	margin: 3em 0 0 0;
+	color: #999;
+	font-size: 0.9em;
+	margin: 4em 0 2em 0;
 	text-align: center;
+}
+
+footer a {
+	color: #999 !important;
 }
 
 
