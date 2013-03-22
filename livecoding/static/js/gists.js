@@ -12,7 +12,7 @@ $(function() {
 	}
 
 	var _start = 0;
-	var _count = 20;
+	var _count = 20; 
 
 	var afterGistsPopulate = function(data) {
 
