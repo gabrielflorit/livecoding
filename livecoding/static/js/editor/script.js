@@ -1281,7 +1281,7 @@ $(function() {
 
 						// calculate the new number based on the original number
 						// plus the dragging offset
-						newNumber = lc.util.modifyNumber(aigua.originalNumber.value, offset);
+						newNumber = aigua.originalNumber.value.modifyBy(offset);
 
 						// replace the selection with the new number
 						aigua.codeMirror.replaceSelection(String(newNumber) + aigua.originalNumber.suffix);
