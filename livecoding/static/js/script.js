@@ -955,68 +955,7 @@ var aigua = (function () {
 		iframeLoaded: null,
 		isLoading: null,
 		key: null,
-		libraries: [
-			{
-				name: 'crossfilter',
-				obj: 'crossfilter'
-			},
-			{
-				name: 'd3',
-				obj: 'd3'
-			},
-			{
-				name: 'iScroll',
-				obj: 'iScroll'
-			},
-			{
-				name: 'Handlebars',
-				obj: 'Handlebars'
-			},
-			{
-				name: 'Highcharts',
-				obj: 'Highcharts'
-			},
-			{
-				name: 'KineticJS',
-				obj: 'Kinetic'
-			},
-			{
-				name: 'jQuery.Flickable',
-				obj: '$.fn.flickable'
-			},
-			{
-				name: 'jQuery.TouchSwipe',
-				obj: '$.fn.swipe'
-			},
-			{
-				name: 'Leaflet',
-				obj: 'L'
-			},
-			{
-				name: 'Raphael',
-				obj: 'Raphael'
-			},
-			{
-				name: 'SwipeView',
-				obj: 'SwipeView'
-			},
-			{
-				name: 'Processing',
-				obj: 'Processing'
-			},
-			{
-				name: 'three.js',
-				obj: 'THREE'
-			},
-			{
-				name: 'TopoJSON',
-				obj: 'topojson'
-			},
-			{
-				name: 'Underscore',
-				obj: '_'
-			}
-		],
+		libraries: lc.libraries,
 		lineHeight: 19,
 		marker: null,
 		modes: [
