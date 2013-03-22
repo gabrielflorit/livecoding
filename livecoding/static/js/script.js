@@ -1781,6 +1781,11 @@ $(function() {
 									$('#popup .keyboard').fadeIn();
 									aigua.resetMenu();
 								break;
+
+								case 'google group':
+									window.open('http://groups.google.com/group/livecoding_io', '_blank');
+									aigua.resetMenu();
+								break;
 							}
 
 						break;
