@@ -8,6 +8,11 @@ var aigua = (function () {
 
 	return {
 
+		// if user clicks 'new', ask for confirmation if the editor
+		// contents have changed.
+		// it reads user-related info, but mostly
+		// modifies editor and dropdown
+		// editor.js ?
 		askBeforeNew: function() {
 			var result = aigua.isDirty() ? confirm(aigua.areYouSureText) : true;
 
@@ -24,11 +29,16 @@ var aigua = (function () {
 			}
 		},
 
+		// comment current line
+		// editor.js ?
 		comment: function(cm) {
 
 			aigua.masterComment(cm, true);
 		},
 
+		// create payload with all sorts of data to be sent to server
+		// this object will contain all code data, plus editor options, libraries, etc
+		// github.js ?
 		createPostDataObject: function() {
 
 			var result = {};
@@ -75,15 +85,21 @@ var aigua = (function () {
 			return result;
 		},
 
+		// convenience function to return a private var
+		// github.js ?
 		getOAuthToken: function() {
 			return token;
 		},
 
+		// get selected range in editor
+		// editor.js ?
 		getSelectedRange: function(cm) {
 			var range = { from: cm.getCursor(true), to: cm.getCursor(false) };
 			return range;
 		},
 
+		// get url gist id - e.g the 1234567 part in http://livecoding.io/1234567
+		// editor.js ?
 		getUrlGistId: function() {
 
 			var a = document.createElement('a');
@@ -94,6 +110,8 @@ var aigua = (function () {
 			return (gistId.length > 0 && gistId != '!') ? gistId : null;
 		},
 
+		// get url gist id - e.g the abcdefg part in http://livecoding.io/1234567/abcdefg
+		// editor.js ?
 		getUrlGistVersionId: function() {
 
 			var a = document.createElement('a');
@@ -104,6 +122,8 @@ var aigua = (function () {
 			return parts.length == 3 ? parts[2] : null;
 		},
 
+		// hide popup overlay
+		// editor.js ?
 		hidePopup: function() {
 
 			if ($('#popup .about').is(':visible')) {
@@ -114,14 +134,21 @@ var aigua = (function () {
 			$('#popup').fadeOut();
 		},
 
+		// is the dirty CSS class set?
+		// editor.js ?
 		isDirty: function() {
 			return $('.dirty').css('visibility') == 'visible';
 		},
 
+		// util function to tell us whether a string is hex or not
+		// used to test whether a string is a hex color or not
+		// util.js ?
 		isHexString: function(value) {
 			return /(^#[0-9A-F]{6}$)|(^#[0-9A-F]{3}$)/i.test(value);
 		},
 
+		// get gist data from server
+		// github.js ?
 		loadGist: function(gistId, versionId) {
 
 			aigua.isLoading = true;
@@ -229,6 +256,8 @@ var aigua = (function () {
 
 		},
 
+		// get github auth token from server, also get user info
+		// github.js ?
 		logIn: function(oauthToken, callback) {
 			token = oauthToken;
 			localStorage['aigua.token'] = token;
@@ -251,6 +280,8 @@ var aigua = (function () {
 			});
 		},
 
+		// clear token from local storage, and modify editor menus accordingly
+		// github.js ?
 		logOut: function() {
 			token = null;
 			aigua.user = null;
@@ -265,6 +296,9 @@ var aigua = (function () {
 			$('#menu li:contains("save as private gist"), #menu li:contains("save as public gist")').addClass('disabled');
 		},
 
+		// actual commenting function
+		// this gets called by comment / uncomment
+		// editor.js ?
 		masterComment: function(cm, comment) {
 
 			var range = aigua.getSelectedRange(cm);
@@ -274,6 +308,8 @@ var aigua = (function () {
 		// modify a number by a certain distance
 		// e.g. modifyNumber(5.89, 10) = 5.89 + 10 * 0.1
 		// e.g. modifyNumber(58.9, 20) = 58.9 + 20 * 1
+		// this is used by the slider
+		// slider.js ?
 		modifyNumber: function(number, distance) {
 
 			var parts;
@@ -304,6 +340,8 @@ var aigua = (function () {
 			return d3.round(result, decimalPlaces);
 		},
 
+		// set a flag to pause / resume code evaluation
+		// editor.js ?
 		pauseResumeExecution: function() {
 			if (!aigua.pauseExecution) {
 				aigua.pauseExecution = !aigua.pauseExecution;
@@ -316,6 +354,7 @@ var aigua = (function () {
 		},
 
 		// run the code and update the display
+		// editor.js ?
 		renderCode: function() {
 
 			// get the current code
@@ -401,6 +440,7 @@ var aigua = (function () {
 		// TODO: improve by creating a list of snippet objects, each
 		// object containing the snippet as key, and two properties,
 		// the replacement, and the mode to run under
+		// editor.js ?
 		replaceSnippet: function(cm) {
 			var cursor = cm.getCursor();
 			var line = cursor.line;
@@ -422,6 +462,7 @@ var aigua = (function () {
 		// reset bar position and width:
 		// center bar over the token
 		// set bar width to default starting width
+		// slider.js ?
 		resetBar: function(markerCenter) {
 			aigua.bar.width(aigua.startingBarWidth);
 			aigua.bar.css('left', markerCenter - aigua.startingBarWidth/2 - aigua.borderWidth);
@@ -429,6 +470,7 @@ var aigua = (function () {
 			aigua.filler.removeClass('filler-edge-right');
 		},
 
+		// menu.js ?
 		resetMenu: function() {
 
 			var menu = $('#menu');
@@ -436,6 +478,7 @@ var aigua = (function () {
 			$('h2', menu).removeClass('hover'); // remove hover class from all the h2's
 		},
 
+		// editor.js ?
 		resetScreen: function() {
 
 			// clear out all the modes (html, css, etc)
@@ -457,12 +500,14 @@ var aigua = (function () {
 			aigua.switchMode('html');
 		},
 
+		// editor.js ?
 		resetUrl: function() {
 			history.pushState(null, null, '/!');
 			$('#gist').attr('href', '');
 			$('#gist').html('');
 		},
 
+		// editor.js ?
 		respondToKey: function(cm) {
 
 			var cursor;
@@ -510,6 +555,7 @@ var aigua = (function () {
 		},
 
 		// TODO: clean up all the code duplication
+		// github.js ?
 		saveAsUser: function(publicGist) {
 
 			aigua.setToClean();
@@ -562,6 +608,7 @@ var aigua = (function () {
 
 		},
 
+		// github.js ?
 		saveAnonymously: function() {
 
 			aigua.setToClean();
@@ -582,6 +629,7 @@ var aigua = (function () {
 			});
 		},
 
+		// github.js ?
 		saveAsUserOrAnonymously: function() {
 
 			if (localStorage['aigua.token']) {
@@ -592,14 +640,17 @@ var aigua = (function () {
 
 		},
 
+		// editor.js ?
 		setToClean: function() {
 			$('.dirty').css('visibility', 'hidden');
 		},
 
+		// editor.js ?
 		setToDirty: function() {
 			$('.dirty').css('visibility', 'visible');
 		},
 
+		// editor.js ?
 		setUrl: function(gistId, versionId) {
 			var gistAndVersionIds = '/' + gistId + (versionId ? '/' + versionId : '');
 
@@ -612,6 +663,7 @@ var aigua = (function () {
 			$('#gist').html(gistUrl);
 		},
 
+		// editor.js / colorpicker.js ?
 		showColorSelector: function(cm, hex) {
 
 			var startCoords;
@@ -646,6 +698,7 @@ var aigua = (function () {
 			$(aigua.miniColorsSelector).css('top', endCoords.y + aigua.lineHeight);
 		},
 
+		// editor.js ?
 		showSaveConfirmation: function() {
 			$('.save-confirmation').text('saved at ' + new Date().toLocaleTimeString());
 			$('.save-confirmation').fadeOut(1500, function() {
@@ -653,6 +706,7 @@ var aigua = (function () {
 			});
 		},
 
+		// slider.js ?
 		showSlider: function(cm, cursor, token) {
 
 			var startCoords;
@@ -715,16 +769,19 @@ var aigua = (function () {
 			aigua.ball.offset({top: aigua.filler.offset().top});
 		},
 
+		// editor.js ?
 		startAnimate: function() {
 			frames[0].livecoding.startAnimate();
 			$('#startAnimation').show();
 		},
 
+		// editor.js ?
 		stopAnimate: function() {
 			frames[0].livecoding.stopAnimate();
 			$('#startAnimation').hide();
 		},
 
+		// editor.js ?
 		switchLayout: function(choice) {
 
 			var layoutItems = $('.screenLayout');
@@ -736,6 +793,7 @@ var aigua = (function () {
 			aigua.resetMenu();
 		},
 
+		// editor.js ?
 		switchMode: function(mode, noTab) {
 
 			// pause aigua: disable code evals from happening on codemirror changes
@@ -801,22 +859,27 @@ var aigua = (function () {
 			aigua.pause = false;
 		},
 
+		// editor.js ?
 		switchToCss: function() {
 			aigua.switchMode('css');
 		},
 
+		// editor.js ?
 		switchToHtml: function() {
 			aigua.switchMode('html');
 		},
 
+		// editor.js ?
 		switchToJavaScript: function() {
 			aigua.switchMode('javascript');
 		},
 
+		// editor.js ?
 		switchToJson: function() {
 			aigua.switchMode('json');
 		},
 
+		// editor.js ?
 		switchToNextLayout: function() {
 
 			// if we're on the last one, go to the first one
@@ -828,6 +891,7 @@ var aigua = (function () {
 			}
 		},
 
+		// editor.js ?
 		switchToPreviousLayout: function() {
 
 			// if we're on the first one, go to the last one
@@ -839,6 +903,7 @@ var aigua = (function () {
 			}
 		},
 
+		// editor.js ?
 		switchResolution: function(resolution) {
 
 			resolution.siblings().removeClass('disabled');
@@ -872,11 +937,13 @@ var aigua = (function () {
 			aigua.resetMenu();
 		},
 
+		// editor.js ?
 		uncomment: function(cm) {
 
 			aigua.masterComment(cm, false);
 		},
 
+		// editor.js ?
 		updateScreenLayout: function() {
 
 			if (aigua.screenLayouts[aigua.currentScreenLayoutIndex] == 'sketchpad mode') {
