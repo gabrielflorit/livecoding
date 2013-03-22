@@ -7,3 +7,5 @@
 
 
 See the [wiki](https://github.com/gabrielflorit/livecoding/wiki/_pages) for more information.
+
+Also check out the [Google Group](http://groups.google.com/group/livecoding_io)
