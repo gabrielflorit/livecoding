@@ -4,6 +4,7 @@ lc.codemirrorUtil = {
 
 	/*
 		Helper function - gets called by the "comment" keyboard shortcut.
+
 		@param {object} cm The CodeMirror instance.
 	*/
 	comment: function(cm) {
@@ -12,6 +13,7 @@ lc.codemirrorUtil = {
 
 	/*
 		Helper function - gets called by the "uncomment" keyboard shortcut.
+
 		@param {object} cm The CodeMirror instance.
 	*/
 	uncomment: function(cm) {
@@ -20,6 +22,7 @@ lc.codemirrorUtil = {
 
 	/*
 		Comment / uncomment the selected range in CodeMirror.
+
 		@param {object} cm The CodeMirror instance.
 		@param {boolean} comment Whether to comment or uncomment.
 	*/

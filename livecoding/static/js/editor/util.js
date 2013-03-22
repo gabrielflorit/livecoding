@@ -2,16 +2,26 @@ var lc = lc || {};
 
 lc.util = {
 
-	// util function to tell us whether a string is hex or not
-	// used to test whether a string is a hex color or not
+	/*
+		Check whether the string is a hex - e.g. #FF00FF.
+		TODO: extend string prototype instead.
+
+		@param {string} value The string to check.
+		@return {boolean} Whether the string is a hex or not.
+	*/
 	isHexString: function(value) {
 		return /(^#[0-9A-F]{6}$)|(^#[0-9A-F]{3}$)/i.test(value);
 	},
 
-	// modify a number by a certain distance
-	// e.g. modifyNumber(5.89, 10) = 5.89 + 10 * 0.1
-	// e.g. modifyNumber(58.9, 20) = 58.9 + 20 * 1
-	// this is used by the slider
+	/*
+		Modify a number by a certain distance.
+		e.g. modifyNumber(5.89, 10) = 5.89 + 10 * 0.1
+		e.g. modifyNumber(58.9, 20) = 58.9 + 20 * 1
+
+		@param {Number} number The number to modify.
+		@param {Number} distance The distance to modify the number by.
+		@return {Number} The modified number.
+	*/
 	modifyNumber: function(number, distance) {
 
 		var parts;
