@@ -29,13 +29,6 @@ var aigua = (function () {
 			}
 		},
 
-		// comment current line
-		// editor.js ?
-		comment: function(cm) {
-
-			aigua.masterComment(cm, true);
-		},
-
 		// create payload with all sorts of data to be sent to server
 		// this object will contain all code data, plus editor options, libraries, etc
 		// github.js ?
@@ -91,13 +84,6 @@ var aigua = (function () {
 			return token;
 		},
 
-		// get selected range in editor
-		// editor.js ?
-		getSelectedRange: function(cm) {
-			var range = { from: cm.getCursor(true), to: cm.getCursor(false) };
-			return range;
-		},
-
 		// get url gist id - e.g the 1234567 part in http://livecoding.io/1234567
 		// editor.js ?
 		getUrlGistId: function() {
@@ -132,19 +118,6 @@ var aigua = (function () {
 
 			$('#popup .containerItem').fadeOut();
 			$('#popup').fadeOut();
-		},
-
-		// is the dirty CSS class set?
-		// editor.js ?
-		isDirty: function() {
-			return $('.dirty').css('visibility') == 'visible';
-		},
-
-		// util function to tell us whether a string is hex or not
-		// used to test whether a string is a hex color or not
-		// util.js ?
-		isHexString: function(value) {
-			return /(^#[0-9A-F]{6}$)|(^#[0-9A-F]{3}$)/i.test(value);
 		},
 
 		// get gist data from server
@@ -294,50 +267,6 @@ var aigua = (function () {
 			userh2.unbind('click');
 			$('li:contains("logout")').text('login');
 			$('#menu li:contains("save as private gist"), #menu li:contains("save as public gist")').addClass('disabled');
-		},
-
-		// actual commenting function
-		// this gets called by comment / uncomment
-		// editor.js ?
-		masterComment: function(cm, comment) {
-
-			var range = aigua.getSelectedRange(cm);
-			cm.commentRange(comment, range.from, range.to);
-		},
-
-		// modify a number by a certain distance
-		// e.g. modifyNumber(5.89, 10) = 5.89 + 10 * 0.1
-		// e.g. modifyNumber(58.9, 20) = 58.9 + 20 * 1
-		// this is used by the slider
-		// slider.js ?
-		modifyNumber: function(number, distance) {
-
-			var parts;
-			var exponent;
-			var factor;
-			var result;
-			var decimalPlaces;
-
-			// say we have a number: 5.89
-			// we first calculate its exponent: 0
-			parts = number.toExponential().split('e');
-			exponent = Number(parts[1]);
-
-			// next we subtract 1 from the exponent: -1
-			exponent = exponent - 1;
-
-			// then we calculate our desired factor: 10^-1 = 0.1
-			factor = Math.pow(10, exponent);
-
-			// next we modify the number by the distance
-			result = number + distance * factor;
-
-			// finally we make sure not to add rounding errors
-			// how many decimal places does the factor (0.1) have?
-			decimalPlaces = (factor.toString().split('.')[1] || "").length;
-
-			// round to that many decimal places (2)
-			return d3.round(result, decimalPlaces);
 		},
 
 		// set a flag to pause / resume code evaluation
@@ -545,7 +474,7 @@ var aigua = (function () {
 					}
 
 					// is this a hex?
-					if (!aigua.isHexString(hex)) {
+					if (!lc.util.isHexString(hex)) {
 						return;
 					}
 
@@ -638,6 +567,11 @@ var aigua = (function () {
 				aigua.saveAnonymously();
 			}
 
+		},
+
+		// editor.js ?
+		isDirty: function() {
+			return $('.dirty').css('visibility') == 'visible';
 		},
 
 		// editor.js ?
@@ -938,12 +872,6 @@ var aigua = (function () {
 		},
 
 		// editor.js ?
-		uncomment: function(cm) {
-
-			aigua.masterComment(cm, false);
-		},
-
-		// editor.js ?
 		updateScreenLayout: function() {
 
 			if (aigua.screenLayouts[aigua.currentScreenLayoutIndex] == 'sketchpad mode') {
@@ -1103,8 +1031,8 @@ $(function() {
 				aigua.key.Code = 18;
 
 				{extraKeys['Alt-S']  = aigua.saveAsUserOrAnonymously};
-				{extraKeys['Cmd-/']  = aigua.comment};
-				{extraKeys['Cmd-.']  = aigua.uncomment};
+				{extraKeys['Cmd-/']  = lc.codemirrorUtil.comment};
+				{extraKeys['Cmd-.']  = lc.codemirrorUtil.uncomment};
 
 				{extraKeys['Cmd-1']  = aigua.switchToHtml};
 				{extraKeys['Cmd-2']  = aigua.switchToJavaScript};
@@ -1163,8 +1091,8 @@ $(function() {
 				aigua.key.Code = 17;
 
 				{extraKeys['Ctrl-S']  = aigua.saveAsUserOrAnonymously};
-				{extraKeys['Ctrl-/']  = aigua.comment};
-				{extraKeys['Ctrl-.']  = aigua.uncomment};
+				{extraKeys['Ctrl-/']  = lc.codemirrorUtil.comment};
+				{extraKeys['Ctrl-.']  = lc.codemirrorUtil.uncomment};
 
 				{extraKeys['Ctrl-1']  = aigua.switchToHtml};
 				{extraKeys['Ctrl-2']  = aigua.switchToJavaScript};
@@ -1353,7 +1281,7 @@ $(function() {
 
 						// calculate the new number based on the original number
 						// plus the dragging offset
-						newNumber = aigua.modifyNumber(aigua.originalNumber.value, offset);
+						newNumber = lc.util.modifyNumber(aigua.originalNumber.value, offset);
 
 						// replace the selection with the new number
 						aigua.codeMirror.replaceSelection(String(newNumber) + aigua.originalNumber.suffix);
