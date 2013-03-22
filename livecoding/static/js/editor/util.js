@@ -1,17 +1,6 @@
-var lc = lc || {}; 
+var lc = lc || {};
 
 lc.util = {
-
-	/*
-		Check whether the string is a hex - e.g. #FF00FF.
-		TODO: extend string prototype instead.
-
-		@param {string} value The string to check.
-		@return {boolean} Whether the string is a hex or not.
-	*/
-	isHexString: function(value) {
-		return /(^#[0-9A-F]{6}$)|(^#[0-9A-F]{3}$)/i.test(value);
-	},
 
 	/*
 		Modify a number by a certain distance.

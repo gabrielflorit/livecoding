@@ -473,8 +473,8 @@ var aigua = (function () {
 						break;
 					}
 
-					// is this a hex?
-					if (!lc.util.isHexString(hex)) {
+					// is this not a hex?
+					if (!hex.isHex()) {
 						return;
 					}
 
