@@ -58,9 +58,9 @@ lc.getShortcuts = function() {
 						{ shortcut: 'Ctrl + 2', name: 'javascript' },
 						{ shortcut: 'Ctrl + 3', name: 'css'        },
 						{ shortcut: 'Ctrl + 4', name: 'json'       }
-					
-				}
-				
+					]
+				},
+				{
 					section: 'layouts', shortcuts: [
 						{ shortcut: "Ctrl + '", name: 'next layout'     },
 						{ shortcut: 'Ctrl + ;', name: 'previous layout' }
