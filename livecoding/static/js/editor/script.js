@@ -366,9 +366,6 @@ var aigua = (function () {
 			}
 		},
 
-		// TODO: improve by creating a list of snippet objects, each
-		// object containing the snippet as key, and two properties,
-		// the replacement, and the mode to run under
 		// editor.js ?
 		replaceSnippet: function(cm) {
 			var cursor = cm.getCursor();
@@ -604,15 +601,6 @@ var aigua = (function () {
 			var endCoords;
 			var center;
 
-			if (aigua.pulseColors) {
-
-				// stop pulsing colors
-				window.clearInterval(aigua.pulseColorsInterval);
-				window.clearInterval(aigua.pulseMessageInterval);
-				$('#message').hide();
-				aigua.pulseColors = false;
-			}
-
 			// select token
 			cm.setSelection(aigua.currentSelectionStart, aigua.currentSelectionEnd);
 
@@ -648,15 +636,6 @@ var aigua = (function () {
 			var center;
 			var value;
 			var suffix = '';
-
-			if (aigua.pulseNumbers) {
-
-				// stop pulsing numbers
-				window.clearInterval(aigua.pulseNumbersInterval);
-				window.clearInterval(aigua.pulseMessageInterval);
-				$('#message').hide();
-				aigua.pulseNumbers = false;
-			}
 
 			// show the slider
 			aigua.slider.show();
@@ -936,6 +915,7 @@ var aigua = (function () {
 		},
 
 		areYouSureText: 'Are you sure? You will lose any unsaved changes.',
+		areYouSureSinglePageText: 'Are you sure? Your unsaved changes will not be reflected when viewing as a single page.',
 		ball: null,
 		bar: null,
 		borderWidth: 2,
@@ -979,11 +959,7 @@ var aigua = (function () {
 		originalNumber: null,
 		pause: false,
 		pauseExecution: false,
-		pulseColors: true,
-		pulseColorsInterval: null,
-		pulseMessageInterval: null,
-		pulseNumbers: true,
-		pulseNumbersInterval: null,
+		pleaseLoginText: 'Please login to save your work under your GitHub username.',
 		screenLayouts: ['fullscreen mode (horizontal)', 'fullscreen mode (vertical)', 'sketchpad mode'],
 		slider: null,
 		snippets: lc.snippets,
@@ -1116,7 +1092,7 @@ $(function() {
 			// enable code folding
 			onGutterClick: CodeMirror.newFoldFunction(CodeMirror.braceRangeFinder),
 
-			// this object holds a reference to THE key we defined above
+			// this object holds a reference to the slider key and extra keys we defined above
 			extraKeys: extraKeys,
 
 			// show line numbers
@@ -1383,7 +1359,6 @@ $(function() {
 				var choice = $(this);
 				var itemName = $('h2', choice.parents('.item')).text();
 				var result;
-				var width, height;
 
 				switch(choice.text()) {
 					case 'login':
@@ -1405,7 +1380,7 @@ $(function() {
 
 							case 'save as public gist':
 								if (!aigua.user) {
-									alert('Please login to save your work under your GitHub username.');
+									alert(aigua.pleaseLoginText);
 								} else {
 									if ($(this).attr('class').indexOf('disabled') != -1) {
 										alert('You cannot save a private gist as public.');
@@ -1418,7 +1393,7 @@ $(function() {
 
 							case 'save as private gist':
 								if (!aigua.user) {
-									alert('Please login to save your work under your GitHub username.');
+									alert(aigua.pleaseLoginText);
 								} else {
 									if ($(this).attr('class').indexOf('disabled') != -1) {
 										alert('You cannot save a public gist as private.');
@@ -1457,17 +1432,12 @@ $(function() {
 
 								case 'single page':
 
-									result = aigua.isDirty() ? confirm("Are you sure? Your unsaved changes will not be reflected when viewing as a single page.") : true;
+									result = aigua.isDirty() ? confirm(aigua.areYouSureSinglePageText) : true;
 									if (result) {
 										window.open('/s' + location.pathname, '_blank');
 									}
 									aigua.resetMenu();
 
-								break;
-
-								case 'gallery':
-									window.open('/gallery' + location.pathname, '_blank');
-									aigua.resetMenu();
 								break;
 
 								case 'stats':
