@@ -21,9 +21,7 @@ var aigua = (function () {
 				aigua.resetUrl();
 				aigua.resetMenu();
 
-				if (aigua.currentGistUserId == aigua.user.id) {
-					// disable 'save as public gist' or 'save as private gist', depending
-					// on whether this is a private or public gist
+				if (aigua.user && aigua.currentGistUserId == aigua.user.id) {
 					$('#menu li:contains("save as public gist"), #menu li:contains("save as private gist")').removeClass('disabled');
 				}
 			}
@@ -217,7 +215,7 @@ var aigua = (function () {
 
 					aigua.isLoading = false;
 
-					if (aigua.currentGistUserId == aigua.user.id) {
+					if (aigua.user && aigua.currentGistUserId == aigua.user.id) {
 						// disable 'save as public gist' or 'save as private gist', depending
 						// on whether this is a private or public gist
 						$('#menu li:contains("save as ' + (/^\d+$/g.test(gistId) ? 'public' : 'private') + ' gist")').removeClass('disabled');
