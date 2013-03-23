@@ -43,27 +43,27 @@ lc.getShortcuts = function() {
 			shortcuts = [
 				{
 					section: 'general', shortcuts: [
-						{ shortcut: 'Ctrl',      name: 'slider'                 }, // OK IE 9 - CHROME - FF
-						{ shortcut: 'Ctrl + S',  name: 'save document'          }, // OK IE 9 - CHROME - FF
-						{ shortcut: 'Ctrl + /',  name: 'comment selection'      }, // OK IE 9 - CHROME - FF
-						{ shortcut: "Ctrl + .",  name: 'uncomment selection'    },  // OK IE 9 - CHROME - FF
-						{ shortcut: "Ctrl + \\", name: 'pause/resume execution' }
-						// { shortcut: "⌘ + 9",  name: 'start animation'        },
-						// { shortcut: "⌘ + 0",  name: 'stop animation'         }
+						{ shortcut: 'Ctrl',      name: 'slider'                 },
+						{ shortcut: 'Ctrl + S',  name: 'save document'          },
+						{ shortcut: 'Ctrl + /',  name: 'comment selection'      },
+						{ shortcut: "Ctrl + .",  name: 'uncomment selection'    },
+						{ shortcut: "Ctrl + \\", name: 'pause/resume execution' },
+						{ shortcut: "Ctrl + 7",  name: 'start animation'        },
+						{ shortcut: "Ctrl + 8",  name: 'stop animation'         }
 					]
 				},
 				{
 					section: 'modes', shortcuts: [
-						{ shortcut: 'Ctrl + 1', name: 'html'       }, // OK IE 9 - CHROME - FF
-						{ shortcut: 'Ctrl + 2', name: 'javascript' }, // OK IE 9 - CHROME - FF
-						{ shortcut: 'Ctrl + 3', name: 'css'        }, // OK IE 9 - CHROME - FF
-						{ shortcut: 'Ctrl + 4', name: 'json'       }  // OK IE 9 - CHROME - FF
-					]
-				},
-				{
+						{ shortcut: 'Ctrl + 1', name: 'html'       },
+						{ shortcut: 'Ctrl + 2', name: 'javascript' },
+						{ shortcut: 'Ctrl + 3', name: 'css'        },
+						{ shortcut: 'Ctrl + 4', name: 'json'       }
+					
+				}
+				
 					section: 'layouts', shortcuts: [
-						{ shortcut: "Ctrl + '", name: 'next layout'     }, // OK IE 9 - CHROME - FF
-						{ shortcut: 'Ctrl + ;', name: 'previous layout' }  // OK IE 9 - CHROME - FF
+						{ shortcut: "Ctrl + '", name: 'next layout'     },
+						{ shortcut: 'Ctrl + ;', name: 'previous layout' }
 					]
 				}
 			];
