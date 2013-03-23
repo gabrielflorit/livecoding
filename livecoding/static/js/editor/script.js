@@ -427,7 +427,7 @@ var aigua = (function () {
 
 		// editor.js ?
 		resetUrl: function() {
-			history.pushState(null, null, '/!');
+			History.pushState(null, null, '/!');
 			$('#gist').attr('href', '');
 			$('#gist').html('');
 		},
@@ -584,7 +584,7 @@ var aigua = (function () {
 		setUrl: function(gistId, versionId) {
 			var gistAndVersionIds = '/' + gistId + (versionId ? '/' + versionId : '');
 
-			history.pushState(null, null, gistAndVersionIds);
+			History.pushState(null, null, gistAndVersionIds);
 
 			var gistBaseUrl = 'https://gist.github.com';
 			gistUrl = gistBaseUrl + gistAndVersionIds;
