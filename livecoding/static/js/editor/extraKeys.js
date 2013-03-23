@@ -35,6 +35,9 @@ lc.getExtraKeys = function() {
 			{extraKeys['Ctrl-S']  = aigua.saveAsUserOrAnonymously};
 			{extraKeys['Ctrl-/']  = lc.codemirrorUtil.comment};
 			{extraKeys['Ctrl-.']  = lc.codemirrorUtil.uncomment};
+			{extraKeys['Ctrl-\\'] = aigua.pauseResumeExecution};
+			// {extraKeys['Cmd-9']  = aigua.startAnimate};
+			// {extraKeys['Cmd-0']  = aigua.stopAnimate};
 
 			{extraKeys['Ctrl-1']  = aigua.switchToHtml};
 			{extraKeys['Ctrl-2']  = aigua.switchToJavaScript};
