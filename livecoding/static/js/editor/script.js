@@ -91,7 +91,7 @@ var aigua = (function () {
 			var a = document.createElement('a');
 			a.href = location.href;
 
-			var gistId = a.pathname.split('/')[1];
+			var gistId = a.href.split('/')[3];
 
 			return (gistId.length > 0 && gistId != '!') ? gistId : null;
 		},
@@ -103,9 +103,9 @@ var aigua = (function () {
 			var a = document.createElement('a');
 			a.href = location.href;
 
-			var parts = a.pathname.split('/');
+			var parts = a.href.split('/');
 
-			return parts.length == 3 ? parts[2] : null;
+			return parts.length == 5 ? parts[4] : null;
 		},
 
 		// hide popup overlay
@@ -982,7 +982,7 @@ $(function() {
 
 	aigua.iframeLoaded = function() {
 
-		// ----------- initialization section ---------------------- 
+		// ----------- initialization section ----------------------
 
 		aigua.key     = lc.getSliderKey();
 		var extraKeys = lc.getExtraKeys();
