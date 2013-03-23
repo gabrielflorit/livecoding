@@ -25,9 +25,22 @@ lc.getExtraKeys = function() {
 		break;
 
 		case 'Linux':
-			key.Name = 'Ctrl';
-			key.DisplayName = 'Ctrl';
-			key.Code = 17;
+			{extraKeys['Ctrl-S']  = aigua.saveAsUserOrAnonymously};
+			{extraKeys['Ctrl-/']  = lc.codemirrorUtil.comment};
+			{extraKeys['Ctrl-.']  = lc.codemirrorUtil.uncomment};
+			{extraKeys['Ctrl-\\'] = aigua.pauseResumeExecution};
+			{extraKeys['Ctrl-7']  = aigua.startAnimate};
+			{extraKeys['Ctrl-8']  = aigua.stopAnimate};
+
+			{extraKeys['Ctrl-1']  = aigua.switchToHtml};
+			{extraKeys['Ctrl-2']  = aigua.switchToJavaScript};
+			{extraKeys['Ctrl-3']  = aigua.switchToCss};
+			{extraKeys['Ctrl-4']  = aigua.switchToJson};
+
+			{extraKeys["Ctrl-'"]  = aigua.switchToPreviousLayout};
+			{extraKeys['Ctrl-;']  = aigua.switchToNextLayout};
+
+			{extraKeys['Tab']     = aigua.replaceSnippet};
 		break;
 
 		// windows
