@@ -13,6 +13,23 @@ String.prototype.isHex = function() {
 };
 
 /*
+	Lifted from https://github.com/mbostock/d3/wiki/Formatting#wiki-d3_round
+	Returns the value rounded to n digits after the decimal point.
+
+	@param {this} The number to round.
+	@param {Number} n The number of digits after the decimal point. If omitted, defaults to 0.
+	@return {Number} The modified number.
+*/
+
+// round implementation 
+
+Number.prototype.round = function(n) {
+
+	return n ? Math.round(this * (n = Math.pow(10, n))) / n : Math.round(this);
+
+};
+
+/*
 	Modify a number by a certain distance.
 	e.g. modifyNumber(5.89, 10) = 5.89 + 10 * 0.1
 	e.g. modifyNumber(58.9, 20) = 58.9 + 20 * 1
@@ -48,9 +65,6 @@ Number.prototype.modifyBy = function(distance) {
 	decimalPlaces = (factor.toString().split('.')[1] || "").length;
 
 	// round to that many decimal places (e.g. 2)
-	// round implementation lifted from https://github.com/mbostock/d3/wiki/Formatting#wiki-d3_round
-	var x = result;
-	var n = decimalPlaces;
-	return n ? Math.round(x * (n = Math.pow(10, n))) / n : Math.round(x);
+	return result.round(decimalPlaces);
 
 };
