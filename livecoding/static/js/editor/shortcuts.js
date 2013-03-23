@@ -46,8 +46,8 @@ lc.getShortcuts = function() {
 						{ shortcut: 'Ctrl',      name: 'slider'                 }, // OK IE 9 - CHROME - FF
 						{ shortcut: 'Ctrl + S',  name: 'save document'          }, // OK IE 9 - CHROME - FF
 						{ shortcut: 'Ctrl + /',  name: 'comment selection'      }, // OK IE 9 - CHROME - FF
-						{ shortcut: "Ctrl + .",  name: 'uncomment selection'    }  // OK IE 9 - CHROME - FF
-						{ shortcut: "Ctrl + \\", name: 'pause/resume execution' },
+						{ shortcut: "Ctrl + .",  name: 'uncomment selection'    },  // OK IE 9 - CHROME - FF
+						{ shortcut: "Ctrl + \\", name: 'pause/resume execution' }
 						// { shortcut: "⌘ + 9",  name: 'start animation'        },
 						// { shortcut: "⌘ + 0",  name: 'stop animation'         }
 					]
