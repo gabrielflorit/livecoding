@@ -55,7 +55,7 @@ var aigua = (function () {
 
 			var options = {
 
-				// add libraries (e.g. d3, highcharts)
+				// add libraries (e.g. highcharts)
 				libraries: _.map(selectedLibraries, function(value) {
 					return $(value).text();
 				}),
@@ -110,19 +110,18 @@ var aigua = (function () {
 
 		// hide popup overlay
 		// editor.js ?
-		hidePopup: function() {
+		hidePopup: function(duration) {
 
-			if ($('#popup .about').is(':visible')) {
-				localStorage.livecoding_about = $('#popup .about').attr('rel');
-			}
-
-			$('#popup .containerItem').fadeOut();
-			$('#popup').fadeOut();
+			$('#popup .containerItem').fadeOut(duration || 'normal');
+			$('#popup').fadeOut(duration || 'normal');
 		},
 
 		// get gist data from server
 		// github.js ?
 		loadGist: function(gistId, versionId) {
+
+			$('#popup .loading').fadeIn();
+			$('#popup').fadeIn();
 
 			aigua.isLoading = true;
 
@@ -224,6 +223,8 @@ var aigua = (function () {
 						$('#menu li:contains("save as ' + (/^\d+$/g.test(gistId) ? 'public' : 'private') + ' gist")').removeClass('disabled');
 						$('#menu li:contains("save as ' + (/^\d+$/g.test(gistId) ? 'private' : 'public') + ' gist")').addClass('disabled');
 					}
+
+					aigua.hidePopup(10);
 				}
 			});
 

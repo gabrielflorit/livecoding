@@ -267,6 +267,12 @@ body {
       float: right;
     }
 
+    #popup .loading {
+      text-align: center;
+      margin: 4em 0;
+      font-size: 3em;
+    }
+
     #popup .containerItem {
       padding: 11px 37px;
       display: none;
@@ -309,25 +315,6 @@ body {
           padding: 0.25em 0.5em;
           margin: 0 0.5em 0 0;
         }
-
-#browsermessage {
-  width: 35%;
-  margin: 0 auto;
-  margin-top: 10%;  
-  color: white;
-  text-align: center;
-  font-family: 'Consolas', 'Bitstream Vera Sans Mono', 'DejaVu Sans Mono', 'Monaco', Courier, monospace;
-  display: none;
-}
-
-  #browsermessage span {
-    text-shadow: 0 0 8px #BCD279;
-    color: #9AB83E;
-  }
-
-  #browsermessage a {
-    color: white;
-  }
 
 #main {
   position: absolute;
