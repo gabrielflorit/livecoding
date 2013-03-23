@@ -40,13 +40,25 @@
 
 				},
 
+				workingCode: null,
 				renderCode: function(code) {
+
+					var erroredOut = false;
+
 					$('#livecoding-pre').html('');
 					try { eval(code); }
 					catch (error) {
+						erroredOut = true;
 						console.error(error);
 					}
-					finally {}
+					finally {
+						if (erroredOut) {
+							workingCode && eval(workingCode);
+						} else {
+							workingCode = code;
+						}
+					}
+
 				},
 
 				_animate: function() {
