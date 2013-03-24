@@ -82,30 +82,6 @@ var aigua = (function () {
 			return token;
 		},
 
-		// get url gist id - e.g the 1234567 part in http://livecoding.io/1234567
-		// editor.js ?
-		getUrlGistId: function() {
-
-			var a = document.createElement('a');
-			a.href = location.href;
-
-			var gistId = a.href.split('/')[3];
-
-			return (gistId.length > 0 && gistId != '!') ? gistId : null;
-		},
-
-		// get url gist id - e.g the abcdefg part in http://livecoding.io/1234567/abcdefg
-		// editor.js ?
-		getUrlGistVersionId: function() {
-
-			var a = document.createElement('a');
-			a.href = location.href;
-
-			var parts = a.href.split('/');
-
-			return parts.length == 5 ? parts[4] : null;
-		},
-
 		// hide popup overlay
 		// editor.js ?
 		hidePopup: function(duration) {
@@ -503,11 +479,11 @@ var aigua = (function () {
 
 			// 1) this is a new gist
 			//			create new gist (POST /gists)
-			if (!aigua.getUrlGistId()) {
+			if (!lc.getUrlGistId(location.href)) {
 				saveUrl = '/create-new?public=' + publicGist;
 			} else {
 
-				postData['id'] = aigua.getUrlGistId();
+				postData['id'] = lc.getUrlGistId(location.href);
 
 				// 2) this is an existing gist, but not owned by user
 				//			fork gist (POST /gists/:id/fork)
@@ -1118,7 +1094,7 @@ $(function() {
 
 			// try to grab the gist id from the url
 			// e.g. the '3072416' bit in http://livecoding.io/3072416
-			var gistId = aigua.getUrlGistId();
+			var gistId = lc.getUrlGistId(location.href);
 
 			// show the 'click a number' message
 			$('#message').show();
@@ -1243,7 +1219,7 @@ $(function() {
 			// is there an id in the url?
 			if (gistId) {
 
-				var versionId = aigua.getUrlGistVersionId();
+				var versionId = aigua.getUrlGistVersionId(location.href);
 
 				// yes - load its contents
 				aigua.loadGist(gistId, versionId);
