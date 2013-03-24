@@ -364,13 +364,6 @@ var aigua = (function () {
 		// center bar over the token
 		// set bar width to default starting width
 		// slider.js ?
-		resetBar: function(markerCenter) {
-			aigua.bar.width(aigua.startingBarWidth);
-			aigua.bar.css('left', markerCenter - aigua.startingBarWidth/2 - aigua.borderWidth);
-			aigua.filler.removeClass('filler-edge-left');
-			aigua.filler.removeClass('filler-edge-right');
-		},
-
 		// menu.js ?
 		resetMenu: function() {
 
@@ -416,7 +409,7 @@ var aigua = (function () {
 			var hex = '';
 
 			// is the slider and mini colors hidden?
-			if (!aigua.slider.is(':visible') && !$(aigua.miniColorsSelector).is(':visible')) {
+			if (!slider.slider.is(':visible') && !$(slider.miniColorsSelector).is(':visible')) {
 
 				// grab the current token
 				cursor = cm.getCursor();
@@ -580,7 +573,7 @@ var aigua = (function () {
 			cm.setSelection(aigua.currentSelectionStart, aigua.currentSelectionEnd);
 
 			// show the color picker
-			aigua.miniColorsTrigger.click();
+			slider.miniColorsTrigger.click();
 
 			// initialize color picker with current color
 			$('#hidden-miniColors').miniColors('value', hex.substring(1));
@@ -591,8 +584,8 @@ var aigua = (function () {
 			center = startCoords.x + (endCoords.x - startCoords.x)/2;
 
 			// position color picker centered below token
-			$(aigua.miniColorsSelector).css('left', center - $(aigua.miniColorsSelector).width()/2);
-			$(aigua.miniColorsSelector).css('top', endCoords.y + aigua.lineHeight);
+			$(slider.miniColorsSelector).css('left', center - $(slider.miniColorsSelector).width()/2);
+			$(slider.miniColorsSelector).css('top', endCoords.y + slider.lineHeight);
 		},
 
 		// editor.js ?
@@ -613,7 +606,7 @@ var aigua = (function () {
 			var suffix = '';
 
 			// show the slider
-			aigua.slider.show();
+			slider.slider.show();
 
 			// if this isn't a number, e.g. 10px or 1.0em or 100%, strip the suffix
 			_.each(['px', 'em', '%'], function(value) {
@@ -641,20 +634,20 @@ var aigua = (function () {
 
 			// center marker on token
 			center = startCoords.x + (endCoords.x - startCoords.x)/2;
-			aigua.marker.css('left', center);
+			slider.marker.css('left', center);
 
 			// center handle on token
-			aigua.handle.css('left', center - aigua.handle.width()/2);
+			slider.handle.css('left', center - slider.handle.width()/2);
 
 			// center bar above token
-			aigua.bar.css('left', center - aigua.bar.width()/2 - aigua.borderWidth);
-			aigua.bar.css('top', startCoords.y - aigua.lineHeight);
+			slider.bar.css('left', center - slider.bar.width()/2 - slider.borderWidth);
+			slider.bar.css('top', startCoords.y - slider.lineHeight);
 
 			// center triangle on token
-			aigua.triangle.css('left', center - aigua.triangleWidth);
-			aigua.triangle.css('top', aigua.bar.offset().top + aigua.bar.height() + aigua.borderWidth * 2);
+			slider.triangle.css('left', center - slider.triangleWidth);
+			slider.triangle.css('top', slider.bar.offset().top + slider.bar.height() + slider.borderWidth * 2);
 
-			aigua.ball.offset({top: aigua.filler.offset().top});
+			slider.ball.offset({top: slider.filler.offset().top});
 		},
 
 		// editor.js ?
@@ -891,23 +884,14 @@ var aigua = (function () {
 
 		areYouSureText: 'Are you sure? You will lose any unsaved changes.',
 		areYouSureSinglePageText: 'Are you sure? Your unsaved changes will not be reflected when viewing as a single page.',
-		ball: null,
-		bar: null,
-		borderWidth: 2,
 		currentGistUserId: null,
-		miniColorsSelector: '.miniColors-selector',
-		miniColorsTrigger: null,
 		currentModeIndex: 0,
 		currentScreenLayoutIndex: 1,
 		currentSelection: null,
-		filler: null,
-		handle: null,
 		iframeLoaded: null,
 		isLoading: null,
 		key: null,
 		libraries: lc.libraries,
-		lineHeight: 19,
-		marker: null,
 		modes: [
 			{
 				name: 'html',
@@ -936,11 +920,6 @@ var aigua = (function () {
 		pauseExecution: false,
 		pleaseLoginText: 'Please login to save your work under your GitHub username.',
 		screenLayouts: ['fullscreen mode (horizontal)', 'fullscreen mode (vertical)', 'sketchpad mode'],
-		slider: null,
-		startingBarWidth: 300,
-		triangle: null,
-		triangleHeight: 5,
-		triangleWidth: 12,
 		user: null
 
 	}
@@ -1022,25 +1001,7 @@ $(function() {
 
 		});
 
-		// set various dom elements
-		aigua.ball = $('#ball');
-		aigua.bar = $('#bar');
-		aigua.filler = $('#filler');
-		aigua.handle = $('#handle');
-		aigua.marker = $('#marker');
-		aigua.slider = $('#slider');
-		aigua.triangle = $('#triangle');
-		aigua.miniColorsTrigger = $('.miniColors-trigger');
-
-		// set the handle's default width
-		aigua.handle.width(aigua.startingBarWidth);
-
-		// set the bar's border width and default width
-		aigua.bar.css('border-width', aigua.borderWidth);
-		aigua.bar.width(aigua.startingBarWidth);
-
-		// set the triangle
-		aigua.triangle.css('border-width', aigua.triangleHeight + 'px ' + aigua.triangleWidth + 'px 0px ' + aigua.triangleWidth + 'px');
+		slider.init();
 
 		// create codemirror instance
 		aigua.codeMirror = CodeMirror($('#code').get(0), {
@@ -1100,15 +1061,15 @@ $(function() {
 			$('#message').show();
 
 			// initialize slider
-			aigua.handle.draggable({
+			slider.handle.draggable({
 
 				// only allow dragging along the x-axis
 				axis: 'x',
 				
 				drag: function(ui, event) {
 
-					var position = event.position.left + aigua.handle.width()/2;
-					var markerCenter = aigua.marker.offset().left;
+					var position = event.position.left + slider.handle.width()/2;
+					var markerCenter = slider.marker.offset().left;
 					var offset = position - markerCenter;
 					var newNumber;
 
@@ -1123,60 +1084,60 @@ $(function() {
 					if (offset > 0) {
 
 						// if the left bar got stuck, reset the bar width and position
-						if (markerCenter - aigua.bar.offset().left - aigua.borderWidth > aigua.startingBarWidth/2) {
-							aigua.resetBar(markerCenter);
+						if (markerCenter - slider.bar.offset().left - slider.borderWidth > slider.startingBarWidth/2) {
+							slider.resetBar(markerCenter);
 						}
 
 						// set the filler width and position
-						aigua.filler.width(offset);
-						aigua.filler.css('left', aigua.startingBarWidth/2);
+						slider.filler.width(offset);
+						slider.filler.css('left', slider.startingBarWidth/2);
 
 						// are we dragging past the initial bar width?
-						if (offset > aigua.startingBarWidth/2 - 6) {
+						if (offset > slider.startingBarWidth/2 - 6) {
 
 							// set bar right edge to dragging position
-							aigua.bar.width(position - aigua.bar.offset().left + 5);
+							slider.bar.width(position - slider.bar.offset().left + 5);
 						}
 
 						// reset the width, since fast drags won't trigger a drag call every pixel.
 						else {
-							aigua.resetBar(markerCenter);
+							slider.resetBar(markerCenter);
 
 							// show the ball
-							aigua.ball.show();
+							slider.ball.show();
 						}
 
 					// is the dragging cursor to the left of the marker?
 					} else if (offset < 0) {
 
 						// set the filler width
-						aigua.filler.width(-offset);
+						slider.filler.width(-offset);
 
 						// adjust the filler position
-						aigua.filler.css('left', aigua.startingBarWidth/2 - -offset + aigua.borderWidth/2);
+						slider.filler.css('left', slider.startingBarWidth/2 - -offset + slider.borderWidth/2);
 
 						// are we dragging past the initial bar width?
-						if (-offset > aigua.startingBarWidth/2 - 6) {
+						if (-offset > slider.startingBarWidth/2 - 6) {
 
 							// adjust the filler position
-							aigua.filler.css('left', aigua.borderWidth/2 + 7);
+							slider.filler.css('left', slider.borderWidth/2 + 7);
 
 							// set bar left edge to dragging position
-							aigua.bar.width(-offset + aigua.startingBarWidth/2 + 7);
-							aigua.bar.css('left', position - aigua.borderWidth - 7);
+							slider.bar.width(-offset + slider.startingBarWidth/2 + 7);
+							slider.bar.css('left', position - slider.borderWidth - 7);
 						}
 
 						// reset the width, since fast drags won't trigger a drag call every pixel.
 						else {
-							aigua.resetBar(markerCenter);
+							slider.resetBar(markerCenter);
 
 							// show the ball
-							aigua.ball.show();
+							slider.ball.show();
 						}
 
 					// are we at the middle?
 					} else {
-						aigua.filler.width(0);
+						slider.filler.width(0);
 					}
 				}
 			});
@@ -1219,7 +1180,7 @@ $(function() {
 			// is there an id in the url?
 			if (gistId) {
 
-				var versionId = aigua.getUrlGistVersionId(location.href);
+				var versionId = lc.getUrlGistVersionId(location.href);
 
 				// yes - load its contents
 				aigua.loadGist(gistId, versionId);
@@ -1232,7 +1193,7 @@ $(function() {
 			// select the previously selected token
 			$(window).mouseup(function(e) {
 
-				if (aigua.slider.is(':visible') && aigua.codeMirror.getSelection() == '') {
+				if (slider.slider.is(':visible') && aigua.codeMirror.getSelection() == '') {
 					aigua.codeMirror.setSelection(aigua.currentSelectionStart, aigua.currentSelectionEnd);
 				}
 			});
@@ -1252,23 +1213,23 @@ $(function() {
 				if (e.which == aigua.key.Code) {
 
 					// if slider is visible
-					if (aigua.slider.is(':visible')) {
+					if (slider.slider.is(':visible')) {
 		
 						// hide the slider
-						aigua.slider.hide();
+						slider.slider.hide();
 
 						// reset filler width
-						aigua.filler.width(0);
+						slider.filler.width(0);
 
 						// reset bar width
-						aigua.bar.width(aigua.startingBarWidth);
+						slider.bar.width(slider.startingBarWidth);
 
 						// clear out the original number
 						aigua.originalNumber = null;
 					}
 
 					// if mini colors is visible
-					if ($(aigua.miniColorsSelector).is(':visible')) {
+					if ($(slider.miniColorsSelector).is(':visible')) {
 
 						// trigger an event which will hide mini colors
 						$(document).trigger('mousedown');
