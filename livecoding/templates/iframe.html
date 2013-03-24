@@ -53,9 +53,10 @@
 					}
 					finally {
 						if (erroredOut) {
-							workingCode && eval(workingCode);
+							try { this.workingCode && eval(this.workingCode); }
+							catch (error) { console.error(error); }
 						} else {
-							workingCode = code;
+							this.workingCode = code;
 						}
 					}
 
