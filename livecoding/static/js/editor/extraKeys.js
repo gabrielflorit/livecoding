@@ -3,66 +3,24 @@ lc.getExtraKeys = function() {
 
 	var extraKeys = {};
 
-	switch(BrowserDetect.OS) {
+	var os = BrowserDetect.OS;
 
-		case 'Mac':
-			{extraKeys['Alt-S']  = aigua.saveAsUserOrAnonymously};
-			{extraKeys['Cmd-/']  = lc.codemirrorUtil.comment};
-			{extraKeys['Cmd-.']  = lc.codemirrorUtil.uncomment};
-			{extraKeys['Cmd-\\'] = aigua.pauseResumeExecution};
-			{extraKeys['Cmd-9']  = aigua.startAnimate};
-			{extraKeys['Cmd-0']  = aigua.stopAnimate};
+	{extraKeys[os == 'Mac' ? 'Alt-S' : (os == 'Linux' ? 'Ctrl-S' : 'Ctrl-S')]  = aigua.saveAsUserOrAnonymously};
+	{extraKeys[os == 'Mac' ? 'Cmd-/' : (os == 'Linux' ? 'Ctrl-/' : 'Ctrl-/')]  = lc.codemirrorUtil.comment};
+	{extraKeys[os == 'Mac' ? 'Cmd-.' : (os == 'Linux' ? 'Ctrl-.' : 'Ctrl-.')]  = lc.codemirrorUtil.uncomment};
+	{extraKeys[os == 'Mac' ? 'Cmd-\\': (os == 'Linux' ? 'Ctrl-\\': 'Ctrl-\\')] = aigua.pauseResumeExecution};
+	{extraKeys[os == 'Mac' ? 'Cmd-9' : (os == 'Linux' ? 'Ctrl-7' : 'Ctrl-7')]  = aigua.startAnimate};
+	{extraKeys[os == 'Mac' ? 'Cmd-0' : (os == 'Linux' ? 'Ctrl-8' : 'Ctrl-8')]  = aigua.stopAnimate};
 
-			{extraKeys['Cmd-1']  = aigua.switchToHtml};
-			{extraKeys['Cmd-2']  = aigua.switchToJavaScript};
-			{extraKeys['Cmd-3']  = aigua.switchToCss};
-			{extraKeys['Cmd-4']  = aigua.switchToJson};
+	{extraKeys[os == 'Mac' ? 'Cmd-1' : (os == 'Linux' ? 'Ctrl-1' : 'Ctrl-1')]  = aigua.switchToHtml};
+	{extraKeys[os == 'Mac' ? 'Cmd-2' : (os == 'Linux' ? 'Ctrl-2' : 'Ctrl-2')]  = aigua.switchToJavaScript};
+	{extraKeys[os == 'Mac' ? 'Cmd-3' : (os == 'Linux' ? 'Ctrl-3' : 'Ctrl-3')]  = aigua.switchToCss};
+	{extraKeys[os == 'Mac' ? 'Cmd-4' : (os == 'Linux' ? 'Ctrl-4' : 'Ctrl-4')]  = aigua.switchToJson};
 
-			{extraKeys["Cmd-'"]  = aigua.switchToPreviousLayout};
-			{extraKeys['Cmd-;']  = aigua.switchToNextLayout};
+	{extraKeys[os == 'Mac' ? "Cmd-'" : (os == 'Linux' ? "Ctrl-'" : "Ctrl-'")]  = aigua.switchToPreviousLayout};
+	{extraKeys[os == 'Mac' ? 'Cmd-;' : (os == 'Linux' ? 'Ctrl-;' : 'Ctrl-;')]  = aigua.switchToNextLayout};
 
-			{extraKeys['Tab']    = aigua.replaceSnippet};
-		break;
-
-		case 'Linux':
-			{extraKeys['Ctrl-S']  = aigua.saveAsUserOrAnonymously};
-			{extraKeys['Ctrl-/']  = lc.codemirrorUtil.comment};
-			{extraKeys['Ctrl-.']  = lc.codemirrorUtil.uncomment};
-			{extraKeys['Ctrl-\\'] = aigua.pauseResumeExecution};
-			{extraKeys['Ctrl-7']  = aigua.startAnimate};
-			{extraKeys['Ctrl-8']  = aigua.stopAnimate};
-
-			{extraKeys['Ctrl-1']  = aigua.switchToHtml};
-			{extraKeys['Ctrl-2']  = aigua.switchToJavaScript};
-			{extraKeys['Ctrl-3']  = aigua.switchToCss};
-			{extraKeys['Ctrl-4']  = aigua.switchToJson};
-
-			{extraKeys["Ctrl-'"]  = aigua.switchToPreviousLayout};
-			{extraKeys['Ctrl-;']  = aigua.switchToNextLayout};
-
-			{extraKeys['Tab']     = aigua.replaceSnippet};
-		break;
-
-		// windows
-		default:
-			{extraKeys['Ctrl-S']  = aigua.saveAsUserOrAnonymously};
-			{extraKeys['Ctrl-/']  = lc.codemirrorUtil.comment};
-			{extraKeys['Ctrl-.']  = lc.codemirrorUtil.uncomment};
-			{extraKeys['Ctrl-\\'] = aigua.pauseResumeExecution};
-			{extraKeys['Ctrl-7']  = aigua.startAnimate};
-			{extraKeys['Ctrl-8']  = aigua.stopAnimate};
-
-			{extraKeys['Ctrl-1']  = aigua.switchToHtml};
-			{extraKeys['Ctrl-2']  = aigua.switchToJavaScript};
-			{extraKeys['Ctrl-3']  = aigua.switchToCss};
-			{extraKeys['Ctrl-4']  = aigua.switchToJson};
-
-			{extraKeys["Ctrl-'"]  = aigua.switchToPreviousLayout};
-			{extraKeys['Ctrl-;']  = aigua.switchToNextLayout};
-
-			{extraKeys['Tab']     = aigua.replaceSnippet};
-		break;
-	}
+	{extraKeys[os == 'Mac' ? 'Tab'   : (os == 'Linux' ? 'Tab'    : 'Tab')]     = aigua.replaceSnippet};
 
 	return extraKeys;
 
