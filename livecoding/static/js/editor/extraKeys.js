@@ -1,9 +1,7 @@
 var lc = lc || {}; 
-lc.getExtraKeys = function() {
+lc.getExtraKeys = function(os) {
 
 	var extraKeys = {};
-
-	var os = BrowserDetect.OS;
 
 	{extraKeys[os == 'Mac' ? 'Alt-S' : (os == 'Linux' ? 'Ctrl-S' : 'Ctrl-S')]  = aigua.saveAsUserOrAnonymously};
 	{extraKeys[os == 'Mac' ? 'Cmd-/' : (os == 'Linux' ? 'Ctrl-/' : 'Ctrl-/')]  = lc.codemirrorUtil.comment};

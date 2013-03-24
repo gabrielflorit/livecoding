@@ -982,9 +982,9 @@ $(function() {
 
 		// ----------- initialization section ----------------------
 
-		aigua.key     = lc.getSliderKey();
-		var extraKeys = lc.getExtraKeys();
-		var shortcuts = lc.getShortcuts();
+		aigua.key     = lc.getSliderKey(BrowserDetect.OS);
+		var extraKeys = lc.getExtraKeys(BrowserDetect.OS);
+		var shortcuts = lc.getShortcuts(BrowserDetect.OS);
 
 		// add snippets to the shortcuts object
 		_.chain(aigua.snippets)

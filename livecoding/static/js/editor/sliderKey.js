@@ -1,29 +1,10 @@
 var lc = lc || {}; 
-lc.getSliderKey = function() {
+lc.getSliderKey = function(os) {
 
 	var key = {};
-
-	switch(BrowserDetect.OS) {
-
-		case 'Mac':
-			key.Name = 'Alt-Alt'; 
-			key.DisplayName = 'Alt'; 
-			key.Code = 18;
-		break;
-
-		case 'Linux':
-			key.Name = 'Ctrl';
-			key.DisplayName = 'Ctrl';
-			key.Code = 17;
-		break;
-
-		// windows
-		default:
-			key.Name = 'Ctrl-Ctrl';
-			key.DisplayName = 'Ctrl';
-			key.Code = 17;
-		break;
-	}
+	key.Name        = os == 'Mac' ? 'Alt-Alt' : (os == 'Linux' ?  'Ctrl' : 'Ctrl-Ctrl' ); 
+	key.DisplayName = os == 'Mac' ?     'Alt' : (os == 'Linux' ?  'Ctrl' :      'Ctrl' ); 
+	key.Code        = os == 'Mac' ?        18 : (os == 'Linux' ?      17 :          17 );
 
 	return key;
 
