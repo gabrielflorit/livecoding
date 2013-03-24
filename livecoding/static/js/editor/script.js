@@ -350,7 +350,7 @@ var aigua = (function () {
 			var token = cm.getTokenAt({line: line, ch: ch});
 
 			// is there a snippet for this keyword?
-			var snippet = _.find(aigua.snippets, function(value) {
+			var snippet = _.find(lc.snippets, function(value) {
 				return value.keyword == token.string;
 			});
 
@@ -937,7 +937,6 @@ var aigua = (function () {
 		pleaseLoginText: 'Please login to save your work under your GitHub username.',
 		screenLayouts: ['fullscreen mode (horizontal)', 'fullscreen mode (vertical)', 'sketchpad mode'],
 		slider: null,
-		snippets: lc.snippets,
 		startingBarWidth: 300,
 		triangle: null,
 		triangleHeight: 5,
@@ -960,10 +959,14 @@ $(function() {
 
 		aigua.key     = lc.getSliderKey(BrowserDetect.OS);
 		var extraKeys = lc.getExtraKeys(BrowserDetect.OS);
+
+		// this object will be used by codemirror to respond to the slider key
+		{extraKeys[aigua.key.Name] = aigua.respondToSliderKey};
+
 		var shortcuts = lc.getShortcuts(BrowserDetect.OS);
 
 		// add snippets to the shortcuts object
-		_.chain(aigua.snippets)
+		_.chain(lc.snippets)
 			.groupBy(function(value) {
 				return value.mode;
 			})
@@ -1008,9 +1011,6 @@ $(function() {
 		// display the key DisplayName to the user - 'Alt', or 'Ctrl', etc
 		$('#message .key').text(aigua.key.DisplayName);
 		
-		// this object will be used by codemirror to respond to the slider key
-		{extraKeys[aigua.key.Name] = aigua.respondToSliderKey};
-
 		// initialize mini colors
 		$('#hidden-miniColors').miniColors({
 
