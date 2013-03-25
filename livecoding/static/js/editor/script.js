@@ -33,7 +33,7 @@ var aigua = (function () {
 		createPostDataObject: function() {
 
 			var result = {};
-			var currentMode = aigua.modes[aigua.currentModeIndex].name;
+			var currentMode = modes.getCurrentMode().name;
 
 			_.each(aigua.modes, function(value, index, list) {
 
@@ -59,7 +59,7 @@ var aigua = (function () {
 				}),
 
 				// add current mode (e.g. html)
-				mode: aigua.modes[aigua.currentModeIndex].name,
+				mode: modes.getCurrentMode().name,
 
 				// add current mode (e.g. sketchpad mode)
 				layout: aigua.screenLayouts[aigua.currentScreenLayoutIndex]
@@ -74,10 +74,6 @@ var aigua = (function () {
 			result.options = JSON.stringify(options, null, 4); // pretty print
 
 			return result;
-		},
-
-		getCurrentMode: function() {
-			return aigua.modes[aigua.currentModeIndex];
 		},
 
 		// convenience function to return a private var
@@ -265,7 +261,7 @@ var aigua = (function () {
 
 				var code = aigua.codeMirror.getValue();
 
-				switch (aigua.getCurrentMode().name) {
+				switch (modes.getCurrentMode().name) {
 
 					case 'html':
 
@@ -273,18 +269,14 @@ var aigua = (function () {
 						$('body #livecoding-main', $('iframe').contents()).html(code);
 
 						// run the javascript code
-						frames[0].livecoding.renderCode(_.find(aigua.modes, function(value) {
-							return value.name == 'javascript';
-						}).code || '');
+						frames[0].livecoding.renderCode(modes.getMode('javascript') || '');
 		
 					break;
 
 					case 'javascript':
 
 						// replace html
-						$('body #livecoding-main', $('iframe').contents()).html(_.find(aigua.modes, function(value) {
-							return value.name == 'html';
-						}).code || '');
+						$('body #livecoding-main', $('iframe').contents()).html(modes.getMode('html') || '');
 
 						// run the javascript code
 						frames[0].livecoding.renderCode(code);
@@ -297,14 +289,11 @@ var aigua = (function () {
 						$('#style', $('iframe').contents()).get(0).textContent = code;
 
 						// replace html
-						$('body #livecoding-main', $('iframe').contents()).html(_.find(aigua.modes, function(value) {
-							return value.name == 'html';
-						}).code || '');
+						$('body #livecoding-main', $('iframe').contents()).html(modes.getMode('html') || '');
 
 						// run the javascript code
-						frames[0].livecoding.renderCode(_.find(aigua.modes, function(value) {
-							return value.name == 'javascript';
-						}).code || '');
+						frames[0].livecoding.renderCode(modes.getMode('javascript') || '');
+
 					break;
 
 					case 'json':
@@ -317,14 +306,10 @@ var aigua = (function () {
 								frames[0].livecoding.json = JSON.parse(code);
 
 								// replace html
-								$('body #livecoding-main', $('iframe').contents()).html(_.find(aigua.modes, function(value) {
-									return value.name == 'html';
-								}).code || '');
+								$('body #livecoding-main', $('iframe').contents()).html(modes.getMode('html') || '');
 
 								// run the javascript code
-								frames[0].livecoding.renderCode(_.find(aigua.modes, function(value) {
-									return value.name == 'javascript';
-								}).code || '');
+								frames[0].livecoding.renderCode(modes.getMode('javascript') || '');
 			
 							}
 							catch (error) {
@@ -402,7 +387,7 @@ var aigua = (function () {
 				// handle colors
 				if (token.string.length > 1) {
 
-					switch (aigua.modes[aigua.currentModeIndex].name) {
+					switch (modes.getCurrentMode().name) {
 
 						case 'javascript':
 							hex = token.string.substring(1, token.string.length - 1);
@@ -617,72 +602,6 @@ var aigua = (function () {
 		},
 
 		// editor.js ?
-		switchMode: function(mode, noTab) {
-
-			// pause aigua: disable code evals from happening on codemirror changes
-			aigua.pause = true;
-
-			// if noTab is true, don't highlight/dehighlight the mode tabs
-			if (!noTab) {
-
-				$('#modes h2').not(":contains('" + mode + "')").addClass('passive');
-				$('#modes h2').not(":contains('" + mode + "')").removeClass('active');
-				$("#modes h2:contains('" + mode + "')").addClass('active');
-				$("#modes h2:contains('" + mode + "')").removeClass('passive');
-			}
-
-			// save current code to this mode's 'code' property
-			aigua.modes[aigua.currentModeIndex].code = aigua.codeMirror.getValue();
-
-			// save cursor line and position to this mode's 'position' property
-			aigua.modes[aigua.currentModeIndex].cursor = aigua.codeMirror.getCursor();
-
-			// save scroll info to this mode's 'scrollInfo' property
-			aigua.modes[aigua.currentModeIndex].scrollInfo = aigua.codeMirror.getScrollInfo();
-
-			// set current mode index to new mode
-			aigua.currentModeIndex = _.indexOf(_.pluck(aigua.modes, 'name'), mode);
-
-			// populate the code mirror tab with the new mode's code
-			aigua.codeMirror.setValue(aigua.modes[aigua.currentModeIndex].code || '');
-
-			// set cursor 
-			if (aigua.modes[aigua.currentModeIndex].cursor) {
-				aigua.codeMirror.setCursor(aigua.modes[aigua.currentModeIndex].cursor);
-			}
-
-			// scroll to saved position
-			if (aigua.modes[aigua.currentModeIndex].scrollInfo) {
-				aigua.codeMirror.scrollTo(aigua.modes[aigua.currentModeIndex].scrollInfo.x, aigua.modes[aigua.currentModeIndex].scrollInfo.y);
-			}
-
-
-			aigua.codeMirror.focus();
-
-			// change codemirror's language syntax to the new mode
-			var codeMirrorOptionMode, codeMirrorLoadMode;
-
-			if (aigua.modes[aigua.currentModeIndex].name == 'json') {
-				codeMirrorOptionMode = 'application/json';
-				codeMirrorLoadMode = 'javascript';
-			} else if (aigua.modes[aigua.currentModeIndex].name == 'html') {
-				codeMirrorOptionMode = 'text/html';
-				codeMirrorLoadMode = 'htmlmixed';
-			} else {
-				codeMirrorOptionMode = aigua.modes[aigua.currentModeIndex].name;
-				codeMirrorLoadMode = aigua.modes[aigua.currentModeIndex].name;
-			}
-
-			// remove all code folding markers
-			$('.CodeMirror-gutter-text pre').removeClass('codeFolded');
-
-			aigua.codeMirror.setOption("mode", codeMirrorOptionMode);
-			CodeMirror.autoLoadMode(aigua.codeMirror, codeMirrorLoadMode);
-
-			aigua.pause = false;
-		},
-
-		// editor.js ?
 		switchToCss: function() {
 			aigua.switchMode('css');
 		},
@@ -787,7 +706,7 @@ var aigua = (function () {
 			// we'll choose (2) - do it right here
 
 			// if we're on javascript mode, call rendercode
-			switch(aigua.modes[aigua.currentModeIndex].name) {
+			switch(modes.getCurrentMode().name) {
 
 				case 'html':
 					aigua.renderCode();
@@ -827,36 +746,11 @@ var aigua = (function () {
 		areYouSureText: 'Are you sure? You will lose any unsaved changes.',
 		areYouSureSinglePageText: 'Are you sure? Your unsaved changes will not be reflected when viewing as a single page.',
 		currentGistUserId: null,
-		// currentModeIndex: 0,
-		// currentScreenLayoutIndex: 1,
 		currentSelection: null,
 		iframeLoaded: null,
 		isLoading: null,
 		key: null,
 		libraries: lc.libraries,
-		// modes: [
-		// 	{
-		// 		name: 'html',
-		// 		code: null,
-		// 		cursor: null,
-		// 		scrollInfo: null
-		// 	}, {
-		// 		name: 'javascript',
-		// 		code: null,
-		// 		cursor: null,
-		// 		scrollInfo: null
-		// 	}, {
-		// 		name: 'css',
-		// 		code: null,
-		// 		cursor: null,
-		// 		scrollInfo: null
-		// 	}, {
-		// 		name: 'json',
-		// 		code: null,
-		// 		cursor: null,
-		// 		scrollInfo: null
-		// 	}
-		// ],
 		originalNumber: null,
 		pause: false,
 		pauseExecution: false,

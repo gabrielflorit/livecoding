@@ -37,7 +37,7 @@ lc.replaceSnippet = function(cm) {
 		return value.keyword == token.string;
 	});
 
-	var currentMode = aigua.getCurrentMode();
+	var currentMode = modes.getCurrentMode();
 
 	// if we found a snippet, replace it only if we're on the right mode
 	if (snippet && currentMode.name == snippet.mode) {
