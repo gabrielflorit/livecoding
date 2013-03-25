@@ -82,20 +82,11 @@ var aigua = (function () {
 			return token;
 		},
 
-		// hide popup overlay
-		// editor.js ?
-		hidePopup: function(duration) {
-
-			$('#popup .containerItem').fadeOut(duration || 'normal');
-			$('#popup').fadeOut(duration || 'normal');
-		},
-
 		// get gist data from server
 		// github.js ?
 		loadGist: function(gistId, versionId) {
 
-			$('#popup .loading').fadeIn();
-			$('#popup').fadeIn();
+			popup.loading();
 
 			aigua.isLoading = true;
 
@@ -198,7 +189,7 @@ var aigua = (function () {
 						$('#menu li:contains("save as ' + (/^\d+$/g.test(gistId) ? 'private' : 'public') + ' gist")').addClass('disabled');
 					}
 
-					aigua.hidePopup(10);
+					popup.hide(10);
 				}
 			});
 
@@ -922,32 +913,7 @@ $(function() {
 				shortcuts.push(value);
 			});
 
-		// add keyboard shortcuts to popup
-		_.each(shortcuts, function(value, index) {
-
-			var h3 = $('<h3></h3>');
-			h3.text(value.section);
-
-			var ul = $('<ul class="keys"></ul>');
-
-			_.each(value.shortcuts, function(value) {
-				var li = $('<li></li>');
-				var span = $('<span></span>');
-				span.text(value.shortcut);
-				li.append(span);
-				li.append(value.name);
-				ul.append(li);
-			});
-
-			if (index % 2 == 0) {
-				$('#popup .keyboard .left').append(h3);
-				$('#popup .keyboard .left').append(ul);
-			} else {
-				$('#popup .keyboard .right').append(h3);
-				$('#popup .keyboard .right').append(ul);
-			}
-
-		});
+		popup.init(shortcuts);
 
 		// display the key DisplayName to the user - 'Alt', or 'Ctrl', etc
 		$('#message .key').text(aigua.key.DisplayName);
@@ -1072,7 +1038,7 @@ $(function() {
 			$(window).keydown(function(e) {
 
 				if (e.which == 27) {
-					aigua.hidePopup();
+					popup.hide();
 				}
 
 			});
@@ -1295,8 +1261,7 @@ $(function() {
 							break;
 
 							case 'keyboard shortcuts':
-								$('#popup').fadeIn();
-								$('#popup .keyboard').fadeIn();
+								popup.keyboard();
 								aigua.resetMenu();
 							break;
 
@@ -1308,13 +1273,6 @@ $(function() {
 
 					break;
 				}
-			});
-
-			// close popup
-			$('#popup .close').click(function(e) {
-				e.preventDefault();
-
-				aigua.hidePopup();
 			});
 
 		}; // end of continueLoading()
