@@ -1,5 +1,3 @@
-var lc = lc || {};
-
 var popup = (function () {
 
 	var $popup = $('#popup');
