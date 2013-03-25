@@ -12,9 +12,7 @@ var modes = (function () {
 	var container;
 
 	function getMode(mode) {
-		return _.find(modes, function(v) {
-			return v == mode;
-		});
+		return _.findWhere(modes, {name: mode});
 	}
 
 	function getCurrentMode() {
@@ -35,13 +33,13 @@ var modes = (function () {
 
 		var currentMode = getCurrentMode();
 
-		// save current code to this mode's 'code' property
+		// save current code
 		currentMode.code = aigua.codeMirror.getValue();
 
-		// save cursor line and position to this mode's 'position' property
+		// save cursor line and position
 		currentMode.cursor = aigua.codeMirror.getCursor();
 
-		// save scroll info to this mode's 'scrollInfo' property
+		// save scroll info
 		currentMode.scrollInfo = aigua.codeMirror.getScrollInfo();
 
 		// set current mode index to new mode
@@ -89,6 +87,30 @@ var modes = (function () {
 
 	}
 
+	function storeIn(payload) {
+
+		_.each(modes, function(v) {
+
+			// get the mode's name
+			var name = v.name;
+
+			// is this the current mode?
+			if (getCurrentMode().name == name) {
+
+				// save the mode's contents directly from codemirror
+				payload[name] = aigua.codeMirror.getValue();
+
+			} else {
+
+				// since we're not on the current mode, the contents
+				// will be saved on the mode object
+				payload[name] = _.findWhere(modes, {name: name}).code;
+			}
+
+		});
+
+	}
+
 	function init() {
 
 		container = $('#modes');
@@ -115,10 +137,22 @@ var modes = (function () {
 
 	}
 
+	function clearAll() {
+
+		_.each(aigua.modes, function(value) {
+			switchMode(value.name, true);
+			aigua.codeMirror.setValue('');
+		});
+
+	}
+
 	return {
 		init: init,
 		getCurrentMode: getCurrentMode,
-		getMode: getMode
+		getMode: getMode,
+		storeIn: storeIn,
+		switchMode: switchMode,
+		clearAll: clearAll
 	};
 
 }());

@@ -33,21 +33,7 @@ var aigua = (function () {
 		createPostDataObject: function() {
 
 			var result = {};
-			var currentMode = modes.getCurrentMode().name;
-
-			_.each(aigua.modes, function(value, index, list) {
-
-				var name = value.name;
-
-				if (currentMode == name) {
-					result[name] = aigua.codeMirror.getValue();
-				} else {
-					result[name] = _.find(aigua.modes, function(value) {
-						return value.name == name;
-					}).code;
-				}
-
-			});
+			modes.storeIn(result);
 
 			var selectedLibraries = $('li[class*="selected"]', $('#menu .item h2:contains("libraries")').next());
 
@@ -119,9 +105,11 @@ var aigua = (function () {
 						};
 					}
 
+//--------------------------------------------------------------------------------------------------------------------------------------
 					if (!options.mode) {
 						options.mode = aigua.modes[0].name;
 					}
+//--------------------------------------------------------------------------------------------------------------------------------------
 
 					if (!options.layout) {
 						options.layout = aigua.screenLayouts[2];
@@ -158,29 +146,29 @@ var aigua = (function () {
 
 					});
 
-					aigua.switchMode('json', true);
+					modes.switchMode('json', true);
 					if (json) {
 						aigua.codeMirror.setValue(json.content);
 					}
 
-					aigua.switchMode('css', true);
+					modes.switchMode('css', true);
 					if (css) {
 						aigua.codeMirror.setValue(css.content);
 					}
 
-					aigua.switchMode('html', true);
+					modes.switchMode('html', true);
 					if (html) {
 						aigua.codeMirror.setValue(html.content);
 					}
 
-					aigua.switchMode('javascript');
+					modes.switchMode('javascript');
 					if (javascript) {
 						aigua.codeMirror.setValue(javascript.content);
 						aigua.codeMirror.setValue(javascript.content); // don't know why i have to do this twice
 					}
 
 					// switch to the default mode
-					aigua.switchMode(options.mode);
+					modes.switchMode(options.mode);
 
 					aigua.setUrl(gistId, versionId);
 
@@ -340,10 +328,7 @@ var aigua = (function () {
 		resetScreen: function() {
 
 			// clear out all the modes (html, css, etc)
-			_.each(aigua.modes, function(value, index, list) {
-				aigua.switchMode(value.name, true);
-				aigua.codeMirror.setValue('');
-			});
+			modes.clearAll();
 
 			// uncheck all items from the libraries dropdown
 			$('li', $('#menu .item h2:contains("libraries")').next()).removeClass('selected');
@@ -355,7 +340,7 @@ var aigua = (function () {
 				}));
 			});
 
-			aigua.switchMode('html');
+			modes.switchMode('html');
 		},
 
 		// editor.js ?
@@ -603,22 +588,22 @@ var aigua = (function () {
 
 		// editor.js ?
 		switchToCss: function() {
-			aigua.switchMode('css');
+			modes.switchMode('css');
 		},
 
 		// editor.js ?
 		switchToHtml: function() {
-			aigua.switchMode('html');
+			modes.switchMode('html');
 		},
 
 		// editor.js ?
 		switchToJavaScript: function() {
-			aigua.switchMode('javascript');
+			modes.switchMode('javascript');
 		},
 
 		// editor.js ?
 		switchToJson: function() {
-			aigua.switchMode('json');
+			modes.switchMode('json');
 		},
 
 		// editor.js ?
@@ -711,34 +696,34 @@ var aigua = (function () {
 				case 'html':
 					aigua.renderCode();
 					// switch modes to css, without tabbing
-					aigua.switchMode('css', true);
+					modes.switchMode('css', true);
 					// switch back to javascript
-					aigua.switchMode('html', true);
+					modes.switchMode('html', true);
 				break;
 
 				case 'javascript':
 					aigua.renderCode();
 					// switch modes to css, without tabbing
-					aigua.switchMode('css', true);
+					modes.switchMode('css', true);
 					// switch back to javascript
-					aigua.switchMode('javascript', true);
+					modes.switchMode('javascript', true);
 				break;
 
 				case 'css':
 					// switch modes to javascript, without tabbing
-					aigua.switchMode('javascript', true);
+					modes.switchMode('javascript', true);
 					// render code
 					aigua.renderCode();
 					// switch back to css
-					aigua.switchMode('css', true);
+					modes.switchMode('css', true);
 				break;
 
 				case 'json':
 					aigua.renderCode();
 					// switch modes to javascript, without tabbing
-					aigua.switchMode('javascript', true);
+					modes.switchMode('javascript', true);
 					// switch back to json
-					aigua.switchMode('json', true);
+					modes.switchMode('json', true);
 				break;
 			}
 		},
