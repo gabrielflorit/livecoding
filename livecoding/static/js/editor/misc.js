@@ -34,7 +34,7 @@ lc.getUrlGistVersionId = function(url) {
 	@param {Number} end The selection end.
 	@return {object} The coords object.
 */
-lc.getTokenCoords: function(cm, start, end) {
+lc.getTokenCoords = function(cm, start, end) {
 
 	// select token
 	cm.setSelection(start, end);
