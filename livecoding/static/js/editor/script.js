@@ -431,7 +431,7 @@ var aigua = (function () {
 						break;
 
 						case 'css':
-							hex = token.string;;
+							hex = token.string;
 							aigua.currentSelectionStart = {line: cursor.line, ch: token.start};
 							aigua.currentSelectionEnd   = {line: cursor.line, ch: token.end};
 						break;
@@ -442,7 +442,7 @@ var aigua = (function () {
 						return;
 					}
 
-					aigua.showColorSelector(cm, hex);
+					aigua.showColorSelector(cm, hex, aigua.currentSelectionStart, aigua.currentSelectionEnd);
 				}
 			}
 		},
@@ -561,24 +561,12 @@ var aigua = (function () {
 			$('#gist').html(gistUrl);
 		},
 
-		showColorSelector: function(cm, hex) {
+		showColorSelector: function(cm, hex, start, end) {
 
-			var startCoords;
-			var endCoords;
-			var center;
-
-			// select token
-			cm.setSelection(aigua.currentSelectionStart, aigua.currentSelectionEnd);
-
-			// find coords at token start
-			startCoords = cm.cursorCoords(true);
-			endCoords = cm.cursorCoords(false);
-
-			// center marker on token
-			center = startCoords.x + (endCoords.x - startCoords.x)/2;
+			var coords = lc.getTokenCoords(cm, start, end);
 
 			// position and show the color picker
-			slider.showMiniColors(center, endCoords.y, hex.substring(1));
+			slider.showMiniColors(coords, hex.substring(1));
 
 		},
 
@@ -617,17 +605,11 @@ var aigua = (function () {
 			// select token
 			aigua.currentSelectionStart = {line: cursor.line, ch: token.start};
 			aigua.currentSelectionEnd   = {line: cursor.line, ch: token.end};
-			cm.setSelection(aigua.currentSelectionStart, aigua.currentSelectionEnd);
 
-			// find coords at token start
-			startCoords = cm.cursorCoords(true);
-			endCoords = cm.cursorCoords(false);
+			var coords = lc.getTokenCoords(cm, aigua.currentSelectionStart, aigua.currentSelectionEnd);
 
-			// center marker on token
-			center = startCoords.x + (endCoords.x - startCoords.x)/2;
-
-			// show slider at given x and y
-			slider.showSlider(center, startCoords.y);
+			// show slider at given coords
+			slider.showSlider(coords);
 		},
 
 		// editor.js ?

@@ -195,7 +195,10 @@ var slider = (function () {
 
 	}
 
-	function showSlider(x, y) {
+	function showSlider(coords) {
+
+		var x = coords.x;
+		var y = coords.y;
 
 		slider.show();
 
@@ -217,7 +220,10 @@ var slider = (function () {
 
 	}
 
-	function showMiniColors(x, y, color) {
+	function showMiniColors(coords, color) {
+
+		var x = coords.x;
+		var y = coords.y;
 
 		miniColorsTrigger.click();
 

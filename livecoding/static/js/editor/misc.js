@@ -25,3 +25,27 @@ lc.getUrlGistVersionId = function(url) {
 
 	return parts.length == 5 ? parts[4] : null;
 };
+
+/*
+	Get the coords for the currently selected codemirror token.
+
+	@param {object} cm The CodeMirror instance.
+	@param {Number} start The selection start.
+	@param {Number} end The selection end.
+	@return {object} The coords object.
+*/
+lc.getTokenCoords: function(cm, start, end) {
+
+	// select token
+	cm.setSelection(start, end);
+
+	// find coords at token start
+	var startCoords = cm.cursorCoords(true);
+	var endCoords = cm.cursorCoords(false);
+
+	// center marker on token
+	var center = startCoords.x + (endCoords.x - startCoords.x)/2;
+
+	return { x: center, y: startCoords.y };
+
+};
