@@ -746,6 +746,7 @@ var aigua = (function () {
 		areYouSureText: 'Are you sure? You will lose any unsaved changes.',
 		areYouSureSinglePageText: 'Are you sure? Your unsaved changes will not be reflected when viewing as a single page.',
 		currentGistUserId: null,
+		currentScreenLayoutIndex: 1,
 		currentSelection: null,
 		iframeLoaded: null,
 		isLoading: null,

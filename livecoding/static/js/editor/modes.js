@@ -1,30 +1,12 @@
 var modes = (function () {
 
 	var currentModeIndex = 0;
-	var currentScreenLayoutIndex = 1;
 
 	var	modes = [
-		{
-			name: 'html',
-			code: null,
-			cursor: null,
-			scrollInfo: null
-		}, {
-			name: 'javascript',
-			code: null,
-			cursor: null,
-			scrollInfo: null
-		}, {
-			name: 'css',
-			code: null,
-			cursor: null,
-			scrollInfo: null
-		}, {
-			name: 'json',
-			code: null,
-			cursor: null,
-			scrollInfo: null
-		}
+		{ name: 'html'      , code: null, cursor: null, scrollInfo: null },
+		{ name: 'javascript', code: null, cursor: null, scrollInfo: null },
+		{ name: 'css'       , code: null, cursor: null, scrollInfo: null },
+		{ name: 'json'      , code: null, cursor: null, scrollInfo: null }
 	];
 
 	var container;
@@ -47,46 +29,35 @@ var modes = (function () {
 		// if noTab is true, don't highlight/dehighlight the mode tabs
 		if (!noTab) {
 
-			$('h2', container).not(":contains('" + mode + "')").addClass('passive');
-			$('h2', container).not(":contains('" + mode + "')").removeClass('active');
-			$("h2:contains('" + mode + "')", container).addClass('active');
-			$("h2:contains('" + mode + "')", container).removeClass('passive');
+			$('h2', container).not(":contains('" + mode + "')").addClass('passive').removeClass('active');
+			$("h2:contains('" + mode + "')", container).addClass('active').removeClass('passive');
 		}
 
-		var currentMode = modes[currentModeIndex];
+		var currentMode = getCurrentMode();
 
 		// save current code to this mode's 'code' property
-		// modes[currentModeIndex].code = aigua.codeMirror.getValue();
 		currentMode.code = aigua.codeMirror.getValue();
 
 		// save cursor line and position to this mode's 'position' property
-		// modes[currentModeIndex].cursor = aigua.codeMirror.getCursor();
 		currentMode.cursor = aigua.codeMirror.getCursor();
 
 		// save scroll info to this mode's 'scrollInfo' property
-		// modes[currentModeIndex].scrollInfo = aigua.codeMirror.getScrollInfo();
 		currentMode.scrollInfo = aigua.codeMirror.getScrollInfo();
 
 		// set current mode index to new mode
 		currentModeIndex = _.indexOf(_.pluck(modes, 'name'), mode);
-		currentMode = modes[currentModeIndex];
+
+		currentMode = getCurrentMode();
 
 		// populate the code mirror tab with the new mode's code
-		// aigua.codeMirror.setValue(modes[currentModeIndex].code || '');
 		aigua.codeMirror.setValue(currentMode.code || '');
 
 		// set cursor
-		// if (modes[currentModeIndex].cursor) {
-		// 	aigua.codeMirror.setCursor(modes[currentModeIndex].cursor);
-		// }
 		if (currentMode.cursor) {
 			aigua.codeMirror.setCursor(currentMode.cursor);
 		}
 
 		// scroll to saved position
-		// if (modes[currentModeIndex].scrollInfo) {
-		// 	aigua.codeMirror.scrollTo(modes[currentModeIndex].scrollInfo.x, modes[currentModeIndex].scrollInfo.y);
-		// }
 		if (currentMode.scrollInfo) {
 			aigua.codeMirror.scrollTo(currentMode.scrollInfo.x, currentMode.scrollInfo.y);
 		}
@@ -96,19 +67,15 @@ var modes = (function () {
 		// change codemirror's language syntax to the new mode
 		var codeMirrorOptionMode, codeMirrorLoadMode;
 
-		// if (modes[currentModeIndex].name == 'json') {
 		if (currentMode.name == 'json') {
 			codeMirrorOptionMode = 'application/json';
 			codeMirrorLoadMode = 'javascript';
-		// } else if (modes[currentModeIndex].name == 'html') {
 		} else if (currentMode.name == 'html') {
 			codeMirrorOptionMode = 'text/html';
 			codeMirrorLoadMode = 'htmlmixed';
 		} else {
 			codeMirrorOptionMode = currentMode.name;
 			codeMirrorLoadMode = currentMode.name;
-			// codeMirrorOptionMode = modes[currentModeIndex].name;
-			// codeMirrorLoadMode = modes[currentModeIndex].name;
 		}
 
 		// remove all code folding markers
@@ -117,6 +84,7 @@ var modes = (function () {
 		aigua.codeMirror.setOption("mode", codeMirrorOptionMode);
 		CodeMirror.autoLoadMode(aigua.codeMirror, codeMirrorLoadMode);
 
+		// resume code execution
 		aigua.pause = false;
 
 	}
