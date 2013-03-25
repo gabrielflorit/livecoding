@@ -1,6 +1,6 @@
 var modes = (function () {
 
-	var currentModeIndex = 0;
+	var currentModeName = 'html';
 
 	var	modes = [
 		{ name: 'html'      , code: null, cursor: null, scrollInfo: null },
@@ -11,12 +11,16 @@ var modes = (function () {
 
 	var container;
 
+	function getDefaultMode() {
+		return getMode('html');
+	}
+
 	function getMode(mode) {
 		return _.findWhere(modes, {name: mode});
 	}
 
 	function getCurrentMode() {
-		return modes[currentModeIndex];
+		return getMode(currentModeName);
 	}
 
 	function switchMode(mode, noTab) {
@@ -42,8 +46,8 @@ var modes = (function () {
 		// save scroll info
 		currentMode.scrollInfo = aigua.codeMirror.getScrollInfo();
 
-		// set current mode index to new mode
-		currentModeIndex = _.indexOf(_.pluck(modes, 'name'), mode);
+		// set current mode to new mode
+		currentModeName = mode;
 
 		currentMode = getCurrentMode();
 
@@ -116,13 +120,13 @@ var modes = (function () {
 		container = $('#modes');
 
 		// populate mode switcher
-		_.each(modes, function(mode, index) {
+		_.each(modes, function(mode) {
 
 			var div = $("<div class='item'></div>");
 			var h2 = $("<h2></h2>");
 			div.append(h2);
 
-			h2.addClass(index == currentModeIndex ? 'active' : 'passive');
+			h2.addClass(mode == currentModeName ? 'active' : 'passive');
 			h2.text(mode.name);
 
 			container.append(div);
@@ -139,7 +143,7 @@ var modes = (function () {
 
 	function clearAll() {
 
-		_.each(aigua.modes, function(value) {
+		_.each(modes, function(value) {
 			switchMode(value.name, true);
 			aigua.codeMirror.setValue('');
 		});
@@ -149,6 +153,7 @@ var modes = (function () {
 	return {
 		init: init,
 		getCurrentMode: getCurrentMode,
+		getDefaultMode: getDefaultMode,
 		getMode: getMode,
 		storeIn: storeIn,
 		switchMode: switchMode,

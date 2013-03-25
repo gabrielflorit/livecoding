@@ -107,7 +107,7 @@ var aigua = (function () {
 
 //--------------------------------------------------------------------------------------------------------------------------------------
 					if (!options.mode) {
-						options.mode = aigua.modes[0].name;
+						options.mode = modes.getDefaultMode().name;
 					}
 //--------------------------------------------------------------------------------------------------------------------------------------
 
@@ -248,8 +248,9 @@ var aigua = (function () {
 			if (!aigua.pauseExecution) {
 
 				var code = aigua.codeMirror.getValue();
+				var currentMode = modes.getCurrentMode();
 
-				switch (modes.getCurrentMode().name) {
+				switch (currentMode.name) {
 
 					case 'html':
 
@@ -257,14 +258,14 @@ var aigua = (function () {
 						$('body #livecoding-main', $('iframe').contents()).html(code);
 
 						// run the javascript code
-						frames[0].livecoding.renderCode(modes.getMode('javascript') || '');
+						frames[0].livecoding.renderCode(modes.getMode('javascript').code || '');
 		
 					break;
 
 					case 'javascript':
 
 						// replace html
-						$('body #livecoding-main', $('iframe').contents()).html(modes.getMode('html') || '');
+						$('body #livecoding-main', $('iframe').contents()).html(modes.getMode('html').code || '');
 
 						// run the javascript code
 						frames[0].livecoding.renderCode(code);
@@ -277,10 +278,10 @@ var aigua = (function () {
 						$('#style', $('iframe').contents()).get(0).textContent = code;
 
 						// replace html
-						$('body #livecoding-main', $('iframe').contents()).html(modes.getMode('html') || '');
+						$('body #livecoding-main', $('iframe').contents()).html(modes.getMode('html').code || '');
 
 						// run the javascript code
-						frames[0].livecoding.renderCode(modes.getMode('javascript') || '');
+						frames[0].livecoding.renderCode(modes.getMode('javascript').code || '');
 
 					break;
 
@@ -294,10 +295,10 @@ var aigua = (function () {
 								frames[0].livecoding.json = JSON.parse(code);
 
 								// replace html
-								$('body #livecoding-main', $('iframe').contents()).html(modes.getMode('html') || '');
+								$('body #livecoding-main', $('iframe').contents()).html(modes.getMode('html').code || '');
 
 								// run the javascript code
-								frames[0].livecoding.renderCode(modes.getMode('javascript') || '');
+								frames[0].livecoding.renderCode(modes.getMode('javascript').code || '');
 			
 							}
 							catch (error) {
