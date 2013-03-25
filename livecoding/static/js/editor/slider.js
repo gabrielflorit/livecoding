@@ -46,7 +46,7 @@ var slider = (function () {
 		bar.width(startingBarWidth);
 
 		// set the triangle
-		triangle.css('border-width', [triangleHeight, triangleWidth, 0, triangleWidth].join('px '));
+		triangle.css('border-width', [triangleHeight, triangleWidth, 0, triangleWidth].join('px ') + 'px');
 
 		initHandle();
 
