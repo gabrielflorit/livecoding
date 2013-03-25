@@ -408,7 +408,6 @@ var aigua = (function () {
 			var hex = '';
 
 			// is the slider and mini colors hidden?
-			// if (!slider.isVisible() && !$(slider.miniColorsSelector).is(':visible')) {
 			if (!slider.isVisible()) {
 
 				// grab the current token
@@ -421,30 +420,30 @@ var aigua = (function () {
 				}
 
 				// handle colors
-				// if (token.string.length > 1) {
+				if (token.string.length > 1) {
 
-				// 	switch (aigua.modes[aigua.currentModeIndex].name) {
+					switch (aigua.modes[aigua.currentModeIndex].name) {
 
-				// 		case 'javascript':
-				// 			hex = token.string.substring(1, token.string.length - 1);
-				// 			aigua.currentSelectionStart = {line: cursor.line, ch: token.start + 1};
-				// 			aigua.currentSelectionEnd   = {line: cursor.line, ch: token.end - 1};
-				// 		break;
+						case 'javascript':
+							hex = token.string.substring(1, token.string.length - 1);
+							aigua.currentSelectionStart = {line: cursor.line, ch: token.start + 1};
+							aigua.currentSelectionEnd   = {line: cursor.line, ch: token.end - 1};
+						break;
 
-				// 		case 'css':
-				// 			hex = token.string;;
-				// 			aigua.currentSelectionStart = {line: cursor.line, ch: token.start};
-				// 			aigua.currentSelectionEnd   = {line: cursor.line, ch: token.end};
-				// 		break;
-				// 	}
+						case 'css':
+							hex = token.string;;
+							aigua.currentSelectionStart = {line: cursor.line, ch: token.start};
+							aigua.currentSelectionEnd   = {line: cursor.line, ch: token.end};
+						break;
+					}
 
-				// 	// is this not a hex?
-				// 	if (!hex.isHex()) {
-				// 		return;
-				// 	}
+					// is this not a hex?
+					if (!hex.isHex()) {
+						return;
+					}
 
-				// 	aigua.showColorSelector(cm, hex);
-				// }
+					aigua.showColorSelector(cm, hex);
+				}
 			}
 		},
 
@@ -562,31 +561,26 @@ var aigua = (function () {
 			$('#gist').html(gistUrl);
 		},
 
-		// editor.js / colorpicker.js ?
-		// showColorSelector: function(cm, hex) {
+		showColorSelector: function(cm, hex) {
 
-		// 	var startCoords;
-		// 	var endCoords;
-		// 	var center;
+			var startCoords;
+			var endCoords;
+			var center;
 
-		// 	// select token
-		// 	cm.setSelection(aigua.currentSelectionStart, aigua.currentSelectionEnd);
+			// select token
+			cm.setSelection(aigua.currentSelectionStart, aigua.currentSelectionEnd);
 
-		// 	// show the color picker
-		// 	slider.miniColorsTrigger.click();
+			// find coords at token start
+			startCoords = cm.cursorCoords(true);
+			endCoords = cm.cursorCoords(false);
 
-		// 	// initialize color picker with current color
-		// 	$('#hidden-miniColors').miniColors('value', hex.substring(1));
+			// center marker on token
+			center = startCoords.x + (endCoords.x - startCoords.x)/2;
 
-		// 	// find coords at token start
-		// 	startCoords = cm.cursorCoords(true);
-		// 	endCoords = cm.cursorCoords(false);
-		// 	center = startCoords.x + (endCoords.x - startCoords.x)/2;
+			// position and show the color picker
+			slider.showMiniColors(center, endCoords.y, hex.substring(1));
 
-		// 	// position color picker centered below token
-		// 	$(slider.miniColorsSelector).css('left', center - $(slider.miniColorsSelector).width()/2);
-		// 	$(slider.miniColorsSelector).css('top', endCoords.y + slider.lineHeight);
-		// },
+		},
 
 		// editor.js ?
 		showSaveConfirmation: function() {
@@ -633,7 +627,7 @@ var aigua = (function () {
 			center = startCoords.x + (endCoords.x - startCoords.x)/2;
 
 			// show slider at given x and y
-			slider.show(center, startCoords.y);
+			slider.showSlider(center, startCoords.y);
 		},
 
 		// editor.js ?
@@ -976,17 +970,6 @@ $(function() {
 		// display the key DisplayName to the user - 'Alt', or 'Ctrl', etc
 		$('#message .key').text(aigua.key.DisplayName);
 		
-		// // initialize mini colors
-		// $('#hidden-miniColors').miniColors({
-
-		// 	// when we change a color, replace the old hex string
-		// 	// in codemirror with this new color
-		// 	change: function(hex, rgb) {
-		// 		aigua.codeMirror.replaceSelection(hex.toUpperCase());
-		// 	}
-
-		// });
-
 		// create codemirror instance
 		aigua.codeMirror = CodeMirror($('#code').get(0), {
 
@@ -1045,7 +1028,7 @@ $(function() {
 			$('#message').show();
 
 			// initialize slider
-			slider.init();
+			slider.init(aigua.codeMirror);
 
 			// populate mode switcher
 			_.each(aigua.modes, function(mode, index) {
@@ -1126,12 +1109,6 @@ $(function() {
 						aigua.originalNumber = null;
 					}
 
-					// // if mini colors is visible
-					// if ($(slider.miniColorsSelector).is(':visible')) {
-
-					// 	// trigger an event which will hide mini colors
-					// 	$(document).trigger('mousedown');
-					// }
 				}
 			});
 

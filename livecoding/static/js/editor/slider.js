@@ -3,7 +3,6 @@ var slider = (function () {
 	// constants
 	var borderWidth        = 2;
 	var lineHeight         = 19;
-	// var miniColorsSelector = '.miniColors-selector';
 	var startingBarWidth   = 300;
 	var triangleHeight     = 5;
 	var triangleWidth      = 12;
@@ -14,11 +13,21 @@ var slider = (function () {
 	var filler;
 	var handle;
 	var marker;
-	// var miniColorsTrigger;
 	var slider;
 	var triangle;
 
-	function init() {
+	// minicolors elements
+	var miniColors;
+	var miniColorsSelector = '.miniColors-selector';
+	var miniColorsTrigger;
+
+	// codemirror instance
+	var codeMirror;
+
+	function init(cm) {
+
+		// parameter initialization
+		codeMirror = cm;
 
 		// initialize dom elements
 		ball               = $('#ball');
@@ -26,7 +35,6 @@ var slider = (function () {
 		filler             = $('#filler');
 		handle             = $('#handle');
 		marker             = $('#marker');
-		// miniColorsTrigger  = $('.miniColors-trigger');
 		slider             = $('#slider');
 		triangle           = $('#triangle');
 
@@ -41,9 +49,31 @@ var slider = (function () {
 		triangle.css('border-width', [triangleHeight, triangleWidth, 0, triangleWidth].join('px '));
 
 		initHandle();
+
+		initMiniColors();
 	}
 
-	function resetSlider() {
+	function initMiniColors() {
+
+		// initialize mini colors
+		miniColors = $('#hidden-miniColors');
+
+		miniColors.miniColors({
+
+			// when we change a color, replace the old hex string
+			// in codemirror with this new color
+			change: function(hex) {
+				codeMirror.replaceSelection(hex.toUpperCase());
+			}
+
+		});
+
+		// now that trigger exists, save its jQuery element for convenience
+		miniColorsTrigger = $('.miniColors-trigger');
+
+	}
+
+	function reset() {
 
 		// hide the slider
 		slider.hide();
@@ -53,6 +83,10 @@ var slider = (function () {
 
 		// reset bar
 		resetBar(0);
+
+		// trigger an event which will hide mini colors
+		$(document).trigger('mousedown');
+
 	}
 
 	function resetBar(x) {
@@ -70,7 +104,8 @@ var slider = (function () {
 	}
 
 	function isVisible() {
-		return slider.is(':visible');
+
+		return slider.is(':visible') || $(miniColorsSelector).is(':visible');
 	}
 
 	function initHandle() {
@@ -94,7 +129,7 @@ var slider = (function () {
 
 				// replace the selection with the new number
 // ------------ TODO: external reference here ----------------------------------------------------------------------
-				aigua.codeMirror.replaceSelection(String(newNumber) + aigua.originalNumber.suffix);
+				codeMirror.replaceSelection(String(newNumber) + aigua.originalNumber.suffix);
 
 				// is the dragging cursor to the right of the marker?
 				if (offset > 0) {
@@ -160,7 +195,7 @@ var slider = (function () {
 
 	}
 
-	function show(x, y) {
+	function showSlider(x, y) {
 
 		slider.show();
 
@@ -182,11 +217,25 @@ var slider = (function () {
 
 	}
 
+	function showMiniColors(x, y, color) {
+
+		miniColorsTrigger.click();
+
+		// initialize color picker with current color
+		miniColors.miniColors('value', color);
+
+		// position color picker
+		$(miniColorsSelector).css('left', x - $(miniColorsSelector).width()/2);
+		$(miniColorsSelector).css('top', y + lineHeight);
+
+	}
+
 	return {
 		init: init,
 		isVisible: isVisible,
-		show: show,
-		reset: resetSlider
+		showSlider: showSlider,
+		showMiniColors: showMiniColors,
+		reset: reset
 	};
 
 }());
