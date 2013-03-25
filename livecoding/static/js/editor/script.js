@@ -987,8 +987,6 @@ $(function() {
 
 		// });
 
-		slider.init();
-
 		// create codemirror instance
 		aigua.codeMirror = CodeMirror($('#code').get(0), {
 
@@ -1046,8 +1044,8 @@ $(function() {
 			// show the 'click a number' message
 			$('#message').show();
 
-			// initialize slider handle
-			slider.initHandle();
+			// initialize slider
+			slider.init();
 
 			// populate mode switcher
 			_.each(aigua.modes, function(mode, index) {
@@ -1122,7 +1120,7 @@ $(function() {
 					// if slider is visible
 					if (slider.isVisible()) {
 
-						slider.resetSlider();
+						slider.reset();
 		
 						// clear out the original number
 						aigua.originalNumber = null;

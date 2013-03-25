@@ -40,6 +40,7 @@ var slider = (function () {
 		// set the triangle
 		triangle.css('border-width', [triangleHeight, triangleWidth, 0, triangleWidth].join('px '));
 
+		initHandle();
 	}
 
 	function resetSlider() {
@@ -50,15 +51,19 @@ var slider = (function () {
 		// reset filler width
 		filler.width(0);
 
+		// reset bar
+		resetBar(0);
+	}
+
+	function resetBar(x) {
+
 		// reset bar width
 		bar.width(startingBarWidth);
 
-	}
+		// center bar
+		bar.css('left', x - startingBarWidth/2 - borderWidth);
 
-	function resetBar(markerCenter) {
-
-		bar.width(startingBarWidth);
-		bar.css('left', markerCenter - startingBarWidth/2 - borderWidth);
+		// remove filler edge styling
 		filler.removeClass('filler-edge-left');
 		filler.removeClass('filler-edge-right');
 
@@ -66,27 +71,6 @@ var slider = (function () {
 
 	function isVisible() {
 		return slider.is(':visible');
-	}
-
-	function show(x, y) {
-
-		slider.show();
-
-		marker.css('left', x);
-
-		// center handle on token
-		handle.css('left', x - handle.width()/2);
-
-		// center bar above token
-		bar.css('left', x - bar.width()/2 - borderWidth);
-		bar.css('top', y - lineHeight);
-
-		// center triangle on token
-		triangle.css('left', x - triangleWidth);
-		triangle.css('top', bar.offset().top + bar.height() + borderWidth * 2);
-
-		ball.offset({top: filler.offset().top});
-
 	}
 
 	function initHandle() {
@@ -176,13 +160,33 @@ var slider = (function () {
 
 	}
 
+	function show(x, y) {
+
+		slider.show();
+
+		// position marker
+		marker.css('left', x);
+
+		// center handle on token
+		handle.css('left', x - handle.width()/2);
+
+		// center bar above token
+		bar.css('left', x - bar.width()/2 - borderWidth);
+		bar.css('top', y - lineHeight);
+
+		// center triangle on token
+		triangle.css('left', x - triangleWidth);
+		triangle.css('top', bar.offset().top + bar.height() + borderWidth * 2);
+
+		ball.offset({top: filler.offset().top});
+
+	}
+
 	return {
 		init: init,
-		resetBar: resetBar,
-		initHandle: initHandle,
 		isVisible: isVisible,
 		show: show,
-		resetSlider: resetSlider
+		reset: resetSlider
 	};
 
 }());
