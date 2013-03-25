@@ -18,7 +18,7 @@ lc.getExtraKeys = function(os) {
 	{extraKeys[os == 'Mac' ? "Cmd-'" : (os == 'Linux' ? "Ctrl-'" : "Ctrl-'")]  = aigua.switchToPreviousLayout};
 	{extraKeys[os == 'Mac' ? 'Cmd-;' : (os == 'Linux' ? 'Ctrl-;' : 'Ctrl-;')]  = aigua.switchToNextLayout};
 
-	{extraKeys[os == 'Mac' ? 'Tab'   : (os == 'Linux' ? 'Tab'    : 'Tab')]     = aigua.replaceSnippet};
+	{extraKeys[os == 'Mac' ? 'Tab'   : (os == 'Linux' ? 'Tab'    : 'Tab')]     = lc.replaceSnippet};
 
 	return extraKeys;
 

@@ -76,10 +76,18 @@ var aigua = (function () {
 			return result;
 		},
 
+		getCurrentMode: function() {
+			return aigua.modes[aigua.currentModeIndex];
+		},
+
 		// convenience function to return a private var
 		// github.js ?
 		getOAuthToken: function() {
 			return token;
+		},
+
+		getOriginalNumber: function() {
+			return aigua.originalNumber;
 		},
 
 		// get gist data from server
@@ -257,7 +265,7 @@ var aigua = (function () {
 
 				var code = aigua.codeMirror.getValue();
 
-				switch (aigua.modes[aigua.currentModeIndex].name) {
+				switch (aigua.getCurrentMode().name) {
 
 					case 'html':
 
@@ -329,25 +337,6 @@ var aigua = (function () {
 					break;
 
 				}
-			}
-		},
-
-		// editor.js ?
-		replaceSnippet: function(cm) {
-			var cursor = cm.getCursor();
-			var line = cursor.line;
-			var ch = cursor.ch;
-
-			var token = cm.getTokenAt({line: line, ch: ch});
-
-			// is there a snippet for this keyword?
-			var snippet = _.find(lc.snippets, function(value) {
-				return value.keyword == token.string;
-			});
-
-			// if we found a snippet, replace it only if we're on the right mode
-			if (snippet && aigua.modes[aigua.currentModeIndex].name == snippet.mode) {
-				cm.replaceRange(snippet.snippet, {line: line, ch: ch - token.string.length}, {line: line, ch: ch});
 			}
 		},
 
@@ -919,51 +908,7 @@ $(function() {
 		$('#message .key').text(aigua.key.DisplayName);
 		
 		// create codemirror instance
-		aigua.codeMirror = CodeMirror($('#code').get(0), {
-
-			// listen for a change in the codemirror's contents
-			onChange: function(cm, e) {
-
-				// if aigua.pause is true, don't do anything when the code changes
-				if (!aigua.pause) {
-
-					// if we've modified the code, set the 'dirty' flag (the green dot)
-					// but don't do that when we're loading the code
-					if (!aigua.isLoading) {
-						aigua.setToDirty();
-					}
-
-					// call render code every time we change the code's contents
-					// this will re-render the code contents and display the results
-					// on the display panel
-					aigua.renderCode();
-				}
-			},
-
-			// enable code folding
-			onGutterClick: CodeMirror.newFoldFunction(CodeMirror.braceRangeFinder),
-
-			// this object holds a reference to the slider key and extra keys we defined above
-			extraKeys: extraKeys,
-
-			// show line numbers
-			lineNumbers: true,
-
-			// match closing brackets
-			matchBrackets: true,
-
-			// set default mode to javascript
-			mode:  'javascript',
-
-			// tell codemirror where to find javascript mode assets
-			modeURL: '/mode/%N.js',
-
-			// allow code modifications
-			readOnly: false,
-
-			// set the theme (a decent twilight-lookalike)
-			theme: 'lesser-dark'
-		});
+		aigua.codeMirror = lc.codeMirrorInit($('#code'), extraKeys);
 
 		// only continue loading when logging in/out has happened
 		var continueLoading = function() {

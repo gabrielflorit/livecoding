@@ -124,12 +124,10 @@ var slider = (function () {
 
 				// calculate the new number based on the original number
 				// plus the dragging offset
-// ------------ TODO: external reference here ----------------------------------------------------------------------
- 				newNumber = aigua.originalNumber.value.modifyBy(offset);
+ 				newNumber = aigua.getOriginalNumber().value.modifyBy(offset);
 
 				// replace the selection with the new number
-// ------------ TODO: external reference here ----------------------------------------------------------------------
-				codeMirror.replaceSelection(String(newNumber) + aigua.originalNumber.suffix);
+				codeMirror.replaceSelection(String(newNumber) + aigua.getOriginalNumber().suffix);
 
 				// is the dragging cursor to the right of the marker?
 				if (offset > 0) {
