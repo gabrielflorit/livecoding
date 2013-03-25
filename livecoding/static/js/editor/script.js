@@ -827,36 +827,36 @@ var aigua = (function () {
 		areYouSureText: 'Are you sure? You will lose any unsaved changes.',
 		areYouSureSinglePageText: 'Are you sure? Your unsaved changes will not be reflected when viewing as a single page.',
 		currentGistUserId: null,
-		currentModeIndex: 0,
-		currentScreenLayoutIndex: 1,
+		// currentModeIndex: 0,
+		// currentScreenLayoutIndex: 1,
 		currentSelection: null,
 		iframeLoaded: null,
 		isLoading: null,
 		key: null,
 		libraries: lc.libraries,
-		modes: [
-			{
-				name: 'html',
-				code: null,
-				cursor: null,
-				scrollInfo: null
-			}, {
-				name: 'javascript',
-				code: null,
-				cursor: null,
-				scrollInfo: null
-			}, {
-				name: 'css',
-				code: null,
-				cursor: null,
-				scrollInfo: null
-			}, {
-				name: 'json',
-				code: null,
-				cursor: null,
-				scrollInfo: null
-			}
-		],
+		// modes: [
+		// 	{
+		// 		name: 'html',
+		// 		code: null,
+		// 		cursor: null,
+		// 		scrollInfo: null
+		// 	}, {
+		// 		name: 'javascript',
+		// 		code: null,
+		// 		cursor: null,
+		// 		scrollInfo: null
+		// 	}, {
+		// 		name: 'css',
+		// 		code: null,
+		// 		cursor: null,
+		// 		scrollInfo: null
+		// 	}, {
+		// 		name: 'json',
+		// 		code: null,
+		// 		cursor: null,
+		// 		scrollInfo: null
+		// 	}
+		// ],
 		originalNumber: null,
 		pause: false,
 		pauseExecution: false,
@@ -924,19 +924,7 @@ $(function() {
 			slider.init(aigua.codeMirror);
 
 			// populate mode switcher
-			_.each(aigua.modes, function(mode, index) {
-
-				var div = $("<div class='item'></div>");
-				var h2 = $("<h2></h2>");
-				div.append(h2);
-
-				h2.addClass(index == aigua.currentModeIndex ? 'active' : 'passive');
-				h2.text(mode.name);
-
-				$('#modes').append(div);
-
-				$('body').find('*').addClass('full');
-			});
+			modes.init();
 
 			// populate screen layout switcher
 			_.each(aigua.screenLayouts, function(layout, index, list) {
@@ -1009,11 +997,6 @@ $(function() {
 			// by rerendering code on window resize
 			$(window).on('resize', function() {
 				aigua.renderCode();
-			});
-
-			// handle modes switcher
-			$('#modes .item h2').on('click', function(e) {
-				aigua.switchMode($(this).text());
 			});
 
 			// handle menu mouseover/mouseout events
