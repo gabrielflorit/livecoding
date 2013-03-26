@@ -818,6 +818,8 @@ $(function() {
 				$('#menu .item h2:contains("view")').next().prepend(li);
 			});
 
+			$('body').find('*').addClass('full');
+
 			// populate libraries dropdown
 			_.each(aigua.libraries, function(value) {
 

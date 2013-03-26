@@ -132,8 +132,6 @@ var modes = (function () {
 			container.append(div);
 		});
 
-		container.find('*').addClass('full');
-
 		// handle modes switcher
 		$('.item h2', container).on('click', function(e) {
 			switchMode($(this).text());
