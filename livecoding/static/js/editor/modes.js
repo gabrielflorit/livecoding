@@ -126,7 +126,7 @@ var modes = (function () {
 			var h2 = $("<h2></h2>");
 			div.append(h2);
 
-			h2.addClass(mode == currentModeName ? 'active' : 'passive');
+			h2.addClass(mode.name == currentModeName ? 'active' : 'passive');
 			h2.text(mode.name);
 
 			container.append(div);
