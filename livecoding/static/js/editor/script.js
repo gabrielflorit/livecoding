@@ -133,7 +133,7 @@ var aigua = (function () {
 						var library = value;
 
 						// add library to dom
-						frames[0].livecoding.addJs(_.find(aigua.libraries, function(value) {
+						frames[0].livecoding.addJs(_.find(lc.libraries, function(value) {
 							return value.name == library;
 						}));
 
@@ -335,8 +335,8 @@ var aigua = (function () {
 			$('li', $('#menu .item h2:contains("libraries")').next()).removeClass('selected');
 
 			// remove all js libraries from DOM
-			_.each(aigua.libraries, function(value) {
-				frames[0].livecoding.removeJs(_.find(aigua.libraries, function(val) {
+			_.each(lc.libraries, function(value) {
+				frames[0].livecoding.removeJs(_.find(lc.libraries, function(val) {
 					return val.name == value.name;
 				}));
 			});
@@ -733,11 +733,10 @@ var aigua = (function () {
 		areYouSureSinglePageText: 'Are you sure? Your unsaved changes will not be reflected when viewing as a single page.',
 		currentGistUserId: null,
 		currentScreenLayoutIndex: 1,
-		currentSelection: null,
+		currentSelectionEnd: null,
+		currentSelectionStart: null,
 		iframeLoaded: null,
 		isLoading: null,
-		key: null,
-		libraries: lc.libraries,
 		originalNumber: null,
 		pause: false,
 		pauseExecution: false,
@@ -759,11 +758,11 @@ $(function() {
 
 		// ----------- initialization section ----------------------
 
-		aigua.key     = lc.getSliderKey(BrowserDetect.OS);
+		var sliderKey = lc.getSliderKey(BrowserDetect.OS);
 		var extraKeys = lc.getExtraKeys(BrowserDetect.OS);
 
 		// this object will be used by codemirror to respond to the slider key
-		{extraKeys[aigua.key.Name] = aigua.respondToSliderKey};
+		{extraKeys[sliderKey.Name] = aigua.respondToSliderKey};
 
 		var shortcuts = lc.getShortcuts(BrowserDetect.OS);
 
@@ -786,7 +785,7 @@ $(function() {
 		popup.init(shortcuts);
 
 		// display the key DisplayName to the user - 'Alt', or 'Ctrl', etc
-		$('#message .key').text(aigua.key.DisplayName);
+		$('#message .key').text(sliderKey.DisplayName);
 		
 		// create codemirror instance
 		aigua.codeMirror = lc.codeMirrorInit($('#code'), extraKeys);
@@ -821,7 +820,7 @@ $(function() {
 			$('body').find('*').addClass('full');
 
 			// populate libraries dropdown
-			_.each(aigua.libraries, function(value) {
+			_.each(lc.libraries, function(value) {
 
 				var li = $('<li />');
 				li.text(value.name);
@@ -862,7 +861,7 @@ $(function() {
 			// did we keyup the handle key?
 			$(window).keyup(function(e) {
 
-				if (e.which == aigua.key.Code) {
+				if (e.which == sliderKey.Code) {
 
 					// if slider is visible
 					if (slider.isVisible()) {
@@ -1034,14 +1033,14 @@ $(function() {
 
 						if (choice.attr('class').indexOf('selected') == -1 ) {
 							choice.addClass('selected');
-							frames[0].livecoding.addJs(_.find(aigua.libraries, function(value) {
+							frames[0].livecoding.addJs(_.find(lc.libraries, function(value) {
 								return value.name == choice.text();
 							}));
 							aigua.setToDirty();
 						}
 						else {
 							choice.removeClass('selected');
-							frames[0].livecoding.removeJs(_.find(aigua.libraries, function(value) {
+							frames[0].livecoding.removeJs(_.find(lc.libraries, function(value) {
 								return value.name == choice.text();
 							}));
 							aigua.setToDirty();
