@@ -43,7 +43,7 @@ var aigua = (function () {
 				mode: modes.getCurrentMode().name,
 
 				// add current mode (e.g. sketchpad mode)
-				layout: aigua.screenLayouts[aigua.currentScreenLayoutIndex]
+				layout: layouts.getCurrent()
 			};
 
 			// don't include resolution if it's set to nothing
@@ -105,7 +105,7 @@ var aigua = (function () {
 					}
 
 					if (!options.layout) {
-						options.layout = aigua.screenLayouts[2];
+						options.layout = layouts.getDefault();
 					}
 
 					if (!options.resolution || options.resolution.indexOf('(') != -1) {
@@ -114,12 +114,13 @@ var aigua = (function () {
 						options.resolution = $('li:contains("' + options.resolution + '")', $('#menu .item h2:contains("resolution")').next());
 					}
 
-					// switch to the default layout
-					aigua.switchLayout(options.layout);
+					// switch to gist layout
+					layouts.switchTo(options.layout);
 
-					// switch to the default resolution
+					// switch to gist resolution
 					aigua.switchResolution(options.resolution);
 
+					// add gist libraries
 					libraries.addMany(options.libraries);
 
 					modes.switchMode('json', true);
@@ -545,42 +546,6 @@ var aigua = (function () {
 		},
 
 		// editor.js ?
-		switchLayout: function(choice) {
-
-			var layoutItems = $('.screenLayout');
-			layoutItems.siblings('.screenLayout').removeClass('disabled');
-			$('.screenLayout:contains("' + choice + '")').addClass('disabled');
-
-			aigua.currentScreenLayoutIndex = _.indexOf(aigua.screenLayouts, choice);
-			aigua.updateScreenLayout();
-			aigua.resetMenu();
-		},
-
-		// editor.js ?
-		switchToNextLayout: function() {
-
-			// if we're on the last one, go to the first one
-			// else go to the next one
-			if (aigua.currentScreenLayoutIndex == aigua.screenLayouts.length - 1) {
-				aigua.switchLayout(aigua.screenLayouts[0]);
-			} else {
-				aigua.switchLayout(aigua.screenLayouts[aigua.currentScreenLayoutIndex + 1]);
-			}
-		},
-
-		// editor.js ?
-		switchToPreviousLayout: function() {
-
-			// if we're on the first one, go to the last one
-			// else go to the previous one
-			if (aigua.currentScreenLayoutIndex == 0) {
-				aigua.switchLayout(aigua.screenLayouts[aigua.screenLayouts.length - 1]);
-			} else {
-				aigua.switchLayout(aigua.screenLayouts[aigua.currentScreenLayoutIndex - 1]);
-			}
-		},
-
-		// editor.js ?
 		switchResolution: function(resolution) {
 
 			resolution.siblings().removeClass('disabled');
@@ -614,74 +579,9 @@ var aigua = (function () {
 			aigua.resetMenu();
 		},
 
-		// editor.js ?
-		updateScreenLayout: function() {
-
-			if (aigua.screenLayouts[aigua.currentScreenLayoutIndex] == 'sketchpad mode') {
-				$('body').find('*').removeClass('full horizontal');
-			} else {
-				$('body').find('*').addClass('full');
-
-				if (aigua.screenLayouts[aigua.currentScreenLayoutIndex] == 'fullscreen mode (horizontal)') {
-					$('body').find('*').addClass('horizontal');
-				}
-				else {
-					$('body').find('*').removeClass('horizontal');
-				}
-			}
-
-			// render the javascript code
-			// but we can't simply call aigua.renderCode(), because
-			// if we're on css mode, it doesn't actually render code
-			// so we either (1) force it by passing an extra param to aigua.renderCode()
-			// or (2) we do it right here
-			// or (3) we create a global variable, like aigua.pause,
-			// and turn it on, run renderCode(), then turn it off
-
-			// we'll choose (2) - do it right here
-
-			// if we're on javascript mode, call rendercode
-			switch(modes.getCurrentMode().name) {
-
-				case 'html':
-					aigua.renderCode();
-					// switch modes to css, without tabbing
-					modes.switchMode('css', true);
-					// switch back to javascript
-					modes.switchMode('html', true);
-				break;
-
-				case 'javascript':
-					aigua.renderCode();
-					// switch modes to css, without tabbing
-					modes.switchMode('css', true);
-					// switch back to javascript
-					modes.switchMode('javascript', true);
-				break;
-
-				case 'css':
-					// switch modes to javascript, without tabbing
-					modes.switchMode('javascript', true);
-					// render code
-					aigua.renderCode();
-					// switch back to css
-					modes.switchMode('css', true);
-				break;
-
-				case 'json':
-					aigua.renderCode();
-					// switch modes to javascript, without tabbing
-					modes.switchMode('javascript', true);
-					// switch back to json
-					modes.switchMode('json', true);
-				break;
-			}
-		},
-
 		areYouSureText: 'Are you sure? You will lose any unsaved changes.',
 		areYouSureSinglePageText: 'Are you sure? Your unsaved changes will not be reflected when viewing as a single page.',
 		currentGistUserId: null,
-		currentScreenLayoutIndex: 1,
 		currentSelectionEnd: null,
 		currentSelectionStart: null,
 		iframeLoaded: null,
@@ -690,7 +590,6 @@ var aigua = (function () {
 		pause: false,
 		pauseExecution: false,
 		pleaseLoginText: 'Please login to save your work under your GitHub username.',
-		screenLayouts: ['fullscreen mode (horizontal)', 'fullscreen mode (vertical)', 'sketchpad mode'],
 		user: null
 
 	}
@@ -756,18 +655,9 @@ $(function() {
 			modes.init();
 
 			// populate screen layout switcher
-			_.each(aigua.screenLayouts, function(layout, index, list) {
+			layouts.init();
 
-				var li = $('<li />');
-				li.text(layout);
-				li.addClass('screenLayout');
-				li.addClass(index == aigua.currentScreenLayoutIndex ? 'disabled' : '');
-
-				$('#menu .item h2:contains("view")').next().prepend(li);
-			});
-
-			$('body').find('*').addClass('full');
-
+			// populate libraries dropdown
 			libraries.init();
 
 			// is there an id in the url?
@@ -934,7 +824,7 @@ $(function() {
 						// did we click on a screen layout item?
 						if (choice.attr('class').indexOf('screenLayout') != -1) {
 
-							aigua.switchLayout(choice.text());
+							layouts.switchTo(choice.text());
 
 						}
 						else {

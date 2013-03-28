@@ -15,8 +15,8 @@ lc.getExtraKeys = function(os) {
 	{extraKeys[os == 'Mac' ? 'Cmd-3' : (os == 'Linux' ? 'Ctrl-3' : 'Ctrl-3')]  = modes.switchToCss};
 	{extraKeys[os == 'Mac' ? 'Cmd-4' : (os == 'Linux' ? 'Ctrl-4' : 'Ctrl-4')]  = modes.switchToJson};
 
-	{extraKeys[os == 'Mac' ? "Cmd-'" : (os == 'Linux' ? "Ctrl-'" : "Ctrl-'")]  = aigua.switchToPreviousLayout};
-	{extraKeys[os == 'Mac' ? 'Cmd-;' : (os == 'Linux' ? 'Ctrl-;' : 'Ctrl-;')]  = aigua.switchToNextLayout};
+	{extraKeys[os == 'Mac' ? "Cmd-'" : (os == 'Linux' ? "Ctrl-'" : "Ctrl-'")]  = layouts.previous};
+	{extraKeys[os == 'Mac' ? 'Cmd-;' : (os == 'Linux' ? 'Ctrl-;' : 'Ctrl-;')]  = layouts.next};
 
 	{extraKeys[os == 'Mac' ? 'Tab'   : (os == 'Linux' ? 'Tab'    : 'Tab')]     = lc.replaceSnippet};
 
