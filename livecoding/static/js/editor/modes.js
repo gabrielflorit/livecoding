@@ -155,7 +155,11 @@ var modes = (function () {
 		getMode: getMode,
 		storeIn: storeIn,
 		switchMode: switchMode,
-		clearAll: clearAll
-	};
+		clearAll: clearAll,
+		switchToCss:        function() { switchMode('css');        },
+		switchToHtml:       function() { switchMode('html');       },
+		switchToJavaScript: function() { switchMode('javascript'); },
+		switchToJson:       function() { switchMode('json');       }
+	}
 
 }());

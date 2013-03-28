@@ -557,26 +557,6 @@ var aigua = (function () {
 		},
 
 		// editor.js ?
-		switchToCss: function() {
-			modes.switchMode('css');
-		},
-
-		// editor.js ?
-		switchToHtml: function() {
-			modes.switchMode('html');
-		},
-
-		// editor.js ?
-		switchToJavaScript: function() {
-			modes.switchMode('javascript');
-		},
-
-		// editor.js ?
-		switchToJson: function() {
-			modes.switchMode('json');
-		},
-
-		// editor.js ?
 		switchToNextLayout: function() {
 
 			// if we're on the last one, go to the first one
