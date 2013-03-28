@@ -35,14 +35,9 @@ var aigua = (function () {
 			var result = {};
 			modes.storeIn(result);
 
-			var selectedLibraries = $('li[class*="selected"]', $('#menu .item h2:contains("libraries")').next());
-
 			var options = {
 
-				// add libraries (e.g. highcharts)
-				libraries: _.map(selectedLibraries, function(value) {
-					return $(value).text();
-				}),
+				libraries: libraries.getSelected(),
 
 				// add current mode (e.g. html)
 				mode: modes.getCurrentMode().name,
@@ -105,11 +100,9 @@ var aigua = (function () {
 						};
 					}
 
-//--------------------------------------------------------------------------------------------------------------------------------------
 					if (!options.mode) {
 						options.mode = modes.getDefaultMode().name;
 					}
-//--------------------------------------------------------------------------------------------------------------------------------------
 
 					if (!options.layout) {
 						options.layout = aigua.screenLayouts[2];
@@ -127,24 +120,7 @@ var aigua = (function () {
 					// switch to the default resolution
 					aigua.switchResolution(options.resolution);
 
-					// iterate over every library in the options object
-					_.each(options.libraries, function(value) {
-
-						var library = value;
-
-						// add library to dom
-						frames[0].livecoding.addJs(_.find(lc.libraries, function(value) {
-							return value.name == library;
-						}));
-
-						// find the library menu item and select it
-						$(_.find($('li', $('#menu .item h2:contains("libraries")').next()), function(value) {
-
-							return $(value).text() == library;
-
-						})).addClass('selected');
-
-					});
+					libraries.addMany(options.libraries);
 
 					modes.switchMode('json', true);
 					if (json) {
@@ -331,15 +307,8 @@ var aigua = (function () {
 			// clear out all the modes (html, css, etc)
 			modes.clearAll();
 
-			// uncheck all items from the libraries dropdown
-			$('li', $('#menu .item h2:contains("libraries")').next()).removeClass('selected');
-
-			// remove all js libraries from DOM
-			_.each(lc.libraries, function(value) {
-				frames[0].livecoding.removeJs(_.find(lc.libraries, function(val) {
-					return val.name == value.name;
-				}));
-			});
+			// remove all js libraries
+			libraries.removeAll();
 
 			modes.switchMode('html');
 		},
@@ -819,14 +788,7 @@ $(function() {
 
 			$('body').find('*').addClass('full');
 
-			// populate libraries dropdown
-			_.each(lc.libraries, function(value) {
-
-				var li = $('<li />');
-				li.text(value.name);
-
-				$('#menu .item h2:contains("libraries")').next().append(li);
-			});
+			libraries.init();
 
 			// is there an id in the url?
 			if (gistId) {
@@ -1031,21 +993,8 @@ $(function() {
 
 					case 'libraries':
 
-						if (choice.attr('class').indexOf('selected') == -1 ) {
-							choice.addClass('selected');
-							frames[0].livecoding.addJs(_.find(lc.libraries, function(value) {
-								return value.name == choice.text();
-							}));
-							aigua.setToDirty();
-						}
-						else {
-							choice.removeClass('selected');
-							frames[0].livecoding.removeJs(_.find(lc.libraries, function(value) {
-								return value.name == choice.text();
-							}));
-							aigua.setToDirty();
-						}
-
+						libraries.toggle(choice.text());
+						aigua.setToDirty();
 						aigua.resetMenu();
 
 					break;
