@@ -17,7 +17,7 @@ var aigua = (function () {
 			var result = aigua.isDirty() ? confirm(aigua.areYouSureText) : true;
 
 			if (result) {
-				aigua.resetScreen();
+				aigua.resetEditor();
 				aigua.resetUrl();
 				aigua.resetMenu();
 
@@ -75,7 +75,7 @@ var aigua = (function () {
 
 			aigua.isLoading = true;
 
-			aigua.resetScreen();
+			aigua.resetEditor();
 			aigua.resetMenu();
 			aigua.setToClean();
 
@@ -302,7 +302,7 @@ var aigua = (function () {
 		},
 
 		// editor.js ?
-		resetScreen: function() {
+		resetEditor: function() {
 
 			// clear out all the modes (html, css, etc)
 			modes.clearAll();
