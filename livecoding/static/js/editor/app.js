@@ -1,7 +1,5 @@
 $(function() {
 
-	$('body').find('*').addClass('full');
-
 	// do a slow fade in
 	$('#main').fadeIn(1000);
 
@@ -274,7 +272,7 @@ $(function() {
 
 					case 'resolution':
 
-						aigua.switchResolution(choice);
+						resolutions.switchTo(choice.text());
 
 					break;
 

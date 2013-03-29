@@ -43,14 +43,10 @@ var aigua = (function () {
 				mode: modes.getCurrentMode().name,
 
 				// add current mode (e.g. sketchpad mode)
-				layout: layouts.getCurrent()
-			};
+				layout: layouts.getCurrent(),
 
-			// don't include resolution if it's set to nothing
-			if (options.resolution != 'reset') {
-				// add current resolution (e.g. 320x480)
-				options.resolution = $('li[class*="disabled"]', $('#menu .item h2:contains("resolution")').next()).text();
-			}
+				resolution: resolutions.getCurrent()
+			};
 
 			result.options = JSON.stringify(options, null, 4); // pretty print
 
@@ -108,17 +104,15 @@ var aigua = (function () {
 						options.layout = layouts.getDefault();
 					}
 
-					if (!options.resolution || options.resolution.indexOf('(') != -1) {
-						options.resolution = $('li:first', $('#menu .item h2:contains("resolution")').next());
-					} else {
-						options.resolution = $('li:contains("' + options.resolution + '")', $('#menu .item h2:contains("resolution")').next());
+					if (!options.resolution) {
+						options.resolution = resolutions.getDefault();
 					}
 
-					// switch to gist layout
+					// switch to layout
 					layouts.switchTo(options.layout);
 
-					// switch to gist resolution
-					aigua.switchResolution(options.resolution);
+					// switch to resolution
+					resolutions.switchTo(options.resolution);
 
 					// add gist libraries
 					libraries.addMany(options.libraries);
@@ -543,40 +537,6 @@ var aigua = (function () {
 		stopAnimate: function() {
 			frames[0].livecoding.stopAnimate();
 			$('#startAnimation').hide();
-		},
-
-		// editor.js ?
-		switchResolution: function(resolution) {
-
-			resolution.siblings().removeClass('disabled');
-			resolution.addClass('disabled');
-
-			// reset
-			if (resolution.text() == 'reset') {
-
-				$('iframe').css('width', '');
-				$('iframe').css('height', '');
-				$('iframe').css('border', '');
-
-			}
-			// set width and height
-			else {
-
-				width = resolution.attr('rel').split('x')[0];
-				height = resolution.attr('rel').split('x')[1];
-
-				$('iframe').css('width', width);
-				$('iframe').css('height', height);
-				$('iframe').css('border', 'solid gray 1px');
-
-				// take into account the scrollbar width
-				while($('html', $('iframe').contents()).width() != width) {
-					$('iframe').css('width', $('iframe').width() + 1);
-				}
-			}
-
-			aigua.renderCode();
-			aigua.resetMenu();
 		},
 
 		areYouSureText: 'Are you sure? You will lose any unsaved changes.',
