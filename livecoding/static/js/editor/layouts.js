@@ -43,9 +43,6 @@ var layouts = (function () {
 
 		updateLayout();
 
-		aigua.resetMenu(); // TODO: is this really necessary here? maybe we should have a menu event listener
-		// that fires resetMenu() whenever we interact with it?
-
 	}
 
 	function updateLayout() {

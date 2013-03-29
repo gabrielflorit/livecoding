@@ -193,7 +193,6 @@ $(function() {
 										aigua.saveAsUser(true);
 									}
 								}
-								aigua.resetMenu();
 							break;
 
 							case 'save as private gist':
@@ -206,12 +205,10 @@ $(function() {
 										aigua.saveAsUser(false);
 									}
 								}
-								aigua.resetMenu();
 							break;
 
 							case 'save as anonymous gist':
 								aigua.saveAnonymously();
-								aigua.resetMenu();
 							break;
 						}
 					break;
@@ -241,7 +238,6 @@ $(function() {
 									if (result) {
 										window.open('/s' + location.pathname, '_blank');
 									}
-									aigua.resetMenu();
 
 								break;
 
@@ -255,8 +251,6 @@ $(function() {
 										choice.removeClass('selected');
 									}
 
-									aigua.resetMenu();
-
 								break;
 
 							}
@@ -269,7 +263,6 @@ $(function() {
 
 						libraries.toggle(choice.text());
 						aigua.setToDirty();
-						aigua.resetMenu();
 
 					break;
 
@@ -285,27 +278,26 @@ $(function() {
 
 							case 'about / source code':
 								window.open('https://github.com/gabrielflorit/livecoding/', '_blank');
-								aigua.resetMenu();
 							break;
 
 							case 'contact':
 								window.open('http://twitter.com/gabrielflorit', '_blank');
-								aigua.resetMenu();
 							break;
 
 							case 'keyboard shortcuts':
 								popup.keyboard();
-								aigua.resetMenu();
 							break;
 
 							case 'google group':
 								window.open('http://groups.google.com/group/livecoding_io', '_blank');
-								aigua.resetMenu();
 							break;
 						}
 
 					break;
 				}
+
+				aigua.resetMenu();
+
 			});
 
 		}; // end of continueLoading()

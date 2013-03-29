@@ -19,7 +19,6 @@ var aigua = (function () {
 			if (result) {
 				aigua.resetEditor();
 				aigua.resetUrl();
-				aigua.resetMenu();
 
 				if (aigua.user && aigua.currentGistUserId == aigua.user.id) {
 					$('#menu li:contains("save as public gist"), #menu li:contains("save as private gist")').removeClass('disabled');
@@ -153,8 +152,6 @@ var aigua = (function () {
 			token = oauthToken;
 			localStorage['aigua.token'] = token;
 
-			aigua.resetMenu();
-
 			$.get('/user/' + token, function(user) {
 				aigua.user = JSON.parse(user);
 				var userh2 = $('#controls .item h2.user');
@@ -177,8 +174,6 @@ var aigua = (function () {
 			token = null;
 			aigua.user = null;
 			localStorage.removeItem('aigua.token');
-
-			aigua.resetMenu();
 
 			var userh2 = $('#controls .item h2.user');
 			userh2.removeAttr('style');

@@ -80,7 +80,6 @@ var resolutions = (function () {
 		}
 
 		aigua.renderCode();
-		aigua.resetMenu();
 
 	}
 
