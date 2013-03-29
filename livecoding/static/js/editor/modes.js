@@ -9,6 +9,23 @@ var modes = (function () {
 		{ name: 'json'      , code: null, cursor: null, scrollInfo: null }
 	];
 
+	function clearAll() {
+
+		// clear javascript first
+		switchTo('javascript', true);
+		aigua.codeMirror.setValue('');
+
+		switchTo('html', true);
+		aigua.codeMirror.setValue('');
+
+		switchTo('css', true);
+		aigua.codeMirror.setValue('');
+
+		switchTo('json', true);
+		aigua.codeMirror.setValue('');
+
+	}
+
 	function get(name) {
 		return _.findWhere(list, {name: name});
 	}
@@ -135,15 +152,6 @@ var modes = (function () {
 		// handle modes switcher
 		$('.item h2', container).on('click', function(e) {
 			switchTo($(this).text());
-		});
-
-	}
-
-	function clearAll() {
-
-		_.each(list, function(value) {
-			switchTo(value.name, true);
-			aigua.codeMirror.setValue('');
 		});
 
 	}
