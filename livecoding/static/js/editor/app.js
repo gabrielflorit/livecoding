@@ -262,7 +262,6 @@ $(function() {
 					case 'libraries':
 
 						libraries.toggle(choice.text());
-						aigua.setToDirty();
 
 					break;
 

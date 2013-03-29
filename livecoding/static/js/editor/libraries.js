@@ -55,6 +55,8 @@ var libraries = (function () {
 			addOne(library);
 		}
 
+		aigua.setToDirty();
+
 	}
 
 	function addOne(library) {
