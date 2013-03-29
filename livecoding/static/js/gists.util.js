@@ -21,7 +21,9 @@ var orderThumbnails = function(node) {
 
 };
 
-var getDisplayDate = function(date) {
+Date.prototype.toDisplayString = function() {
+
+	var date = this;
 
 	var year = Number(date.getFullYear());
 	var month = Number(date.getMonth() + 1);
@@ -38,7 +40,7 @@ var getDisplayDate = function(date) {
 
 	return [[month, day, year].join('·'), hhmm, mode].join(' ');
 
-};
+}
 
 var populateThumbnails = function(data, node, orderByTime, callback) {
 
@@ -62,7 +64,7 @@ var populateThumbnails = function(data, node, orderByTime, callback) {
 			var username = match.username ? match.username : 'anonymous';
 			var date = new Date(match.gists.modified);
 
-			var leftInfo = orderByTime ? getDisplayDate(date) : username;
+			var leftInfo = orderByTime ? date.toDisplayString() : username;
 			var sortField = orderByTime ? date.getTime() : views;
 
 			var html = '';
