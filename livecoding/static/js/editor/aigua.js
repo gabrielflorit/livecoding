@@ -283,6 +283,8 @@ var aigua = (function () {
 		// editor.js ?
 		resetEditor: function() {
 
+			aigua.stopAnimate();
+
 			// clear out all the modes (html, css, etc)
 			modes.clearAll();
 
