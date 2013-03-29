@@ -1,8 +1,8 @@
 var popup = (function () {
 
-	var $popup = $('#popup');
+	var container = $('#popup');
 
-	$('.close', $popup).click(function(e) {
+	$('.close', container).click(function(e) {
 		e.preventDefault();
 		hide();
 	});
@@ -10,19 +10,19 @@ var popup = (function () {
 	function hide(duration) {
 
 		// TODO: why fade out containerItem?
-		$('.containerItem', $popup).fadeOut(duration || 'normal');
-		$popup.fadeOut(duration || 'normal');
+		$('.containerItem', container).fadeOut(duration || 'normal');
+		container.fadeOut(duration || 'normal');
 
 	}
 
 	function loading() {
-		$('.loading', $popup).fadeIn();
-		$popup.fadeIn();
+		$('.loading', container).fadeIn();
+		container.fadeIn();
 	}
 
 	function keyboard() {
-		$('.keyboard', $popup).fadeIn();
-		$popup.fadeIn();
+		$('.keyboard', container).fadeIn();
+		container.fadeIn();
 	}
 
 	function init(shortcuts) {
@@ -45,11 +45,11 @@ var popup = (function () {
 			});
 
 			if (index % 2 == 0) {
-				$('.keyboard .left', $popup).append(h3);
-				$('.keyboard .left', $popup).append(ul);
+				$('.keyboard .left', container).append(h3);
+				$('.keyboard .left', container).append(ul);
 			} else {
-				$('.keyboard .right', $popup).append(h3);
-				$('.keyboard .right', $popup).append(ul);
+				$('.keyboard .right', container).append(h3);
+				$('.keyboard .right', container).append(ul);
 			}
 
 		});
