@@ -1,28 +1,26 @@
 var modes = (function () {
 
-	var currentModeName = 'html';
+	var	container = $('#modes');
 
-	var	modes = [
+	var	list = [
 		{ name: 'html'      , code: null, cursor: null, scrollInfo: null },
 		{ name: 'javascript', code: null, cursor: null, scrollInfo: null },
 		{ name: 'css'       , code: null, cursor: null, scrollInfo: null },
 		{ name: 'json'      , code: null, cursor: null, scrollInfo: null }
 	];
 
-	var container;
-
 	function get(mode) {
-		return _.findWhere(modes, {name: mode});
+		return _.findWhere(list, {name: mode});
 	}
 
 	function getCurrent() {
-		return get(currentModeName);
+		return $('h2[class*="active"]', container).text();
 	}
 
 	function switchTo(name, noTab) {
 
 		if (!name) {
-			name = currentModeName;
+			name = list[0].name;
 		}
 
 		// pause aigua: disable code evals from happening on codemirror changes
@@ -45,9 +43,6 @@ var modes = (function () {
 
 		// save scroll info
 		currentMode.scrollInfo = aigua.codeMirror.getScrollInfo();
-
-		// set current mode to new mode
-		currentModeName = name;
 
 		currentMode = getCurrent();
 
@@ -93,7 +88,7 @@ var modes = (function () {
 
 	function storeIn(payload) {
 
-		_.each(modes, function(v) {
+		_.each(list, function(v) {
 
 			// get the mode's name
 			var name = v.name;
@@ -108,7 +103,7 @@ var modes = (function () {
 
 				// since we're not on the current mode, the contents
 				// will be saved on the mode object
-				payload[name] = _.findWhere(modes, {name: name}).code;
+				payload[name] = _.findWhere(list, {name: name}).code;
 			}
 
 		});
@@ -117,16 +112,14 @@ var modes = (function () {
 
 	function init() {
 
-		container = $('#modes');
-
 		// populate mode switcher
-		_.each(modes, function(mode) {
+		_.each(list, function(mode, i) {
 
 			var div = $("<div class='item'></div>");
 			var h2 = $("<h2></h2>");
 			div.append(h2);
 
-			h2.addClass(mode.name == currentModeName ? 'active' : 'passive');
+			h2.addClass(i == 0 ? 'active' : 'passive');
 			h2.text(mode.name);
 
 			container.append(div);
@@ -141,7 +134,7 @@ var modes = (function () {
 
 	function clearAll() {
 
-		_.each(modes, function(value) {
+		_.each(list, function(value) {
 			switchTo(value.name, true);
 			aigua.codeMirror.setValue('');
 		});
