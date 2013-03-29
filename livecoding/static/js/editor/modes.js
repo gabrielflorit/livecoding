@@ -9,29 +9,26 @@ var modes = (function () {
 		{ name: 'json'      , code: null, cursor: null, scrollInfo: null }
 	];
 
-	function get(mode) {
-		return _.findWhere(list, {name: mode});
+	function get(name) {
+		return _.findWhere(list, {name: name});
 	}
 
 	function getCurrent() {
-		return $('h2[class*="active"]', container).text();
+		return get($('h2[class*="active"]', container).text());
 	}
 
+	// TODO: maybe noTab is not needed after all?
 	function switchTo(name, noTab) {
 
 		if (!name) {
 			name = list[0].name;
 		}
 
+		// TODO: no need to do most of this if we're switching to this same mode
+		// on the other hand, how often will that scenario happen?
+
 		// pause aigua: disable code evals from happening on codemirror changes
 		aigua.pause = true;
-
-		// if noTab is true, don't highlight/dehighlight the mode tabs
-		if (!noTab) {
-
-			$('h2', container).not(":contains('" + name + "')").addClass('passive').removeClass('active');
-			$("h2:contains('" + name + "')", container).addClass('active').removeClass('passive');
-		}
 
 		var currentMode = getCurrent();
 
@@ -43,6 +40,16 @@ var modes = (function () {
 
 		// save scroll info
 		currentMode.scrollInfo = aigua.codeMirror.getScrollInfo();
+
+		// if noTab is true, don't highlight/dehighlight the mode tabs
+		// TODO: this is a problem. when noTab is true,
+		// the following bit doesn't execute, which means the h2 doesn't get set yet,
+		// which means when we try to get current mode, it will still be the old one
+		// if (!noTab) {
+
+		$('h2', container).not(":contains('" + name + "')").addClass('passive').removeClass('active');
+		$("h2:contains('" + name + "')", container).addClass('active').removeClass('passive');
+		// }
 
 		currentMode = getCurrent();
 

@@ -3,6 +3,7 @@ var resolutions = (function () {
 	var	container = $('#menu .item h2:contains("resolution")').next();
 
 	var list = [
+		'reset',
 		'320 x 480',
 		'480 x 320',
 		'768 x 1024',
@@ -20,7 +21,10 @@ var resolutions = (function () {
 				li.addClass('disabled');
 			}
 
-			li.attr('rel', v.replace(' ', ''));
+			if (v.indexOf('x') != -1) {
+				li.attr('rel', v.replace(' ', ''));
+			}
+	
 			li.text(v);
 
 			container.append(li);
