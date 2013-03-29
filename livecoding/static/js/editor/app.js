@@ -55,11 +55,14 @@ $(function() {
 			// populate mode switcher
 			modes.init();
 
-			// populate screen layout switcher
+			// populate layouts dropdown
 			layouts.init();
 
 			// populate libraries dropdown
 			libraries.init();
+
+			// populate resolutions dropdown
+			resolutions.init();
 
 			// is there an id in the url?
 			if (gistId) {

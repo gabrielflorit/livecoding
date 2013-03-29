@@ -45,6 +45,7 @@ var aigua = (function () {
 				// add current mode (e.g. sketchpad mode)
 				layout: layouts.getCurrent(),
 
+				// add current resolution (e.g. 320 x 480)
 				resolution: resolutions.getCurrent()
 			};
 
@@ -96,18 +97,6 @@ var aigua = (function () {
 						};
 					}
 
-					if (!options.mode) {
-						options.mode = modes.getDefaultMode().name;
-					}
-
-					if (!options.layout) {
-						options.layout = layouts.getDefault();
-					}
-
-					if (!options.resolution) {
-						options.resolution = resolutions.getDefault();
-					}
-
 					// switch to layout
 					layouts.switchTo(options.layout);
 
@@ -117,29 +106,29 @@ var aigua = (function () {
 					// add gist libraries
 					libraries.addMany(options.libraries);
 
-					modes.switchMode('json', true);
+					modes.switchTo('json', true);
 					if (json) {
 						aigua.codeMirror.setValue(json.content);
 					}
 
-					modes.switchMode('css', true);
+					modes.switchTo('css', true);
 					if (css) {
 						aigua.codeMirror.setValue(css.content);
 					}
 
-					modes.switchMode('html', true);
+					modes.switchTo('html', true);
 					if (html) {
 						aigua.codeMirror.setValue(html.content);
 					}
 
-					modes.switchMode('javascript');
+					modes.switchTo('javascript');
 					if (javascript) {
 						aigua.codeMirror.setValue(javascript.content);
 						aigua.codeMirror.setValue(javascript.content); // don't know why i have to do this twice
 					}
 
-					// switch to the default mode
-					modes.switchMode(options.mode);
+					// switch to mode
+					modes.switchTo(options.mode);
 
 					aigua.setUrl(gistId, versionId);
 
@@ -229,14 +218,14 @@ var aigua = (function () {
 						$('body #livecoding-main', $('iframe').contents()).html(code);
 
 						// run the javascript code
-						frames[0].livecoding.renderCode(modes.getMode('javascript').code || '');
+						frames[0].livecoding.renderCode(modes.get('javascript').code || '');
 		
 					break;
 
 					case 'javascript':
 
 						// replace html
-						$('body #livecoding-main', $('iframe').contents()).html(modes.getMode('html').code || '');
+						$('body #livecoding-main', $('iframe').contents()).html(modes.get('html').code || '');
 
 						// run the javascript code
 						frames[0].livecoding.renderCode(code);
@@ -249,10 +238,10 @@ var aigua = (function () {
 						$('#style', $('iframe').contents()).get(0).textContent = code;
 
 						// replace html
-						$('body #livecoding-main', $('iframe').contents()).html(modes.getMode('html').code || '');
+						$('body #livecoding-main', $('iframe').contents()).html(modes.get('html').code || '');
 
 						// run the javascript code
-						frames[0].livecoding.renderCode(modes.getMode('javascript').code || '');
+						frames[0].livecoding.renderCode(modes.get('javascript').code || '');
 
 					break;
 
@@ -266,10 +255,10 @@ var aigua = (function () {
 								frames[0].livecoding.json = JSON.parse(code);
 
 								// replace html
-								$('body #livecoding-main', $('iframe').contents()).html(modes.getMode('html').code || '');
+								$('body #livecoding-main', $('iframe').contents()).html(modes.get('html').code || '');
 
 								// run the javascript code
-								frames[0].livecoding.renderCode(modes.getMode('javascript').code || '');
+								frames[0].livecoding.renderCode(modes.get('javascript').code || '');
 			
 							}
 							catch (error) {
@@ -305,7 +294,7 @@ var aigua = (function () {
 			// remove all js libraries
 			libraries.removeAll();
 
-			modes.switchMode('html');
+			modes.switchTo('html');
 		},
 
 		// editor.js ?

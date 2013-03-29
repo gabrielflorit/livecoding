@@ -22,7 +22,7 @@ var libraries = (function () {
 
 	function init() {
 
-		// populate libraries dropdown
+		// populate dropdown
 		var html = _.map(list, function(v) {
 			return '<li>' + v.name + '</li>';
 		}).join('');
@@ -33,7 +33,7 @@ var libraries = (function () {
 
 	function getSelected() {
 
-		// get checked items from the libraries dropdown
+		// get checked items from the dropdown
 		var selectedLibraries = $('li[class*="selected"]', container);
 		return _.map(selectedLibraries, function(value) {
 			return $(value).text();

@@ -1,10 +1,32 @@
 var resolutions = (function () {
 
-	var container;
+	var	container = $('#menu .item h2:contains("resolution")').next();
+
+	var list = [
+		'320 x 480',
+		'480 x 320',
+		'768 x 1024',
+		'1024 x 768'
+	];
 
 	function init() {
 
-		container = $('#menu .item h2:contains("resolution")').next();
+		// populate dropdown
+		_.each(list, function(v, i) {
+
+			var li = $('<li />');
+
+			if (i == 0) {
+				li.addClass('disabled');
+			}
+
+			li.attr('rel', v.replace(' ', ''));
+			li.text(v);
+
+			container.append(li);
+
+		});
+
 	}
 
 	function getCurrent() {
@@ -13,13 +35,11 @@ var resolutions = (function () {
 
 	}
 
-	function getDefault() {
-
-		return $('li:first', container).text();
-
-	}
-
 	function switchTo(resolution) {
+
+		if (!resolution) {
+			resolution = $('li:first', container).text();
+		}
 
 		$('li', container)
 			.removeClass('disabled')
@@ -64,7 +84,6 @@ var resolutions = (function () {
 
 		init: init,
 		getCurrent: getCurrent,
-		getDefault: getDefault,
 		switchTo: switchTo
 
 	}

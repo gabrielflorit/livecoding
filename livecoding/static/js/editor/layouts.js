@@ -1,7 +1,6 @@
 var layouts = (function () {
 
 	var container = $('#menu .item h2:contains("view")').next();
-	var	currentLayoutIndex = 1;
 
 	var list = [
 		'fullscreen mode (horizontal)',
@@ -17,7 +16,7 @@ var layouts = (function () {
 			var li = $('<li />');
 			li.text(v);
 			li.addClass('screenLayout');
-			li.addClass(i == currentLayoutIndex ? 'disabled' : '');
+			li.addClass(i == 1 ? 'disabled' : '');
 
 			container.prepend(li);
 		});
@@ -27,20 +26,21 @@ var layouts = (function () {
 	}
 
 	function getCurrent() {
-		return list[currentLayoutIndex];
-	}
 
-	function getDefault() {
-		return list[1];
+		return $('li[class*="disabled"]', container).text();
+
 	}
 
 	function switchTo(layout) {
+
+		if (!layout) {
+			layout = getCurrent();
+		}
 
 		var layoutItems = $('.screenLayout');
 		layoutItems.siblings('.screenLayout').removeClass('disabled');
 		$('.screenLayout:contains("' + layout + '")').addClass('disabled');
 
-		currentLayoutIndex = _.indexOf(list, layout);
 		updateLayout();
 
 		aigua.resetMenu(); // TODO: is this really necessary here? maybe we should have a menu event listener
@@ -80,34 +80,34 @@ var layouts = (function () {
 			case 'html':
 				aigua.renderCode();
 				// switch modes to css, without tabbing
-				modes.switchMode('css', true);
+				modes.switchTo('css', true);
 				// switch back
-				modes.switchMode('html', true);
+				modes.switchTo('html', true);
 			break;
 
 			case 'javascript':
 				aigua.renderCode();
 				// switch modes to css, without tabbing
-				modes.switchMode('css', true);
+				modes.switchTo('css', true);
 				// switch back
-				modes.switchMode('javascript', true);
+				modes.switchTo('javascript', true);
 			break;
 
 			case 'css':
 				// switch modes to javascript, without tabbing
-				modes.switchMode('javascript', true);
+				modes.switchTo('javascript', true);
 				// render code
 				aigua.renderCode();
 				// switch back
-				modes.switchMode('css', true);
+				modes.switchTo('css', true);
 			break;
 
 			case 'json':
 				aigua.renderCode();
 				// switch modes to javascript, without tabbing
-				modes.switchMode('javascript', true);
+				modes.switchTo('javascript', true);
 				// switch back
-				modes.switchMode('json', true);
+				modes.switchTo('json', true);
 			break;
 		}
 
@@ -115,20 +115,24 @@ var layouts = (function () {
 
 	function next() {
 
-		if (currentLayoutIndex == list.length - 1) {
+		var index = _.indexOf(list, getCurrent());
+
+		if (index == list.length - 1) {
 			layouts.switchTo(_.first(list));
 		} else {
-			layouts.switchTo(list[currentLayoutIndex + 1]);
+			layouts.switchTo(list[index + 1]);
 		}
 
 	}
 
 	function previous() {
 
-		if (currentLayoutIndex == 0) {
+		var index = _.indexOf(list, getCurrent());
+
+		if (index == 0) {
 			layouts.switchTo(_.last(list));
 		} else {
-			layouts.switchTo(list[currentLayoutIndex - 1]);
+			layouts.switchTo(list[index - 1]);
 		}
 
 	}
@@ -136,7 +140,6 @@ var layouts = (function () {
 	return {
 		init: init,
 		getCurrent: getCurrent,
-		getDefault: getDefault,
 		switchTo: switchTo,
 		next: next,
 		previous: previous

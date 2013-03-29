@@ -11,19 +11,19 @@ var modes = (function () {
 
 	var container;
 
-	function getDefaultMode() {
-		return getMode('html');
-	}
-
-	function getMode(mode) {
+	function get(mode) {
 		return _.findWhere(modes, {name: mode});
 	}
 
 	function getCurrent() {
-		return getMode(currentModeName);
+		return get(currentModeName);
 	}
 
-	function switchMode(mode, noTab) {
+	function switchTo(name, noTab) {
+
+		if (!name) {
+			name = currentModeName;
+		}
 
 		// pause aigua: disable code evals from happening on codemirror changes
 		aigua.pause = true;
@@ -31,8 +31,8 @@ var modes = (function () {
 		// if noTab is true, don't highlight/dehighlight the mode tabs
 		if (!noTab) {
 
-			$('h2', container).not(":contains('" + mode + "')").addClass('passive').removeClass('active');
-			$("h2:contains('" + mode + "')", container).addClass('active').removeClass('passive');
+			$('h2', container).not(":contains('" + name + "')").addClass('passive').removeClass('active');
+			$("h2:contains('" + name + "')", container).addClass('active').removeClass('passive');
 		}
 
 		var currentMode = getCurrent();
@@ -47,7 +47,7 @@ var modes = (function () {
 		currentMode.scrollInfo = aigua.codeMirror.getScrollInfo();
 
 		// set current mode to new mode
-		currentModeName = mode;
+		currentModeName = name;
 
 		currentMode = getCurrent();
 
@@ -134,7 +134,7 @@ var modes = (function () {
 
 		// handle modes switcher
 		$('.item h2', container).on('click', function(e) {
-			switchMode($(this).text());
+			switchTo($(this).text());
 		});
 
 	}
@@ -142,7 +142,7 @@ var modes = (function () {
 	function clearAll() {
 
 		_.each(modes, function(value) {
-			switchMode(value.name, true);
+			switchTo(value.name, true);
 			aigua.codeMirror.setValue('');
 		});
 
@@ -151,15 +151,14 @@ var modes = (function () {
 	return {
 		init: init,
 		getCurrent: getCurrent,
-		getDefaultMode: getDefaultMode,
-		getMode: getMode,
+		get: get,
 		storeIn: storeIn,
-		switchMode: switchMode,
+		switchTo: switchTo,
 		clearAll: clearAll,
-		switchToCss:        function() { switchMode('css');        },
-		switchToHtml:       function() { switchMode('html');       },
-		switchToJavaScript: function() { switchMode('javascript'); },
-		switchToJson:       function() { switchMode('json');       }
+		switchToCss:        function() { switchTo('css');        },
+		switchToHtml:       function() { switchTo('html');       },
+		switchToJavaScript: function() { switchTo('javascript'); },
+		switchToJson:       function() { switchTo('json');       }
 	}
 
 }());
