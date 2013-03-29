@@ -75,7 +75,7 @@ var layouts = (function () {
 
 		// we'll choose (2) - do it right here
 
-		switch(modes.getCurrentMode().name) {
+		switch(modes.getCurrent().name) {
 
 			case 'html':
 				aigua.renderCode();

@@ -19,7 +19,7 @@ var modes = (function () {
 		return _.findWhere(modes, {name: mode});
 	}
 
-	function getCurrentMode() {
+	function getCurrent() {
 		return getMode(currentModeName);
 	}
 
@@ -35,7 +35,7 @@ var modes = (function () {
 			$("h2:contains('" + mode + "')", container).addClass('active').removeClass('passive');
 		}
 
-		var currentMode = getCurrentMode();
+		var currentMode = getCurrent();
 
 		// save current code
 		currentMode.code = aigua.codeMirror.getValue();
@@ -49,7 +49,7 @@ var modes = (function () {
 		// set current mode to new mode
 		currentModeName = mode;
 
-		currentMode = getCurrentMode();
+		currentMode = getCurrent();
 
 		// populate the code mirror tab with the new mode's code
 		aigua.codeMirror.setValue(currentMode.code || '');
@@ -99,7 +99,7 @@ var modes = (function () {
 			var name = v.name;
 
 			// is this the current mode?
-			if (getCurrentMode().name == name) {
+			if (getCurrent().name == name) {
 
 				// save the mode's contents directly from codemirror
 				payload[name] = aigua.codeMirror.getValue();
@@ -150,7 +150,7 @@ var modes = (function () {
 
 	return {
 		init: init,
-		getCurrentMode: getCurrentMode,
+		getCurrent: getCurrent,
 		getDefaultMode: getDefaultMode,
 		getMode: getMode,
 		storeIn: storeIn,

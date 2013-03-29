@@ -40,7 +40,7 @@ var aigua = (function () {
 				libraries: libraries.getSelected(),
 
 				// add current mode (e.g. html)
-				mode: modes.getCurrentMode().name,
+				mode: modes.getCurrent().name,
 
 				// add current mode (e.g. sketchpad mode)
 				layout: layouts.getCurrent(),
@@ -219,7 +219,7 @@ var aigua = (function () {
 			if (!aigua.pauseExecution) {
 
 				var code = aigua.codeMirror.getValue();
-				var currentMode = modes.getCurrentMode();
+				var currentMode = modes.getCurrent();
 
 				switch (currentMode.name) {
 
@@ -337,7 +337,7 @@ var aigua = (function () {
 				// handle colors
 				if (token.string.length > 1) {
 
-					switch (modes.getCurrentMode().name) {
+					switch (modes.getCurrent().name) {
 
 						case 'javascript':
 							hex = token.string.substring(1, token.string.length - 1);
