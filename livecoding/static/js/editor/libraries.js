@@ -72,7 +72,7 @@ var libraries = (function () {
 	function removeOne(library) {
 
 		// remove library from dom
-		frames[0].livecoding.addJs(library);
+		frames[0].livecoding.removeJs(library);
 
 		// find the library menu item and deselect it
 		$('li', container).filter(function() {
