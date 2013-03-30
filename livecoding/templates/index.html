@@ -8,10 +8,18 @@
 	<title>livecoding</title>
 	<meta name="description" content="livecoding is an interactive sketchpad. Code modifications are instantly displayed - no need to refresh your browser. Click on a number, adjust its value via the popup slider, and watch your work change on the fly! 100% totally based on Bret Victor's Inventing on Principle talk.">
 
-	<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-	<link rel="stylesheet" href="{{ url_for('static', filename='js/libs/codemirror/codemirror.css') }}">
-	<link rel="stylesheet" href="{{ url_for('static', filename='js/libs/codemirror/theme/lesser-dark.css') }}">
-	<link rel="stylesheet" href="{{ url_for('static', filename='css/jquery.miniColors.css') }}">
+	<!--[if !IE]>-->
+	
+		<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+		<link rel="stylesheet" href="{{ url_for('static', filename='js/libs/codemirror/codemirror.css') }}">
+		<link rel="stylesheet" href="{{ url_for('static', filename='js/libs/codemirror/theme/lesser-dark.css') }}">
+		<link rel="stylesheet" href="{{ url_for('static', filename='css/jquery.miniColors.css') }}">
+	
+	<!--<![endif]-->
+
+	<!--[if IE]>
+		<link rel="stylesheet" href="{{ url_for('static', filename='css/ie9.css') }}" />
+	<![endif]-->
 
 	<script type="text/javascript">
 
@@ -28,6 +36,11 @@
 	</script>
 </head>
 <body>
+
+	<div id='no' style='display: none'>
+		<span>livecoding</span> doesn't support your browser. Please switch to a modern browser such as <a href='http://www.google.com/chrome'>Chrome</a>, <a href='http://www.mozilla.org/en-US/firefox/new'>Firefox</a>, <a href='http://www.opera.com'>Opera</a>, or <a href='http://ie.microsoft.com'>Internet Explorer 10</a>.
+	</div>
+
 	<div id='popup'>
 
 		<div class='container'>
@@ -158,40 +171,43 @@
 	<footer>
 	</footer>
 
-	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+	<!--[if !IE]>-->
 
-	<script src="{{ url_for('static', filename='js/libs/codemirror/codemirror.js') }}"></script>
-	<script src="{{ url_for('static', filename='js/libs/codemirror/utils/loadmode.js') }}"></script>
-	<script src="{{ url_for('static', filename='js/libs/codemirror/mode/javascript.js') }}"></script>
-	<script src="{{ url_for('static', filename='js/libs/codemirror/mode/css.js') }}"></script>
-	<script src="{{ url_for('static', filename='js/libs/codemirror/mode/xml.js') }}"></script>
-	<script src="{{ url_for('static', filename='js/libs/codemirror/mode/htmlmixed.js') }}"></script>
-	<script src="{{ url_for('static', filename='js/libs/codemirror/utils/foldcode.js') }}"></script>
-	<script src="{{ url_for('static', filename='js/libs/codemirror/utils/formatting.js') }}"></script>
+		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
 
-	<script src="{{ url_for('static', filename='js/libs/jquery-ui-1.8.20.custom.min.js') }}"></script>
-	<script src="{{ url_for('static', filename='js/libs/Underscore.js') }}"></script>
-	<script src="{{ url_for('static', filename='js/libs/browserDetect.js') }}"></script>
-	<script src="{{ url_for('static', filename='js/libs/jquery.miniColors.min.js') }}"></script>
-	<script src="{{ url_for('static', filename='js/libs/jquery.history.js') }}"></script>
+		<script src="{{ url_for('static', filename='js/libs/codemirror/codemirror.js') }}"></script>
+		<script src="{{ url_for('static', filename='js/libs/codemirror/utils/loadmode.js') }}"></script>
+		<script src="{{ url_for('static', filename='js/libs/codemirror/mode/javascript.js') }}"></script>
+		<script src="{{ url_for('static', filename='js/libs/codemirror/mode/css.js') }}"></script>
+		<script src="{{ url_for('static', filename='js/libs/codemirror/mode/xml.js') }}"></script>
+		<script src="{{ url_for('static', filename='js/libs/codemirror/mode/htmlmixed.js') }}"></script>
+		<script src="{{ url_for('static', filename='js/libs/codemirror/utils/foldcode.js') }}"></script>
+		<script src="{{ url_for('static', filename='js/libs/codemirror/utils/formatting.js') }}"></script>
 
-	<script src="{{ url_for('static', filename='js/editor/libraries.js') }}"></script>
-	<script src="{{ url_for('static', filename='js/editor/snippets.js') }}"></script>
-	<script src="{{ url_for('static', filename='js/editor/commenting.js') }}"></script>
-	<script src="{{ url_for('static', filename='js/editor/sliderKey.js') }}"></script>
-	<script src="{{ url_for('static', filename='js/editor/extraKeys.js') }}"></script>
-	<script src="{{ url_for('static', filename='js/editor/shortcuts.js') }}"></script>
-	<script src="{{ url_for('static', filename='js/editor/extensions.js') }}"></script>
-	<script src="{{ url_for('static', filename='js/editor/misc.js') }}"></script>
-	<script src="{{ url_for('static', filename='js/editor/slider.js') }}"></script>
-	<script src="{{ url_for('static', filename='js/editor/popup.js') }}"></script>
-	<script src="{{ url_for('static', filename='js/editor/codeMirrorUtil.js') }}"></script>
-	<script src="{{ url_for('static', filename='js/editor/modes.js') }}"></script>
-	<script src="{{ url_for('static', filename='js/editor/libraries.js') }}"></script>
-	<script src="{{ url_for('static', filename='js/editor/layouts.js') }}"></script>
-	<script src="{{ url_for('static', filename='js/editor/resolutions.js') }}"></script>
-	<script src="{{ url_for('static', filename='js/editor/aigua.js') }}"></script>
+		<script src="{{ url_for('static', filename='js/libs/jquery-ui-1.8.20.custom.min.js') }}"></script>
+		<script src="{{ url_for('static', filename='js/libs/Underscore.js') }}"></script>
+		<script src="{{ url_for('static', filename='js/libs/browserDetect.js') }}"></script>
+		<script src="{{ url_for('static', filename='js/libs/jquery.miniColors.min.js') }}"></script>
 
-	<script src="{{ url_for('static', filename='js/editor/app.js') }}"></script>
+		<script src="{{ url_for('static', filename='js/editor/libraries.js') }}"></script>
+		<script src="{{ url_for('static', filename='js/editor/snippets.js') }}"></script>
+		<script src="{{ url_for('static', filename='js/editor/commenting.js') }}"></script>
+		<script src="{{ url_for('static', filename='js/editor/sliderKey.js') }}"></script>
+		<script src="{{ url_for('static', filename='js/editor/extraKeys.js') }}"></script>
+		<script src="{{ url_for('static', filename='js/editor/shortcuts.js') }}"></script>
+		<script src="{{ url_for('static', filename='js/editor/extensions.js') }}"></script>
+		<script src="{{ url_for('static', filename='js/editor/misc.js') }}"></script>
+		<script src="{{ url_for('static', filename='js/editor/slider.js') }}"></script>
+		<script src="{{ url_for('static', filename='js/editor/popup.js') }}"></script>
+		<script src="{{ url_for('static', filename='js/editor/codeMirrorUtil.js') }}"></script>
+		<script src="{{ url_for('static', filename='js/editor/modes.js') }}"></script>
+		<script src="{{ url_for('static', filename='js/editor/libraries.js') }}"></script>
+		<script src="{{ url_for('static', filename='js/editor/layouts.js') }}"></script>
+		<script src="{{ url_for('static', filename='js/editor/resolutions.js') }}"></script>
+		<script src="{{ url_for('static', filename='js/editor/aigua.js') }}"></script>
+
+		<script src="{{ url_for('static', filename='js/editor/app.js') }}"></script>
+
+	<!--<![endif]-->
 </body>
 </html>

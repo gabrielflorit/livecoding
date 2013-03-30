@@ -1,0 +1,25 @@
+body {
+	background: #262626;
+}
+
+#main {
+	display: none !important;
+}
+
+#popup {
+	display: none;
+}
+
+#no {
+	display: block !important;
+	color: white;
+	font-family: 'Consolas', 'Bitstream Vera Sans Mono', 'DejaVu Sans Mono', 'Monaco', Courier, monospace;
+	font-size: 2em;
+	margin: 4em 0 0 0;
+	text-align: center;
+}
+
+#no a {
+	text-shadow: 0 0 8px #BCD279;
+	color: #9AB83E;
+}
