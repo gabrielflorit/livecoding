@@ -83,8 +83,6 @@ var modes = (function () {
 			aigua.codeMirror.scrollTo(currentMode.scrollInfo.x, currentMode.scrollInfo.y);
 		}
 
-		aigua.codeMirror.focus();
-
 		// change codemirror's language syntax to the new mode
 		var codeMirrorOptionMode, codeMirrorLoadMode;
 
@@ -162,11 +160,7 @@ var modes = (function () {
 		get: get,
 		storeIn: storeIn,
 		switchTo: switchTo,
-		clearAll: clearAll,
-		switchToCss:        function() { switchTo('css');        },
-		switchToHtml:       function() { switchTo('html');       },
-		switchToJavaScript: function() { switchTo('javascript'); },
-		switchToJson:       function() { switchTo('json');       }
+		clearAll: clearAll
 	}
 
 }());

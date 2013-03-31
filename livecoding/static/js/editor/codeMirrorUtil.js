@@ -73,7 +73,7 @@ lc.codeMirrorInit = function(element, extraKeys) {
 		// enable code folding
 		onGutterClick: CodeMirror.newFoldFunction(CodeMirror.braceRangeFinder),
 
-		// this object holds a reference to the slider key and extra keys we defined above
+		// this object holds a reference to extra keys
 		extraKeys: extraKeys,
 
 		// show line numbers
