@@ -77,6 +77,11 @@ $(function() {
 				// yes - load its contents
 				aigua.loadGist(gistId, versionId);
 
+			} else {
+
+				// do this to force proper height on editor
+				aigua.codeMirror.setValue('');
+
 			}
 
 			// ----------- event handlers section ----------------------
