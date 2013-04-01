@@ -291,7 +291,7 @@ var aigua = (function () {
 			// remove all js libraries
 			libraries.removeAll();
 
-			modes.switchTo('html');
+			modes.switchTo('javascript');
 		},
 
 		// editor.js ?
