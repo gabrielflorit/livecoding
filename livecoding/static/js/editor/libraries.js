@@ -3,45 +3,78 @@ var libraries = (function () {
 	var container = $('#menu .item h2:contains("libraries")').next();
 
 	var list = [
-		{ name: 'd3'       , version: '3.1.4' },
-		{ name: 'KineticJS', version: '4.4.0' }
-		// { name: '', file: '.js', version: '' },
-		// { name: '', file: '.js', version: '' },
-		// { name: '', file: '.js', version: '' },
-		// { name: '', file: '.js', version: '' },
-		// { name: '', file: '.js', version: '' },
-		// { name: '', file: '.js', version: '' },
-		// { name: '', file: '.js', version: '' },
-		// { name: '', file: '.js', version: '' },
-		// { name: '', file: '.js', version: '' },
-		// { name: '', file: '.js', version: '' },
-		// { name: '', file: '.js', version: '' },
-		// { name: '', file: '.js', version: '' },
-		// { name: '', file: '.js', version: '' },
-		// { name: '', file: '.js', version: '' },
-		// { name: '', file: '.js', version: '' },
-		// { name: 'crossfilter'      , obj: 'crossfilter' },
-		// { name: 'd3'               , obj: 'd3' },
-		// { name: 'iScroll'          , obj: 'iScroll' },
-		// { name: 'Handlebars'       , obj: 'Handlebars' },
-		// { name: 'Highcharts'       , obj: 'Highcharts' },
-		// { name: 'KineticJS'        , obj: 'Kinetic' },
-		// { name: 'jQuery.Flickable' , obj: '$.fn.flickable' },
-		// { name: 'jQuery.TouchSwipe', obj: '$.fn.swipe' },
-		// { name: 'Leaflet'          , obj: 'L' },
-		// { name: 'Raphael'          , obj: 'Raphael' },
-		// { name: 'SwipeView'        , obj: 'SwipeView' },
-		// { name: 'Processing'       , obj: 'Processing' },
-		// { name: 'three.js'         , obj: 'THREE' },
-		// { name: 'TopoJSON'         , obj: 'topojson' },
-		// { name: 'Underscore'       , obj: '_' }
+	    {
+	        "name": "crossfilter",
+	        "obj": "crossfilter",
+	        "version": "1.1.3"
+	    },
+	    {
+	        "name": "CreateJS",
+	        "obj": "createjs",
+	        "version": "2013.02.12"
+	    },
+	    {
+	        "name": "d3",
+	        "obj": "d3",
+	        "version": "3.1.4"
+	    },
+	    {
+	        "name": "Handlebars",
+	        "obj": "Handlebars",
+	        "version": "1.0.0-rc.3"
+	    },
+	    {
+	        "name": "Highcharts",
+	        "obj": "Highcharts",
+	        "version": "3.0.0"
+	    },
+	    {
+	        "name": "KineticJS",
+	        "obj": "Kinetic",
+	        "version": "4.4.0"
+	    },
+	    {
+	        "name": "Leaflet",
+	        "obj": "L",
+	        "version": "0.6-dev"
+	    },
+	    {
+	        "name": "Processing",
+	        "obj": "Processing",
+	        "version": "1.4.1-API"
+	    },
+	    {
+	        "name": "Raphael",
+	        "obj": "Raphael",
+	        "version": "2.1.0"
+	    },
+	    {
+	        "name": "Rickshaw",
+	        "obj": "Rickshaw",
+	        "version": "1.1.2"
+	    },
+	    {
+	        "name": "three.js",
+	        "obj": "THREE",
+	        "version": "57"
+	    },
+	    {
+	        "name": "TopoJSON",
+	        "obj": "topojson",
+	        "version": "0.0.39"
+	    },
+	    {
+	        "name": "Underscore",
+	        "obj": "_",
+	        "version": "1.4.4"
+	    }
 	];
 
 	function init() {
 
 		// populate dropdown
 		var html = _.map(list, function(v) {
-			return '<li rel="' + v.name + '">' + v.name + ' (' + v.version + ')</li>';
+			return '<li rel="' + v.name + '">' + v.name + ' (v' + v.version + ')</li>';
 		}).join('');
 
 		container.append(html);

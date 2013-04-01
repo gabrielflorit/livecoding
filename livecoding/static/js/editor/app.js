@@ -254,7 +254,7 @@ $(function() {
 
 					case 'libraries':
 
-						libraries.toggle(choice.text());
+						libraries.toggle(choice.attr('rel'));
 
 					break;
 
