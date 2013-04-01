@@ -3,28 +3,45 @@ var libraries = (function () {
 	var container = $('#menu .item h2:contains("libraries")').next();
 
 	var list = [
-		{ name: 'crossfilter'      , obj: 'crossfilter' },
-		{ name: 'd3'               , obj: 'd3' },
-		{ name: 'iScroll'          , obj: 'iScroll' },
-		{ name: 'Handlebars'       , obj: 'Handlebars' },
-		{ name: 'Highcharts'       , obj: 'Highcharts' },
-		{ name: 'KineticJS'        , obj: 'Kinetic' },
-		{ name: 'jQuery.Flickable' , obj: '$.fn.flickable' },
-		{ name: 'jQuery.TouchSwipe', obj: '$.fn.swipe' },
-		{ name: 'Leaflet'          , obj: 'L' },
-		{ name: 'Raphael'          , obj: 'Raphael' },
-		{ name: 'SwipeView'        , obj: 'SwipeView' },
-		{ name: 'Processing'       , obj: 'Processing' },
-		{ name: 'three.js'         , obj: 'THREE' },
-		{ name: 'TopoJSON'         , obj: 'topojson' },
-		{ name: 'Underscore'       , obj: '_' }
+		{ name: 'd3'       , version: '3.1.4' },
+		{ name: 'KineticJS', version: '4.4.0' }
+		// { name: '', file: '.js', version: '' },
+		// { name: '', file: '.js', version: '' },
+		// { name: '', file: '.js', version: '' },
+		// { name: '', file: '.js', version: '' },
+		// { name: '', file: '.js', version: '' },
+		// { name: '', file: '.js', version: '' },
+		// { name: '', file: '.js', version: '' },
+		// { name: '', file: '.js', version: '' },
+		// { name: '', file: '.js', version: '' },
+		// { name: '', file: '.js', version: '' },
+		// { name: '', file: '.js', version: '' },
+		// { name: '', file: '.js', version: '' },
+		// { name: '', file: '.js', version: '' },
+		// { name: '', file: '.js', version: '' },
+		// { name: '', file: '.js', version: '' },
+		// { name: 'crossfilter'      , obj: 'crossfilter' },
+		// { name: 'd3'               , obj: 'd3' },
+		// { name: 'iScroll'          , obj: 'iScroll' },
+		// { name: 'Handlebars'       , obj: 'Handlebars' },
+		// { name: 'Highcharts'       , obj: 'Highcharts' },
+		// { name: 'KineticJS'        , obj: 'Kinetic' },
+		// { name: 'jQuery.Flickable' , obj: '$.fn.flickable' },
+		// { name: 'jQuery.TouchSwipe', obj: '$.fn.swipe' },
+		// { name: 'Leaflet'          , obj: 'L' },
+		// { name: 'Raphael'          , obj: 'Raphael' },
+		// { name: 'SwipeView'        , obj: 'SwipeView' },
+		// { name: 'Processing'       , obj: 'Processing' },
+		// { name: 'three.js'         , obj: 'THREE' },
+		// { name: 'TopoJSON'         , obj: 'topojson' },
+		// { name: 'Underscore'       , obj: '_' }
 	];
 
 	function init() {
 
 		// populate dropdown
 		var html = _.map(list, function(v) {
-			return '<li>' + v.name + '</li>';
+			return '<li rel="' + v.name + '">' + v.name + ' (' + v.version + ')</li>';
 		}).join('');
 
 		container.append(html);
@@ -36,7 +53,7 @@ var libraries = (function () {
 		// get checked items from the dropdown
 		var selectedLibraries = $('li[class*="selected"]', container);
 		return _.map(selectedLibraries, function(value) {
-			return $(value).text();
+			return $(value).attr('rel');
 		});
 
 	}
@@ -46,7 +63,7 @@ var libraries = (function () {
 		var library = _.findWhere(list, {name:name});
 
 		var isSelected = $('li', container).filter(function() {
-			return $(this).text() == library.name;
+			return $(this).attr('rel') == library.name;
 		}).hasClass('selected');
 
 		if (isSelected) {
@@ -66,7 +83,7 @@ var libraries = (function () {
 
 		// find the library menu item and select it
 		$('li', container).filter(function() {
-			return $(this).text() == library.name;
+			return $(this).attr('rel') == library.name;
 		}).addClass('selected');
 
 	}
@@ -78,7 +95,7 @@ var libraries = (function () {
 
 		// find the library menu item and deselect it
 		$('li', container).filter(function() {
-			return $(this).text() == library.name;
+			return $(this).attr('rel') == library.name;
 		}).removeClass('selected');
 
 	}

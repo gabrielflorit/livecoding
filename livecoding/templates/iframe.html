@@ -19,7 +19,7 @@
 
 					if ($('body script[src*="' + name + '.js"]').length == 0) {
 
-						var script = $('<script src="static/js/libs/' + name + '.js"><\/script>');
+						var script = $('<script src="static/js/libs/thirdparty/' + name + '.js"><\/script>');
 						script.ready(function(e) {
  							parent.aigua.renderCode();
  						})

@@ -16,7 +16,7 @@
 	<script src='//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js'></script>
 	<script src="{{ url_for('static', filename='js/libs/requestAnimationFrame.js') }}"></script>
 	{% for library in vars.libraries %}
-		<script src="{{ url_for('static', filename='js/libs/' + library + '.js') }}"></script>
+		<script src="{{ url_for('static', filename='js/libs/thirdparty/' + library + '.js') }}"></script>
 	{% endfor %}
 	<script>
 		$(function() {
