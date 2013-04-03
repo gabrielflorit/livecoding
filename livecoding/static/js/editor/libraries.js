@@ -11,7 +11,7 @@ var libraries = (function () {
 	    {
 	        "name": "CreateJS",
 	        "obj": "createjs",
-	        "version": "2013.02.12"
+	        "version": "none"
 	    },
 	    {
 	        "name": "d3",
@@ -37,6 +37,11 @@ var libraries = (function () {
 	        "name": "Leaflet",
 	        "obj": "L",
 	        "version": "0.6-dev"
+	    },
+	    {
+	        "name": "vega",
+	        "obj": "vg",
+	        "version": "1.0.0"
 	    },
 	    {
 	        "name": "Processing",

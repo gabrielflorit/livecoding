@@ -378,18 +378,6 @@ function extendClass(parent, members) {
 }
 
 /**
- * How many decimals are there in a number
- */
-function getDecimals(number) {
-	
-	number = (number || 0).toString();
-	
-	return number.indexOf('.') > -1 ? 
-		number.split('.')[1].length :
-		0;
-}
-
-/**
  * Format a number and return a string based on input settings
  * @param {Number} number The input number to format
  * @param {Number} decimals The amount of decimals
@@ -401,7 +389,7 @@ function numberFormat(number, decimals, decPoint, thousandsSep) {
 		// http://kevin.vanzonneveld.net/techblog/article/javascript_equivalent_for_phps_number_format/
 		n = number,
 		c = decimals === -1 ?
-			getDecimals(number) :
+			((n || 0).toString().split('.')[1] || '').length : // preserve decimals
 			(isNaN(decimals = mathAbs(decimals)) ? 2 : decimals),
 		d = decPoint === undefined ? lang.decimalPoint : decPoint,
 		t = thousandsSep === undefined ? lang.thousandsSep : thousandsSep,
@@ -518,7 +506,7 @@ function formatSingle(format, val) {
 
 	if (floatRegex.test(format)) { // float
 		decimals = format.match(decRegex);
-		decimals = decimals ? decimals[1] : 6;
+		decimals = decimals ? decimals[1] : -1;
 		val = numberFormat(
 			val,
 			decimals,
@@ -794,12 +782,14 @@ function getTimeTicks(normalizedInterval, min, max, startOfWeek) {
 	
 			// else, the interval is fixed and we use simple addition
 			} else {
-				time += interval * count;
 				
 				// mark new days if the time is dividable by day
 				if (interval <= timeUnits[HOUR] && time % timeUnits[DAY] === timezoneOffset) {
 					higherRanks[time] = DAY;
 				}
+
+				time += interval * count;
+				
 			}
 	
 			i++;
@@ -4667,7 +4657,7 @@ Highcharts.VMLElement = VMLElement = {
 							// outside the viewport. So the visibility is actually opposite of 
 							// the expected value. This applies to the tooltip only. 
 							if (!docMode8) {
-								elemStyle[key] = value ? HIDDEN : VISIBLE;
+								elemStyle[key] = value ? VISIBLE : HIDDEN;
 							}
 							key = 'top';
 						}
@@ -7358,6 +7348,7 @@ Axis.prototype = {
 			minPointOffset = 0,
 			pointRangePadding = 0,
 			linkedParent = axis.linkedParent,
+			ordinalCorrection,
 			transA = axis.transA;
 
 		// adjust translation for padding
@@ -7402,8 +7393,9 @@ Axis.prototype = {
 			}
 			
 			// Record minPointOffset and pointRangePadding
-			axis.minPointOffset = minPointOffset;
-			axis.pointRangePadding = pointRangePadding;
+			ordinalCorrection = axis.ordinalSlope ? axis.ordinalSlope / closestPointRange : 1; // #988
+			axis.minPointOffset = minPointOffset = minPointOffset * ordinalCorrection;
+			axis.pointRangePadding = pointRangePadding = pointRangePadding * ordinalCorrection;
 
 			// pointRange means the width reserved for each point, like in a column chart
 			axis.pointRange = mathMin(pointRange, range);
@@ -8107,16 +8099,16 @@ Axis.prototype = {
 			from,
 			to;
 
+		// Mark all elements inActive before we go over and mark the active ones
+		each([ticks, minorTicks, alternateBands], function (coll) {
+			var pos;
+			for (pos in coll) {
+				coll[pos].isActive = false;
+			}
+		});
+
 		// If the series has data draw the ticks. Else only the line and title
 		if (hasData || isLinked) {
-
-			// Mark all elements inActive before we go over and mark the active ones
-			each([ticks, minorTicks, alternateBands], function (coll) {
-				var pos;
-				for (pos in coll) {
-					coll[pos].isActive = false;
-				}
-			});
 
 			// minor ticks
 			if (axis.minorTickInterval && !axis.categories) {
@@ -9174,21 +9166,24 @@ Pointer.prototype = {
 		var self = this,
 			chart = self.chart,
 			pinchDown = self.pinchDown,
+			followTouchMove = chart.tooltip.options.followTouchMove, // docs
 			touches = e.touches,
+			touchesLength = touches.length,
 			lastValidTouch = self.lastValidTouch,
 			zoomHor = self.zoomHor || self.pinchHor,
 			zoomVert = self.zoomVert || self.pinchVert,
+			hasZoom = zoomHor || zoomVert,
 			selectionMarker = self.selectionMarker,
 			transform = {},
 			clip = {};
 
 		// On touch devices, only proceed to trigger click if a handler is defined
-		if (e.type === 'touchstart') {
+		if (e.type === 'touchstart' && followTouchMove) {
 			if (self.inClass(e.target, PREFIX + 'tracker')) {
-				if (!chart.runTrackerClick) {
+				if (!chart.runTrackerClick || touchesLength > 1) {
 					e.preventDefault();
 				}
-			} else if (!chart.runChartClick) {
+			} else if (!chart.runChartClick || touchesLength > 1) {
 				e.preventDefault();
 			}
 		}
@@ -9242,12 +9237,15 @@ Pointer.prototype = {
 				self.pinchTranslateDirection(false, pinchDown, touches, transform, selectionMarker, clip, lastValidTouch);
 			}
 
-			self.hasPinched = zoomHor || zoomVert;
+			self.hasPinched = hasZoom;
 
 			// Scale and translate the groups to provide visual feedback during pinching
 			self.scaleGroups(transform, clip);
 			
-			
+			// Optionally move the tooltip on touchmove
+			if (!hasZoom && followTouchMove && touchesLength === 1) {
+				this.runPointActions(self.normalize(e));
+			}
 		}
 	},
 
@@ -9408,7 +9406,7 @@ Pointer.prototype = {
 
 		// Reset all
 		if (chart) { // it may be destroyed on mouse up - #877
-			css(chart.container, { cursor: 'auto' });
+			css(chart.container, { cursor: chart._cursor });
 			chart.cancelClick = this.hasDragged; // #370
 			chart.mouseIsDown = this.hasDragged = this.hasPinched = false;
 			this.pinchDown = [];
@@ -11103,6 +11101,9 @@ Chart.prototype = {
 			chart.renderToClone || renderTo
 		);
 
+		// cache the cursor (#1650)
+		chart._cursor = container.style.cursor;
+
 		chart.renderer =
 			optionsChart.forExport ? // force SVG, used for SVG export
 				new SVGRenderer(container, chartWidth, chartHeight, true) :
@@ -12100,7 +12101,7 @@ Point.prototype = {
 		// Insert options for valueDecimals, valuePrefix, and valueSuffix
 		var series = this.series,
 			seriesTooltipOptions = series.tooltipOptions,
-			valueDecimals = seriesTooltipOptions.valueDecimals,
+			valueDecimals = pick(seriesTooltipOptions.valueDecimals, ''),
 			valuePrefix = seriesTooltipOptions.valuePrefix || '',
 			valueSuffix = seriesTooltipOptions.valueSuffix || '';
 			
@@ -12110,9 +12111,7 @@ Point.prototype = {
 			if (valuePrefix || valueSuffix) {
 				pointFormat = pointFormat.replace(key + '}', valuePrefix + key + '}' + valueSuffix);
 			}
-			if (isNumber(valueDecimals)) {
-				pointFormat = pointFormat.replace(key + '}', key + ':,.' + valueDecimals + 'f}');
-			}
+			pointFormat = pointFormat.replace(key + '}', key + ':,.' + valueDecimals + 'f}');
 		});
 		
 		return format(pointFormat, {
@@ -13601,7 +13600,7 @@ Series.prototype = {
 				normalOptions.radius = 0;
 			}
 			
-			if (point.negative) {
+			if (point.negative && negativeColor) {
 				point.color = point.fillColor = negativeColor;
 			}
 			
@@ -14591,6 +14590,8 @@ var AreaSeries = extendClass(Series, {
 	 */ 
 	getSegments: function () {
 		var segments = [],
+			segment = [],
+			keys = [],
 			stack = this.yAxis.stacks[this.stackKey],
 			pointMap = {},
 			plotX,
@@ -14605,11 +14606,16 @@ var AreaSeries = extendClass(Series, {
 				pointMap[points[i].x] = points[i];
 			}
 
+			// Sort the keys (#1651)
 			for (x in stack) {
+				keys.push(+x);
+			}
+			keys.sort();
 
+			each(keys, function (x) {
 				// The point exists, push it to the segment
 				if (pointMap[x]) {
-					segments.push(pointMap[x]);
+					segment.push(pointMap[x]);
 
 				// There is no point for this X value in this series, so we 
 				// insert a dummy point in order for the areas to be drawn
@@ -14617,7 +14623,7 @@ var AreaSeries = extendClass(Series, {
 				} else {
 					plotX = this.xAxis.translate(x);
 					plotY = this.yAxis.toPixels(stack[x].cum, true);
-					segments.push({ 
+					segment.push({ 
 						y: null, 
 						plotX: plotX,
 						clientX: plotX, 
@@ -14626,8 +14632,11 @@ var AreaSeries = extendClass(Series, {
 						onMouseOver: noop
 					});
 				}
+			});
+
+			if (segment.length) {
+				segments.push(segment);
 			}
-			segments = [segments];
 
 		} else {
 			Series.prototype.getSegments.call(this);
@@ -15360,6 +15369,7 @@ defaultPlotOptions.pie = merge(defaultSeriesOptions, {
 	borderColor: '#FFFFFF',
 	borderWidth: 1,
 	center: [null, null],
+	clip: false,
 	colorByPoint: true, // always true for pies
 	dataLabels: {
 		// align: null,

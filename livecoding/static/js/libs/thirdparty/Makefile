@@ -16,4 +16,5 @@ install:
 	sed -i.bak "s/'use strict';//" three.js.js
 	rm *.bak
 	curl -o CreateJS.js    'http://code.createjs.com/createjs-2013.02.12.min.js'
-	curl -o Rickshaw.js    'https://raw.github.com/shutterstock/rickshaw/master/rickshaw.js'
+	curl -o Rickshaw.js    'https://raw.github.com/gabrielflorit/rickshaw/master/rickshaw.js'
+	curl -o vega.js        'https://raw.github.com/trifacta/vega/master/vega.min.js'
