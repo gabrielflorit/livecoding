@@ -304,6 +304,8 @@ var aigua = (function () {
 		// editor.js ?
 		respondToSliderKey: function(cm) {
 
+			$('#message').fadeOut();
+
 			var cursor;
 			var token;
 			var hex = '';
