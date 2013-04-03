@@ -79,8 +79,7 @@ $(function() {
 
 			} else {
 
-				// do this to force proper height on editor
-				aigua.codeMirror.setValue('');
+				modes.switchTo('javascript');
 
 			}
 
