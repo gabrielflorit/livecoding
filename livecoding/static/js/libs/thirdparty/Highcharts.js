@@ -2816,8 +2816,8 @@ SVGElement.prototype = {
 				width = bBox.width;
 				height = bBox.height;
 				
-				// Workaround for wrong bounding box in IE9 and IE10 (#1101, #1505)
-				if (isIE && styles && styles.fontSize === '11px' && height.toPrecision(3) === 22.7) {
+				// Workaround for wrong bounding box in IE9 and IE10 (#1101, #1505, #1669)
+				if (isIE && styles && styles.fontSize === '11px' && height.toPrecision(3) === '22.7') {
 					bBox.height = height = 14;
 				}
 			
@@ -3682,6 +3682,7 @@ SVGRenderer.prototype = {
 					x: x,
 					y: y
 				});
+			obj.isImg = true;
 
 			if (imageSize) {
 				centerImage(obj, imageSize);
@@ -4205,10 +4206,12 @@ SVGRenderer.prototype = {
 				}
 	
 				// apply the box attributes
-				box.attr(merge({
-					width: wrapper.width,
-					height: wrapper.height
-				}, deferredAttr));
+				if (!box.isImg) { // #1630
+					box.attr(merge({
+						width: wrapper.width,
+						height: wrapper.height
+					}, deferredAttr));
+				}
 				deferredAttr = null;
 			}
 		}
@@ -4597,7 +4600,8 @@ Highcharts.VMLElement = VMLElement = {
 
 						// convert paths
 						i = value.length;
-						var convertedPath = [];
+						var convertedPath = [],
+							clockwise;
 						while (i--) {
 
 							// Multiply by 10 to allow subpixel precision.
@@ -4613,13 +4617,14 @@ Highcharts.VMLElement = VMLElement = {
 								// When the start X and end X coordinates of an arc are too close,
 								// they are rounded to the same value above. In this case, substract 1 from the end X
 								// position. #760, #1371. 
-								if (value[i] === 'wa' || value[i] === 'at') {
+								if (value.isArc && (value[i] === 'wa' || value[i] === 'at')) {
+									clockwise = value[i] === 'wa' ? 1 : -1; // #1642
 									if (convertedPath[i + 5] === convertedPath[i + 7]) {
-										convertedPath[i + 7] -= 1;
+										convertedPath[i + 7] -= clockwise;
 									}
 									// Start and end Y (#1410)
 									if (convertedPath[i + 6] === convertedPath[i + 8]) {
-										convertedPath[i + 8] -= 1;
+										convertedPath[i + 8] -= clockwise;
 									}
 								}
 							}
@@ -5440,6 +5445,7 @@ var VMLRendererExtension = { // inherit SVGRenderer
 				'e' // close
 			);
 			
+			ret.isArc = true;
 			return ret;
 
 		},
@@ -7167,7 +7173,7 @@ Axis.prototype = {
 				for (j = 0; j < len && !break2; j++) {
 					pos = log2lin(lin2log(i) * intermediate[j]);
 					
-					if (pos > min && lastPos <= max) {
+					if (pos > min && (!minor || lastPos <= max)) { // #1670
 						positions.push(lastPos);
 					}
 					
@@ -7760,11 +7766,13 @@ Axis.prototype = {
 	zoom: function (newMin, newMax) {
 
 		// Prevent pinch zooming out of range
-		if (newMin <= this.dataMin) {
-			newMin = UNDEFINED;
-		}
-		if (newMax >= this.dataMax) {
-			newMax = UNDEFINED;
+		if (!this.allowZoomOutside) {
+			if (newMin <= this.dataMin) {
+				newMin = UNDEFINED;
+			}
+			if (newMax >= this.dataMax) {
+				newMax = UNDEFINED;
+			}
 		}
 
 		// In full view, displaying the reset zoom button is not required
@@ -8764,14 +8772,19 @@ Tooltip.prototype = {
 			var path,
 				i = crosshairsOptions.length,
 				attribs,
-				axis;
+				axis,
+				val;
 
 			while (i--) {
 				axis = point.series[i ? 'yAxis' : 'xAxis'];
 				if (crosshairsOptions[i] && axis) {
+					val = i ? pick(point.stackY, point.y) : point.x; // #814
+					if (axis.isLog) { // #1671
+						val = log2lin(val);
+					}
 
 					path = axis.getPlotLinePath(
-						i ? pick(point.stackY, point.y) : point.x, // #814
+						val,
 						1
 					);
 
@@ -10675,10 +10688,6 @@ Chart.prototype = {
 			chart.loadingDiv = loadingDiv = createElement(DIV, {
 				className: PREFIX + 'loading'
 			}, extend(loadingOptions.style, {
-				left: chart.plotLeft + PX,
-				top: chart.plotTop + PX,
-				width: chart.plotWidth + PX,
-				height: chart.plotHeight + PX,
 				zIndex: 10,
 				display: NONE
 			}), chart.container);
@@ -10697,7 +10706,14 @@ Chart.prototype = {
 
 		// show it
 		if (!chart.loadingShown) {
-			css(loadingDiv, { opacity: 0, display: '' });
+			css(loadingDiv, { 
+				opacity: 0, 
+				display: '',
+				left: chart.plotLeft + PX,
+				top: chart.plotTop + PX,
+				width: chart.plotWidth + PX,
+				height: chart.plotHeight + PX
+			});
 			animate(loadingDiv, {
 				opacity: loadingOptions.style.opacity
 			}, {
@@ -14592,7 +14608,9 @@ var AreaSeries = extendClass(Series, {
 		var segments = [],
 			segment = [],
 			keys = [],
-			stack = this.yAxis.stacks[this.stackKey],
+			xAxis = this.xAxis,
+			yAxis = this.yAxis,
+			stack = yAxis.stacks[this.stackKey],
 			pointMap = {},
 			plotX,
 			plotY,
@@ -14621,8 +14639,8 @@ var AreaSeries = extendClass(Series, {
 				// insert a dummy point in order for the areas to be drawn
 				// correctly.
 				} else {
-					plotX = this.xAxis.translate(x);
-					plotY = this.yAxis.toPixels(stack[x].cum, true);
+					plotX = xAxis.translate(x);
+					plotY = yAxis.toPixels(stack[x].cum, true);
 					segment.push({ 
 						y: null, 
 						plotX: plotX,
@@ -15584,7 +15602,7 @@ var PieSeries = {
 		
 		var options = this.options,
 			chart = this.chart,
-			slicingRoom = 2 * (options.dataLabels && options.dataLabels.enabled ? 0 : (options.slicedOffset || 0)),
+			slicingRoom = 2 * (options.slicedOffset || 0),
 			plotWidth = chart.plotWidth - 2 * slicingRoom,
 			plotHeight = chart.plotHeight - 2 * slicingRoom,
 			centerOption = options.center,
@@ -15702,6 +15720,7 @@ var PieSeries = {
 			point.angle = angle;
 
 			// set the anchor point for data labels
+			connectorOffset = mathMin(connectorOffset, labelDistance / 2); // #1678
 			point.labelPos = [
 				positions[0] + radiusX + mathCos(angle) * labelDistance, // first break of connector
 				positions[1] + radiusY + mathSin(angle) * labelDistance, // a/a
