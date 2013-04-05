@@ -18,4 +18,4 @@ install:
 	curl -o CreateJS.js    'http://code.createjs.com/createjs-2013.02.12.min.js'
 	curl -o Rickshaw.js    'https://raw.github.com/gabrielflorit/rickshaw/master/rickshaw.js'
 	curl -o vega.js        'https://raw.github.com/trifacta/vega/master/vega.min.js'
-	curl -o lodash.js      'https://github.com/bestiejs/lodash/blob/master/lodash.js'
+	curl -o lodash.js      'https://raw.github.com/bestiejs/lodash/master/lodash.js'

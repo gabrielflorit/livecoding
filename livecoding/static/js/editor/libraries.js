@@ -39,6 +39,11 @@ var libraries = (function () {
 	        "version": "0.6-dev"
 	    },
 	    {
+	        "name": "lodash",
+	        "obj": "_",
+	        "version": "1.1.1"
+	    },
+	    {
 	        "name": "vega",
 	        "obj": "vg",
 	        "version": "1.0.0"
