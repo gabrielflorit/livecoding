@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
 <head>
-	<meta name='content-type' content='text/html; charset=UTF-8' />
+	<meta name='content-type' content='text/html; charset=UTF-8'>
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 	<meta name='viewport' content='width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1'>
 
@@ -11,9 +11,16 @@
 	<!--[if !IE]>-->
 	
 		<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-		<link rel="stylesheet" href="{{ url_for('static', filename='js/libs/codemirror/codemirror.css') }}">
+
+<!--
+ 		<link rel="stylesheet" href="{{ url_for('static', filename='js/libs/codemirror/codemirror.css') }}">
 		<link rel="stylesheet" href="{{ url_for('static', filename='js/libs/codemirror/theme/lesser-dark.css') }}">
+ -->
+		<link rel="stylesheet" href="{{ url_for('static', filename='js/libs/codemirror-3.11/lib/codemirror.css') }}">
+		<link rel="stylesheet" href="{{ url_for('static', filename='js/libs/codemirror-3.11/theme/lesser-dark.css') }}">
 		<link rel="stylesheet" href="{{ url_for('static', filename='css/jquery.miniColors.css') }}">
+
+		<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Ubuntu+Mono">
 	
 	<!--<![endif]-->
 
@@ -173,8 +180,16 @@
 
 	<!--[if !IE]>-->
 
+		<script src="{{ url_for('static', filename='js/libs/codemirror-3.11/lib/codemirror.js') }}"></script>
+		<script src="{{ url_for('static', filename='js/libs/codemirror-3.11/mode/javascript/javascript.js') }}"></script>
+		<script src="{{ url_for('static', filename='js/libs/codemirror-3.11/mode/xml/xml.js') }}"></script>
+		<script src="{{ url_for('static', filename='js/libs/codemirror-3.11/mode/css/css.js') }}"></script>
+		<script src="{{ url_for('static', filename='js/libs/codemirror-3.11/mode/htmlmixed/htmlmixed.js') }}"></script>
+		<script src="{{ url_for('static', filename='js/libs/codemirror-3.11/addon/edit/closebrackets.js') }}"></script>
+
 		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
 
+<!--
 		<script src="{{ url_for('static', filename='js/libs/codemirror/codemirror.js') }}"></script>
 		<script src="{{ url_for('static', filename='js/libs/codemirror/utils/loadmode.js') }}"></script>
 		<script src="{{ url_for('static', filename='js/libs/codemirror/mode/javascript.js') }}"></script>
@@ -183,7 +198,7 @@
 		<script src="{{ url_for('static', filename='js/libs/codemirror/mode/htmlmixed.js') }}"></script>
 		<script src="{{ url_for('static', filename='js/libs/codemirror/utils/foldcode.js') }}"></script>
 		<script src="{{ url_for('static', filename='js/libs/codemirror/utils/formatting.js') }}"></script>
-
+-->
 		<script src="{{ url_for('static', filename='js/libs/jquery-ui-1.8.20.custom.min.js') }}"></script>
 		<script src="{{ url_for('static', filename='js/libs/Underscore.js') }}"></script>
 		<script src="{{ url_for('static', filename='js/libs/browserDetect.js') }}"></script>

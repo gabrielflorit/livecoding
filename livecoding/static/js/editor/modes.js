@@ -2,26 +2,28 @@ var modes = (function () {
 
 	var	container = $('#modes');
 
+	var defaultIndex = 1;
+
 	var	list = [
-		{ name: 'html'      , code: null, cursor: null, scrollInfo: null },
-		{ name: 'javascript', code: null, cursor: null, scrollInfo: null },
-		{ name: 'css'       , code: null, cursor: null, scrollInfo: null },
-		{ name: 'json'      , code: null, cursor: null, scrollInfo: null }
+		{ name: 'html'      , doc: null, mime: 'text/html' },
+		{ name: 'javascript', doc: null, mime: 'text/javascript' },
+		{ name: 'css'       , doc: null, mime: 'text/css' },
+		{ name: 'json'      , doc: null, mime: 'application/json' }
 	];
 
 	function clearAll() {
 
 		// clear javascript first
-		switchTo('javascript', true);
+		switchTo('javascript');
 		aigua.codeMirror.setValue('');
 
-		switchTo('html', true);
+		switchTo('html');
 		aigua.codeMirror.setValue('');
 
-		switchTo('css', true);
+		switchTo('css');
 		aigua.codeMirror.setValue('');
 
-		switchTo('json', true);
+		switchTo('json');
 		aigua.codeMirror.setValue('');
 
 	}
@@ -34,77 +36,37 @@ var modes = (function () {
 		return get($('h2[class*="active"]', container).text());
 	}
 
-	// TODO: maybe noTab is not needed after all?
-	function switchTo(name, noTab) {
+	// TODO: get rid of noTab references
+	function switchTo(name) {
 
 		if (!name) {
-			name = list[0].name;
+			name = list[defaultIndex].name;
 		}
 
-		// TODO: no need to do most of this if we're switching to this same mode
-		// on the other hand, how often will that scenario happen?
-
-		// pause aigua: disable code evals from happening on codemirror changes
-		aigua.pause = true;
-
+		// no need to do most of this if we're switching to this same mode
 		var currentMode = getCurrent();
+		if (name != currentMode.name) {
 
-		// save current code
-		currentMode.code = aigua.codeMirror.getValue();
+			// pause aigua: disable code evals from happening on codemirror changes
+			aigua.pause = true;
 
-		// save cursor line and position
-		currentMode.cursor = aigua.codeMirror.getCursor();
+			// what mode are we switching to?
+			var nextMode = get(name);
 
-		// save scroll info
-		currentMode.scrollInfo = aigua.codeMirror.getScrollInfo();
+			// get the mode's doc, or create a new one if null
+			var nextModeDoc = nextMode.doc || CodeMirror.Doc('', nextMode.mime);
 
-		// if noTab is true, don't highlight/dehighlight the mode tabs
-		// TODO: this is a problem. when noTab is true,
-		// the following bit doesn't execute, which means the h2 doesn't get set yet,
-		// which means when we try to get current mode, it will still be the old one
-		// if (!noTab) {
+			// swap docs
+			currentMode.doc = aigua.codeMirror.swapDoc(nextModeDoc);
 
-		$('h2', container).not(":contains('" + name + "')").addClass('passive').removeClass('active');
-		$("h2:contains('" + name + "')", container).addClass('active').removeClass('passive');
-		// }
+			// select the correct mode tab
+			$('h2', container).not(":contains('" + name + "')").addClass('passive').removeClass('active');
+			$("h2:contains('" + name + "')", container).addClass('active').removeClass('passive');
 
-		currentMode = getCurrent();
+			// resume code execution
+			aigua.pause = false;
 
-		// populate the code mirror tab with the new mode's code
-		aigua.codeMirror.setValue(currentMode.code || '');
-
-		// set cursor
-		if (currentMode.cursor) {
-			aigua.codeMirror.setCursor(currentMode.cursor);
 		}
-
-		// scroll to saved position
-		if (currentMode.scrollInfo) {
-			aigua.codeMirror.scrollTo(currentMode.scrollInfo.x, currentMode.scrollInfo.y);
-		}
-
-		// change codemirror's language syntax to the new mode
-		var codeMirrorOptionMode, codeMirrorLoadMode;
-
-		if (currentMode.name == 'json') {
-			codeMirrorOptionMode = 'application/json';
-			codeMirrorLoadMode = 'javascript';
-		} else if (currentMode.name == 'html') {
-			codeMirrorOptionMode = 'text/html';
-			codeMirrorLoadMode = 'htmlmixed';
-		} else {
-			codeMirrorOptionMode = currentMode.name;
-			codeMirrorLoadMode = currentMode.name;
-		}
-
-		// remove all code folding markers
-		$('.CodeMirror-gutter-text pre').removeClass('codeFolded');
-
-		aigua.codeMirror.setOption("mode", codeMirrorOptionMode);
-		CodeMirror.autoLoadMode(aigua.codeMirror, codeMirrorLoadMode);
-
-		// resume code execution
-		aigua.pause = false;
 
 	}
 
@@ -125,7 +87,7 @@ var modes = (function () {
 
 				// since we're not on the current mode, the contents
 				// will be saved on the mode object
-				payload[name] = _.findWhere(list, {name: name}).code;
+				payload[name] = _.findWhere(list, {name: name}).doc.getValue();
 			}
 
 		});
@@ -141,7 +103,7 @@ var modes = (function () {
 			var h2 = $("<h2></h2>");
 			div.append(h2);
 
-			h2.addClass(i == 0 ? 'active' : 'passive');
+			h2.addClass(i == 1 ? 'active' : 'passive');
 			h2.text(mode.name);
 
 			container.append(div);

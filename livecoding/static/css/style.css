@@ -868,11 +868,14 @@ body {
 
 
       .CodeMirror {
+/*
         position: relative;
+*/
         height: 100%;
         z-index: 10;
       }
 
+/*
         .CodeMirror-scroll {
           height: 100% !important;
         }
@@ -886,7 +889,7 @@ body {
         .CodeMirror .codeFolded:hover {
           text-decoration: underline;
         }
-
+*/
     #codeOverlay {
       position: relative;
       top: -1px;

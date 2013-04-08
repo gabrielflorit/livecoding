@@ -77,10 +77,6 @@ $(function() {
 				// yes - load its contents
 				aigua.loadGist(gistId, versionId);
 
-			} else {
-
-				modes.switchTo('javascript');
-
 			}
 
 			// ----------- event handlers section ----------------------

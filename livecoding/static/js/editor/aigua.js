@@ -123,7 +123,7 @@ var aigua = (function () {
 					modes.switchTo('javascript');
 					if (javascript) {
 						aigua.codeMirror.setValue(javascript.content);
-						aigua.codeMirror.setValue(javascript.content); // don't know why i have to do this twice
+						aigua.codeMirror.setValue(javascript.content); // don't know why i have to do this twice. TODO: examine
 					}
 
 					// switch to mode
