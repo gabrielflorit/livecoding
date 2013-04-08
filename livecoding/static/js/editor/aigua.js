@@ -213,14 +213,18 @@ var aigua = (function () {
 						$('body #livecoding-main', $('iframe').contents()).html(code);
 
 						// run the javascript code
-						frames[0].livecoding.renderCode(modes.get('javascript').code || '');
+						frames[0].livecoding.renderCode(
+							(modes.get('javascript').doc && modes.get('javascript').doc.getValue()) || ''
+						);
 		
 					break;
 
 					case 'javascript':
 
 						// replace html
-						$('body #livecoding-main', $('iframe').contents()).html(modes.get('html').code || '');
+						$('body #livecoding-main', $('iframe').contents()).html(
+							(modes.get('html').doc && modes.get('html').doc.getValue()) || ''
+						);
 
 						// run the javascript code
 						frames[0].livecoding.renderCode(code);
@@ -233,10 +237,14 @@ var aigua = (function () {
 						$('#style', $('iframe').contents()).get(0).textContent = code;
 
 						// replace html
-						$('body #livecoding-main', $('iframe').contents()).html(modes.get('html').code || '');
+						$('body #livecoding-main', $('iframe').contents()).html(
+							(modes.get('html').doc && modes.get('html').doc.getValue()) || ''
+						);
 
 						// run the javascript code
-						frames[0].livecoding.renderCode(modes.get('javascript').code || '');
+						frames[0].livecoding.renderCode(
+							(modes.get('javascript').doc && modes.get('javascript').doc.getValue()) || ''
+						);
 
 					break;
 
@@ -250,10 +258,14 @@ var aigua = (function () {
 								frames[0].livecoding.json = JSON.parse(code);
 
 								// replace html
-								$('body #livecoding-main', $('iframe').contents()).html(modes.get('html').code || '');
+								$('body #livecoding-main', $('iframe').contents()).html(
+									(modes.get('html').doc && modes.get('html').doc.getValue()) || ''
+								);
 
 								// run the javascript code
-								frames[0].livecoding.renderCode(modes.get('javascript').code || '');
+								frames[0].livecoding.renderCode(
+									(modes.get('javascript').doc && modes.get('javascript').doc.getValue()) || ''
+								);
 			
 							}
 							catch (error) {
