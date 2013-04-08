@@ -1,7 +1,7 @@
 body {
 	background-image: url('../../static/img/twinkle_twinkle.png');
 	background: #000;
-	font-family: 'Consolas', 'Bitstream Vera Sans Mono', 'DejaVu Sans Mono', 'Monaco', Courier, monospace;
+	font-family: 'Ubuntu Mono', 'Bitstream Vera Sans Mono', 'DejaVu Sans Mono', 'Monaco', Courier, monospace;
 }
 
 p {

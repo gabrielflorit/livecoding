@@ -244,7 +244,7 @@ td { vertical-align: top; }
 
 #livecoding_watermark a {
   color: #FFFFFF;
-  font-family: 'Consolas', 'Bitstream Vera Sans Mono', 'DejaVu Sans Mono', 'Monaco', Courier, monospace;
+  font-family: 'Ubuntu Mono', 'Bitstream Vera Sans Mono', 'DejaVu Sans Mono', 'Monaco', Courier, monospace;
   text-decoration: none;
   padding: 0em 0.5em 0em 0.5em;
   font-size: 0.8em;

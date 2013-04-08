@@ -230,7 +230,7 @@ body {
   z-index: 100000;
   opacity: 0.96;
   color: white;
-  font-family: 'Consolas', 'Bitstream Vera Sans Mono', 'DejaVu Sans Mono', 'Monaco', Courier, monospace;
+  font-family: 'Ubuntu Mono', 'Bitstream Vera Sans Mono', 'DejaVu Sans Mono', 'Monaco', Courier, monospace;
 }
 
   #popup .container {
@@ -327,7 +327,7 @@ body {
     position: relative;
     top: -5px;
     float: left;
-    font-family: 'Consolas', 'Bitstream Vera Sans Mono', 'DejaVu Sans Mono', 'Monaco', Courier, monospace;
+    font-family: 'Ubuntu Mono', 'Bitstream Vera Sans Mono', 'DejaVu Sans Mono', 'Monaco', Courier, monospace;
     font-size: 25px;
     text-shadow: 0 0 8px #BCD279;
     padding: 0 22px 0 7px;
@@ -395,7 +395,7 @@ body {
     }
 
     #pauseExecution {
-      font-family: 'Consolas', 'Bitstream Vera Sans Mono', 'DejaVu Sans Mono', 'Monaco', Courier, monospace;
+      font-family: 'Ubuntu Mono', 'Bitstream Vera Sans Mono', 'DejaVu Sans Mono', 'Monaco', Courier, monospace;
       font-size: 22px;
       margin: 0 0 0 1em;
       color: #FFF;
@@ -403,7 +403,7 @@ body {
     }
 
     #startAnimation {
-      font-family: 'Consolas', 'Bitstream Vera Sans Mono', 'DejaVu Sans Mono', 'Monaco', Courier, monospace;
+      font-family: 'Ubuntu Mono', 'Bitstream Vera Sans Mono', 'DejaVu Sans Mono', 'Monaco', Courier, monospace;
       font-size: 22px;
       margin: 0 0 0 1em;
       color: #FFF;
@@ -438,7 +438,7 @@ body {
       right: 1px;
       color: #9AB83E;
       text-shadow: 0 0 8px #BCD279;
-      font-family: 'Consolas', 'Bitstream Vera Sans Mono', 'DejaVu Sans Mono', 'Monaco', Courier, monospace;
+      font-family: 'Ubuntu Mono', 'Bitstream Vera Sans Mono', 'DejaVu Sans Mono', 'Monaco', Courier, monospace;
       font-size: 15px;
       display: none;
     }

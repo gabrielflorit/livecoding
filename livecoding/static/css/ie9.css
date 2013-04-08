@@ -13,7 +13,7 @@ body {
 #no {
 	display: block !important;
 	color: white;
-	font-family: 'Consolas', 'Bitstream Vera Sans Mono', 'DejaVu Sans Mono', 'Monaco', Courier, monospace;
+	font-family: 'Ubuntu Mono', 'Bitstream Vera Sans Mono', 'DejaVu Sans Mono', 'Monaco', Courier, monospace;
 	font-size: 2em;
 	margin: 4em 0 0 0;
 	text-align: center;

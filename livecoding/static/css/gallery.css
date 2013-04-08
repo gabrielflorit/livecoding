@@ -4,7 +4,7 @@ body {
 }
 
 header {
-	font-family: 'Consolas', 'Bitstream Vera Sans Mono', 'DejaVu Sans Mono', 'Monaco', Courier, monospace;
+	font-family: 'Ubuntu Mono', 'Bitstream Vera Sans Mono', 'DejaVu Sans Mono', 'Monaco', Courier, monospace;
 	color: white;
 	font-weight: normal;
 	font-size: 1em;
@@ -38,7 +38,7 @@ header a.what:hover {
 }
 
 h4 {
-	font-family: 'Consolas', 'Bitstream Vera Sans Mono', 'DejaVu Sans Mono', 'Monaco', Courier, monospace;
+	font-family: 'Ubuntu Mono', 'Bitstream Vera Sans Mono', 'DejaVu Sans Mono', 'Monaco', Courier, monospace;
 	color: white;
 	font-weight: normal;
 	margin: 32px 16px 0 16px;
@@ -91,7 +91,7 @@ li .info {
 	width: 100%;
 	overflow: hidden;
 	color: #000;
-	font-family: 'Consolas', 'Bitstream Vera Sans Mono', 'DejaVu Sans Mono', 'Monaco', Courier, monospace;
+	font-family: 'Ubuntu Mono', 'Bitstream Vera Sans Mono', 'DejaVu Sans Mono', 'Monaco', Courier, monospace;
 	cursor: default;
 }
 
@@ -133,7 +133,7 @@ li .info img.eye {
 
 .thumbnails.new p {
 	text-align: center;
-	font-family: 'Consolas', 'Bitstream Vera Sans Mono', 'DejaVu Sans Mono', 'Monaco', Courier, monospace;
+	font-family: 'Ubuntu Mono', 'Bitstream Vera Sans Mono', 'DejaVu Sans Mono', 'Monaco', Courier, monospace;
 	font-size: 6em;
 	padding: 0;
 	margin: 0;
