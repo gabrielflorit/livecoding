@@ -65,8 +65,6 @@ $(function() {
 			resolutions.init();
 
 			// bind non-editor keyboard shortcuts
-			// TODO: move it somewhere more appropriate
-			// TODO: also find a better name than this poorly-named function
 			lc.initGlobalKeys(BrowserDetect.OS);
 
 			// is there an id in the url?

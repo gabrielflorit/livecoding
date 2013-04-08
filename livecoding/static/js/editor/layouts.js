@@ -77,34 +77,34 @@ var layouts = (function () {
 			case 'html':
 				aigua.renderCode();
 				// switch modes to css, without tabbing
-				modes.switchTo('css', true);
+				modes.switchTo('css');
 				// switch back
-				modes.switchTo('html', true);
+				modes.switchTo('html');
 			break;
 
 			case 'javascript':
 				aigua.renderCode();
 				// switch modes to css, without tabbing
-				modes.switchTo('css', true);
+				modes.switchTo('css');
 				// switch back
-				modes.switchTo('javascript', true);
+				modes.switchTo('javascript');
 			break;
 
 			case 'css':
 				// switch modes to javascript, without tabbing
-				modes.switchTo('javascript', true);
+				modes.switchTo('javascript');
 				// render code
 				aigua.renderCode();
 				// switch back
-				modes.switchTo('css', true);
+				modes.switchTo('css');
 			break;
 
 			case 'json':
 				aigua.renderCode();
 				// switch modes to javascript, without tabbing
-				modes.switchTo('javascript', true);
+				modes.switchTo('javascript');
 				// switch back
-				modes.switchTo('json', true);
+				modes.switchTo('json');
 			break;
 		}
 

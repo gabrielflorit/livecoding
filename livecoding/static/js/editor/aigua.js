@@ -105,17 +105,17 @@ var aigua = (function () {
 					// add gist libraries
 					libraries.addMany(options.libraries);
 
-					modes.switchTo('json', true);
+					modes.switchTo('json');
 					if (json) {
 						aigua.codeMirror.setValue(json.content);
 					}
 
-					modes.switchTo('css', true);
+					modes.switchTo('css');
 					if (css) {
 						aigua.codeMirror.setValue(css.content);
 					}
 
-					modes.switchTo('html', true);
+					modes.switchTo('html');
 					if (html) {
 						aigua.codeMirror.setValue(html.content);
 					}
@@ -123,7 +123,6 @@ var aigua = (function () {
 					modes.switchTo('javascript');
 					if (javascript) {
 						aigua.codeMirror.setValue(javascript.content);
-						aigua.codeMirror.setValue(javascript.content); // don't know why i have to do this twice. TODO: examine
 					}
 
 					// switch to mode
