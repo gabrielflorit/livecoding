@@ -42,3 +42,6 @@ div.CodeMirror span.CodeMirror-matchingbracket { color: #7EFC7E; }/*65FC65*/
 .cm-s-lesser-dark span.cm-quote {color: #090;}
 .cm-s-lesser-dark span.cm-hr {color: #999;}
 .cm-s-lesser-dark span.cm-link {color: #00c;}
+
+.cm-s-lesser-dark span.cm-attribute {color: #B35E4D; }
+

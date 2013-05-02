@@ -325,13 +325,12 @@ body {
 
   #header {
     position: relative;
-    top: -5px;
+    top: -6px;
     float: left;
     font-family: 'Ubuntu Mono', 'Bitstream Vera Sans Mono', 'DejaVu Sans Mono', 'Monaco', Courier, monospace;
     font-size: 25px;
     text-shadow: 0 0 8px #BCD279;
-    padding: 0 22px 0 7px;
-    padding-right: 22px;
+    padding: 0 8px 0 7px;
   }
 
   #header a {
@@ -363,6 +362,8 @@ body {
     width: 90%;
     margin-top: 24px;
     z-index: 10000;
+    font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", sans-serif;
+    font-weight: 300;
   }
 
   #controls.full {
@@ -441,6 +442,7 @@ body {
       font-family: 'Ubuntu Mono', 'Bitstream Vera Sans Mono', 'DejaVu Sans Mono', 'Monaco', Courier, monospace;
       font-size: 15px;
       display: none;
+      padding: 0 6px 0 0;
     }
 
     #message.full {
@@ -468,7 +470,7 @@ body {
         #gist,
         .save-confirmation {
           position: relative;
-          top: 3px;
+          top: 2px;
           padding: 2px 9px 0 9px;
           color: #eee;
           font-size: 12px;
@@ -506,10 +508,11 @@ body {
 
         #controls .item h2 {
           margin: 0 0 3px 0;
-          padding: 2px 6px 0 6px;
+          padding: 2px 4px 0 4px;
           color: #eee;
           font-size: 15px;
           border: solid rgba(0, 0, 0, 0) 1px;
+          font-weight: 300;
         }
 
         #controls .item h2.full {
@@ -517,7 +520,7 @@ body {
         }
 
         #controls #modes .item h2 {
-          margin: 0 0 3px 6px;
+          margin: 0 0 3px 3px;
         }
 
           #controls .item h2.hover,
@@ -586,7 +589,6 @@ body {
           margin-top: -3px;
           background: #fff;
           font-size: 15px;
-          font-weight: bold;
           
           box-shadow: 1px 1px 6px rgba(0, 0, 0, 0.8);
 

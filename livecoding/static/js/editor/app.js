@@ -35,7 +35,7 @@ $(function() {
 
 		// display the key DisplayName to the user - 'Alt', or 'Ctrl', etc
 		$('#message .key').text(sliderKey.DisplayName);
-		
+
 		// create codemirror instance
 		aigua.codeMirror = lc.codeMirrorInit($('#code'), extraKeys);
 
