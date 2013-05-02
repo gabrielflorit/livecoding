@@ -12,6 +12,8 @@ var popup = (function () {
 		// TODO: why fade out containerItem?
 		$('.containerItem', container).fadeOut(duration || 'normal');
 		container.fadeOut(duration || 'normal');
+		$('.loading', container).hide();
+		$('.keyboard', container).hide();
 
 	}
 
@@ -44,7 +46,7 @@ var popup = (function () {
 				ul.append(li);
 			});
 
-			if (index % 2 == 0) {
+			if (index % 2 === 0) {
 				$('.keyboard .left', container).append(h3);
 				$('.keyboard .left', container).append(ul);
 			} else {
@@ -60,7 +62,7 @@ var popup = (function () {
 		keyboard: keyboard,
 		loading: loading,
 		hide: hide
-	}
+	};
 
 }());
 

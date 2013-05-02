@@ -231,6 +231,7 @@ body {
   opacity: 0.96;
   color: white;
   font-family: 'Ubuntu Mono', 'Bitstream Vera Sans Mono', 'DejaVu Sans Mono', 'Monaco', Courier, monospace;
+  font-size: 0.85em;
 }
 
   #popup .container {
