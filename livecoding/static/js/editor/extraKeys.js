@@ -3,8 +3,8 @@ lc.getExtraKeys = function(os) {
 
 	var extraKeys = {};
 
-	{extraKeys[os == 'Mac' ? 'Cmd-/' : (os == 'Linux' ? 'Ctrl-/' : 'Ctrl-/')]  = lc.codemirrorUtil.comment};
-	{extraKeys[os == 'Mac' ? 'Cmd-.' : (os == 'Linux' ? 'Ctrl-.' : 'Ctrl-.')]  = lc.codemirrorUtil.uncomment};
+	// {extraKeys[os == 'Mac' ? 'Cmd-/' : (os == 'Linux' ? 'Ctrl-/' : 'Ctrl-/')]  = lc.codemirrorUtil.comment};
+	// {extraKeys[os == 'Mac' ? 'Cmd-.' : (os == 'Linux' ? 'Ctrl-.' : 'Ctrl-.')]  = lc.codemirrorUtil.uncomment};
 
 	{extraKeys[os == 'Mac' ? 'Tab'   : (os == 'Linux' ? 'Tab'    : 'Tab')]     = lc.replaceSnippet};
 
