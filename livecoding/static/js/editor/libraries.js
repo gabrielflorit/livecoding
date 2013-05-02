@@ -3,81 +3,81 @@ var libraries = (function () {
 	var container = $('#menu .item h2:contains("libraries")').next();
 
 	var list = [
-	    {
-	        "name": "crossfilter",
-	        "obj": "crossfilter",
-	        "version": "1.1.3"
-	    },
-	    {
-	        "name": "CreateJS",
-	        "obj": "createjs",
-	        "version": "none"
-	    },
-	    {
-	        "name": "d3",
-	        "obj": "d3",
-	        "version": "3.1.4"
-	    },
-	    {
-	        "name": "Handlebars",
-	        "obj": "Handlebars",
-	        "version": "1.0.0-rc.3"
-	    },
-	    {
-	        "name": "Highcharts",
-	        "obj": "Highcharts",
-	        "version": "3.0.0"
-	    },
-	    {
-	        "name": "KineticJS",
-	        "obj": "Kinetic",
-	        "version": "4.4.0"
-	    },
-	    {
-	        "name": "Leaflet",
-	        "obj": "L",
-	        "version": "0.6-dev"
-	    },
-	    {
-	        "name": "lodash",
-	        "obj": "_",
-	        "version": "1.1.1"
-	    },
-	    {
-	        "name": "vega",
-	        "obj": "vg",
-	        "version": "1.0.0"
-	    },
-	    {
-	        "name": "Processing",
-	        "obj": "Processing",
-	        "version": "1.4.1-API"
-	    },
-	    {
-	        "name": "Raphael",
-	        "obj": "Raphael",
-	        "version": "2.1.0"
-	    },
-	    {
-	        "name": "Rickshaw",
-	        "obj": "Rickshaw",
-	        "version": "1.1.2"
-	    },
-	    {
-	        "name": "three.js",
-	        "obj": "THREE",
-	        "version": "57"
-	    },
-	    {
-	        "name": "TopoJSON",
-	        "obj": "topojson",
-	        "version": "0.0.39"
-	    },
-	    {
-	        "name": "Underscore",
-	        "obj": "_",
-	        "version": "1.4.4"
-	    }
+		{
+			"name": "crossfilter",
+			"obj": "crossfilter",
+			"version": "1.2.0"
+		},
+		{
+			"name": "CreateJS",
+			"obj": "createjs",
+			"version": "none"
+		},
+		{
+			"name": "d3",
+			"obj": "d3",
+			"version": "3.1.6"
+		},
+		{
+			"name": "Handlebars",
+			"obj": "Handlebars",
+			"version": "1.0.0-rc.3"
+		},
+		{
+			"name": "Highcharts",
+			"obj": "Highcharts",
+			"version": "3.0.1"
+		},
+		{
+			"name": "KineticJS",
+			"obj": "Kinetic",
+			"version": "4.4.3"
+		},
+		{
+			"name": "Leaflet",
+			"obj": "L",
+			"version": "0.6-dev"
+		},
+		{
+			"name": "lodash",
+			"obj": "_",
+			"version": "1.2.1"
+		},
+		{
+			"name": "Processing",
+			"obj": "Processing",
+			"version": "1.4.1-API"
+		},
+		{
+			"name": "Raphael",
+			"obj": "Raphael",
+			"version": "2.1.0"
+		},
+		{
+			"name": "Rickshaw",
+			"obj": "Rickshaw",
+			"version": "1.1.2"
+		},
+		{
+			"name": "three.js",
+			"obj": "THREE",
+			"version": "58"
+		},
+		{
+			"name": "TopoJSON",
+			"obj": "topojson",
+			"version": "1.0.0"
+		},
+		{
+			"name": "Underscore",
+			"obj": "_",
+			"version": "1.4.4"
+		},
+		{
+			"name": "vega",
+			"obj": "vg",
+			"version": "1.3.0"
+		}
 	];
 
 	function init() {

@@ -30,23 +30,37 @@ var Handlebars = {};
 // lib/handlebars/base.js
 
 Handlebars.VERSION = "1.0.0-rc.3";
-Handlebars.COMPILER_REVISION = 2;
+Handlebars.COMPILER_REVISION = 3;
 
 Handlebars.REVISION_CHANGES = {
   1: '<= 1.0.rc.2', // 1.0.rc.2 is actually rev2 but doesn't report it
-  2: '>= 1.0.0-rc.3'
+  2: '== 1.0.0-rc.3',
+  3: '>= 1.0.0-rc.4'
 };
 
 Handlebars.helpers  = {};
 Handlebars.partials = {};
 
+var toString = Object.prototype.toString,
+    functionType = '[object Function]',
+    objectType = '[object Object]';
+
 Handlebars.registerHelper = function(name, fn, inverse) {
-  if(inverse) { fn.not = inverse; }
-  this.helpers[name] = fn;
+  if (toString.call(name) === objectType) {
+    if (inverse || fn) { throw new Handlebars.Exception('Arg not supported with multiple helpers'); }
+    Handlebars.Utils.extend(this.helpers, name);
+  } else {
+    if (inverse) { fn.not = inverse; }
+    this.helpers[name] = fn;
+  }
 };
 
 Handlebars.registerPartial = function(name, str) {
-  this.partials[name] = str;
+  if (toString.call(name) === objectType) {
+    Handlebars.Utils.extend(this.partials,  name);
+  } else {
+    this.partials[name] = str;
+  }
 };
 
 Handlebars.registerHelper('helperMissing', function(arg) {
@@ -56,8 +70,6 @@ Handlebars.registerHelper('helperMissing', function(arg) {
     throw new Error("Could not find property '" + arg + "'");
   }
 });
-
-var toString = Object.prototype.toString, functionType = "[object Function]";
 
 Handlebars.registerHelper('blockHelperMissing', function(context, options) {
   var inverse = options.inverse || function() {}, fn = options.fn;
@@ -632,7 +644,7 @@ case 33: return 5;
 break;
 }
 };
-lexer.rules = [/^(?:\\\\(?=(\{\{)))/,/^(?:[^\x00]*?(?=(\{\{)))/,/^(?:[^\x00]+)/,/^(?:[^\x00]{2,}?(?=(\{\{|$)))/,/^(?:[\s\S]*?--\}\})/,/^(?:\{\{>)/,/^(?:\{\{#)/,/^(?:\{\{\/)/,/^(?:\{\{\^)/,/^(?:\{\{\s*else\b)/,/^(?:\{\{\{)/,/^(?:\{\{&)/,/^(?:\{\{!--)/,/^(?:\{\{![\s\S]*?\}\})/,/^(?:\{\{)/,/^(?:=)/,/^(?:\.(?=[} ]))/,/^(?:\.\.)/,/^(?:[\/.])/,/^(?:\s+)/,/^(?:\}\}\})/,/^(?:\}\})/,/^(?:"(\\["]|[^"])*")/,/^(?:'(\\[']|[^'])*')/,/^(?:@[a-zA-Z]+)/,/^(?:true(?=[}\s]))/,/^(?:false(?=[}\s]))/,/^(?:-?[0-9]+(?=[}\s]))/,/^(?:[a-zA-Z0-9_$-]+(?=[=}\s\/.]))/,/^(?:\[[^\]]*\])/,/^(?:.)/,/^(?:\s+)/,/^(?:[a-zA-Z0-9_$-/]+)/,/^(?:$)/];
+lexer.rules = [/^(?:\\\\(?=(\{\{)))/,/^(?:[^\x00]*?(?=(\{\{)))/,/^(?:[^\x00]+)/,/^(?:[^\x00]{2,}?(?=(\{\{|$)))/,/^(?:[\s\S]*?--\}\})/,/^(?:\{\{>)/,/^(?:\{\{#)/,/^(?:\{\{\/)/,/^(?:\{\{\^)/,/^(?:\{\{\s*else\b)/,/^(?:\{\{\{)/,/^(?:\{\{&)/,/^(?:\{\{!--)/,/^(?:\{\{![\s\S]*?\}\})/,/^(?:\{\{)/,/^(?:=)/,/^(?:\.(?=[}/ ]))/,/^(?:\.\.)/,/^(?:[\/.])/,/^(?:\s+)/,/^(?:\}\}\})/,/^(?:\}\})/,/^(?:"(\\["]|[^"])*")/,/^(?:'(\\[']|[^'])*')/,/^(?:@[a-zA-Z]+)/,/^(?:true(?=[}\s]))/,/^(?:false(?=[}\s]))/,/^(?:-?[0-9]+(?=[}\s]))/,/^(?:[a-zA-Z0-9_$:-]+(?=[=}\s\/.]))/,/^(?:\[[^\]]*\])/,/^(?:.)/,/^(?:\s+)/,/^(?:[a-zA-Z0-9_$-\/]+)/,/^(?:$)/];
 lexer.conditions = {"mu":{"rules":[5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,33],"inclusive":false},"emu":{"rules":[3],"inclusive":false},"com":{"rules":[4],"inclusive":false},"par":{"rules":[31,32],"inclusive":false},"INITIAL":{"rules":[0,1,2,33],"inclusive":true}};
 return lexer;})()
 parser.lexer = lexer;
@@ -817,6 +829,14 @@ var escapeChar = function(chr) {
 };
 
 Handlebars.Utils = {
+  extend: function(obj, value) {
+    for(var key in value) {
+      if(value.hasOwnProperty(key)) {
+        obj[key] = value[key];
+      }
+    }
+  },
+
   escapeExpression: function(string) {
     // don't escape SafeStrings, since they're already safe
     if (string instanceof Handlebars.SafeString) {
@@ -824,6 +844,11 @@ Handlebars.Utils = {
     } else if (string == null || string === false) {
       return "";
     }
+
+    // Force a string conversion as this will be done by the append regardless and
+    // the regex test will do this transparently behind the scenes, causing issues if
+    // an object's to string has escaped characters in it.
+    string = string.toString();
 
     if(!possible.test(string)) { return string; }
     return string.replace(badChars, escapeChar);
@@ -1025,6 +1050,10 @@ Compiler.prototype = {
       val  = pair[1];
 
       if (this.options.stringParams) {
+        if(val.depth) {
+          this.addDepth(val.depth);
+        }
+        this.opcode('getContext', val.depth || 0);
         this.opcode('pushStringParam', val.stringModeValue, val.type);
       } else {
         this.accept(val);
@@ -1108,7 +1137,7 @@ Compiler.prototype = {
 
     if (this.options.knownHelpers[name]) {
       this.opcode('invokeKnownHelper', params.length, name);
-    } else if (this.knownHelpersOnly) {
+    } else if (this.options.knownHelpersOnly) {
       throw new Error("You specified knownHelpersOnly, but used the unknown helper " + name);
     } else {
       this.opcode('invokeHelper', params.length, name);
@@ -1609,16 +1638,18 @@ JavaScriptCompiler.prototype = {
 
     if (this.options.stringParams) {
       this.register('hashTypes', '{}');
+      this.register('hashContexts', '{}');
     }
   },
   pushHash: function() {
-    this.hash = {values: [], types: []};
+    this.hash = {values: [], types: [], contexts: []};
   },
   popHash: function() {
     var hash = this.hash;
     this.hash = undefined;
 
     if (this.options.stringParams) {
+      this.register('hashContexts', '{' + hash.contexts.join(',') + '}');
       this.register('hashTypes', '{' + hash.types.join(',') + '}');
     }
     this.push('{\n    ' + hash.values.join(',\n    ') + '\n  }');
@@ -1761,14 +1792,18 @@ JavaScriptCompiler.prototype = {
   // and pushes the hash back onto the stack.
   assignToHash: function(key) {
     var value = this.popStack(),
+        context,
         type;
 
     if (this.options.stringParams) {
       type = this.popStack();
-      this.popStack();
+      context = this.popStack();
     }
 
     var hash = this.hash;
+    if (context) {
+      hash.contexts.push("'" + key + "': " + context);
+    }
     if (type) {
       hash.types.push("'" + key + "': " + type);
     }
@@ -1829,12 +1864,7 @@ JavaScriptCompiler.prototype = {
       else { programParams.push("depth" + (depth - 1)); }
     }
 
-    if(depths.length === 0) {
-      return "self.program(" + programParams.join(", ") + ")";
-    } else {
-      programParams.shift();
-      return "self.programWithDepth(" + programParams.join(", ") + ")";
-    }
+    return (depths.length === 0 ? "self.program(" : "self.programWithDepth(") + programParams.join(", ") + ")";
   },
 
   register: function(name, val) {
@@ -1966,7 +1996,9 @@ JavaScriptCompiler.prototype = {
       .replace(/\\/g, '\\\\')
       .replace(/"/g, '\\"')
       .replace(/\n/g, '\\n')
-      .replace(/\r/g, '\\r') + '"';
+      .replace(/\r/g, '\\r')
+      .replace(/\u2028/g, '\\u2028')   // Per Ecma-262 7.3 + 7.8.4
+      .replace(/\u2029/g, '\\u2029') + '"';
   },
 
   setupHelper: function(paramSize, name, missingParams) {
@@ -2022,6 +2054,7 @@ JavaScriptCompiler.prototype = {
     if (this.options.stringParams) {
       options.push("contexts:[" + contexts.join(",") + "]");
       options.push("types:[" + types.join(",") + "]");
+      options.push("hashContexts:hashContexts");
       options.push("hashTypes:hashTypes");
     }
 
@@ -2072,7 +2105,7 @@ JavaScriptCompiler.isValidJavaScriptVariableName = function(name) {
 };
 
 Handlebars.precompile = function(input, options) {
-  if (!input || (typeof input !== 'string' && input.constructor !== Handlebars.AST.ProgramNode)) {
+  if (input == null || (typeof input !== 'string' && input.constructor !== Handlebars.AST.ProgramNode)) {
     throw new Handlebars.Exception("You must pass a string or Handlebars AST to Handlebars.precompile. You passed " + input);
   }
 
@@ -2086,7 +2119,7 @@ Handlebars.precompile = function(input, options) {
 };
 
 Handlebars.compile = function(input, options) {
-  if (!input || (typeof input !== 'string' && input.constructor !== Handlebars.AST.ProgramNode)) {
+  if (input == null || (typeof input !== 'string' && input.constructor !== Handlebars.AST.ProgramNode)) {
     throw new Handlebars.Exception("You must pass a string or Handlebars AST to Handlebars.compile. You passed " + input);
   }
 
@@ -2124,13 +2157,11 @@ Handlebars.VM = {
       program: function(i, fn, data) {
         var programWrapper = this.programs[i];
         if(data) {
-          return Handlebars.VM.program(fn, data);
-        } else if(programWrapper) {
-          return programWrapper;
-        } else {
-          programWrapper = this.programs[i] = Handlebars.VM.program(fn);
-          return programWrapper;
+          programWrapper = Handlebars.VM.program(i, fn, data);
+        } else if (!programWrapper) {
+          programWrapper = this.programs[i] = Handlebars.VM.program(i, fn);
         }
+        return programWrapper;
       },
       programWithDepth: Handlebars.VM.programWithDepth,
       noop: Handlebars.VM.noop,
@@ -2162,21 +2193,27 @@ Handlebars.VM = {
     };
   },
 
-  programWithDepth: function(fn, data, $depth) {
-    var args = Array.prototype.slice.call(arguments, 2);
+  programWithDepth: function(i, fn, data /*, $depth */) {
+    var args = Array.prototype.slice.call(arguments, 3);
 
-    return function(context, options) {
+    var program = function(context, options) {
       options = options || {};
 
       return fn.apply(this, [context, options.data || data].concat(args));
     };
+    program.program = i;
+    program.depth = args.length;
+    return program;
   },
-  program: function(fn, data) {
-    return function(context, options) {
+  program: function(i, fn, data) {
+    var program = function(context, options) {
       options = options || {};
 
       return fn(context, options.data || data);
     };
+    program.program = i;
+    program.depth = 0;
+    return program;
   },
   noop: function() { return ""; },
   invokePartial: function(partial, name, context, helpers, partials, data) {
