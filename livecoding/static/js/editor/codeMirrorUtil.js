@@ -57,6 +57,8 @@ lc.codeMirrorInit = function(element, extraKeys) {
 		// show line numbers
 		lineNumbers: true,
 
+		matchBrackets: true,
+
 		// auto close brackets
 		autoCloseBrackets: true,
 
