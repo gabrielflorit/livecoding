@@ -77,6 +77,10 @@ $(function() {
 
 			}
 
+			// switch to default - need to do this to make CM gutter behave properly
+			modes.switchTo('html');
+			modes.switchTo('javascript');
+
 			// ----------- event handlers section ----------------------
 
 			// if we mouseup, and the slider is showing, AND nothing is selected,

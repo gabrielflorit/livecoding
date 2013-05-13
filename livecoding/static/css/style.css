@@ -875,10 +875,6 @@ body {
         z-index: 10;
       }
 
-        .CodeMirror-gutters.full {
-          height: 100% !important;
-        }
-
     #codeOverlay {
       position: relative;
       top: -1px;
