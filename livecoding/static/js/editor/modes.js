@@ -87,7 +87,8 @@ var modes = (function () {
 
 				// since we're not on the current mode, the contents
 				// will be saved on the mode object
-				payload[name] = _.findWhere(list, {name: name}).doc.getValue();
+				var modeDoc = _.findWhere(list, {name: name}).doc;
+				payload[name] = modeDoc ? modeDoc.getValue() : '';
 			}
 
 		});
