@@ -871,28 +871,14 @@ body {
 
 
       .CodeMirror {
-/*
-        position: relative;
-*/
         height: 100%;
         z-index: 10;
       }
 
-/*
-        .CodeMirror-scroll {
+        .CodeMirror-gutters.full {
           height: 100% !important;
         }
 
-        .CodeMirror .codeFolded {
-          color: white;
-          cursor: pointer;
-          font-weight: bold;
-        }
-
-        .CodeMirror .codeFolded:hover {
-          text-decoration: underline;
-        }
-*/
     #codeOverlay {
       position: relative;
       top: -1px;
