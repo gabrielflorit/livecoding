@@ -6,8 +6,8 @@ lc.getShortcuts = function(os) {
 			section: 'general', shortcuts: [
 				{ shortcut: os == 'Mac' ? 'Alt'     : (os == 'Linux' ? 'Ctrl'      : 'Ctrl'     ), name: 'slider'                 },
 				{ shortcut: os == 'Mac' ? 'Alt + S' : (os == 'Linux' ? 'Ctrl + S'  : 'Ctrl + S' ), name: 'save document'          },
-				// { shortcut: os == 'Mac' ? '⌘ + /'  : (os == 'Linux' ? 'Ctrl + /'  : 'Ctrl + /' ), name: 'comment selection'      },
-				// { shortcut: os == 'Mac' ? "⌘ + ."  : (os == 'Linux' ? "Ctrl + ."  : "Ctrl + ." ), name: 'uncomment selection'    },
+				{ shortcut: os == 'Mac' ? '⌘ + /'  : (os == 'Linux' ? 'Ctrl + /'  : 'Ctrl + /' ), name: 'comment selection'      },
+				{ shortcut: os == 'Mac' ? "⌘ + ."  : (os == 'Linux' ? "Ctrl + ."  : "Ctrl + ." ), name: 'uncomment selection'    },
 				{ shortcut: os == 'Mac' ? "⌘ + \\" : (os == 'Linux' ? "Ctrl + \\" : "Ctrl + \\"), name: 'pause/resume execution' },
 				{ shortcut: os == 'Mac' ? "⌘ + 9"  : (os == 'Linux' ? "Ctrl + 7"  : "Ctrl + 7" ), name: 'start animation'        },
 				{ shortcut: os == 'Mac' ? "⌘ + 0"  : (os == 'Linux' ? "Ctrl + 8"  : "Ctrl + 8" ), name: 'stop animation'         }
