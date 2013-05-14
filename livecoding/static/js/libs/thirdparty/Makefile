@@ -3,7 +3,7 @@ clean:
 
 install:
 	curl -o d3.js          'http://d3js.org/d3.v3.min.js'
-	curl -o KineticJS.js   'http://d3lp1msu2r81bx.cloudfront.net/kjs/js/lib/kinetic-v4.4.3.min.js'
+	curl -o KineticJS.js   'http://d3lp1msu2r81bx.cloudfront.net/kjs/js/lib/kinetic-v4.5.1.min.js'
 	curl -o Highcharts.js  'http://github.highcharts.com/master/highcharts.js'
 	curl -o Underscore.js  'http://underscorejs.org/underscore-min.js'
 	curl -o TopoJSON.js    'https://raw.github.com/mbostock/topojson/master/topojson.js'
@@ -16,6 +16,6 @@ install:
 	sed -i.bak "s/'use strict';//" three.js.js
 	rm *.bak
 	curl -o CreateJS.js    'http://code.createjs.com/createjs-2013.02.12.min.js'
-	curl -o Rickshaw.js    'https://raw.github.com/gabrielflorit/rickshaw/master/rickshaw.js'
+	curl -o Rickshaw.js    'https://raw.github.com/shutterstock/rickshaw/master/rickshaw.min.js'
 	curl -o vega.js        'https://raw.github.com/trifacta/vega/master/vega.min.js'
 	curl -o lodash.js      'https://raw.github.com/bestiejs/lodash/master/lodash.js'

@@ -31,7 +31,7 @@ var libraries = (function () {
 		{
 			"name": "KineticJS",
 			"obj": "Kinetic",
-			"version": "4.4.3"
+			"version": "4.5.1"
 		},
 		{
 			"name": "Leaflet",
@@ -56,7 +56,7 @@ var libraries = (function () {
 		{
 			"name": "Rickshaw",
 			"obj": "Rickshaw",
-			"version": "1.1.2"
+			"version": "none"
 		},
 		{
 			"name": "three.js",
@@ -66,7 +66,7 @@ var libraries = (function () {
 		{
 			"name": "TopoJSON",
 			"obj": "topojson",
-			"version": "1.0.0"
+			"version": "1.1.1"
 		},
 		{
 			"name": "Underscore",
