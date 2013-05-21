@@ -163,7 +163,7 @@ var aigua = (function () {
 				});
 				$('li:contains("login")').text('logout');
 				$('#menu li:contains("save as private gist"), #menu li:contains("save as public gist")').removeClass('disabled');
-				callback();
+				callback && callback();
 			});
 		},
 
