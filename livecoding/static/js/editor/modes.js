@@ -5,10 +5,10 @@ var modes = (function () {
 	var defaultIndex = 1;
 
 	var	list = [
-		{ name: 'html'      , doc: null, mime: 'text/html' },
-		{ name: 'javascript', doc: null, mime: 'text/javascript' },
-		{ name: 'css'       , doc: null, mime: 'text/css' },
-		{ name: 'json'      , doc: null, mime: 'application/json' }
+		{ name: 'html'      , doc: null, mime: 'text/html', default: '<!-- html goes here -->' },
+		{ name: 'javascript', doc: null, mime: 'text/javascript', default: '/* javascript goes here */' },
+		{ name: 'css'       , doc: null, mime: 'text/css', default: '/* css goes here */' },
+		{ name: 'json'      , doc: null, mime: 'application/json', default: '{ }' }
 	];
 
 	function clearAll() {

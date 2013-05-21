@@ -72,6 +72,14 @@ lc.codeMirrorInit = function(element, extraKeys) {
 	// listen for a change in the codemirror's contents
 	cm.on('change', function(cm, changeObj) {
 
+		var userPauseSetting = aigua.pause;
+		aigua.pause = true;
+		var currentMode = modes.getCurrent();
+		if (!aigua.codeMirror.getValue().trim().length) {
+			aigua.codeMirror.setValue(currentMode.default);
+		}
+		aigua.pause = userPauseSetting;
+
 		// if aigua.pause is true, don't do anything when the code changes
 		if (!aigua.pause) {
 

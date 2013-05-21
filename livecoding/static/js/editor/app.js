@@ -77,8 +77,7 @@ $(function() {
 
 			}
 
-			// switch to default - need to do this to make CM gutter behave properly
-			modes.switchTo('html');
+			modes.clearAll();
 			modes.switchTo('javascript');
 
 			// ----------- event handlers section ----------------------
