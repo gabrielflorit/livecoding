@@ -35,7 +35,7 @@ $(function() {
 
 	var getGists = function(start, count, callback) {
 		var path = '/api' + location.pathname + '/' + start + '/' + count;
-		populateThumbnailsFromEndpoint(path, $('ul.thumbnails'), isUser, callback);
+		populateThumbnailsFromEndpoint(path, $('ul.thumbnails'), true, callback);
 	};
 	getGists(_start, _count, afterGistsPopulate);
 

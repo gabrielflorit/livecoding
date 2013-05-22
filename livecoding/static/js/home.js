@@ -4,7 +4,7 @@ $(function() {
 		window.open('/!', '_blank');
 	});
 
-	populateThumbnailsFromEndpoint('api/gists/0/8', $('.recent ul'), false);
+	populateThumbnailsFromEndpoint('api/gists/0/8', $('.recent ul'), true);
 
 	function magic(x, minP, min, max) {
 		return minP + (x - min) * (100-minP)/(max - min);
