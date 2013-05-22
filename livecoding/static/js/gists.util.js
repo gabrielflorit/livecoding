@@ -112,4 +112,3 @@ var populateThumbnailsFromEndpoint = function(endpoint, node, orderByTime, callb
 	});
 
 };
-

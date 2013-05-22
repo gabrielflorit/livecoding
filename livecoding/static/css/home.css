@@ -172,6 +172,41 @@ header a:hover {
 	position: relative;
 	margin: 8px;
 }
+
+.bars {
+	margin: 0 8px;
+}
+
+.bars .user-container {
+	margin: 1em 0;
+}
+
+.bars .user-container:first-child {
+	margin-top: 8px;
+}
+
+.bars .user {
+	background: #FFF;
+	height: 24px;
+	text-align: right;
+}
+
+.bars .user img {
+	height: 100%;
+}
+
+.bars .user .avatar {
+	position: absolute;
+	top: 0;
+	right: 0;
+	height: 100%;
+}
+
+.bars .user .avatar img {
+	height: 100%;
+	vertical-align: bottom;
+}
+
 .gallery .thumbnails li {
 	display: none;
 }

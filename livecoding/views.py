@@ -205,7 +205,7 @@ def api_gists(start, count):
 @app.route('/api/users/<int:start>/<int:count>')
 def api_users(start, count):
 
-    gists = users.aggregate([
+    users_object = users.aggregate([
         { '$match': { 'username': { '$ne': None } } },
         { '$sort': { 'count': -1 } },
         { '$project': { '_id': 0, 'count': 1, 'username': 1, 'avatar': 1 } },
@@ -213,7 +213,7 @@ def api_users(start, count):
         { '$limit': count }
     ])['result']
 
-    return json.dumps({'gists': gists}, default=json_util.default)
+    return json.dumps({'users': users_object}, default=json_util.default)
 
 
 
