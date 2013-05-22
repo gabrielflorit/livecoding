@@ -26,8 +26,8 @@ $(function() {
 			var result = ''
 			+ '<div class="user-container">'
 			+ '  <div class="user" style="width: ' + magic(count, 30, minCount, maxCount) + '%">'
-			+ '    <a href="/gists/user/' + username + '">' + count + (i == 0 ? ' gists' : '') + '</a>'
-			+ '    <a href="/gists/user/' + username + '"><img src="' + avatar + '" /></a>'
+			+ '    <a href="/gists/user/' + username + '" title="' + username + '">' + count + (i == 0 ? ' gists' : '') + '</a>'
+			+ '    <a href="/gists/user/' + username + '" title="' + username + '"><img src="' + avatar + '" /></a>'
 			+ '  </div>'
 			+ '</div>';
 
