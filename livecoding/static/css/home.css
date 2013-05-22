@@ -109,12 +109,12 @@ header a:hover {
 	100% { box-shadow: 0 0 16px #BCD279; text-shadow: 0 0 16px #BCD279; }
 }
 
-.recent {
+.gallery {
 	background: #262626;
 	padding: 1.5em 0;
 }
 
-.recent .thumbnails-wrapper {
+.gallery .thumbnails-wrapper {
 	max-width: 784px;
 }
 .thumbnails-wrapper {
@@ -172,32 +172,32 @@ header a:hover {
 	position: relative;
 	margin: 8px;
 }
-.recent .thumbnails li {
+.gallery .thumbnails li {
 	display: none;
 }
 @media screen and (min-width:180px) {
-	.recent .thumbnails li:nth-child(-n+3) {
+	.gallery .thumbnails li:nth-child(-n+3) {
 		display: block;
 	}
 }
 @media screen and (min-width:392px){
-	.recent .thumbnails li:nth-child(-n+4) {
+	.gallery .thumbnails li:nth-child(-n+4) {
 		display: block;
 	}
 }
 @media screen and (min-width:588px){
-	.recent .thumbnails li:nth-child(-n+6) {
+	.gallery .thumbnails li:nth-child(-n+6) {
 		display: block;
 	}
 }
 @media screen and (min-width:784px){
-	.recent .thumbnails li:nth-child(-n+8) {
+	.gallery .thumbnails li:nth-child(-n+8) {
 		display: block;
 	}
 }
 
 @media screen and (max-width: 391px) {
-	.recent .thumbnails li {
+	.gallery .thumbnails li {
 		margin: 8px 0;
 	}
 }
