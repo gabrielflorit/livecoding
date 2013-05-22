@@ -109,12 +109,12 @@ header a:hover {
 	100% { box-shadow: 0 0 16px #BCD279; text-shadow: 0 0 16px #BCD279; }
 }
 
-.popular {
+.recent {
 	background: #262626;
 	padding: 1.5em 0;
 }
 
-.popular .thumbnails-wrapper {
+.recent .thumbnails-wrapper {
 	max-width: 784px;
 }
 .thumbnails-wrapper {
@@ -172,32 +172,32 @@ header a:hover {
 	position: relative;
 	margin: 8px;
 }
-.popular .thumbnails li {
+.recent .thumbnails li {
 	display: none;
 }
 @media screen and (min-width:180px) {
-	.popular .thumbnails li:nth-child(-n+3) {
+	.recent .thumbnails li:nth-child(-n+3) {
 		display: block;
 	}
 }
 @media screen and (min-width:392px){
-	.popular .thumbnails li:nth-child(-n+4) {
+	.recent .thumbnails li:nth-child(-n+4) {
 		display: block;
 	}
 }
 @media screen and (min-width:588px){
-	.popular .thumbnails li:nth-child(-n+6) {
+	.recent .thumbnails li:nth-child(-n+6) {
 		display: block;
 	}
 }
 @media screen and (min-width:784px){
-	.popular .thumbnails li:nth-child(-n+8) {
+	.recent .thumbnails li:nth-child(-n+8) {
 		display: block;
 	}
 }
 
 @media screen and (max-width: 391px) {
-	.popular .thumbnails li {
+	.recent .thumbnails li {
 		margin: 8px 0;
 	}
 }

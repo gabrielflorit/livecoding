@@ -180,11 +180,18 @@ def api_gists(start, count):
 
     gists = users.aggregate([
         { '$unwind': '$gists' },
-        { '$sort': { 'gists.views': -1 } },
+        { '$sort': { 'gists.modified': -1 } },
         { '$project': { '_id': 0, 'gists': 1, 'username': 1 } },
         { '$skip': start },
         { '$limit': count }
     ])['result']
+    # gists = users.aggregate([
+    #     { '$unwind': '$gists' },
+    #     { '$sort': { 'gists.views': -1 } },
+    #     { '$project': { '_id': 0, 'gists': 1, 'username': 1 } },
+    #     { '$skip': start },
+    #     { '$limit': count }
+    # ])['result']
 
     return json.dumps({'gists': gists}, default=json_util.default)
 
