@@ -6,4 +6,8 @@ $(function() {
 
 	populateThumbnailsFromEndpoint('api/gists/0/8', $('.recent ul'), false);
 
+	$.getJSON('api/users/0/8', function(json) {
+
+	});
+
 });

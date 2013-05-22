@@ -38,7 +38,11 @@ users = connection[db_name].users
 
 
 
-def addGistToMongo(username, gistId, updated_at):
+def addGistToMongo(username, gistId, updated_at, user):
+
+    avatar = None
+    if user is not None:
+        avatar = user['avatar_url']
 
     # is the gist public - is it all numbers?
     if re.match("^[\d]*$", gistId):
@@ -50,7 +54,7 @@ def addGistToMongo(username, gistId, updated_at):
 
             # does this user's gist exist?
             if users.find_one({'username': username, 'gists._id': gistId}) is not None:
-        
+
                 # update the user's gist's modified field
                 users.update(
                     { 'username': username, 'gists._id': gistId },
@@ -86,6 +90,12 @@ def addGistToMongo(username, gistId, updated_at):
                     'views': 1
                 }]
             })
+
+        # update the user's avatar
+        users.update(
+            { 'username': username },
+            { '$set': { 'avatar': avatar } }
+        )
 
 
 
@@ -147,9 +157,10 @@ def gist(gistId, versionId):
         # gist does not exist - add it
         else:
 
-            addGistToMongo(username, gistId, jsonText['updated_at'])
+            addGistToMongo(username, gistId, jsonText['updated_at'], jsonText['user'])
 
     return r.text
+
 
 
 
@@ -185,15 +196,25 @@ def api_gists(start, count):
         { '$skip': start },
         { '$limit': count }
     ])['result']
-    # gists = users.aggregate([
-    #     { '$unwind': '$gists' },
-    #     { '$sort': { 'gists.views': -1 } },
-    #     { '$project': { '_id': 0, 'gists': 1, 'username': 1 } },
-    #     { '$skip': start },
-    #     { '$limit': count }
-    # ])['result']
 
     return json.dumps({'gists': gists}, default=json_util.default)
+
+
+
+
+@app.route('/api/users/<int:start>/<int:count>')
+def api_users(start, count):
+
+    gists = users.aggregate([
+        { '$match': { 'username': { '$ne': None } } },
+        { '$sort': { 'count': -1 } },
+        { '$project': { '_id': 0, 'count': 1, 'username': 1, 'avatar': 1 } },
+        { '$skip': start },
+        { '$limit': count }
+    ])['result']
+
+    return json.dumps({'gists': gists}, default=json_util.default)
+
 
 
 
@@ -203,17 +224,6 @@ def gists(path):
     return render_template('gists.html', vars=dict(
         gaId=os.getenv('GOOGLE_ANALYTICS_ID')
     ))
-
-
-
-
-#     gists = users.aggregate([
-#         { '$match': { 'username' : { '$ne': username } } },
-#         { '$unwind': '$gists' },
-#         { '$sort': { 'gists.views': -1 } },
-#         { '$project': { '_id': 0, 'gists': 1, 'username': 1 } },
-#         { '$limit': limit }
-#     ])
 
 
 
@@ -274,7 +284,7 @@ def save_anonymously():
     gistId = jsonText['id']
 
     # add to mongo
-    addGistToMongo(None, gistId, jsonText['updated_at'])
+    addGistToMongo(None, gistId, jsonText['updated_at'], jsonText['user'])
 
     return gistId
 
@@ -319,7 +329,7 @@ def create_new():
 
     # add to mongodb
     if jsonText['public'] is True:
-        addGistToMongo(jsonText['user']['login'], gistId, jsonText['updated_at'])
+        addGistToMongo(jsonText['user']['login'], gistId, jsonText['updated_at'], jsonText['user'])
 
     return gistId
 
@@ -364,7 +374,7 @@ def fork():
         gistId = jsonText['id']
 
         if jsonText['public'] is True:
-            addGistToMongo(jsonText['user']['login'], gistId, jsonText['updated_at'])
+            addGistToMongo(jsonText['user']['login'], gistId, jsonText['updated_at'], jsonText['user'])
 
         return gistId
 
@@ -400,7 +410,7 @@ def save():
     if jsonText['public'] is True:
         username = jsonText['user']['login']
         updated_at = jsonText['updated_at']
-        addGistToMongo(username, gistId, updated_at)
+        addGistToMongo(username, gistId, updated_at, jsonText['user'])
 
     return gistId
 
