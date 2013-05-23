@@ -501,8 +501,9 @@ var aigua = (function () {
 			var value;
 			var suffix = '';
 
-			// if this isn't a number, e.g. 10px or 1.0em or 100%, strip the suffix
-			_.each(['px', 'em', '%'], function(value) {
+			// if this isn't a CSS unit, e.g. 10px or 1.0em or 100%, strip the suffix
+			_.each(['px', 'in', 'pc', 'pt', 'cm', 'mm', 'em', 'ex', 'ch', 'rem', 'vh', 'vw', 'vmin', 'vmax',
+			        '%', 'dpi', 'dpcm', 'dpmm', 's', 'ms', 'deg', 'rad', 'grad', 'turn'], function(value) {
 				if (token.string.indexOf(value) != -1) {
 					suffix = value;
 				}
