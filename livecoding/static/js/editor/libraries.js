@@ -16,17 +16,22 @@ var libraries = (function () {
 		{
 			"name": "d3",
 			"obj": "d3",
-			"version": "3.1.6"
+			"version": "3.1.10"
+		},
+		{
+			"name": "d3.chart",
+			"obj": "d3.chart",
+			"version": "0.1.0"
 		},
 		{
 			"name": "Handlebars",
 			"obj": "Handlebars",
-			"version": "1.0.0-rc.3"
+			"version": "1.0.0"
 		},
 		{
 			"name": "Highcharts",
 			"obj": "Highcharts",
-			"version": "3.0.1"
+			"version": "3.0.2"
 		},
 		{
 			"name": "KineticJS",
@@ -66,7 +71,7 @@ var libraries = (function () {
 		{
 			"name": "TopoJSON",
 			"obj": "topojson",
-			"version": "1.1.1"
+			"version": "1.1.3"
 		},
 		{
 			"name": "Underscore",
