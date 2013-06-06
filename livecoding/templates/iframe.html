@@ -15,7 +15,6 @@
 				addJs: function(library) {
 
 					var name = library.name;
-					var obj = library.obj;
 
 					if ($('body script[src*="' + name + '.js"]').length == 0) {
 
@@ -31,14 +30,7 @@
 
 				json: null,
 
-				removeJs: function(library) {
-
-					var obj = library.obj;
-
-					eval(obj + " = undefined;");
-					parent.aigua.renderCode();
-
-				},
+				removeJs: function(library) {},
 
 				workingCode: null,
 				renderCode: function(code) {
