@@ -9,6 +9,11 @@ var libraries = (function () {
 			"version": "1.2.0"
 		},
 		{
+			"name": "canvas2image",
+			"obj": "Canvas2Image",
+			"version": "0.1"
+		},
+		{
 			"name": "CreateJS",
 			"obj": "createjs",
 			"version": "none"
@@ -31,7 +36,7 @@ var libraries = (function () {
 		{
 			"name": "heatmap",
 			"obj": "h337",
-			"version": "none"
+			"version": "1.0"
 		},
 		{
 			"name": "Highcharts",
