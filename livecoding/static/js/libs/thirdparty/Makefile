@@ -20,3 +20,4 @@ install:
 	curl -o vega.js        'https://raw.github.com/trifacta/vega/master/vega.min.js'
 	curl -o lodash.js      'https://raw.github.com/bestiejs/lodash/master/lodash.js'
 	curl -o d3.chart.js    'https://raw.github.com/misoproject/d3.chart/master/d3.chart.min.js'
+	curl -o heatmap.js     'https://raw.github.com/pa7/heatmap.js/master/src/heatmap.js'

@@ -29,6 +29,11 @@ var libraries = (function () {
 			"version": "1.0.0"
 		},
 		{
+			"name": "heatmap",
+			"obj": "h337",
+			"version": "none"
+		},
+		{
 			"name": "Highcharts",
 			"obj": "Highcharts",
 			"version": "3.0.2"
