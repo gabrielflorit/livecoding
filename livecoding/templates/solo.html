@@ -62,6 +62,10 @@
 
 			{{vars.js|safe}}
 
+			if (livecoding.animate) {
+				livecoding.startAnimate();
+			}
+
 			var hideWatermark = '{{vars.hideWatermark}}' == 'True';
 			if (hideWatermark) $('#livecoding_watermark').hide();
 
