@@ -29,6 +29,11 @@ var libraries = (function () {
 			"version": "0.1.0"
 		},
 		{
+			"name": "d3.hexbin",
+			"obj": "d3.hexbin",
+			"version": "none"
+		},
+		{
 			"name": "Handlebars",
 			"obj": "Handlebars",
 			"version": "1.0.0"
