@@ -79,6 +79,11 @@ var libraries = (function () {
 			"version": "none"
 		},
 		{
+			"name": "skrollr",
+			"obj": "skrollr",
+			"version": "0.6.9"
+		},
+		{
 			"name": "three.js",
 			"obj": "THREE",
 			"version": "58"

@@ -23,3 +23,4 @@ install:
 	curl -o heatmap.js      'https://raw.github.com/pa7/heatmap.js/master/src/heatmap.js'
 	curl -o canvas2image.js 'http://www.nihilogic.dk/labs/canvas2image/canvas2image.js'
 	curl -o d3.hexbin.js    'https://raw.github.com/d3/d3-plugins/master/hexbin/hexbin.js'
+	curl -o skrollr.js      'https://raw.github.com/Prinzhorn/skrollr/master/dist/skrollr.min.js'
