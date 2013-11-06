@@ -4,6 +4,11 @@ var libraries = (function () {
 
 	var list = [
 		{
+			"name": "agentscript",
+			"obj": "agentscript",
+			"version": "0.6"
+		},
+		{
 			"name": "crossfilter",
 			"obj": "crossfilter",
 			"version": "1.2.0"
