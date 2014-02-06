@@ -230,9 +230,9 @@ var aigua = (function () {
 
 						// write user generated json to json tab
 						modes.switchTo('json');
-						aigua.codeMirror.setValue(frames[0].livecoding.json || modes.getCurrent().default);
-						modes.switchTo('javascript');
 
+						aigua.codeMirror.setValue(frames[0].livecoding.json ? JSON.stringify(frames[0].livecoding.json, null, 4) : modes.getCurrent().default);
+						modes.switchTo('javascript');
 
 					break;
 
