@@ -54,6 +54,11 @@ var libraries = (function () {
 			"version": "3.0.2"
 		},
 		{
+			"name": "JointJS",
+			"obj": "joint",
+			"version": "0.8.0"
+		},
+		{
 			"name": "KineticJS",
 			"obj": "Kinetic",
 			"version": "4.5.1"
