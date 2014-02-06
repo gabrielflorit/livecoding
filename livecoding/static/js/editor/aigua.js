@@ -228,6 +228,12 @@ var aigua = (function () {
 						// run the javascript code
 						frames[0].livecoding.renderCode(code);
 
+						// write user generated json to json tab
+						modes.switchTo('json');
+						aigua.codeMirror.setValue(frames[0].livecoding.json);
+						modes.switchTo('javascript');
+
+
 					break;
 
 					case 'css':
