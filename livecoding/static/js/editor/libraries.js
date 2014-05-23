@@ -74,6 +74,11 @@ var libraries = (function () {
 			"version": "1.2.1"
 		},
 		{
+			"name": "p5",
+			"obj": "p5",
+			"version": "0.2.12"
+		},
+		{
 			"name": "Processing",
 			"obj": "Processing",
 			"version": "1.4.1-API"
