@@ -9,7 +9,7 @@ var Editor = React.createClass({
 	render: function() {
 		return (
 			<div className='editor'>
-			 editor
+				editor
 			</div>
 		);
 	}

@@ -2,11 +2,8 @@
  * @jsx React.DOM
  */
 
-// reset browser styles
-require('../../node_modules/normalize.css/normalize.css');
-
 // require main stylesheet
-require('../css/main.css');
+require('../css/livecoding.css');
 
 var React  = require('react');
 
