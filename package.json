@@ -1,0 +1,19 @@
+{
+  "name": "livecoding",
+  "version": "0.0.0",
+  "description": "livecoding",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gabrielflorit/livecoding.git"
+  },
+  "keywords": [
+    "livecoding"
+  ],
+  "author": "Gabriel Florit",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/gabrielflorit/livecoding/issues"
+  },
+  "homepage": "https://github.com/gabrielflorit/livecoding"
+}
