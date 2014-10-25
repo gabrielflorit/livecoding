@@ -29,6 +29,8 @@
   "dependencies": {
     "codemirror": "^4.7.0",
     "github-api": "^0.7.0",
-    "lodash": "^2.4.1"
+    "gulp-ruby-sass": "^0.7.1",
+    "lodash": "^2.4.1",
+    "normalize.css": "^3.0.2"
   }
 }

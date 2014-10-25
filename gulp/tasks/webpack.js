@@ -18,7 +18,8 @@ gulp.task('webpack:dev', function() {
 	// extend default webpack options
 	// with dev specific info
 	_.extend(config, {
-		watch: true
+		watch: true,
+		devtool: 'eval-source-map'
 	});
 
 	return gulp.src('src/js/entry.js')
