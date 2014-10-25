@@ -11,7 +11,11 @@
 				".gitattributes",
 				"Procfile",
 				"requirements.txt",
-				"runserver.py"
+				"runserver.py",
+				"livecoding.sublime-project",
+				"LICENSE",
+				".gitignore"
+
 			]
 		}
 	]
