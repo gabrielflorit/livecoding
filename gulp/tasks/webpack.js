@@ -35,9 +35,9 @@ gulp.task('webpack', function() {
 		});
 	}
 
-	return gulp.src('src/js/entry.js')
+	return gulp.src('src/js/Livecoding.jsx')
 		.pipe(webpack(config))
 		.pipe(rename('bundle.js'))
 		.pipe(gulp.dest('dist'))
-		.pipe(util.env.prod ? browserSync.reload({stream:true}) : util.noop());
+		.pipe(!util.env.prod ? browserSync.reload({stream:true}) : util.noop());
 });
