@@ -5,7 +5,9 @@
 			"follow_symlinks": true,
 			"path": ".",
 			"folder_exclude_patterns": [
-				"livecoding"
+				"livecoding",
+				"node_modules",
+				"dist"
 			],
 			"file_exclude_patterns": [
 				".gitattributes",
@@ -14,8 +16,8 @@
 				"runserver.py",
 				"livecoding.sublime-project",
 				"LICENSE",
-				".gitignore"
-
+				".gitignore",
+				"package.json"
 			]
 		}
 	]

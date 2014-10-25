@@ -15,5 +15,16 @@
   "bugs": {
     "url": "https://github.com/gabrielflorit/livecoding/issues"
   },
-  "homepage": "https://github.com/gabrielflorit/livecoding"
+  "homepage": "https://github.com/gabrielflorit/livecoding",
+  "devDependencies": {
+    "browser-sync": "^1.6.0",
+    "gulp": "^3.8.9",
+    "gulp-rename": "^1.2.0",
+    "gulp-webpack": "^1.0.0",
+    "require-dir": "^0.1.0",
+    "run-sequence": "^1.0.1"
+  },
+  "dependencies": {
+    "lodash": "^2.4.1"
+  }
 }
