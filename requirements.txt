@@ -1,5 +1,0 @@
-Flask
-gunicorn
-requests
-newrelic
-pymongo
