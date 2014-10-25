@@ -2,7 +2,6 @@
  * @jsx React.DOM
  */
 
-// require main stylesheet
 require('../css/livecoding.css');
 
 var React  = require('react');
@@ -13,7 +12,7 @@ var Livecoding = React.createClass({
 
 	render: function() {
 		return (
-			<div>
+			<div className='livecoding'>
 				<Editor />
 			</div>
 		);
@@ -23,5 +22,5 @@ var Livecoding = React.createClass({
 
 React.renderComponent(
 	<Livecoding />,
-	document.getElementById('livecoding')
+	document.getElementById('main')
 );
