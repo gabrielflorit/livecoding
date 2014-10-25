@@ -9,7 +9,8 @@ var util           = require('gulp-util');
 var config = {
 	module: {
 		loaders: [
-			{ test: /\.css$/, loader: 'style-loader!css-loader' }
+			{ test: /\.css$/, loader: 'style-loader!css-loader' },
+			{ test: /\.jsx$/, loader: 'jsx-loader' }
 		]
 	}
 };
@@ -19,7 +20,12 @@ gulp.task('webpack', function() {
 	if (util.env.prod) {
 		_.extend(config, {
 			plugins: [
-				new webpackPlugins.optimize.UglifyJsPlugin()
+				new webpackPlugins.optimize.UglifyJsPlugin(),
+				new webpackPlugins.DefinePlugin({
+					'process.env': {
+						NODE_ENV: JSON.stringify('production')
+					}
+				})
 		    ]
 		});
 	} else {

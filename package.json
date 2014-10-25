@@ -22,8 +22,10 @@
     "gulp": "^3.8.9",
     "gulp-csso": "^0.2.9",
     "gulp-rename": "^1.2.0",
+    "gulp-ruby-sass": "^0.7.1",
     "gulp-util": "^3.0.1",
     "gulp-webpack": "^1.0.0",
+    "jsx-loader": "^0.11.2",
     "require-dir": "^0.1.0",
     "run-sequence": "^1.0.1",
     "style-loader": "^0.8.1"
@@ -31,8 +33,8 @@
   "dependencies": {
     "codemirror": "^4.7.0",
     "github-api": "^0.7.0",
-    "gulp-ruby-sass": "^0.7.1",
     "lodash": "^2.4.1",
-    "normalize.css": "^3.0.2"
+    "normalize.css": "^3.0.2",
+    "react": "^0.11.2"
   }
 }
