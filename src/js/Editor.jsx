@@ -8,8 +8,8 @@
 
 require('../css/editor.css');
 var React = require('react');
-
 var CodeMirror = require('codemirror');
+var util = require('./util.js');
 
 var Editor = React.createClass({
 
@@ -25,8 +25,15 @@ var Editor = React.createClass({
 	},
 
 	componentDidMount: function() {
+		var self = this;
+
 		this.codemirror = CodeMirror(this.getDOMNode().querySelector('.editor-codemirror'), {
 			lineNumbers: true
+		});
+
+		this.codemirror.on('change', function(cm) {
+			var content = cm.getValue();
+			self.props.onContentChange(content);
 		});
 	}
 
