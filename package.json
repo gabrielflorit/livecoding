@@ -19,6 +19,7 @@
   "devDependencies": {
     "browser-sync": "^1.6.0",
     "css-loader": "^0.9.0",
+    "del": "^0.1.3",
     "gulp": "^3.8.9",
     "gulp-csso": "^0.2.9",
     "gulp-preprocess": "^1.1.1",

@@ -12,6 +12,7 @@ gulp.task('build', function(done) {
 		);
 	} else {
 		runSequence(
+			'clean',
 			'watch',
 			'browser-sync',
 			'html',
