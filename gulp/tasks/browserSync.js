@@ -5,10 +5,10 @@ gulp.task('browser-sync', function() {
 	
 	browserSync({
 		server: {
-			baseDir: './'
+			baseDir: '.tmp'
 		},
 		files: [
-			'./*.html'
+			'.tmp/*.html'
 		]
 	});
 });
