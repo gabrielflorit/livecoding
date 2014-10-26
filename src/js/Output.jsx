@@ -2,6 +2,7 @@
  * @jsx React.DOM
  */
 
+require('../css/output.css');
 var React = require('react');
 
 var Output = React.createClass({
@@ -15,9 +16,13 @@ var Output = React.createClass({
 	render: function() {
 		return (
 			<div className='output'>
-				{this.state.content}
+				<iframe src='iframe.html' />
 			</div>
 		);
+	},
+
+	shouldComponentUpdate: function(props, state) {
+		return false;
 	}
 
 });

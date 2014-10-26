@@ -19,7 +19,8 @@
 				"livecoding.sublime-project",
 				"LICENSE",
 				".gitignore",
-				"package.json"
+				"package.json",
+				"src/css/*.css"
 			]
 		}
 	]
