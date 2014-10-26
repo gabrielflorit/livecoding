@@ -8,7 +8,8 @@
 				"livecoding",
 				"node_modules",
 				"dist",
-				".sass-cache"
+				".sass-cache",
+				".tmp"
 			],
 			"file_exclude_patterns": [
 				".gitattributes",
@@ -19,7 +20,8 @@
 				"LICENSE",
 				".gitignore",
 				"package.json",
-				"src/css/*.css"
+				"src/css/*.css",
+				"*.html"
 			]
 		}
 	]

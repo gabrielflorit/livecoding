@@ -6,6 +6,7 @@ gulp.task('build', function(done) {
 
 	if (util.env.prod) {
 		runSequence(
+			'html',
 			'css',
 			'webpack'
 		);
@@ -13,6 +14,7 @@ gulp.task('build', function(done) {
 		runSequence(
 			'watch',
 			'browser-sync',
+			'html',
 			'css',
 			'webpack'
 		);

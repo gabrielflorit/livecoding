@@ -38,6 +38,6 @@ gulp.task('webpack', function() {
 	return gulp.src('src/js/Livecoding.jsx')
 		.pipe(webpack(config))
 		.pipe(rename('bundle.js'))
-		.pipe(gulp.dest('dist'))
+		.pipe(gulp.dest(util.env.prod ? 'dist' : '.tmp'))
 		.pipe(!util.env.prod ? browserSync.reload({stream:true}) : util.noop());
 });

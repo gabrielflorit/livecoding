@@ -21,6 +21,7 @@
     "css-loader": "^0.9.0",
     "gulp": "^3.8.9",
     "gulp-csso": "^0.2.9",
+    "gulp-preprocess": "^1.1.1",
     "gulp-rename": "^1.2.0",
     "gulp-ruby-sass": "^0.7.1",
     "gulp-util": "^3.0.1",
