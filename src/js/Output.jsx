@@ -7,12 +7,6 @@ var React = require('react');
 
 var Output = React.createClass({
 
-	getInitialState: function() {
-		return {
-			content: 'gabriel'
-		};
-	},
-
 	render: function() {
 		return (
 			<div className='output'>
@@ -22,6 +16,13 @@ var Output = React.createClass({
 	},
 
 	shouldComponentUpdate: function(props, state) {
+
+		// we assume state.content is a function
+		var content = state.content;
+		this.getDOMNode().querySelector('iframe').contentWindow.callCode(function() {
+			console.log(state.content);
+		});
+
 		return false;
 	}
 
