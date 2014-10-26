@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset='utf-8'>
+		<meta http-equiv='X-UA-Compatible' content='IE=edge'>
+		<title>livecoding</title>
+		<meta name='description' content='livecoding'>
+		<meta name='viewport' content='width=device-width, initial-scale=1'>
+		<!-- <script src='//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js'></script> -->
+	</head>
+	<body>
+		<div id='main' />
+
+		<!-- @if NODE_ENV='prod' -->
+		<script src='dist/bundle.js'></script>
+		<!-- @endif -->
+
+		<!-- @if NODE_ENV='dev' -->
+		<script src='bundle.js'></script>
+		<!-- @endif -->
+	</body>
+</html>

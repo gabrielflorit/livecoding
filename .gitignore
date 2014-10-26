@@ -3,4 +3,3 @@ livecoding.sublime-workspace
 .sass-cache
 src/css/*.css
 .tmp
-*.html

@@ -7,5 +7,5 @@ gulp.task('html', function() {
 
 	gulp.src('src/html/*.html')
 		.pipe(preprocess({context: { NODE_ENV: NODE_ENV}}))
-		.pipe(gulp.dest('.tmp'));
+		.pipe(gulp.dest(util.env.prod ? './' : '.tmp'));
 });

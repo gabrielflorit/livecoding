@@ -1,0 +1,11 @@
+<!doctype html>
+<head>
+	<script>
+		var code = window.location.href.match(/\?code=(.*)/)[1];
+		opener.login(code);
+		close();
+	</script>
+</head>
+<body>
+</body>
+</html>
