@@ -18,10 +18,7 @@ var Output = React.createClass({
 	shouldComponentUpdate: function(props, state) {
 
 		// we assume state.content is a function
-		var content = state.content;
-		this.getDOMNode().querySelector('iframe').contentWindow.callCode(function() {
-			console.log(state.content);
-		});
+		this.getDOMNode().querySelector('iframe').contentWindow.callCode(state.content);
 
 		return false;
 	}
