@@ -9,7 +9,15 @@
 		<!-- <script src='//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js'></script> -->
 		<script>
 			function callCode(func) {
-				func();
+
+				// func is valid syntax code (according to esprima).
+				// this means we can safely ignore errors.
+				try {
+					func();
+				}
+				catch(e) {
+
+				}
 			}
 		</script>
 	</head>
