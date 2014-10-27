@@ -46,7 +46,11 @@ var Editor = React.createClass({
 				AST = esprima.parse(content, {tolerant: true, loc: true});
 				isValid = !AST.errors.length;
 				// TODO: display errors info on line gutters
+				if (!isValid) {
+					util.log(AST.errors);
+				}
 			} catch(e) {
+				util.log(e);
 				// TODO: display e info on line gutter
 			}
 
