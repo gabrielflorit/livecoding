@@ -2,16 +2,29 @@
  * @jsx React.DOM
  */
 
-// the Editor's responsibility is limited:
-// NOW: notify listeners when its contents change
-// (TODO: display the contents of one file, e.g. file.js, file.css)
+// The Editor's responsibility is limited to the following:
+// - Notify listeners when its contents change.
+// - Allow for multiple files, each with its own syntax highlighting and validation (optional).
+//		- A file might be created via a keyboard shortcut. All keyboard shortcuts will be handled elsewhere,
+//			so this should expose an API to create a file.
+//		- A file might be created via a new tab. The tab control will be managed here.
+//
+// The metaphor here is a stack of papers. Livecoding receives a stack of papers and promptly gives them
+// to Editor. Editor keeps those papers, making modifications when necessary, and informing Livecoding
+// of each modification. If prompted, Editor can show the papers to Livecoding, but they're always in
+// Editor's control.
+
+// In other words: Livecoding receives a gist of files, sets as state on Editor.
+// Editor notifies Livecoding on every key change.
+// Livecoding can then request to get either files of this type, including the current one.
+// Livecoding can also request to get all files, period.
 
 require('../css/editor.css');
 var React = require('react');
 var CodeMirror = require('codemirror');
 var util = require('./util.js');
 var esprima = require('esprima');
-var escodegen = require('imports?this=>window!!exports?window.escodegen!../../node_modules/escodegen/escodegen.browser.min.js');
+var escodegen = require('imports?this=>window!exports?window.escodegen!../../node_modules/escodegen/escodegen.browser.min.js');
 
 var Editor = React.createClass({
 
