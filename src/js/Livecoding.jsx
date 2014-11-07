@@ -17,13 +17,25 @@ var Livecoding = React.createClass({
 	},
 
 	render: function() {
+
+		var files = {
+			'water.js': {
+				'content': 'console.log("I am water.js")'
+			},
+			'water.css': {
+				'content': 'console.log("I am water.css")'
+			}
+		};
+
 		return (
 			<div className='livecoding'>
 				<Editor onContentChange={this.handleContentChange} />
 				<Output ref='theOutput' />
 			</div>
 		);
-	}
+	},
+
+	component
 
 });
 

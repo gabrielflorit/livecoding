@@ -46,39 +46,39 @@ var Editor = React.createClass({
 			lineNumbers: true
 		});
 
-		this.codemirror.on('change', function(cm) {
+		// this.codemirror.on('change', function(cm) {
 
-			// grab codemirror contents
-			var content = cm.getValue();
+		// 	// grab codemirror contents
+		// 	var content = cm.getValue();
 
-			// let's try to parse contents
-			// this way we will only render contents that pass validation
-			var AST;
-			var isValid = false;
-			try {
-				AST = esprima.parse(content, {tolerant: true, loc: true});
-				isValid = !AST.errors.length;
-				// TODO: display errors info on line gutters
-				if (!isValid) {
-					util.log(AST.errors);
-				}
-			} catch(e) {
-				util.log(e);
-				// TODO: display e info on line gutter
-			}
+		// 	// let's try to parse contents
+		// 	// this way we will only render contents that pass validation
+		// 	var AST;
+		// 	var isValid = false;
+		// 	try {
+		// 		AST = esprima.parse(content, {tolerant: true, loc: true});
+		// 		isValid = !AST.errors.length;
+		// 		// TODO: display errors info on line gutters
+		// 		if (!isValid) {
+		// 			util.log(AST.errors);
+		// 		}
+		// 	} catch(e) {
+		// 		util.log(e);
+		// 		// TODO: display e info on line gutter
+		// 	}
 
-			if (isValid) {
-				var code = escodegen.generate(AST);
+		// 	if (isValid) {
+		// 		var code = escodegen.generate(AST);
 
-				// new Function() is better than eval, since the latter
-				// has access to context scope
-				var func = new Function(code);
+		// 		// new Function() is better than eval, since the latter
+		// 		// has access to context scope
+		// 		var func = new Function(code);
 
-				// publish content change event
-				self.props.onContentChange(func);
-			}
+		// 		// publish content change event
+		// 		self.props.onContentChange(func);
+		// 	}
 
-		});
+		// });
 	},
 
 	shouldComponentUpdate: function(props, state) {
