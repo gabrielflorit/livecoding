@@ -29,7 +29,6 @@
     "gulp-util": "^3.0.1",
     "gulp-webpack": "^1.0.0",
     "imports-loader": "^0.6.3",
-    "jsx-loader": "^0.11.2",
     "require-dir": "^0.1.0",
     "run-sequence": "^1.0.1",
     "style-loader": "^0.8.1"
@@ -40,7 +39,6 @@
     "esprima": "^1.2.2",
     "github-api": "^0.7.0",
     "lodash": "^2.4.1",
-    "normalize.css": "^3.0.2",
-    "react": "^0.11.2"
+    "normalize.css": "^3.0.2"
   }
 }
