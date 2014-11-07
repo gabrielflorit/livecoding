@@ -6,7 +6,6 @@ var Output = React.createClass({
 	render: function() {
 		return (
 			<div className='output'>
-				the output
 			</div>
 		);
 	}
