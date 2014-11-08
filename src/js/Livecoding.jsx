@@ -1,20 +1,22 @@
-require('../css/livecoding.css');
-var React  = require('react');
-var Editor = require('./Editor.jsx');
-var Output = require('./Output.jsx');
-var Toolbar = require('./Toolbar.jsx');
-var util = require('./util.js');
-var _ = require('lodash');
+// Livecoding is the parent component. It includes all other
+// components, handling and responding to events when necessary.
+// It maintains the application's state.
 
+// Include this component's stylesheet.
+require('../css/livecoding.css');
+
+// Include React.
+var React   = require('react');
+
+// Include all top-level components.
+var Editor  = require('./Editor.jsx');
+var Output  = require('./Output.jsx');
+var Toolbar = require('./Toolbar.jsx');
+
+// Create the React component.
 var Livecoding = React.createClass({
 
-	handleContentChange: function(content) {
-		var selected = this.state.selected;
-		var change = {};
-		change[selected] = content;
-		this.setState(change);
-	},
-
+	// Set the initial state.
 	getInitialState: function() {
 		return {
 			html: '',
@@ -49,6 +51,13 @@ var Livecoding = React.createClass({
 				</div>
 			</div>
 		);
+	},
+
+	handleContentChange: function(content) {
+		var selected = this.state.selected;
+		var change = {};
+		change[selected] = content;
+		this.setState(change);
 	}
 
 });
