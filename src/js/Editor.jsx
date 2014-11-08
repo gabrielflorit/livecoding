@@ -37,7 +37,7 @@ var Editor = React.createClass({
 		});
 
 		// When the code editor's contents change,
-		this.codemirror.on('change', function(cm, o) {
+		this.codemirror.on('change', function(cm) {
 
 			// get the contents,
 			var content = cm.getValue();

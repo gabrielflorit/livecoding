@@ -47,11 +47,11 @@ var Livecoding = React.createClass({
 						html={this.state.html}
 						js={this.state.js}
 						css={this.state.css}
-						change={mode}
+						mode={mode}
 					/>
 					<Editor
 						content={content}
-						language={mode}
+						mode={mode}
 						onContentChange={this.handleContentChange}
 					/>
 				</div>
