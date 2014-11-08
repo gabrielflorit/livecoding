@@ -14,8 +14,14 @@ var Output = React.createClass({
 
 	shouldComponentUpdate: function(props, state) {
 
+		var doc = this.getDOMNode().querySelector('iframe').contentWindow.document;
+
 		if (props.change === 'html') {
-			this.getDOMNode().querySelector('iframe').contentWindow.document.body.innerHTML = props.html;
+			doc.body.innerHTML = props.html;
+		}
+
+		if (props.change === 'css') {
+			doc.head.querySelector('style').textContent = props.css;
 		}
 
 		return false;
