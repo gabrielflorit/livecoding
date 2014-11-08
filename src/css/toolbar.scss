@@ -1,4 +1,13 @@
 .toolbar {
-	background: black;
-	color: white;
+
+	padding: 0.5em;
+
+	width: 100%;
+	overflow: hidden;
+
+	li {
+		float: left;
+		margin-right: 1em;
+	}
+
 }

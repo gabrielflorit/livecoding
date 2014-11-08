@@ -41,7 +41,10 @@ var Livecoding = React.createClass({
 		// `render` on all the components.
 		return (
 			<div className='livecoding'>
-				<Toolbar />
+				<Toolbar
+					mode={mode}
+					onModeChange={this.handleModeChange}
+				/>
 				<div className='content'>
 					<Output
 						html={this.state.html}
@@ -72,6 +75,12 @@ var Livecoding = React.createClass({
 		var change = {};
 		change[mode] = content;
 		this.setState(change);
+	},
+
+	handleModeChange: function(mode) {
+		this.setState({
+			mode: mode
+		});
 	}
 
 });
