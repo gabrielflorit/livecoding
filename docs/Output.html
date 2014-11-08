@@ -67,28 +67,28 @@
 
 <span class="hljs-keyword">var</span> Output = React.createClass({
 
-    render: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> </span>{
-        <span class="hljs-keyword">return</span> (
-            <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">className</span>=<span class="hljs-value">'output'</span>&gt;</span>
-                <span class="hljs-tag">&lt;<span class="hljs-title">iframe</span> <span class="hljs-attribute">src</span>=<span class="hljs-value">'iframe.html'</span> /&gt;</span>
-            <span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
-        );
-    },
+   render: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> </span>{
+      <span class="hljs-keyword">return</span> (
+         <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">className</span>=<span class="hljs-value">'output'</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-title">iframe</span> <span class="hljs-attribute">src</span>=<span class="hljs-value">'iframe.html'</span> /&gt;</span>
+         <span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
+      );
+   },
 
-    shouldComponentUpdate: function(props, state) {
+   shouldComponentUpdate: function(props, state) {
 
-        var doc = this.getDOMNode().querySelector('iframe').contentWindow.document;
+      var doc = this.getDOMNode().querySelector('iframe').contentWindow.document;
 
-        if (props.change === 'html') {
-            doc.body.innerHTML = props.html;
-        }
+      if (props.change === 'html') {
+         doc.body.innerHTML = props.html;
+      }
 
-        if (props.change === 'css') {
-            doc.head.querySelector('style').textContent = props.css;
-        }
+      if (props.change === 'css') {
+         doc.head.querySelector('style').textContent = props.css;
+      }
 
-        return false;
-    }
+      return false;
+   }
 
 });
 
