@@ -10,10 +10,8 @@ var Livecoding = React.createClass({
 
 	handleContentChange: function(content) {
 		var selected = this.state.selected;
-
 		var change = {};
 		change[selected] = content;
-
 		this.setState(change);
 	},
 
@@ -28,14 +26,21 @@ var Livecoding = React.createClass({
 
 	render: function() {
 
-		var selected = this.state.selected;
-		var content = this.state[selected];
+		var state = this.state;
+
+		var selected = state.selected;
+		var content = state[selected];
 
 		return (
 			<div className='livecoding'>
 				<Toolbar />
 				<div className='content'>
-					<Output />
+					<Output
+						html={state.html}
+						js={state.js}
+						css={state.css}
+						change={selected}
+					/>
 					<Editor
 						content={content}
 						language={selected}
@@ -44,19 +49,6 @@ var Livecoding = React.createClass({
 				</div>
 			</div>
 		);
-	},
-
-	componentDidMount: function() {
-
-		// eventually we'll check if url has gist id, and if so,
-		// load gist and pass it to Editor.
-		// but for now we'll just pass it documents manually.
-		this.setState({
-			html: '<h1>the html</h1>',
-			js: 'console.log("the js")',
-			css: 'body { background: red; }',
-			selected: 'html'
-		});
 	}
 
 });
