@@ -39,6 +39,7 @@
     "esprima": "^1.2.2",
     "github-api": "^0.7.0",
     "lodash": "^2.4.1",
-    "normalize.css": "^3.0.2"
+    "normalize.css": "^3.0.2",
+    "pubsub-js": "^1.5.0"
   }
 }

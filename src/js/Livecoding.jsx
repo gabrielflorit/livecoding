@@ -8,6 +8,9 @@ require('../css/livecoding.css');
 // Include React.
 var React   = require('react');
 
+// Include libraries.
+var PubSub  = require('pubsub-js');
+
 // Include all top-level components.
 var Editor  = require('./Editor.jsx');
 var Output  = require('./Output.jsx');
@@ -43,7 +46,6 @@ var Livecoding = React.createClass({
 			<div className='livecoding'>
 				<Toolbar
 					mode={mode}
-					onModeChange={this.handleModeChange}
 				/>
 				<div className='content'>
 					<Output
@@ -55,18 +57,28 @@ var Livecoding = React.createClass({
 					<Editor
 						content={content}
 						mode={mode}
-						onContentChange={this.handleContentChange}
 					/>
 				</div>
 			</div>
 		);
 	},
 
+	// This function gets called once, before the initial render.
+	componentWillMount: function() {
+
+		var self = this;
+
+		// Setup all the subscriptions.
+		PubSub.subscribe(Editor.topics().ContentChange, self.handleContentChange);
+		PubSub.subscribe(Toolbar.topics().ModeChange, self.handleModeChange);
+
+	},
+
 	// Every time **Editor**'s content changes it hands **Livecoding**
 	// the new content. **Livecoding** then updates its current state
 	// with the new content. This setup enforces React's one-way data
 	// flow.
-	handleContentChange: function(content) {
+	handleContentChange: function(topic, content) {
 
 		// Get the current mode.
 		var mode = this.state.mode;
@@ -77,7 +89,7 @@ var Livecoding = React.createClass({
 		this.setState(change);
 	},
 
-	handleModeChange: function(mode) {
+	handleModeChange: function(topic, mode) {
 		this.setState({
 			mode: mode
 		});

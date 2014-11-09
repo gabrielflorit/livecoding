@@ -1,10 +1,20 @@
 require('../css/toolbar.css');
-var React = require('react');
+var React   = require('react');
+
+var PubSub  = require('pubsub-js');
 
 var Toolbar = React.createClass({
 
+	statics: {
+		topics: function() {
+			return {
+				ModeChange: 'ModeChange'
+			};
+		}
+	},
+
 	handleModeClick: function(e) {
-		this.props.onModeChange(e.currentTarget.textContent);
+		PubSub.publish(Toolbar.topics().ModeChange, e.currentTarget.textContent);
 	},
 
 	render: function() {

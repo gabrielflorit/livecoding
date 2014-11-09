@@ -4,13 +4,24 @@
 require('../css/editor.css');
 
 // Include React.
-var React = require('react');
+var React      = require('react');
+
+// Include libraries.
+var PubSub     = require('pubsub-js');
 
 // We'll use CodeMirror as the code editor.
 var CodeMirror = require('codemirror');
 
 // Create the component.
 var Editor = React.createClass({
+
+	statics: {
+		topics: function() {
+			return {
+				ContentChange: 'ContentChange'
+			};
+		}
+	},
 
 	// Convenience property.
 	codemirror: null,
@@ -42,8 +53,8 @@ var Editor = React.createClass({
 			// get the contents,
 			var content = cm.getValue();
 
-			// and pass them off to **Livecoding**.
-			self.props.onContentChange(content);
+			// and publish a change event containing the new content.
+			PubSub.publish(Editor.topics().ContentChange, content);
 		});
 	},
 
