@@ -15,6 +15,7 @@ var PubSub  = require('pubsub-js');
 var Editor  = require('./Editor.jsx');
 var Output  = require('./Output.jsx');
 var Toolbar = require('./Toolbar.jsx');
+var Modebar = require('./Modebar.jsx');
 
 // Create the React component.
 var Livecoding = React.createClass({
@@ -44,9 +45,11 @@ var Livecoding = React.createClass({
 		// `render` on all the components.
 		return (
 			<div className='livecoding'>
-				<Toolbar
-					mode={mode}
-				/>
+				<div className='toolbars'>
+					<Modebar
+						mode={mode}
+					/>
+				</div>
 				<div className='content'>
 					<Output
 						html={this.state.html}

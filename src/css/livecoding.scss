@@ -30,12 +30,17 @@ ul {
 
 .livecoding {
 	overflow: hidden;
+	display: flex;
+	flex-direction: column;
 
-	.toolbar {
+	.toolbars {
+		background: grey;
+		flex: 0 1 auto;
 	}
 
 	.content {
-		width: 100%;
-		height: 100%;
+		background: aliceblue;
+		flex: 1 1 auto;
+		position: relative;
 	}
 }
