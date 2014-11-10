@@ -12,6 +12,9 @@ var PubSub     = require('pubsub-js');
 // We'll use CodeMirror as the code editor.
 var CodeMirror = require('codemirror');
 
+// Load CodeMirror HTML/JS/CSS modes.
+require('../../node_modules/codemirror/mode/htmlmixed/htmlmixed.js');
+
 // Create the component.
 var Editor = React.createClass({
 
@@ -44,7 +47,9 @@ var Editor = React.createClass({
 
 		// Initialize the CodeMirror instance with various options.
 		this.codemirror = CodeMirror(this.getDOMNode().querySelector('.editor-codemirror'), {
-			lineNumbers: true
+			lineNumbers: true,
+			mode: 'htmlmixed',
+			theme: 'solarized dark'
 		});
 
 		// When the code editor's contents change,

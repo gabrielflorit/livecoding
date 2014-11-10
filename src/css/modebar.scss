@@ -1,5 +1,33 @@
+@import "colors";
+
 .modebar {
 
-	// border: solid red 1px;
+	float: right;
+
+	ul {
+		overflow: hidden;
+
+		li {
+			float: left;
+			margin-left: 1em;
+
+			button {
+				background: none;
+				color: $solarized_base0;
+				margin: 0;
+				padding: 0;
+				border: none;
+
+				&:hover {
+					color: $solarized_base1;
+				}
+			}
+
+			&.current button {
+				color: $solarized_base3;
+			}
+
+		}
+	}
 
 }

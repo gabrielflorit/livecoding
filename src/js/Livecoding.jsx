@@ -14,7 +14,7 @@ var PubSub  = require('pubsub-js');
 // Include all top-level components.
 var Editor  = require('./Editor.jsx');
 var Output  = require('./Output.jsx');
-var Toolbar = require('./Toolbar.jsx');
+var Menubar = require('./Menubar.jsx');
 var Modebar = require('./Modebar.jsx');
 
 // Create the React component.
@@ -46,9 +46,8 @@ var Livecoding = React.createClass({
 		return (
 			<div className='livecoding'>
 				<div className='toolbars'>
-					<Modebar
-						mode={mode}
-					/>
+					<Menubar />
+					<Modebar mode={mode} />
 				</div>
 				<div className='content'>
 					<Output
@@ -57,10 +56,7 @@ var Livecoding = React.createClass({
 						css={this.state.css}
 						mode={mode}
 					/>
-					<Editor
-						content={content}
-						mode={mode}
-					/>
+					<Editor content={content} mode={mode} />
 				</div>
 			</div>
 		);
@@ -73,8 +69,7 @@ var Livecoding = React.createClass({
 
 		// Setup all the subscriptions.
 		PubSub.subscribe(Editor.topics().ContentChange, self.handleContentChange);
-		PubSub.subscribe(Toolbar.topics().ModeChange, self.handleModeChange);
-
+		PubSub.subscribe(Modebar.topics().ModeChange, self.handleModeChange);
 	},
 
 	// Every time **Editor**'s content changes it hands **Livecoding**

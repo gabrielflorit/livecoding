@@ -9,6 +9,7 @@ gulp.task('browser-sync', function() {
 		},
 		files: [
 			'.tmp/*.html'
-		]
+		],
+		notify: false
 	});
 });
