@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <title>Modebar.jsx</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+  <link rel="stylesheet" media="all" href="docco.css" />
+</head>
+<body>
+  <div id="container">
+    <div id="background"></div>
+    
+      <ul id="jump_to">
+        <li>
+          <a class="large" href="javascript:void(0);">Jump To &hellip;</a>
+          <a class="small" href="javascript:void(0);">+</a>
+          <div id="jump_wrapper">
+          <div id="jump_page">
+            
+              
+              <a class="source" href="Editor.html">
+                Editor.jsx
+              </a>
+            
+              
+              <a class="source" href="Livecoding.html">
+                Livecoding.jsx
+              </a>
+            
+              
+              <a class="source" href="Menubar.html">
+                Menubar.jsx
+              </a>
+            
+              
+              <a class="source" href="Modebar.html">
+                Modebar.jsx
+              </a>
+            
+              
+              <a class="source" href="Output.html">
+                Output.jsx
+              </a>
+            
+          </div>
+        </li>
+      </ul>
+    
+    <ul class="sections">
+        
+          <li id="title">
+              <div class="annotation">
+                  <h1>Modebar.jsx</h1>
+              </div>
+          </li>
+        
+        
+        
+        <li id="section-1">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-1">&#182;</a>
+              </div>
+              
+            </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="hljs-built_in">require</span>(<span class="hljs-string">'../css/modebar.css'</span>);
+<span class="hljs-keyword">var</span> React = <span class="hljs-built_in">require</span>(<span class="hljs-string">'react/addons'</span>);
+
+<span class="hljs-keyword">var</span> PubSub  = <span class="hljs-built_in">require</span>(<span class="hljs-string">'pubsub-js'</span>);
+
+<span class="hljs-keyword">var</span> Modebar = React.createClass({
+
+   statics: {
+      topics: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> </span>{
+         <span class="hljs-keyword">return</span> {
+            ModeChange: <span class="hljs-string">'ModeChange'</span>
+         };
+      }
+   },
+
+   handleModeClick: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(e)</span> </span>{
+      PubSub.publish(Modebar.topics().ModeChange, e.currentTarget.textContent);
+   },
+
+   render: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> </span>{
+
+      <span class="hljs-keyword">var</span> cx = React.addons.classSet;
+
+      <span class="hljs-keyword">var</span> self = <span class="hljs-keyword">this</span>;
+
+      <span class="hljs-keyword">var</span> items = [<span class="hljs-string">'html'</span>, <span class="hljs-string">'js'</span>, <span class="hljs-string">'css'</span>].map(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(mode)</span> </span>{
+         <span class="hljs-keyword">var</span> isCurrent = self.props.mode === mode;
+
+         <span class="hljs-keyword">var</span> classes = cx({
+            <span class="hljs-string">'current'</span>: isCurrent
+         });
+
+         <span class="hljs-keyword">return</span> <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-title">li</span> <span class="hljs-attribute">className</span>=<span class="hljs-value">{classes}</span> <span class="hljs-attribute">key</span>=<span class="hljs-value">{mode}</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-title">button</span> <span class="hljs-attribute">onClick</span>=<span class="hljs-value">{self.handleModeClick}</span> <span class="hljs-attribute">disabled</span>=<span class="hljs-value">{isCurrent}</span>&gt;</span>{mode}<span class="hljs-tag">&lt;/<span class="hljs-title">button</span>&gt;</span>
+         <span class="hljs-tag">&lt;/<span class="hljs-title">li</span>&gt;</span>;</span>
+      });
+
+      <span class="hljs-keyword">return</span> (
+         <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">className</span>=<span class="hljs-value">'modebar'</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-title">ul</span>&gt;</span>
+               {items}
+            <span class="hljs-tag">&lt;/<span class="hljs-title">ul</span>&gt;</span>
+         <span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
+      );
+   }
+
+});
+
+module.exports = Modebar;
+
+</span></pre></div></div>
+            
+        </li>
+        
+    </ul>
+  </div>
+</body>
+</html>

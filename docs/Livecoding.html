@@ -29,13 +29,18 @@
               </a>
             
               
-              <a class="source" href="Output.html">
-                Output.jsx
+              <a class="source" href="Menubar.html">
+                Menubar.jsx
               </a>
             
               
-              <a class="source" href="Toolbar.html">
-                Toolbar.jsx
+              <a class="source" href="Modebar.html">
+                Modebar.jsx
+              </a>
+            
+              
+              <a class="source" href="Output.html">
+                Output.jsx
               </a>
             
           </div>
@@ -103,13 +108,11 @@ It maintains the application’s state.</p>
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-4">&#182;</a>
               </div>
-              <p>Include all top-level components.</p>
+              <p>Include libraries.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">var</span> Editor  = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./Editor.jsx'</span>);
-<span class="hljs-keyword">var</span> Output  = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./Output.jsx'</span>);
-<span class="hljs-keyword">var</span> Toolbar = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./Toolbar.jsx'</span>);</pre></div></div>
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">var</span> PubSub  = <span class="hljs-built_in">require</span>(<span class="hljs-string">'pubsub-js'</span>);</pre></div></div>
             
         </li>
         
@@ -120,11 +123,14 @@ It maintains the application’s state.</p>
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-5">&#182;</a>
               </div>
-              <p>Create the React component.</p>
+              <p>Include all top-level components.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">var</span> Livecoding = React.createClass({</pre></div></div>
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">var</span> Editor  = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./Editor.jsx'</span>);
+<span class="hljs-keyword">var</span> Output  = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./Output.jsx'</span>);
+<span class="hljs-keyword">var</span> Menubar = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./Menubar.jsx'</span>);
+<span class="hljs-keyword">var</span> Modebar = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./Modebar.jsx'</span>);</pre></div></div>
             
         </li>
         
@@ -134,6 +140,21 @@ It maintains the application’s state.</p>
               
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-6">&#182;</a>
+              </div>
+              <p>Create the React component.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">var</span> Livecoding = React.createClass({</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-7">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-7">&#182;</a>
               </div>
               <p>Set the initial state. As the application grows, so
 will the number of state properties.</p>
@@ -149,11 +170,11 @@ will the number of state properties.</p>
         </li>
         
         
-        <li id="section-7">
+        <li id="section-8">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-7">&#182;</a>
+                <a class="pilcrow" href="#section-8">&#182;</a>
               </div>
               <p>Specify what mode we’re currently editing.</p>
 
@@ -166,11 +187,11 @@ will the number of state properties.</p>
         </li>
         
         
-        <li id="section-8">
+        <li id="section-9">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-8">&#182;</a>
+                <a class="pilcrow" href="#section-9">&#182;</a>
               </div>
               <p>Each React component has a <code>render</code> method. It gets called
 every time the application’s state changes.</p>
@@ -182,32 +203,17 @@ every time the application’s state changes.</p>
         </li>
         
         
-        <li id="section-9">
-            <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-9">&#182;</a>
-              </div>
-              <p>Get the current mode.</p>
-
-            </div>
-            
-            <div class="content"><div class='highlight'><pre>      <span class="hljs-keyword">var</span> mode = <span class="hljs-keyword">this</span>.state.mode;</pre></div></div>
-            
-        </li>
-        
-        
         <li id="section-10">
             <div class="annotation">
               
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-10">&#182;</a>
               </div>
-              <p>Get the current mode’s content.</p>
+              <p>Get the current mode.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>      <span class="hljs-keyword">var</span> content = <span class="hljs-keyword">this</span>.state[mode];</pre></div></div>
+            <div class="content"><div class='highlight'><pre>      <span class="hljs-keyword">var</span> mode = <span class="hljs-keyword">this</span>.state.mode;</pre></div></div>
             
         </li>
         
@@ -218,32 +224,11 @@ every time the application’s state changes.</p>
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-11">&#182;</a>
               </div>
-              <p>Render the application. This will recursively call
-<code>render</code> on all the components.</p>
+              <p>Get the current mode’s content.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>      <span class="hljs-keyword">return</span> (
-         <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">className</span>=<span class="hljs-value">'livecoding'</span>&gt;</span>
-            <span class="hljs-tag">&lt;<span class="hljs-title">Toolbar</span> /&gt;</span>
-            <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">className</span>=<span class="hljs-value">'content'</span>&gt;</span>
-               <span class="hljs-tag">&lt;<span class="hljs-title">Output</span>
-                  <span class="hljs-attribute">html</span>=<span class="hljs-value">{this.state.html}</span>
-                  <span class="hljs-attribute">js</span>=<span class="hljs-value">{this.state.js}</span>
-                  <span class="hljs-attribute">css</span>=<span class="hljs-value">{this.state.css}</span>
-                  <span class="hljs-attribute">change</span>=<span class="hljs-value">{mode}</span>
-               /&gt;</span>
-               <span class="hljs-tag">&lt;<span class="hljs-title">Editor</span>
-                  <span class="hljs-attribute">content</span>=<span class="hljs-value">{content}</span>
-                  <span class="hljs-attribute">language</span>=<span class="hljs-value">{mode}</span>
-                  <span class="hljs-attribute">onContentChange</span>=<span class="hljs-value">{this.handleContentChange}</span>
-               /&gt;</span>
-            <span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
-         <span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
-      );
-   },
-
-</span></pre></div></div>
+            <div class="content"><div class='highlight'><pre>      <span class="hljs-keyword">var</span> content = <span class="hljs-keyword">this</span>.state[mode];</pre></div></div>
             
         </li>
         
@@ -254,14 +239,31 @@ every time the application’s state changes.</p>
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-12">&#182;</a>
               </div>
-              <p>Every time <strong>Editor</strong>‘s content changes it hands <strong>Livecoding</strong>
-the new content. <strong>Livecoding</strong> then updates its current state
-with the new content. This setup enforces React’s one-way data
-flow.</p>
+              <p>Render the application. This will recursively call
+<code>render</code> on all the components.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>   handleContentChange: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(content)</span> </span>{</pre></div></div>
+            <div class="content"><div class='highlight'><pre>      <span class="hljs-keyword">return</span> (
+         <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">className</span>=<span class="hljs-value">'livecoding'</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">className</span>=<span class="hljs-value">'toolbars'</span>&gt;</span>
+               <span class="hljs-tag">&lt;<span class="hljs-title">Menubar</span> /&gt;</span>
+               <span class="hljs-tag">&lt;<span class="hljs-title">Modebar</span> <span class="hljs-attribute">mode</span>=<span class="hljs-value">{mode}</span> /&gt;</span>
+            <span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">className</span>=<span class="hljs-value">'content'</span>&gt;</span>
+               <span class="hljs-tag">&lt;<span class="hljs-title">Output</span>
+                  <span class="hljs-attribute">html</span>=<span class="hljs-value">{this.state.html}</span>
+                  <span class="hljs-attribute">js</span>=<span class="hljs-value">{this.state.js}</span>
+                  <span class="hljs-attribute">css</span>=<span class="hljs-value">{this.state.css}</span>
+                  <span class="hljs-attribute">mode</span>=<span class="hljs-value">{mode}</span>
+               /&gt;</span>
+               <span class="hljs-tag">&lt;<span class="hljs-title">Editor</span> <span class="hljs-attribute">content</span>=<span class="hljs-value">{content}</span> <span class="hljs-attribute">mode</span>=<span class="hljs-value">{mode}</span> /&gt;</span>
+            <span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
+         <span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
+      );
+   },
+
+</span></pre></div></div>
             
         </li>
         
@@ -272,11 +274,13 @@ flow.</p>
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-13">&#182;</a>
               </div>
-              <p>Get the current mode.</p>
+              <p>This function gets called once, before the initial render.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>      <span class="hljs-keyword">var</span> mode = <span class="hljs-keyword">this</span>.state.mode;</pre></div></div>
+            <div class="content"><div class='highlight'><pre>   componentWillMount: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> </span>{
+
+      <span class="hljs-keyword">var</span> self = <span class="hljs-keyword">this</span>;</pre></div></div>
             
         </li>
         
@@ -287,16 +291,13 @@ flow.</p>
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-14">&#182;</a>
               </div>
-              <p>Update application state with new content.</p>
+              <p>Setup all the subscriptions.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>      <span class="hljs-keyword">var</span> change = {};
-      change[mode] = content;
-      <span class="hljs-keyword">this</span>.setState(change);
-   }
-
-});</pre></div></div>
+            <div class="content"><div class='highlight'><pre>      PubSub.subscribe(Editor.topics().ContentChange, self.handleContentChange);
+      PubSub.subscribe(Modebar.topics().ModeChange, self.handleModeChange);
+   },</pre></div></div>
             
         </li>
         
@@ -306,6 +307,65 @@ flow.</p>
               
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-15">&#182;</a>
+              </div>
+              <p>Every time <strong>Editor</strong>‘s content changes it hands <strong>Livecoding</strong>
+the new content. <strong>Livecoding</strong> then updates its current state
+with the new content. This setup enforces React’s one-way data
+flow.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>   handleContentChange: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(topic, content)</span> </span>{</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-16">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-16">&#182;</a>
+              </div>
+              <p>Get the current mode.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      <span class="hljs-keyword">var</span> mode = <span class="hljs-keyword">this</span>.state.mode;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-17">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-17">&#182;</a>
+              </div>
+              <p>Update application state with new content.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      <span class="hljs-keyword">var</span> change = {};
+      change[mode] = content;
+      <span class="hljs-keyword">this</span>.setState(change);
+   },
+
+   handleModeChange: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(topic, mode)</span> </span>{
+      <span class="hljs-keyword">this</span>.setState({
+         mode: mode
+      });
+   }
+
+});</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-18">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-18">&#182;</a>
               </div>
               <p>Render the entire application to <code>#main</code>.</p>
 
