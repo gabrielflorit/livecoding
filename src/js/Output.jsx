@@ -29,7 +29,7 @@ var Output = React.createClass({
 
 		// If the current mode is `css`, replace the iframe's `style` contents.
 		if (props.mode === 'css') {
-			doc.head.querySelector('style').textContent = props.css;
+			doc.head.querySelector('style.custom').textContent = props.css;
 		}
 
 		return false;
