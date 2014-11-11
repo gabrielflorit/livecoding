@@ -1,3 +1,7 @@
+deploy: doc
+
+	gulp --prod
+
 doc:
 
 	mkdir .doc;

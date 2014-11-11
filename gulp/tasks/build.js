@@ -6,6 +6,7 @@ gulp.task('build', function(done) {
 
 	if (util.env.prod) {
 		runSequence(
+			'clean',
 			'html',
 			'css',
 			'webpack'
