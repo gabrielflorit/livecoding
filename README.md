@@ -18,3 +18,7 @@ See [here](http://gabrielflorit.github.io/livecoding/docs/Livecoding.html) for d
 - Add ability to load external JS libraries.
 - Add ability to load old livecoding.io gists.
 - Add livecoding handle to editor.
+
+## License
+
+MIT © [Gabriel Florit](http://gabrielflorit.github.io/)
