@@ -29,13 +29,8 @@
               </a>
             
               
-              <a class="source" href="Menubar.html">
-                Menubar.jsx
-              </a>
-            
-              
-              <a class="source" href="Modebar.html">
-                Modebar.jsx
+              <a class="source" href="MenuBar.html">
+                MenuBar.jsx
               </a>
             
               
@@ -76,11 +71,11 @@
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-2">&#182;</a>
               </div>
-              <p>Include this component’s stylesheet.</p>
+              <p>Include React.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-built_in">require</span>(<span class="hljs-string">'../css/output.css'</span>);</pre></div></div>
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">var</span> React = <span class="hljs-built_in">require</span>(<span class="hljs-string">'react'</span>);</pre></div></div>
             
         </li>
         
@@ -91,21 +86,6 @@
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-3">&#182;</a>
               </div>
-              <p>Include React.</p>
-
-            </div>
-            
-            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">var</span> React = <span class="hljs-built_in">require</span>(<span class="hljs-string">'react'</span>);</pre></div></div>
-            
-        </li>
-        
-        
-        <li id="section-4">
-            <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-4">&#182;</a>
-              </div>
               <p>Create the component.</p>
 
             </div>
@@ -115,11 +95,11 @@
         </li>
         
         
-        <li id="section-5">
+        <li id="section-4">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-5">&#182;</a>
+                <a class="pilcrow" href="#section-4">&#182;</a>
               </div>
               <p>Render the component. We use an iframe to prevent
 the user’s JS/CSS from interfering with the application.</p>
@@ -139,11 +119,11 @@ the user’s JS/CSS from interfering with the application.</p>
         </li>
         
         
-        <li id="section-6">
+        <li id="section-5">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-6">&#182;</a>
+                <a class="pilcrow" href="#section-5">&#182;</a>
               </div>
               <p>Tell React not to manage this component’s DOM.</p>
 
@@ -154,11 +134,11 @@ the user’s JS/CSS from interfering with the application.</p>
         </li>
         
         
-        <li id="section-7">
+        <li id="section-6">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-7">&#182;</a>
+                <a class="pilcrow" href="#section-6">&#182;</a>
               </div>
               <p>Get the iframe.</p>
 
@@ -169,11 +149,11 @@ the user’s JS/CSS from interfering with the application.</p>
         </li>
         
         
-        <li id="section-8">
+        <li id="section-7">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-8">&#182;</a>
+                <a class="pilcrow" href="#section-7">&#182;</a>
               </div>
               <p>If the current mode is <code>html</code>, replace the iframe’s <code>body</code> contents.</p>
 
@@ -186,18 +166,18 @@ the user’s JS/CSS from interfering with the application.</p>
         </li>
         
         
-        <li id="section-9">
+        <li id="section-8">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-9">&#182;</a>
+                <a class="pilcrow" href="#section-8">&#182;</a>
               </div>
               <p>If the current mode is <code>css</code>, replace the iframe’s <code>style</code> contents.</p>
 
             </div>
             
             <div class="content"><div class='highlight'><pre>      <span class="hljs-keyword">if</span> (props.mode === <span class="hljs-string">'css'</span>) {
-         doc.head.querySelector(<span class="hljs-string">'style'</span>).textContent = props.css;
+         doc.head.querySelector(<span class="hljs-string">'style.custom'</span>).textContent = props.css;
       }
 
       <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;

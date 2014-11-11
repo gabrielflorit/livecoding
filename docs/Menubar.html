@@ -2,7 +2,7 @@
 
 <html>
 <head>
-  <title>Menubar.jsx</title>
+  <title>MenuBar.jsx</title>
   <meta http-equiv="content-type" content="text/html; charset=UTF-8">
   <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
   <link rel="stylesheet" media="all" href="docco.css" />
@@ -29,13 +29,8 @@
               </a>
             
               
-              <a class="source" href="Menubar.html">
-                Menubar.jsx
-              </a>
-            
-              
-              <a class="source" href="Modebar.html">
-                Modebar.jsx
+              <a class="source" href="MenuBar.html">
+                MenuBar.jsx
               </a>
             
               
@@ -51,7 +46,7 @@
         
           <li id="title">
               <div class="annotation">
-                  <h1>Menubar.jsx</h1>
+                  <h1>MenuBar.jsx</h1>
               </div>
           </li>
         
@@ -66,24 +61,84 @@
               
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-built_in">require</span>(<span class="hljs-string">'../css/menubar.css'</span>);
-<span class="hljs-keyword">var</span> React   = <span class="hljs-built_in">require</span>(<span class="hljs-string">'react'</span>);
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">var</span> React = <span class="hljs-built_in">require</span>(<span class="hljs-string">'react/addons'</span>);
 
 <span class="hljs-keyword">var</span> PubSub  = <span class="hljs-built_in">require</span>(<span class="hljs-string">'pubsub-js'</span>);
 
-<span class="hljs-keyword">var</span> Menubar = React.createClass({
+<span class="hljs-keyword">var</span> MenuBar = React.createClass({
+
+   statics: {
+      topics: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> </span>{
+         <span class="hljs-keyword">return</span> {
+            ModeChange: <span class="hljs-string">'ModeChange'</span>
+         };
+      }
+   },
+
+   handleModeClick: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(e)</span> </span>{
+      PubSub.publish(MenuBar.topics().ModeChange, e.currentTarget.textContent);
+   },
 
    render: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> </span>{
+
+      <span class="hljs-keyword">var</span> cx = React.addons.classSet;
+
+      <span class="hljs-keyword">var</span> self = <span class="hljs-keyword">this</span>;
+
+      <span class="hljs-keyword">var</span> modeItems = [<span class="hljs-string">'html'</span>, <span class="hljs-string">'css'</span>].map(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(mode)</span> </span>{
+         <span class="hljs-keyword">var</span> isCurrent = self.props.mode === mode;
+
+         <span class="hljs-keyword">var</span> classes = cx({
+            <span class="hljs-string">'current'</span>: isCurrent
+         });
+
+         <span class="hljs-keyword">return</span> <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-title">li</span> <span class="hljs-attribute">className</span>=<span class="hljs-value">{classes}</span> <span class="hljs-attribute">key</span>=<span class="hljs-value">{mode}</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-title">button</span> <span class="hljs-attribute">onClick</span>=<span class="hljs-value">{self.handleModeClick}</span> <span class="hljs-attribute">disabled</span>=<span class="hljs-value">{isCurrent}</span>&gt;</span>{mode}<span class="hljs-tag">&lt;/<span class="hljs-title">button</span>&gt;</span>
+         <span class="hljs-tag">&lt;/<span class="hljs-title">li</span>&gt;</span>;</span>
+      });
+
       <span class="hljs-keyword">return</span> (
          <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">className</span>=<span class="hljs-value">'menubar'</span>&gt;</span>
-            menu
+            <span class="hljs-tag">&lt;<span class="hljs-title">ul</span> <span class="hljs-attribute">className</span>=<span class="hljs-value">'menugroup file'</span>&gt;</span>
+               <span class="hljs-tag">&lt;<span class="hljs-title">li</span>&gt;</span>
+                  <span class="hljs-tag">&lt;<span class="hljs-title">button</span>&gt;</span>File<span class="hljs-tag">&lt;/<span class="hljs-title">button</span>&gt;</span>
+                  <span class="hljs-tag">&lt;<span class="hljs-title">ul</span> <span class="hljs-attribute">className</span>=<span class="hljs-value">'menu'</span>&gt;</span>
+                     <span class="hljs-tag">&lt;<span class="hljs-title">li</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-title">button</span>&gt;</span>New file<span class="hljs-tag">&lt;/<span class="hljs-title">button</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-title">li</span>&gt;</span>
+                     <span class="hljs-tag">&lt;<span class="hljs-title">li</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-title">button</span>&gt;</span>Open...<span class="hljs-tag">&lt;/<span class="hljs-title">button</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-title">li</span>&gt;</span>
+                     <span class="hljs-tag">&lt;<span class="hljs-title">li</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-title">button</span>&gt;</span>Open recent<span class="hljs-tag">&lt;/<span class="hljs-title">button</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-title">li</span>&gt;</span>
+                  <span class="hljs-tag">&lt;/<span class="hljs-title">ul</span>&gt;</span>
+               <span class="hljs-tag">&lt;/<span class="hljs-title">li</span>&gt;</span>
+               <span class="hljs-tag">&lt;<span class="hljs-title">li</span>&gt;</span>
+                  <span class="hljs-tag">&lt;<span class="hljs-title">button</span>&gt;</span>Edit<span class="hljs-tag">&lt;/<span class="hljs-title">button</span>&gt;</span>
+                  <span class="hljs-tag">&lt;<span class="hljs-title">ul</span> <span class="hljs-attribute">className</span>=<span class="hljs-value">'menu'</span>&gt;</span>
+                     <span class="hljs-tag">&lt;<span class="hljs-title">li</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-title">button</span>&gt;</span>Undo paste<span class="hljs-tag">&lt;/<span class="hljs-title">button</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-title">li</span>&gt;</span>
+                     <span class="hljs-tag">&lt;<span class="hljs-title">li</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-title">button</span>&gt;</span>Repeat paste<span class="hljs-tag">&lt;/<span class="hljs-title">button</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-title">li</span>&gt;</span>
+                     <span class="hljs-tag">&lt;<span class="hljs-title">li</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-title">button</span>&gt;</span>Undo selection<span class="hljs-tag">&lt;/<span class="hljs-title">button</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-title">li</span>&gt;</span>
+                  <span class="hljs-tag">&lt;/<span class="hljs-title">ul</span>&gt;</span>
+               <span class="hljs-tag">&lt;/<span class="hljs-title">li</span>&gt;</span>
+               <span class="hljs-tag">&lt;<span class="hljs-title">li</span>&gt;</span>
+                  <span class="hljs-tag">&lt;<span class="hljs-title">button</span>&gt;</span>Selection<span class="hljs-tag">&lt;/<span class="hljs-title">button</span>&gt;</span>
+                  <span class="hljs-tag">&lt;<span class="hljs-title">ul</span> <span class="hljs-attribute">className</span>=<span class="hljs-value">'menu'</span>&gt;</span>
+                     <span class="hljs-tag">&lt;<span class="hljs-title">li</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-title">button</span>&gt;</span>Split into lines<span class="hljs-tag">&lt;/<span class="hljs-title">button</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-title">li</span>&gt;</span>
+                     <span class="hljs-tag">&lt;<span class="hljs-title">li</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-title">button</span>&gt;</span>Add previous line<span class="hljs-tag">&lt;/<span class="hljs-title">button</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-title">li</span>&gt;</span>
+                     <span class="hljs-tag">&lt;<span class="hljs-title">li</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-title">button</span>&gt;</span>Add next line<span class="hljs-tag">&lt;/<span class="hljs-title">button</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-title">li</span>&gt;</span>
+                  <span class="hljs-tag">&lt;/<span class="hljs-title">ul</span>&gt;</span>
+               <span class="hljs-tag">&lt;/<span class="hljs-title">li</span>&gt;</span>
+            <span class="hljs-tag">&lt;/<span class="hljs-title">ul</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-title">ul</span> <span class="hljs-attribute">className</span>=<span class="hljs-value">'menugroup mode'</span>&gt;</span>
+               <span class="hljs-tag">&lt;<span class="hljs-title">li</span>&gt;</span>
+                  <span class="hljs-tag">&lt;<span class="hljs-title">ul</span> <span class="hljs-attribute">className</span>=<span class="hljs-value">'menu'</span>&gt;</span>
+                     {modeItems}
+                  <span class="hljs-tag">&lt;/<span class="hljs-title">ul</span>&gt;</span>
+               <span class="hljs-tag">&lt;/<span class="hljs-title">li</span>&gt;</span>
+            <span class="hljs-tag">&lt;/<span class="hljs-title">ul</span>&gt;</span>
          <span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
       );
    }
 
 });
 
-module.exports = Menubar;
+module.exports = MenuBar;
 
 </span></pre></div></div>
             
