@@ -16,6 +16,10 @@
 		padding: 0;
 		border: none;
 
+		&:focus {
+			outline: 0;
+		}
+
 		&:hover {
 			color: $solarized_base1;
 		}
@@ -25,11 +29,16 @@
 
 		$horizontal-space: 1em;
 
+		li.current button {
+			color: $solarized_base3;
+		}
+
 		> li {
 			float: left;
 		}
 
 		&.file {
+			visibility: hidden;
 			float: left;
 
 			> li {

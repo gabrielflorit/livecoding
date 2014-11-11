@@ -41,7 +41,9 @@ var Livecoding = React.createClass({
 		// `render` on all the components.
 		return (
 			<div className='livecoding'>
-				<MenuBar />
+				<MenuBar
+					mode={mode}
+				/>
 				<div className='content'>
 					<Output
 						html={this.state.html}
@@ -62,7 +64,7 @@ var Livecoding = React.createClass({
 
 		// Setup all the subscriptions.
 		PubSub.subscribe(Editor.topics().ContentChange, self.handleContentChange);
-		// PubSub.subscribe(Modebar.topics().ModeChange, self.handleModeChange);
+		PubSub.subscribe(MenuBar.topics().ModeChange, self.handleModeChange);
 	},
 
 	// Every time **Editor**'s content changes it hands **Livecoding**
@@ -80,11 +82,11 @@ var Livecoding = React.createClass({
 		this.setState(change);
 	},
 
-	// handleModeChange: function(topic, mode) {
-	// 	this.setState({
-	// 		mode: mode
-	// 	});
-	// }
+	handleModeChange: function(topic, mode) {
+		this.setState({
+			mode: mode
+		});
+	}
 
 });
 

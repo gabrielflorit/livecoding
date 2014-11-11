@@ -1,11 +1,39 @@
-var React = require('react');
+var React = require('react/addons');
 
-var FileMenu = require('./FileMenu.jsx');
-var ModeMenu = require('./ModeMenu.jsx');
+var PubSub  = require('pubsub-js');
 
 var MenuBar = React.createClass({
 
+	statics: {
+		topics: function() {
+			return {
+				ModeChange: 'ModeChange'
+			};
+		}
+	},
+
+	handleModeClick: function(e) {
+		PubSub.publish(MenuBar.topics().ModeChange, e.currentTarget.textContent);
+	},
+
 	render: function() {
+
+		var cx = React.addons.classSet;
+
+		var self = this;
+
+		var modeItems = ['html', 'css'].map(function(mode) {
+			var isCurrent = self.props.mode === mode;
+
+			var classes = cx({
+				'current': isCurrent
+			});
+
+			return <li className={classes} key={mode}>
+				<button onClick={self.handleModeClick} disabled={isCurrent}>{mode}</button>
+			</li>;
+		});
+
 		return (
 			<div className='menubar'>
 				<ul className='menugroup file'>
@@ -37,9 +65,7 @@ var MenuBar = React.createClass({
 				<ul className='menugroup mode'>
 					<li>
 						<ul className='menu'>
-							<li><button>html</button></li>
-							<li><button>js</button></li>
-							<li><button>css</button></li>
+							{modeItems}
 						</ul>
 					</li>
 				</ul>
