@@ -15,3 +15,6 @@ See [here](http://gabrielflorit.github.io/livecoding/docs/Livecoding.html) for d
 - Add `css` linting messages to line gutters.
 - Add `updates` screen.
 - Add ability to save current gist as anonymous gist.
+- Add ability to load external JS libraries.
+- Add ability to load old livecoding.io gists.
+- Add livecoding handle to editor.
