@@ -1,9 +1,8 @@
-require('../css/modebar.css');
 var React = require('react/addons');
 
 var PubSub  = require('pubsub-js');
 
-var Modebar = React.createClass({
+var ModeMenu = React.createClass({
 
 	statics: {
 		topics: function() {
@@ -14,7 +13,7 @@ var Modebar = React.createClass({
 	},
 
 	handleModeClick: function(e) {
-		PubSub.publish(Modebar.topics().ModeChange, e.currentTarget.textContent);
+		PubSub.publish(ModeMenu.topics().ModeChange, e.currentTarget.textContent);
 	},
 
 	render: function() {
@@ -23,7 +22,7 @@ var Modebar = React.createClass({
 
 		var self = this;
 
-		var items = ['html', 'js', 'css'].map(function(mode) {
+		var items = ['html', 'css'].map(function(mode) {
 			var isCurrent = self.props.mode === mode;
 
 			var classes = cx({
@@ -36,7 +35,7 @@ var Modebar = React.createClass({
 		});
 
 		return (
-			<div className='modebar'>
+			<div className='modemenu'>
 				<ul>
 					{items}
 				</ul>
@@ -46,4 +45,4 @@ var Modebar = React.createClass({
 
 });
 
-module.exports = Modebar;
+module.exports = ModeMenu;

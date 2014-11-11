@@ -1,8 +1,5 @@
 // This component contains the code editor.
 
-// Include this component's stylesheet.
-require('../css/editor.css');
-
 // Include React.
 var React      = require('react');
 

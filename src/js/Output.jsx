@@ -1,8 +1,5 @@
 // This component renders the current code.
 
-// Include this component's stylesheet.
-require('../css/output.css');
-
 // Include React.
 var React = require('react');
 

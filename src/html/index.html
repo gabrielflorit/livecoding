@@ -7,6 +7,15 @@
 		<meta name='description' content='livecoding'>
 		<meta name='viewport' content='width=device-width, initial-scale=1'>
 		<link href='http://fonts.googleapis.com/css?family=Ubuntu+Mono' rel='stylesheet' type='text/css'>
+
+		<!-- @if NODE_ENV='prod' -->
+		<link href='dist/main.css' rel='stylesheet' type='text/css'>
+		<!-- @endif -->
+
+		<!-- @if NODE_ENV='dev' -->
+		<link href='main.css' rel='stylesheet' type='text/css'>
+		<!-- @endif -->
+
 		<!-- <script src='//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js'></script> -->
 	</head>
 	<body>

@@ -1,8 +1,3 @@
-@import "../../node_modules/normalize.css/normalize.css";
-@import "colors";
-@import "typography";
-@import "compass";
-@import "compass/typography/vertical_rhythm";
 *,
 *:before,
 *:after {
@@ -18,7 +13,7 @@ body {
 	right: 0;
 	bottom: 0;
 	background: black;
-}
+}	
 
 ul {
 	margin: 0;
@@ -37,15 +32,8 @@ ul {
 	display: flex;
 	flex-direction: column;
 
-	.toolbars {
+	.menubar {
 		flex: 0 1 auto;
-		border-bottom: solid $solarized_base01 1px;
-		overflow: hidden;
-		font-family: $sansSerif;
-		@include adjust-font-size-to($s4);
-		@include padding-leader(1/2);
-		padding-left: 1em;
-		padding-right: 1em;
 	}
 
 	.content {

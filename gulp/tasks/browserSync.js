@@ -8,7 +8,8 @@ gulp.task('browser-sync', function() {
 			baseDir: '.tmp'
 		},
 		files: [
-			'.tmp/*.html'
+			'.tmp/*.html',
+			'.tmp/main.css'
 		],
 		notify: false
 	});

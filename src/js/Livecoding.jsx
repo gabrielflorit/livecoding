@@ -2,9 +2,6 @@
 // components. It listens and responds to events when necessary.
 // It maintains the application's state.
 
-// Include this component's stylesheet.
-require('../css/livecoding.css');
-
 // Include React.
 var React   = require('react');
 
@@ -12,10 +9,9 @@ var React   = require('react');
 var PubSub  = require('pubsub-js');
 
 // Include all top-level components.
-var Editor  = require('./Editor.jsx');
+var MenuBar = require('./MenuBar.jsx');
 var Output  = require('./Output.jsx');
-var Menubar = require('./Menubar.jsx');
-var Modebar = require('./Modebar.jsx');
+var Editor  = require('./Editor.jsx');
 
 // Create the React component.
 var Livecoding = React.createClass({
@@ -45,10 +41,7 @@ var Livecoding = React.createClass({
 		// `render` on all the components.
 		return (
 			<div className='livecoding'>
-				<div className='toolbars'>
-					<Menubar />
-					<Modebar mode={mode} />
-				</div>
+				<MenuBar />
 				<div className='content'>
 					<Output
 						html={this.state.html}
@@ -69,7 +62,7 @@ var Livecoding = React.createClass({
 
 		// Setup all the subscriptions.
 		PubSub.subscribe(Editor.topics().ContentChange, self.handleContentChange);
-		PubSub.subscribe(Modebar.topics().ModeChange, self.handleModeChange);
+		// PubSub.subscribe(Modebar.topics().ModeChange, self.handleModeChange);
 	},
 
 	// Every time **Editor**'s content changes it hands **Livecoding**
@@ -87,11 +80,11 @@ var Livecoding = React.createClass({
 		this.setState(change);
 	},
 
-	handleModeChange: function(topic, mode) {
-		this.setState({
-			mode: mode
-		});
-	}
+	// handleModeChange: function(topic, mode) {
+	// 	this.setState({
+	// 		mode: mode
+	// 	});
+	// }
 
 });
 

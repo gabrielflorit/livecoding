@@ -1,0 +1,59 @@
+.menubar {
+
+	border-bottom: solid $solarized_base01 1px;
+	width: 100%;
+	z-index: 10;
+	padding-left: 1em;
+	padding-right: 1em;
+	font-family: $sansSerif;
+	@include adjust-font-size-to($s4);
+	@include padding-leader(1/2);
+
+	button {
+		background: none;
+		color: $solarized_base0;
+		margin: 0;
+		padding: 0;
+		border: none;
+
+		&:hover {
+			color: $solarized_base1;
+		}
+	}
+
+	ul.menugroup {
+
+		$horizontal-space: 1em;
+
+		> li {
+			float: left;
+		}
+
+		&.file {
+			float: left;
+
+			> li {
+				margin-right: $horizontal-space;
+				position: relative;
+
+				ul.menu {
+					position: absolute;
+					display: none;
+
+					li {
+						white-space: nowrap;
+					}
+				}
+			}
+		}
+
+		&.mode {
+			float: right;
+
+			ul.menu li {
+				float: left;
+				margin-left: $horizontal-space;
+			}
+		}
+	}
+}
