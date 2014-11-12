@@ -16,11 +16,8 @@ gulp.task('updates', function(done) {
 		labels: 'enhancement'
 	}, function(err, res) {
 
-		var updates = _.map(res, function(v, i) {
-			return {
-				title: v.title,
-				closed_at: v.closed_at
-			};
+		var updates = _.map(res, function(v) {
+			return _.pick(v, ['title', 'number', 'closed_at']);
 		});
 
 		fs.writeFileSync('src/js/updates.json', JSON.stringify(updates, null, 4));

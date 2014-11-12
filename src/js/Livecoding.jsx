@@ -12,7 +12,8 @@ var PubSub  = require('pubsub-js');
 var MenuBar = require('./MenuBar.jsx');
 var Output  = require('./Output.jsx');
 var Editor  = require('./Editor.jsx');
-var Updates  = require('./Updates.jsx');
+var Updates = require('./Updates.jsx');
+var updateData = require('./updates.json');
 
 // Create the React component.
 var Livecoding = React.createClass({
@@ -54,7 +55,7 @@ var Livecoding = React.createClass({
 					/>
 					<Editor content={content} mode={mode} />
 				</div>
-				<Updates />
+				<Updates updates={updateData} />
 			</div>
 		);
 	},
@@ -84,6 +85,7 @@ var Livecoding = React.createClass({
 		this.setState(change);
 	},
 
+	// Handle mode change.
 	handleModeChange: function(topic, mode) {
 		this.setState({
 			mode: mode

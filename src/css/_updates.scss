@@ -1,13 +1,32 @@
 .updates {
+
+	&.closed {
+		transform: translateY(100%);
+	}
+
 	border-top: solid $solarized_base1 1px;
 	color: $solarized_base0;
 	font-family: $sansSerif;
 	padding-left: 1em;
 	padding-right: 1em;
-	position: relative;
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	background: black;
+	z-index: 10;
 
 	time {
 		color: $solarized_base01;
+		padding-right: 0.5em;
+
+		&:before {
+			content: '(';
+		}
+
+		&:after {
+			content: ')';
+		}
 	}
 
 	@include rhythm(0, 1/3, 1/2, 0);
