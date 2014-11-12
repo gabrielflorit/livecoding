@@ -18,6 +18,7 @@ See [here](http://gabrielflorit.github.io/livecoding/docs/Livecoding.html) for d
 - Add ability to load external JS libraries.
 - Add ability to load old livecoding.io gists.
 - Add livecoding handle to editor.
+- Support preprocessors, e.g. jade, sass, coffeescript.
 
 ## License
 
