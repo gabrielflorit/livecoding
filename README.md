@@ -6,7 +6,7 @@ See [here](http://gabrielflorit.github.io/livecoding/docs/Livecoding.html) for d
 
 ## roadmap
 
-- ~~Add `updates` screen.~~ [Done](https://github.com/gabrielflorit/livecoding/issues/110).
+- [Add `updates` screen.](https://github.com/gabrielflorit/livecoding/issues/110).
 - Add `js` mode.
 - Validate `html` code before sending to output screen.
 - Add `html` linting messages to line gutters.
