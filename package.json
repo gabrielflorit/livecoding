@@ -38,6 +38,7 @@
     "codemirror": "^4.7.0",
     "escodegen": "^1.4.1",
     "esprima": "^1.2.2",
+    "github": "^0.2.2",
     "github-api": "^0.7.0",
     "lodash": "^2.4.1",
     "moment": "^2.8.3",
