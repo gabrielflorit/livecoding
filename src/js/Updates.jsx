@@ -48,10 +48,11 @@ var Updates = React.createClass({
 			// and return <li /> tags for the rest of the updates.
 			.map(function(update) {
 				var moment = Moment(update.closed_at);
+				var url = 'https://github.com/gabrielflorit/livecoding/issues/' + update.number;
 
 				return (<li key={update.number}>
 					<time dateTime={update.closed_at}>{moment.fromNow()}</time>
-					<span>{update.title}</span>
+					<a href={url}>{update.title}</a>
 				</li>);
 			})
 			.value();
