@@ -38,6 +38,11 @@
                 Output.jsx
               </a>
             
+              
+              <a class="source" href="Updates.html">
+                Updates.jsx
+              </a>
+            
           </div>
         </li>
       </ul>
@@ -109,7 +114,9 @@ It maintains the application’s state.</p>
             
             <div class="content"><div class='highlight'><pre><span class="hljs-keyword">var</span> MenuBar = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./MenuBar.jsx'</span>);
 <span class="hljs-keyword">var</span> Output  = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./Output.jsx'</span>);
-<span class="hljs-keyword">var</span> Editor  = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./Editor.jsx'</span>);</pre></div></div>
+<span class="hljs-keyword">var</span> Editor  = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./Editor.jsx'</span>);
+<span class="hljs-keyword">var</span> Updates = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./Updates.jsx'</span>);
+<span class="hljs-keyword">var</span> updateData = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./updates.json'</span>);</pre></div></div>
             
         </li>
         
@@ -237,6 +244,7 @@ every time the application’s state changes.</p>
                /&gt;</span>
                <span class="hljs-tag">&lt;<span class="hljs-title">Editor</span> <span class="hljs-attribute">content</span>=<span class="hljs-value">{content}</span> <span class="hljs-attribute">mode</span>=<span class="hljs-value">{mode}</span> /&gt;</span>
             <span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-title">Updates</span> <span class="hljs-attribute">updates</span>=<span class="hljs-value">{updateData}</span> /&gt;</span>
          <span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
       );
    },
@@ -326,9 +334,22 @@ flow.</p>
             <div class="content"><div class='highlight'><pre>      <span class="hljs-keyword">var</span> change = {};
       change[mode] = content;
       <span class="hljs-keyword">this</span>.setState(change);
-   },
+   },</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-17">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-17">&#182;</a>
+              </div>
+              <p>Handle mode change.</p>
 
-   handleModeChange: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(topic, mode)</span> </span>{
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>   handleModeChange: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(topic, mode)</span> </span>{
       <span class="hljs-keyword">this</span>.setState({
          mode: mode
       });
@@ -339,11 +360,11 @@ flow.</p>
         </li>
         
         
-        <li id="section-17">
+        <li id="section-18">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-17">&#182;</a>
+                <a class="pilcrow" href="#section-18">&#182;</a>
               </div>
               <p>Render the entire application to <code>#main</code>.</p>
 
