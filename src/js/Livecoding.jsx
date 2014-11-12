@@ -12,6 +12,7 @@ var PubSub  = require('pubsub-js');
 var MenuBar = require('./MenuBar.jsx');
 var Output  = require('./Output.jsx');
 var Editor  = require('./Editor.jsx');
+var Updates  = require('./Updates.jsx');
 
 // Create the React component.
 var Livecoding = React.createClass({
@@ -53,6 +54,7 @@ var Livecoding = React.createClass({
 					/>
 					<Editor content={content} mode={mode} />
 				</div>
+				<Updates />
 			</div>
 		);
 	},

@@ -9,22 +9,6 @@
 	@include adjust-font-size-to($s4);
 	@include padding-leader(1/2);
 
-	button {
-		background: none;
-		color: $solarized_base0;
-		margin: 0;
-		padding: 0;
-		border: none;
-
-		&:focus {
-			outline: 0;
-		}
-
-		&:hover {
-			color: $solarized_base1;
-		}
-	}
-
 	ul.menugroup {
 
 		$horizontal-space: 1em;
