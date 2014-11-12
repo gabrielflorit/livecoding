@@ -56,23 +56,28 @@ var Updates = React.createClass({
 			})
 			.value();
 
-		// Use React's handy classSet helper to set classes based on state.
-		var cx = React.addons.classSet;
-		var classes = cx({
-			'updates': true,
-			'closed': !this.state.open || !newUpdateNumbers.length
-		});
+		// Should we close the drawer?
+		var closeDrawer = !this.state.open || !newUpdateNumbers.length;
+
+		// If we close the drawer, return null. We need this so React knows
+		// how to add an exit transition before removing component from DOM.
+		var drawer = closeDrawer ? null :
+				<div className='updates' key={'drawer'}>
+					<header>
+						<h3>Updates</h3>
+						<button className='close' onClick={this.onButtonClick.bind(this, newUpdateNumbers)}>×</button>
+					</header>
+					<ul>
+						{updates}
+					</ul>
+				</div>;
+
+		var ReactCSSTransitionGroup = React.addons.CSSTransitionGroup;
 
 		return (
-			<div className={classes}>
-				<header>
-					<h3>Updates</h3>
-					<button className='close' onClick={this.onButtonClick.bind(this, newUpdateNumbers)}>×</button>
-				</header>
-				<ul>
-					{updates}
-				</ul>
-			</div>
+			<ReactCSSTransitionGroup transitionName='drawer' transitionEnter={false}>
+				{drawer}
+			</ReactCSSTransitionGroup>
 		);
 	},
 

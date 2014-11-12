@@ -1,12 +1,14 @@
+.drawer-leave {
+	transform: translateY(0%);
+	transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+}
+.drawer-leave.drawer-leave-active {
+	transform: translateY(100%);
+}
+
 .updates {
 
-	&.closed {
-		transition: all 0.5s;
-		transform: translateY(100%);
-		transition-timing-function: cubic-bezier(0.23, 1, 0.32, 1);
-	}
-
-	@include drop-shadow(2);
+	@include drop-shadow(3);
 
 	border-top: solid $solarized_base1 1px;
 	color: $solarized_base0;
