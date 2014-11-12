@@ -81,7 +81,7 @@ var Updates = React.createClass({
 
 		// Save dismissed update numbers in local storage, so we don't
 		// display them again.
-		localStorage.setItem(Updates.DISMISSED_UPDATE_NUMBERS, dismissedUpdateNumbers);
+		// localStorage.setItem(Updates.DISMISSED_UPDATE_NUMBERS, dismissedUpdateNumbers);
 
 		// Change this component's state to closed. This will trigger a
 		// re-render.

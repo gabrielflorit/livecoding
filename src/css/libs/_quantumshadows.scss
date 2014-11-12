@@ -1,0 +1,22 @@
+@mixin drop-shadow($depth) {
+  @if $depth == 1 {
+    box-shadow: 0 0px 3px rgba(black, 0.24),
+                0 1px 8px rgba(black, 0.05);
+  }
+  @if $depth == 2 {
+    box-shadow: 0 1px 7px rgba(black, 0.23),
+                0 2px 25px rgba(black, 0.05);
+  }
+  @if $depth == 3 {
+    box-shadow: 0 2px 10px rgba(black, 0.30),
+                0 3px 50px rgba(black, 0.12);
+  }
+  @if $depth == 4 {
+    box-shadow: 0 3px 15px rgba(black, 0.28),
+                0 5px 60px rgba(black, 0.18);
+  }
+  @if $depth == 5 {
+    box-shadow: 0 5px 20px rgba(black, 0.29),
+                0 8px 65px rgba(black, 0.18);
+  }
+}

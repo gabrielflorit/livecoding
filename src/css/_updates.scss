@@ -1,8 +1,12 @@
 .updates {
 
 	&.closed {
+		transition: all 0.5s;
 		transform: translateY(100%);
+		transition-timing-function: cubic-bezier(0.23, 1, 0.32, 1);
 	}
+
+	@include drop-shadow(2);
 
 	border-top: solid $solarized_base1 1px;
 	color: $solarized_base0;
