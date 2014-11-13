@@ -212,10 +212,11 @@ presently visible. We store this information on localStorage.</p>
             
             <div class="content"><div class='highlight'><pre>         .map(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(update)</span> </span>{
             <span class="hljs-keyword">var</span> moment = Moment(update.closed_at);
+            <span class="hljs-keyword">var</span> url = <span class="hljs-string">'https://github.com/gabrielflorit/livecoding/issues/'</span> + update.number;
 
             <span class="hljs-keyword">return</span> (<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-title">li</span> <span class="hljs-attribute">key</span>=<span class="hljs-value">{update.number}</span>&gt;</span>
                <span class="hljs-tag">&lt;<span class="hljs-title">time</span> <span class="hljs-attribute">dateTime</span>=<span class="hljs-value">{update.closed_at}</span>&gt;</span>{moment.fromNow()}<span class="hljs-tag">&lt;/<span class="hljs-title">time</span>&gt;</span>
-               <span class="hljs-tag">&lt;<span class="hljs-title">span</span>&gt;</span>{update.title}<span class="hljs-tag">&lt;/<span class="hljs-title">span</span>&gt;</span>
+               <span class="hljs-tag">&lt;<span class="hljs-title">a</span> <span class="hljs-attribute">href</span>=<span class="hljs-value">{url}</span>&gt;</span>{update.title}<span class="hljs-tag">&lt;/<span class="hljs-title">a</span>&gt;</span>
             <span class="hljs-tag">&lt;/<span class="hljs-title">li</span>&gt;</span>);
          })
          .value();
