@@ -26,8 +26,8 @@
     {
         "title": "Add css linting messages to line gutters.",
         "number": 118,
-        "closed_at": null,
-        "state": "open"
+        "closed_at": "2014-11-13T21:33:17Z",
+        "state": "closed"
     },
     {
         "title": "Validate css code before sending to output screen.",
@@ -50,8 +50,8 @@
     {
         "title": "Add html linting messages to line gutters.",
         "number": 114,
-        "closed_at": null,
-        "state": "open"
+        "closed_at": "2014-11-13T21:32:40Z",
+        "state": "closed"
     },
     {
         "title": "Validate html code before sending to output screen.",

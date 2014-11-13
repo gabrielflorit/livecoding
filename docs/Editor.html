@@ -137,6 +137,66 @@
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-6">&#182;</a>
               </div>
+              <p>Require lint framework.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="hljs-built_in">require</span>(<span class="hljs-string">'../../node_modules/codemirror/addon/lint/lint.js'</span>);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-7">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-7">&#182;</a>
+              </div>
+              <p>Add CSSLint to window,</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="hljs-built_in">window</span>.CSSLint = <span class="hljs-built_in">require</span>(<span class="hljs-string">'csslint'</span>).CSSLint;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-8">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-8">&#182;</a>
+              </div>
+              <p>because this file expects it to be on window.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="hljs-built_in">require</span>(<span class="hljs-string">'../../node_modules/codemirror/addon/lint/css-lint.js'</span>);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-9">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-9">&#182;</a>
+              </div>
+              <p>Require our custom html linter.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="hljs-built_in">require</span>(<span class="hljs-string">'./html-lint.js'</span>);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-10">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-10">&#182;</a>
+              </div>
               <p>Create the component.</p>
 
             </div>
@@ -156,11 +216,11 @@
         </li>
         
         
-        <li id="section-7">
+        <li id="section-11">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-7">&#182;</a>
+                <a class="pilcrow" href="#section-11">&#182;</a>
               </div>
               <p>Convenience property.</p>
 
@@ -171,11 +231,11 @@
         </li>
         
         
-        <li id="section-8">
+        <li id="section-12">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-8">&#182;</a>
+                <a class="pilcrow" href="#section-12">&#182;</a>
               </div>
               <p>Render the component.</p>
 
@@ -195,11 +255,11 @@
         </li>
         
         
-        <li id="section-9">
+        <li id="section-13">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-9">&#182;</a>
+                <a class="pilcrow" href="#section-13">&#182;</a>
               </div>
               <p>This method is fired once, after the initial render. We’ll use
 it to initialize the CodeMirror instance.</p>
@@ -213,11 +273,11 @@ it to initialize the CodeMirror instance.</p>
         </li>
         
         
-        <li id="section-10">
+        <li id="section-14">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-10">&#182;</a>
+                <a class="pilcrow" href="#section-14">&#182;</a>
               </div>
               <p>Initialize the CodeMirror instance with various options.</p>
 
@@ -226,17 +286,37 @@ it to initialize the CodeMirror instance.</p>
             <div class="content"><div class='highlight'><pre>      <span class="hljs-keyword">this</span>.codemirror = CodeMirror(<span class="hljs-keyword">this</span>.getDOMNode().querySelector(<span class="hljs-string">'.editor-codemirror'</span>), {
          lineNumbers: <span class="hljs-literal">true</span>,
          mode: <span class="hljs-string">'htmlmixed'</span>,
+         lint: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(text, options, cm)</span> </span>{</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-15">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-15">&#182;</a>
+              </div>
+              <p>Use CodeMirror’s “getHelper” to return the linter
+associated with this mode.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>            <span class="hljs-keyword">var</span> linter = cm.getHelper(CodeMirror.Pos(<span class="hljs-number">0</span>, <span class="hljs-number">0</span>), <span class="hljs-string">'lint'</span>);
+            <span class="hljs-keyword">return</span> linter(text, options);
+         },
+         gutters: [<span class="hljs-string">'CodeMirror-lint-markers'</span>],
          theme: <span class="hljs-string">'solarized dark'</span>
       });</pre></div></div>
             
         </li>
         
         
-        <li id="section-11">
+        <li id="section-16">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-11">&#182;</a>
+                <a class="pilcrow" href="#section-16">&#182;</a>
               </div>
               <p>When the code editor’s contents change,</p>
 
@@ -247,11 +327,11 @@ it to initialize the CodeMirror instance.</p>
         </li>
         
         
-        <li id="section-12">
+        <li id="section-17">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-12">&#182;</a>
+                <a class="pilcrow" href="#section-17">&#182;</a>
               </div>
               <p>get the contents,</p>
 
@@ -262,11 +342,11 @@ it to initialize the CodeMirror instance.</p>
         </li>
         
         
-        <li id="section-13">
+        <li id="section-18">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-13">&#182;</a>
+                <a class="pilcrow" href="#section-18">&#182;</a>
               </div>
               <p>and publish a change event containing the new content.</p>
 
@@ -279,11 +359,11 @@ it to initialize the CodeMirror instance.</p>
         </li>
         
         
-        <li id="section-14">
+        <li id="section-19">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-14">&#182;</a>
+                <a class="pilcrow" href="#section-19">&#182;</a>
               </div>
               <p>This method is called every time <strong>Livecoding’s</strong> state changes, e.g.
 when we load a new gist, or when the user makes a change to the
@@ -296,11 +376,11 @@ current code editor contents.</p>
         </li>
         
         
-        <li id="section-15">
+        <li id="section-20">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-15">&#182;</a>
+                <a class="pilcrow" href="#section-20">&#182;</a>
               </div>
               <p>Get current CodeMirror document.</p>
 
@@ -311,11 +391,11 @@ current code editor contents.</p>
         </li>
         
         
-        <li id="section-16">
+        <li id="section-21">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-16">&#182;</a>
+                <a class="pilcrow" href="#section-21">&#182;</a>
               </div>
               <p>Let’s compare new and current properties. First, mode.
 Even though Livecoding thinks there are three modes (html, js, css)
@@ -329,11 +409,11 @@ write html/js/css in the same document.</p>
         </li>
         
         
-        <li id="section-17">
+        <li id="section-22">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-17">&#182;</a>
+                <a class="pilcrow" href="#section-22">&#182;</a>
               </div>
               <p>Get mode of current document.</p>
 
@@ -344,11 +424,11 @@ write html/js/css in the same document.</p>
         </li>
         
         
-        <li id="section-18">
+        <li id="section-23">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-18">&#182;</a>
+                <a class="pilcrow" href="#section-23">&#182;</a>
               </div>
               <p>If new mode doesn’t match current mode, get the correct document
 (or create it first) and then swap documents.</p>
@@ -364,11 +444,11 @@ write html/js/css in the same document.</p>
         </li>
         
         
-        <li id="section-19">
+        <li id="section-24">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-19">&#182;</a>
+                <a class="pilcrow" href="#section-24">&#182;</a>
               </div>
               <p>Next up, compare content.</p>
 
@@ -380,11 +460,11 @@ write html/js/css in the same document.</p>
         </li>
         
         
-        <li id="section-20">
+        <li id="section-25">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-20">&#182;</a>
+                <a class="pilcrow" href="#section-25">&#182;</a>
               </div>
               <p>If new content doesn’t match current content, replace.</p>
 
@@ -397,11 +477,11 @@ write html/js/css in the same document.</p>
         </li>
         
         
-        <li id="section-21">
+        <li id="section-26">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-21">&#182;</a>
+                <a class="pilcrow" href="#section-26">&#182;</a>
               </div>
               <p>Tell React not to manage this component’s DOM.</p>
 

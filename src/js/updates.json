@@ -1,7 +1,20 @@
 [
     {
+        "title": "Add css linting messages to line gutters.",
+        "number": 118,
+        "closed_at": "2014-11-13T21:33:17Z",
+        "state": "closed"
+    },
+    {
+        "title": "Add html linting messages to line gutters.",
+        "number": 114,
+        "closed_at": "2014-11-13T21:32:40Z",
+        "state": "closed"
+    },
+    {
         "title": "Add updates screen",
         "number": 110,
-        "closed_at": "2014-11-12T07:40:06Z"
+        "closed_at": "2014-11-12T07:40:06Z",
+        "state": "closed"
     }
 ]
