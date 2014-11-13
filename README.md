@@ -17,7 +17,7 @@ See [here](http://gabrielflorit.github.io/livecoding/docs/Livecoding.html) for d
 - Add ability to load old livecoding.io gists.
 - Add livecoding handle to editor.
 - Support preprocessors, e.g. jade, sass, coffeescript.
-- November 07: [Add `updates` screen.](https://github.com/gabrielflorit/livecoding/issues/110)
+- ✓ (11-07-2014) [Add `updates` screen.](https://github.com/gabrielflorit/livecoding/issues/110)
 
 ## License
 
