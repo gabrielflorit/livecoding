@@ -12,6 +12,10 @@
 		.CodeMirror {
 			height: 100%;
 			font-family: $mono;
+
+			.CodeMirror-lint-marker-error {
+				left: 2px;
+			}
 		}
 	}
 
