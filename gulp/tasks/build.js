@@ -8,6 +8,7 @@ gulp.task('build', function(done) {
 		runSequence(
 			'clean',
 			'fetchEnhancements',
+			'updates',
 			'readme',
 			'html',
 			'css',
