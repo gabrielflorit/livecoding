@@ -22,6 +22,9 @@ window.CSSLint = require('csslint').CSSLint;
 // because this file expects it to be on window.
 require('../../node_modules/codemirror/addon/lint/css-lint.js');
 
+// Require our custom html linter.
+require('./html-lint.js');
+
 // Create the component.
 var Editor = React.createClass({
 
@@ -57,9 +60,15 @@ var Editor = React.createClass({
 		// Initialize the CodeMirror instance with various options.
 		this.codemirror = CodeMirror(this.getDOMNode().querySelector('.editor-codemirror'), {
 			lineNumbers: true,
-			mode: 'css',
-			// lint: true,
-			// gutters: ['CodeMirror-lint-markers'],
+			mode: 'htmlmixed',
+			lint: function(text, options, cm) {
+
+				// Use CodeMirror's "getHelper" to return the linter
+				// associated with this mode.
+				var linter = cm.getHelper(CodeMirror.Pos(0, 0), 'lint');
+				return linter(text, options);
+			},
+			gutters: ['CodeMirror-lint-markers'],
 			theme: 'solarized dark'
 		});
 
