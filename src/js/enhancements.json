@@ -1,0 +1,80 @@
+[
+    {
+        "title": "Add livecoding handle to editor.",
+        "number": 122,
+        "closed_at": null,
+        "state": "open"
+    },
+    {
+        "title": "Add ability to load old livecoding.io gists.",
+        "number": 121,
+        "closed_at": null,
+        "state": "open"
+    },
+    {
+        "title": "Add ability to load external JS libraries.",
+        "number": 120,
+        "closed_at": null,
+        "state": "open"
+    },
+    {
+        "title": "Add ability to save current gist as anonymous gist.",
+        "number": 119,
+        "closed_at": null,
+        "state": "open"
+    },
+    {
+        "title": "Add css linting messages to line gutters.",
+        "number": 118,
+        "closed_at": null,
+        "state": "open"
+    },
+    {
+        "title": "Validate css code before sending to output screen.",
+        "number": 117,
+        "closed_at": null,
+        "state": "open"
+    },
+    {
+        "title": "Add js linting messages to line gutters.",
+        "number": 116,
+        "closed_at": null,
+        "state": "open"
+    },
+    {
+        "title": "Validate js code before sending to output screen.",
+        "number": 115,
+        "closed_at": null,
+        "state": "open"
+    },
+    {
+        "title": "Add html linting messages to line gutters.",
+        "number": 114,
+        "closed_at": null,
+        "state": "open"
+    },
+    {
+        "title": "Validate html code before sending to output screen.",
+        "number": 113,
+        "closed_at": null,
+        "state": "open"
+    },
+    {
+        "title": "Add js mode",
+        "number": 112,
+        "closed_at": null,
+        "state": "open"
+    },
+    {
+        "title": "Add updates screen",
+        "number": 110,
+        "closed_at": "2014-11-12T07:40:06Z",
+        "state": "closed"
+    },
+    {
+        "title": "Support preprocessors, e.g. jade, sass, coffeescript",
+        "number": 106,
+        "closed_at": null,
+        "state": "open"
+    }
+]

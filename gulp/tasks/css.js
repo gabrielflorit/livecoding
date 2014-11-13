@@ -6,7 +6,6 @@ var browserSync = require('browser-sync');
 var filter      = require('gulp-filter');
 
 gulp.task('css', function() {
-
 	return gulp.src('src/css/*.scss')
 		.pipe(sass({compass: true}))
 		.pipe(util.env.prod ? filter('**/*.css') : util.noop())
