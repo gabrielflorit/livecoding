@@ -12,9 +12,9 @@ See [here](http://gabrielflorit.github.io/livecoding/docs/Livecoding.html) for d
 
 - ✓ 11-13-2014: [Add css linting messages to line gutters.](https://github.com/gabrielflorit/livecoding/issues/118)
 
-- [Support preprocessors, e.g. jade, sass, coffeescript](https://github.com/gabrielflorit/livecoding/issues/106)
+- ✓ 11-22-2014: [Add js mode](https://github.com/gabrielflorit/livecoding/issues/112)
 
-- [Add js mode](https://github.com/gabrielflorit/livecoding/issues/112)
+- [Support preprocessors, e.g. jade, sass, coffeescript](https://github.com/gabrielflorit/livecoding/issues/106)
 
 - [Validate html code before sending to output screen.](https://github.com/gabrielflorit/livecoding/issues/113)
 
