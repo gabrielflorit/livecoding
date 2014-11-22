@@ -149,7 +149,8 @@ the user’s JS/CSS from interfering with the application.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>      <span class="hljs-keyword">var</span> doc = <span class="hljs-keyword">this</span>.getDOMNode().querySelector(<span class="hljs-string">'iframe'</span>).contentWindow.document;</pre></div></div>
+            <div class="content"><div class='highlight'><pre>      <span class="hljs-keyword">var</span> iframe = <span class="hljs-built_in">window</span>.frames[<span class="hljs-number">0</span>];
+      <span class="hljs-keyword">var</span> doc = iframe.document;</pre></div></div>
             
         </li>
         
@@ -183,6 +184,23 @@ the user’s JS/CSS from interfering with the application.</p>
             
             <div class="content"><div class='highlight'><pre>      <span class="hljs-keyword">if</span> (props.mode === <span class="hljs-string">'css'</span>) {
          doc.head.querySelector(<span class="hljs-string">'style.custom'</span>).textContent = props.css;
+      }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-9">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-9">&#182;</a>
+              </div>
+              <p>If the current mode is <code>javascript</code>, pass in the javascript string.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      <span class="hljs-keyword">if</span> (props.mode === <span class="hljs-string">'javascript'</span>) {
+         iframe.livecoding.callCode(props.javascript);
       }
 
       <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;

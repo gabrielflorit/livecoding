@@ -287,7 +287,7 @@ how to add an exit transition before removing component from DOM.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>   onButtonClick: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(dismissedUpdateNumbers)</span> </span>{</pre></div></div>
+            <div class="content"><div class='highlight'><pre>   onButtonClick: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(newUpdateNumbers)</span> </span>{</pre></div></div>
             
         </li>
         
@@ -303,7 +303,17 @@ display them again.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>      localStorage.setItem(Updates.DISMISSED_UPDATE_NUMBERS, dismissedUpdateNumbers);</pre></div></div>
+            <div class="content"><div class='highlight'><pre>      <span class="hljs-keyword">var</span> dismissedUpdateNumbers = [];
+      <span class="hljs-keyword">var</span> localNumbers = localStorage.getItem(Updates.DISMISSED_UPDATE_NUMBERS);
+      <span class="hljs-keyword">if</span> (localNumbers) {
+         dismissedUpdateNumbers = localNumbers.split(<span class="hljs-string">','</span>).map(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(v)</span> </span>{
+            <span class="hljs-keyword">return</span> +v;
+         });
+      }
+
+      <span class="hljs-keyword">var</span> allDismissedNumbers = _.uniq(dismissedUpdateNumbers.concat(newUpdateNumbers));
+
+      localStorage.setItem(Updates.DISMISSED_UPDATE_NUMBERS, allDismissedNumbers);</pre></div></div>
             
         </li>
         
