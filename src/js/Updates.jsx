@@ -83,11 +83,21 @@ var Updates = React.createClass({
 	},
 
 	// Handle clicking the close button.
-	onButtonClick: function(dismissedUpdateNumbers) {
+	onButtonClick: function(newUpdateNumbers) {
 
 		// Save dismissed update numbers in local storage, so we don't
 		// display them again.
-		localStorage.setItem(Updates.DISMISSED_UPDATE_NUMBERS, dismissedUpdateNumbers);
+		var dismissedUpdateNumbers = [];
+		var localNumbers = localStorage.getItem(Updates.DISMISSED_UPDATE_NUMBERS);
+		if (localNumbers) {
+			dismissedUpdateNumbers = localNumbers.split(',').map(function(v) {
+				return +v;
+			});
+		}
+
+		var allDismissedNumbers = _.uniq(dismissedUpdateNumbers.concat(newUpdateNumbers));
+
+		localStorage.setItem(Updates.DISMISSED_UPDATE_NUMBERS, allDismissedNumbers);
 
 		// Change this component's state to closed. This will trigger a
 		// re-render.
