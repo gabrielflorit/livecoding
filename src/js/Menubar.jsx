@@ -22,7 +22,7 @@ var MenuBar = React.createClass({
 
 		var self = this;
 
-		var modeItems = ['html', 'css'].map(function(mode) {
+		var modeItems = ['html', 'javascript', 'css'].map(function(mode) {
 			var isCurrent = self.props.mode === mode;
 
 			var classes = cx({

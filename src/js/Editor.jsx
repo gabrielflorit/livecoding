@@ -22,8 +22,9 @@ window.CSSLint = require('csslint').CSSLint;
 // because this file expects it to be on window.
 require('../../node_modules/codemirror/addon/lint/css-lint.js');
 
-// Require our custom html linter.
+// Require our custom linters.
 require('./html-lint.js');
+require('./javascript-lint.js');
 
 // Create the component.
 var Editor = React.createClass({
@@ -92,9 +93,9 @@ var Editor = React.createClass({
 		var currentDoc = this.codemirror.getDoc();
 
 		// Let's compare new and current properties. First, mode.
-		// Even though Livecoding thinks there are three modes (html, js, css)
+		// Even though Livecoding thinks there are three modes (html, javascript, css)
 		// we'll use the 'htmlmixed' CodeMirror mode, which lets us
-		// write html/js/css in the same document.
+		// write html/javascript/css in the same document.
 		var newMode = props.mode.replace('html', 'htmlmixed');
 
 		// Get mode of current document.

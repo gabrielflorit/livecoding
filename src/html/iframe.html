@@ -6,21 +6,25 @@
 		<title>livecoding</title>
 		<meta name='description' content='livecoding'>
 		<meta name='viewport' content='width=device-width, initial-scale=1'>
-		<!-- <script src='//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js'></script> -->
 		<style>* { color: white; }</style>
 		<style class='custom'></style>
 		<script>
-			function callCode(func) {
+			window.livecoding = {
 
-				// func is valid syntax code (according to esprima).
-				// this means we can safely ignore errors.
-				try {
-					func();
-				}
-				catch(e) {
+				callCode: function(javascriptString) {
+
+					// func is valid syntax code (according to esprima). EDIT: not at the moment.
+					// this means we can safely ignore errors.
+					try {
+						var func = new Function(javascriptString);
+						func();
+					}
+					catch(e) {
+
+					}
 
 				}
-			}
+			};
 		</script>
 	</head>
 	<body>

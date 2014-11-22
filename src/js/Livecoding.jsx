@@ -23,7 +23,7 @@ var Livecoding = React.createClass({
 	getInitialState: function() {
 		return {
 			html: '',
-			js: '',
+			javascript: '',
 			css: '',
 			// Specify what mode we're currently editing.
 			mode: 'html'
@@ -49,7 +49,7 @@ var Livecoding = React.createClass({
 				<div className='content'>
 					<Output
 						html={this.state.html}
-						js={this.state.js}
+						javascript={this.state.javascript}
 						css={this.state.css}
 						mode={mode}
 					/>
