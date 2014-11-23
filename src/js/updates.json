@@ -6,6 +6,12 @@
         "state": "closed"
     },
     {
+        "title": "Add js linting messages to line gutters.",
+        "number": 116,
+        "closed_at": "2014-11-23T01:21:11Z",
+        "state": "closed"
+    },
+    {
         "title": "Add html linting messages to line gutters.",
         "number": 114,
         "closed_at": "2014-11-13T21:32:40Z",

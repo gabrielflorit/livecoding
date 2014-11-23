@@ -38,8 +38,8 @@
     {
         "title": "Add js linting messages to line gutters.",
         "number": 116,
-        "closed_at": null,
-        "state": "open"
+        "closed_at": "2014-11-23T01:21:11Z",
+        "state": "closed"
     },
     {
         "title": "Validate js code before sending to output screen.",
