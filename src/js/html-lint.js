@@ -15,7 +15,7 @@ CodeMirror.registerHelper('lint', 'html', function(text) {
 			messages.push({
 				from: CodeMirror.Pos(line, match.index),
 				to: CodeMirror.Pos(line, match.index + match[0].length),
-				message: 'JavaScript',
+				message: "<script> content will be ignored. Place JavaScript code in the JavaScript tab.",
 				severity : 'error'
 			});
 		}
