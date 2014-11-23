@@ -13,7 +13,7 @@
 
 		$horizontal-space: 1em;
 
-		li.current button {
+		li.current > button {
 			color: $solarized_base3;
 		}
 
@@ -22,7 +22,6 @@
 		}
 
 		&.file {
-			visibility: hidden;
 			float: left;
 
 			> li {
@@ -32,6 +31,10 @@
 				ul.menu {
 					position: absolute;
 					display: none;
+
+					&.selected {
+						display: block;
+					}
 
 					li {
 						white-space: nowrap;
