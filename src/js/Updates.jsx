@@ -45,6 +45,11 @@ var Updates = React.createClass({
 				return _.contains(newUpdateNumbers, update.number);
 			})
 
+			// sort by closing date,
+			.sortBy(function(update) {
+				return -Moment(update.closed_at);
+			})
+
 			// and return <li /> tags for the rest of the updates.
 			.map(function(update) {
 				var moment = Moment(update.closed_at);
