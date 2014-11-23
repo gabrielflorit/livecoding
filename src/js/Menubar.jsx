@@ -1,7 +1,12 @@
+// This component renders the menu bar.
+
+// Include React (with addons).
 var React = require('react/addons');
 
+// Include libraries.
 var PubSub  = require('pubsub-js');
 
+// Create the component.
 var MenuBar = React.createClass({
 
 	statics: {
@@ -12,17 +17,17 @@ var MenuBar = React.createClass({
 		}
 	},
 
-	handleModeClick: function(e) {
-		PubSub.publish(MenuBar.topics().ModeChange, e.currentTarget.textContent);
-	},
-
+	// Render the component.
 	render: function() {
 
 		var cx = React.addons.classSet;
 
 		var self = this;
 
+		// Create the mode items.
 		var modeItems = ['html', 'javascript', 'css'].map(function(mode) {
+
+			// Highlight the current mode.
 			var isCurrent = self.props.mode === mode;
 
 			var classes = cx({
@@ -71,6 +76,11 @@ var MenuBar = React.createClass({
 				</ul>
 			</div>
 		);
+	},
+
+	// Handle mode button click.
+	handleModeClick: function(e) {
+		PubSub.publish(MenuBar.topics().ModeChange, e.currentTarget.textContent);
 	}
 
 });
