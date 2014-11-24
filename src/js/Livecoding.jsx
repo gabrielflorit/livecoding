@@ -97,5 +97,5 @@ var Livecoding = React.createClass({
 // Render the entire application to `#main`.
 React.render(
 	<Livecoding />,
-	document.getElementById('main')
+	document.querySelector('.main')
 );

@@ -23,6 +23,9 @@
 
 				}
 			};
+			document.addEventListener('click', function(e) {
+				parent.document.dispatchEvent(new Event('click'));
+			});
 		</script>
 	</head>
 	<body>
