@@ -13,6 +13,7 @@ var MenuBar = React.createClass({
 	statics: {
 		topics: function() {
 			return {
+				ItemClick: 'ItemClick',
 				ModeChange: 'ModeChange'
 			};
 		}
@@ -63,25 +64,7 @@ var MenuBar = React.createClass({
 					<li className={this.state.selectedMenu === 'file' ? 'current' : ''}>
 						<button className='menubutton' onMouseEnter={this.handleMenuMouseEnter} onClick={this.handleMenuClick}>file</button>
 						<ul className={'menu' + (this.state.selectedMenu === 'file' ? ' selected' : '')}>
-							<li className={this.state.selectedMenu === 'file' && this.state.selectedItem === 'new file' ? 'current' : ''}><button onClick={this.handleItemClick} className='menubutton' onMouseEnter={this.handleItemMouseEnter}>new file</button></li>
-							<li className={this.state.selectedMenu === 'file' && this.state.selectedItem === 'open...' ? 'current' : ''}><button onClick={this.handleItemClick} className='menubutton' onMouseEnter={this.handleItemMouseEnter}>open...</button></li>
-							<li className={this.state.selectedMenu === 'file' && this.state.selectedItem === 'open recent' ? 'current' : ''}><button onClick={this.handleItemClick} className='menubutton' onMouseEnter={this.handleItemMouseEnter}>open recent</button></li>
-						</ul>
-					</li>
-					<li className={this.state.selectedMenu === 'edit' ? 'current' : ''}>
-						<button className='menubutton' onMouseEnter={this.handleMenuMouseEnter} onClick={this.handleMenuClick}>edit</button>
-						<ul className={'menu' + (this.state.selectedMenu === 'edit' ? ' selected' : '')}>
-							<li className={this.state.selectedMenu === 'edit' && this.state.selectedItem === 'undo' ? 'current' : ''}><button onClick={this.handleItemClick} className='menubutton' onMouseEnter={this.handleItemMouseEnter}>undo</button></li>
-							<li className={this.state.selectedMenu === 'edit' && this.state.selectedItem === 'repeat' ? 'current' : ''}><button onClick={this.handleItemClick} className='menubutton' onMouseEnter={this.handleItemMouseEnter}>repeat</button></li>
-							<li className={this.state.selectedMenu === 'edit' && this.state.selectedItem === 'more' ? 'current' : ''}><button onClick={this.handleItemClick} className='menubutton' onMouseEnter={this.handleItemMouseEnter}>more</button></li>
-						</ul>
-					</li>
-					<li className={this.state.selectedMenu === 'selection' ? 'current' : ''}>
-						<button className='menubutton' onMouseEnter={this.handleMenuMouseEnter} onClick={this.handleMenuClick}>selection</button>
-						<ul className={'menu' + (this.state.selectedMenu === 'selection' ? ' selected' : '')}>
-							<li className={this.state.selectedMenu === 'selection' && this.state.selectedItem === 'split' ? 'current' : ''}><button onClick={this.handleItemClick} className='menubutton' onMouseEnter={this.handleItemMouseEnter}>split</button></li>
-							<li className={this.state.selectedMenu === 'selection' && this.state.selectedItem === 'add' ? 'current' : ''}><button onClick={this.handleItemClick} className='menubutton' onMouseEnter={this.handleItemMouseEnter}>add</button></li>
-							<li className={this.state.selectedMenu === 'selection' && this.state.selectedItem === 'single' ? 'current' : ''}><button onClick={this.handleItemClick} className='menubutton' onMouseEnter={this.handleItemMouseEnter}>single</button></li>
+							<li className={this.state.selectedMenu === 'file' && this.state.selectedItem === 'save' ? 'current' : ''}><button onClick={this.handleItemClick} className='menubutton' onMouseEnter={this.handleItemMouseEnter}>save</button></li>
 						</ul>
 					</li>
 				</ul>
@@ -136,8 +119,17 @@ var MenuBar = React.createClass({
 		});
 	},
 
-	// Handle item clicks. Publish the command and close the menu.
+	// Handle item clicks.
 	handleItemClick: function(e) {
+
+		// Get the menu button.
+		var itemButton = e.currentTarget;
+		var menuButton = itemButton.parentNode.parentNode.parentNode.querySelector('button');
+
+		// Publish the command.
+		PubSub.publish(MenuBar.topics().ItemClick, [menuButton.textContent, itemButton.textContent].join(':'));
+
+		// Close the menu.
 		this.setState({
 			selectedMenu: null,
 			selectedItem: null
@@ -154,7 +146,7 @@ var MenuBar = React.createClass({
 		});
 	},
 
-	// Handle mode button click.
+	// Handle mode button click. Publish the command.
 	handleModeClick: function(e) {
 		PubSub.publish(MenuBar.topics().ModeChange, e.currentTarget.textContent);
 	}
@@ -162,3 +154,28 @@ var MenuBar = React.createClass({
 });
 
 module.exports = MenuBar;
+
+					// <li className={this.state.selectedMenu === 'file' ? 'current' : ''}>
+					// 	<button className='menubutton' onMouseEnter={this.handleMenuMouseEnter} onClick={this.handleMenuClick}>file</button>
+					// 	<ul className={'menu' + (this.state.selectedMenu === 'file' ? ' selected' : '')}>
+					// 		<li className={this.state.selectedMenu === 'file' && this.state.selectedItem === 'new file' ? 'current' : ''}><button onClick={this.handleItemClick} className='menubutton' onMouseEnter={this.handleItemMouseEnter}>new file</button></li>
+					// 		<li className={this.state.selectedMenu === 'file' && this.state.selectedItem === 'open...' ? 'current' : ''}><button onClick={this.handleItemClick} className='menubutton' onMouseEnter={this.handleItemMouseEnter}>open...</button></li>
+					// 		<li className={this.state.selectedMenu === 'file' && this.state.selectedItem === 'open recent' ? 'current' : ''}><button onClick={this.handleItemClick} className='menubutton' onMouseEnter={this.handleItemMouseEnter}>open recent</button></li>
+					// 	</ul>
+					// </li>
+					// <li className={this.state.selectedMenu === 'edit' ? 'current' : ''}>
+					// 	<button className='menubutton' onMouseEnter={this.handleMenuMouseEnter} onClick={this.handleMenuClick}>edit</button>
+					// 	<ul className={'menu' + (this.state.selectedMenu === 'edit' ? ' selected' : '')}>
+					// 		<li className={this.state.selectedMenu === 'edit' && this.state.selectedItem === 'undo' ? 'current' : ''}><button onClick={this.handleItemClick} className='menubutton' onMouseEnter={this.handleItemMouseEnter}>undo</button></li>
+					// 		<li className={this.state.selectedMenu === 'edit' && this.state.selectedItem === 'repeat' ? 'current' : ''}><button onClick={this.handleItemClick} className='menubutton' onMouseEnter={this.handleItemMouseEnter}>repeat</button></li>
+					// 		<li className={this.state.selectedMenu === 'edit' && this.state.selectedItem === 'more' ? 'current' : ''}><button onClick={this.handleItemClick} className='menubutton' onMouseEnter={this.handleItemMouseEnter}>more</button></li>
+					// 	</ul>
+					// </li>
+					// <li className={this.state.selectedMenu === 'selection' ? 'current' : ''}>
+					// 	<button className='menubutton' onMouseEnter={this.handleMenuMouseEnter} onClick={this.handleMenuClick}>selection</button>
+					// 	<ul className={'menu' + (this.state.selectedMenu === 'selection' ? ' selected' : '')}>
+					// 		<li className={this.state.selectedMenu === 'selection' && this.state.selectedItem === 'split' ? 'current' : ''}><button onClick={this.handleItemClick} className='menubutton' onMouseEnter={this.handleItemMouseEnter}>split</button></li>
+					// 		<li className={this.state.selectedMenu === 'selection' && this.state.selectedItem === 'add' ? 'current' : ''}><button onClick={this.handleItemClick} className='menubutton' onMouseEnter={this.handleItemMouseEnter}>add</button></li>
+					// 		<li className={this.state.selectedMenu === 'selection' && this.state.selectedItem === 'single' ? 'current' : ''}><button onClick={this.handleItemClick} className='menubutton' onMouseEnter={this.handleItemMouseEnter}>single</button></li>
+					// 	</ul>
+					// </li>

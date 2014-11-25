@@ -68,6 +68,7 @@ var Livecoding = React.createClass({
 		// Setup all the subscriptions.
 		PubSub.subscribe(Editor.topics().ContentChange, self.handleContentChange);
 		PubSub.subscribe(MenuBar.topics().ModeChange, self.handleModeChange);
+		PubSub.subscribe(MenuBar.topics().ItemClick, self.handleMenuItemClick);
 	},
 
 	// Every time **Editor**'s content changes it hands **Livecoding**
@@ -90,6 +91,11 @@ var Livecoding = React.createClass({
 		this.setState({
 			mode: mode
 		});
+	},
+
+	// Handle menu item click.
+	handleMenuItemClick: function(topic, menuItem) {
+		console.log(menuItem);
 	}
 
 });
