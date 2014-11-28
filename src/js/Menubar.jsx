@@ -67,6 +67,9 @@ var MenuBar = React.createClass({
 							<li className={this.state.selectedMenu === 'file' && this.state.selectedItem === 'new' ? 'current' : ''}>
 								<button onClick={this.handleItemClick} className='menubutton' onMouseEnter={this.handleItemMouseEnter}>new</button>
 							</li>
+							<li className={this.state.selectedMenu === 'file' && this.state.selectedItem === 'save' ? 'current' : ''}>
+								<button onClick={this.handleItemClick} className='menubutton' onMouseEnter={this.handleItemMouseEnter}>save</button>
+							</li>
 						</ul>
 					</li>
 				</ul>

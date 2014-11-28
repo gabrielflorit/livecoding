@@ -109,6 +109,11 @@ var Livecoding = React.createClass({
 				});
 
 			break;
+
+			case 'file:save':
+
+				console.log('TODO');
+			break;
 		}
 	}
 
