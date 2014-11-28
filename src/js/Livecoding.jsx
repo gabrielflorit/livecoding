@@ -95,12 +95,26 @@ var Livecoding = React.createClass({
 
 	// Handle menu item click.
 	handleMenuItemClick: function(topic, menuItem) {
-		console.log(menuItem);
+
+		switch(menuItem) {
+			case 'file:new':
+
+				// Reset all three code files
+				// and set mode back to html.
+				this.setState({
+					html: '',
+					javascript: '',
+					css: '',
+					mode: 'html'
+				});
+
+			break;
+		}
 	}
 
 });
 
-// Render the entire application to `#main`.
+// Render the entire application to `.main`.
 React.render(
 	<Livecoding />,
 	document.querySelector('.main')
