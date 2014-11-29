@@ -6,7 +6,10 @@
 var React   = require('react');
 
 // Include libraries.
-var PubSub  = require('pubsub-js');
+var PubSub         = require('pubsub-js');
+var Authentication = require('../util/Authentication.js');
+var _              = require('lodash');
+var util           = require('../util/util.js');
 
 // Include all top-level components.
 var MenuBar = require('./MenuBar.jsx');
@@ -17,6 +20,9 @@ var updateData = require('../../../.tmp/updates.json');
 
 // Create the React component.
 var Livecoding = React.createClass({
+
+	// TODO: get/set from local storage
+	_token: null,
 
 	// Set the initial state. As the application grows, so
 	// will the number of state properties.
@@ -69,6 +75,7 @@ var Livecoding = React.createClass({
 		PubSub.subscribe(Editor.topics().ContentChange, self.handleContentChange);
 		PubSub.subscribe(MenuBar.topics().ModeChange, self.handleModeChange);
 		PubSub.subscribe(MenuBar.topics().ItemClick, self.handleMenuItemClick);
+		PubSub.subscribe(Authentication.topics().Token, self.handleAuthenticationToken);
 	},
 
 	// Every time **Editor**'s content changes it hands **Livecoding**
@@ -112,10 +119,70 @@ var Livecoding = React.createClass({
 
 			case 'file:save':
 
-				console.log('TODO');
+				// Is user logged in? If so, save.
+				if (this._token) {
+
+					// Create payload.
+					var data = _.pick(this.state, [
+						'html',
+						'javascript',
+						'css',
+						'mode'
+					]);
+
+					// Save to gist.
+					Authentication.save(this._token, data)
+						.then(function(gist) {
+
+							// Do nothing for now.
+							util.log(gist);
+						});
+				} else {
+
+					// There's no way to tell GitHub "after you give me a token, I want to save/delete/etc"
+					// So we'll store the desired function call in a stack,
+					this.afterAuthentication.push('save');
+					// and then we'll make the login call.
+					Authentication.login();
+				}
+
 			break;
 		}
-	}
+	},
+
+	handleAuthenticationToken: function(topic, response) {
+
+		// Save the token.
+		this._token = response.token;
+
+		// Get next step.
+		var next = this.afterAuthentication.pop();
+
+		switch(next) {
+			case 'save':
+
+				// Create payload.
+				var data = _.pick(this.state, [
+					'html',
+					'javascript',
+					'css',
+					'mode'
+				]);
+
+				// Save to gist.
+				Authentication.save(this._token, data)
+					.then(function(gist) {
+
+						// Do nothing for now.
+						util.log(gist);
+					});
+			break;
+		}
+
+	},
+
+	// Store the desired function call after authentication.
+	afterAuthentication: []
 
 });
 

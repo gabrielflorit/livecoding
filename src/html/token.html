@@ -2,7 +2,7 @@
 <head>
 	<script>
 		var code = window.location.href.match(/\?code=(.*)/)[1];
-		opener.login(code);
+		opener.handleToken(code);
 		close();
 	</script>
 </head>

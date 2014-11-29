@@ -32,7 +32,7 @@ var Editor = React.createClass({
 	statics: {
 		topics: function() {
 			return {
-				ContentChange: 'ContentChange'
+				ContentChange: 'Editor_ContentChange'
 			};
 		}
 	},

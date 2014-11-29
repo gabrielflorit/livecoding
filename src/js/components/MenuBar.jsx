@@ -13,8 +13,8 @@ var MenuBar = React.createClass({
 	statics: {
 		topics: function() {
 			return {
-				ItemClick: 'ItemClick',
-				ModeChange: 'ModeChange'
+				ItemClick: 'MenuBar_ItemClick',
+				ModeChange: 'MenuBar_ModeChange'
 			};
 		}
 	},
