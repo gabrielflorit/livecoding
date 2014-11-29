@@ -13,18 +13,19 @@
 
 				callCode: function(javascriptString) {
 
-					// func is valid syntax code (according to esprima). EDIT: not at the moment.
+					// javascriptString is valid syntax code (according to esprima).
 					// this means we can safely ignore errors.
 					try {
 						var func = new Function(javascriptString);
 						func();
 					}
-					catch(e) {
-
-					}
+					catch(e) {}
 
 				}
 			};
+			document.addEventListener('click', function(e) {
+				parent.document.dispatchEvent(new Event('click'));
+			});
 		</script>
 	</head>
 	<body>

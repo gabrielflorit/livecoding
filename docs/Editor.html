@@ -96,7 +96,7 @@
             </div>
             
             <div class="content"><div class='highlight'><pre><span class="hljs-keyword">var</span> PubSub     = <span class="hljs-built_in">require</span>(<span class="hljs-string">'pubsub-js'</span>);
-<span class="hljs-keyword">var</span> util       = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./util.js'</span>);</pre></div></div>
+<span class="hljs-keyword">var</span> util       = <span class="hljs-built_in">require</span>(<span class="hljs-string">'../util/util.js'</span>);</pre></div></div>
             
         </li>
         
@@ -126,7 +126,7 @@
 
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-built_in">require</span>(<span class="hljs-string">'../../node_modules/codemirror/mode/htmlmixed/htmlmixed.js'</span>);</pre></div></div>
+            <div class="content"><div class='highlight'><pre><span class="hljs-built_in">require</span>(<span class="hljs-string">'../../../node_modules/codemirror/mode/htmlmixed/htmlmixed.js'</span>);</pre></div></div>
             
         </li>
         
@@ -141,7 +141,7 @@
 
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-built_in">require</span>(<span class="hljs-string">'../../node_modules/codemirror/addon/lint/lint.js'</span>);</pre></div></div>
+            <div class="content"><div class='highlight'><pre><span class="hljs-built_in">require</span>(<span class="hljs-string">'../../../node_modules/codemirror/addon/lint/lint.js'</span>);</pre></div></div>
             
         </li>
         
@@ -171,7 +171,7 @@
 
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-built_in">require</span>(<span class="hljs-string">'../../node_modules/codemirror/addon/lint/css-lint.js'</span>);</pre></div></div>
+            <div class="content"><div class='highlight'><pre><span class="hljs-built_in">require</span>(<span class="hljs-string">'../../../node_modules/codemirror/addon/lint/css-lint.js'</span>);</pre></div></div>
             
         </li>
         
@@ -186,8 +186,8 @@
 
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-built_in">require</span>(<span class="hljs-string">'./html-lint.js'</span>);
-<span class="hljs-built_in">require</span>(<span class="hljs-string">'./javascript-lint.js'</span>);</pre></div></div>
+            <div class="content"><div class='highlight'><pre><span class="hljs-built_in">require</span>(<span class="hljs-string">'../util/html-lint.js'</span>);
+<span class="hljs-built_in">require</span>(<span class="hljs-string">'../util/javascript-lint.js'</span>);</pre></div></div>
             
         </li>
         
@@ -207,7 +207,7 @@
    statics: {
       topics: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> </span>{
          <span class="hljs-keyword">return</span> {
-            ContentChange: <span class="hljs-string">'ContentChange'</span>
+            ContentChange: <span class="hljs-string">'Editor_ContentChange'</span>
          };
       }
    },
