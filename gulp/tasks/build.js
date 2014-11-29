@@ -16,7 +16,9 @@ gulp.task('build', function(done) {
 		);
 	} else {
 		runSequence(
-			'clean',
+			// 'clean',
+			// 'fetchEnhancements',
+			// 'updates',
 			'watch',
 			'browser-sync',
 			'html',

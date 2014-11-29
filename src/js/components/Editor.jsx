@@ -5,26 +5,26 @@ var React      = require('react');
 
 // Include libraries.
 var PubSub     = require('pubsub-js');
-var util       = require('./util.js');
+var util       = require('../util/util.js');
 
 // We'll use CodeMirror as the code editor.
 var CodeMirror = require('codemirror');
 
 // Load CodeMirror HTML/JS/CSS modes.
-require('../../node_modules/codemirror/mode/htmlmixed/htmlmixed.js');
+require('../../../node_modules/codemirror/mode/htmlmixed/htmlmixed.js');
 
 // Require lint framework.
-require('../../node_modules/codemirror/addon/lint/lint.js');
+require('../../../node_modules/codemirror/addon/lint/lint.js');
 
 // Add CSSLint to window,
 window.CSSLint = require('csslint').CSSLint;
 
 // because this file expects it to be on window.
-require('../../node_modules/codemirror/addon/lint/css-lint.js');
+require('../../../node_modules/codemirror/addon/lint/css-lint.js');
 
 // Require our custom linters.
-require('./html-lint.js');
-require('./javascript-lint.js');
+require('../util/html-lint.js');
+require('../util/javascript-lint.js');
 
 // Create the component.
 var Editor = React.createClass({

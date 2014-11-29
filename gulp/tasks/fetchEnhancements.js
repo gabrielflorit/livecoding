@@ -1,7 +1,7 @@
 var gulp      = require('gulp');
 var GitHubApi = require('github');
 var _         = require('lodash');
-var fs        = require('fs');
+var fs        = require('fs-extra');
 var template  = require('gulp-template');
 
 gulp.task('fetchEnhancements', function(done) {
@@ -23,7 +23,8 @@ gulp.task('fetchEnhancements', function(done) {
 			})
 			.value();
 
-		fs.writeFileSync('src/js/enhancements.json', JSON.stringify(enhancements, null, 4));
+		fs.ensureFileSync('.tmp/enhancements.json');
+		fs.writeFileSync('.tmp/enhancements.json', JSON.stringify(enhancements, null, 4));
 
 		done();
 	});

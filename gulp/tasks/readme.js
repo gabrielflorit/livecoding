@@ -7,7 +7,7 @@ gulp.task('readme', function() {
 	return gulp.src('src/_README.md')
 		.pipe(data(function() {
 			return {
-				enhancements: require('../../src/js/enhancements.json')
+				enhancements: require('../../.tmp/enhancements.json')
 			};
 		}))
 		.pipe(template())

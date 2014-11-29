@@ -5,7 +5,7 @@ var React = require('react/addons');
 
 // Include libraries.
 var PubSub = require('pubsub-js');
-var util   = require('./util.js');
+var util   = require('../util/util.js');
 
 // Create the component.
 var MenuBar = React.createClass({

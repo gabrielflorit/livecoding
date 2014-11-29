@@ -36,7 +36,7 @@ gulp.task('webpack', function() {
 		});
 	}
 
-	return gulp.src('src/js/Livecoding.jsx')
+	return gulp.src('src/js/components/Livecoding.jsx')
 		.pipe(webpack(config))
 		.pipe(rename('bundle.js'))
 		.pipe(gulp.dest(util.env.prod ? 'dist' : '.tmp'))

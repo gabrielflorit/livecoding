@@ -1,12 +1,15 @@
-var React = require('react/addons');
-var _ = require('lodash');
-var util = require('./util.js');
-var Moment = require('moment');
-
 // This component gets a list of updates from Livecoding.
 // It then displays only those which the user hasn't dismissed.
 // When the user closes this drawer it is equivalent to dismissing all updates
 // presently visible. We store this information on localStorage.
+
+// Include React.
+var React  = require('react');
+
+// Include libraries.
+var _      = require('lodash');
+var util   = require('../util/util.js');
+var Moment = require('moment');
 
 var Updates = React.createClass({
 

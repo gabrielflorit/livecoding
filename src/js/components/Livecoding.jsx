@@ -13,7 +13,7 @@ var MenuBar = require('./MenuBar.jsx');
 var Output  = require('./Output.jsx');
 var Editor  = require('./Editor.jsx');
 var Updates = require('./Updates.jsx');
-var updateData = require('./updates.json');
+var updateData = require('../../../.tmp/updates.json');
 
 // Create the React component.
 var Livecoding = React.createClass({
