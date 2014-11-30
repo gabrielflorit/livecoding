@@ -54,21 +54,11 @@
 	}
 
 	.saved {
-		padding-left: 1em;
 		float: left;
-		transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
 
 		a {
 			@include adjust-font-size-to($s3);
 			@include adjust-leading-to(1);
 		}
-	}
-
-	.saved-enter {
-		opacity: 0;
-	}
-
-	.saved-enter.saved-enter-active {
-		opacity: 1;
 	}
 }
