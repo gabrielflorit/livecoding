@@ -84,7 +84,7 @@ var Livecoding = React.createClass({
 		PubSub.subscribe(Editor.topics().ContentChange, self.handleContentChange);
 		PubSub.subscribe(MenuBar.topics().ModeChange, self.handleModeChange);
 		PubSub.subscribe(MenuBar.topics().ItemClick, self.handleMenuItemClick);
-		PubSub.subscribe(Authentication.topics().Token, self.handleAuthenticationToken);
+		PubSub.subscribe(Authentication.topics().Token, self.handleGatekeeperToken);
 	},
 
 	// Every time **Editor**'s content changes it hands **Livecoding**
@@ -130,22 +130,7 @@ var Livecoding = React.createClass({
 
 				// Is user logged in? If so, save.
 				if (this.getToken()) {
-
-					// Create payload.
-					var data = _.pick(this.state, [
-						'html',
-						'javascript',
-						'css',
-						'mode'
-					]);
-
-					// Save to gist.
-					Authentication.save(this.getToken(), data)
-						.then(function(gist) {
-
-							// Do nothing for now.
-							util.log(gist);
-						});
+					this.save();
 				} else {
 
 					// There's no way to tell GitHub "after you give me a token, I want to save/delete/etc"
@@ -159,7 +144,8 @@ var Livecoding = React.createClass({
 		}
 	},
 
-	handleAuthenticationToken: function(topic, response) {
+	// Handle gatekeeper token.
+	handleGatekeeperToken: function(topic, response) {
 
 		// Save the token.
 		this.setToken(response.token);
@@ -169,25 +155,34 @@ var Livecoding = React.createClass({
 
 		switch(next) {
 			case 'save':
-
-				// Create payload.
-				var data = _.pick(this.state, [
-					'html',
-					'javascript',
-					'css',
-					'mode'
-				]);
-
-				// Save to gist.
-				Authentication.save(this.getToken(), data)
-					.then(function(gist) {
-
-						// Do nothing for now.
-						util.log(gist);
-					});
+				this.save();
 			break;
 		}
 
+	},
+
+	// Save gist (private for now).
+	save: function() {
+
+		// Create payload.
+		var data = _.pick(this.state, [
+			'html',
+			'javascript',
+			'css',
+			'mode'
+		]);
+
+		var self = this;
+
+		// Save to gist.
+		Authentication.save(this.getToken(), data)
+			.then(function(gist) {
+
+				self.setState({
+					gist: gist
+				});
+
+			});
 	},
 
 	// Store the desired function call after authentication.
