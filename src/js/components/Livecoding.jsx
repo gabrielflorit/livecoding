@@ -163,7 +163,7 @@ var Livecoding = React.createClass({
 
 	},
 
-	// Save gist (private for now).
+	// Save gist.
 	save: function() {
 
 		// Create payload.

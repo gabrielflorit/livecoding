@@ -34,7 +34,8 @@ var Authentication =  {
 					'options.json': {
 						content: JSON.stringify(options, null, 4)
 					}
-				}
+				},
+				public: true
 			};
 
 			// Use `water` terminology to support old livecoding.io gists.
