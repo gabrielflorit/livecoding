@@ -42,7 +42,7 @@ var Livecoding = React.createClass({
 			css: '',
 			// Specify what mode we're currently editing.
 			mode: 'html',
-			gist: null
+			gistUrl: null
 		};
 	},
 
@@ -61,7 +61,7 @@ var Livecoding = React.createClass({
 			<div className='livecoding'>
 				<MenuBar
 					mode={mode}
-					gistUrl={this.state.gist ? this.state.gist.html_url : null}
+					gistUrl={this.state.gistUrl}
 				/>
 				<div className='content'>
 					<Output
@@ -87,6 +87,20 @@ var Livecoding = React.createClass({
 		PubSub.subscribe(MenuBar.topics().ModeChange, self.handleModeChange);
 		PubSub.subscribe(MenuBar.topics().ItemClick, self.handleMenuItemClick);
 		PubSub.subscribe(Authentication.topics().Token, self.handleGatekeeperToken);
+
+		// If there's a gist id in the url, retrieve the gist.
+		var match = location.href.match(/[a-z\d]+$/);
+		if (match) {
+			Authentication.read(this.getToken(), match[0])
+				.then(function(response) {
+					var gistUrl = 'https://gist.github.com/' + match[0];
+					var state = _.assign({}, response, {gistUrl: gistUrl});
+					self.setState(state);
+				}).catch(function(error) {
+					console.log('Error', error);
+				});
+		}
+
 	},
 
 	// Every time **Editor**'s content changes it hands **Livecoding**
@@ -180,14 +194,14 @@ var Livecoding = React.createClass({
 		Authentication.save(this.getToken(), data)
 			.then(function(gist) {
 
-				util.log(gist);
-
 				self.setState({
-					gist: gist
+					gistUrl: gist.html_url
 				});
 
-				history.pushState(gist.id, '', '#' + gist.owner.login + '/' + gist.id);
+				history.pushState(gist.id, '', '#' + gist.id);
 
+			}).catch(function(error) {
+				console.log('Error', error);
 			});
 	},
 

@@ -62,11 +62,9 @@ var MenuBar = React.createClass({
 
 		// Assign gist id as key (react transition needs this).
 		var saved = gistUrl ?
-			<div className='saved' key={gistUrl.match(/[a-z\d]*$/i)[0]}>
+			<div className='saved'>
 				<a href={gistUrl}>{gistUrl}</a>
 			</div> : null;
-
-		var ReactCSSTransitionGroup = React.addons.CSSTransitionGroup;
 
 		return (
 			<div className='menubar'>
@@ -80,9 +78,7 @@ var MenuBar = React.createClass({
 						</ul>
 					</li>
 				</ul>
-				<ReactCSSTransitionGroup transitionName='saved' transitionLeave={false}>
-					{saved}
-				</ReactCSSTransitionGroup>
+				{saved}
 				<ul className='menugroup mode'>
 					<li>
 						<ul className='menu'>
