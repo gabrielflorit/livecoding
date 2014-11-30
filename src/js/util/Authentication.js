@@ -29,19 +29,19 @@ var Authentication =  {
 				mode: data.mode
 			};
 
-			// Use `water` terminology to support old
-			// livecoding.io gists.
 			var files = {
 				files: {
-					'water.html': { content: data.html },
-					'water.js': { content: data.javascript },
-					'water.css': { content: data.css },
 					'options.json': {
 						content: JSON.stringify(options, null, 4)
 					}
 				}
-
 			};
+
+			// Use `water` terminology to support old livecoding.io gists.
+			// Also, only add files if content exists.
+			if (data.html) { files.files['water.html'] = { content:data.html }; }
+			if (data.javascript) { files.files['water.js'] = { content:data.javascript }; }
+			if (data.css) { files.files['water.css'] = { content:data.css }; }
 
 			github.getGist().create(files, function(error, gist) {
 				if (error) {
