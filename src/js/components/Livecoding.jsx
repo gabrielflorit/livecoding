@@ -21,8 +21,17 @@ var updateData = require('../../../.tmp/updates.json');
 // Create the React component.
 var Livecoding = React.createClass({
 
-	// TODO: get/set from local storage
-	_token: null,
+	statics: {
+		TOKEN: 'LIVECODING_TOKEN'
+	},
+
+	getToken: function() {
+		return localStorage.getItem(Livecoding.TOKEN);
+	},
+
+	setToken: function(token) {
+		localStorage.setItem(Livecoding.TOKEN, token);
+	},
 
 	// Set the initial state. As the application grows, so
 	// will the number of state properties.
@@ -120,7 +129,7 @@ var Livecoding = React.createClass({
 			case 'file:save':
 
 				// Is user logged in? If so, save.
-				if (this._token) {
+				if (this.getToken()) {
 
 					// Create payload.
 					var data = _.pick(this.state, [
@@ -131,7 +140,7 @@ var Livecoding = React.createClass({
 					]);
 
 					// Save to gist.
-					Authentication.save(this._token, data)
+					Authentication.save(this.getToken(), data)
 						.then(function(gist) {
 
 							// Do nothing for now.
@@ -153,7 +162,7 @@ var Livecoding = React.createClass({
 	handleAuthenticationToken: function(topic, response) {
 
 		// Save the token.
-		this._token = response.token;
+		this.setToken(response.token);
 
 		// Get next step.
 		var next = this.afterAuthentication.pop();
@@ -170,7 +179,7 @@ var Livecoding = React.createClass({
 				]);
 
 				// Save to gist.
-				Authentication.save(this._token, data)
+				Authentication.save(this.getToken(), data)
 					.then(function(gist) {
 
 						// Do nothing for now.
