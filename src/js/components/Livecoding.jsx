@@ -180,9 +180,13 @@ var Livecoding = React.createClass({
 		Authentication.save(this.getToken(), data)
 			.then(function(gist) {
 
+				util.log(gist);
+
 				self.setState({
 					gist: gist
 				});
+
+				history.pushState(gist.id, '', '#' + gist.owner.login + '/' + gist.id);
 
 			});
 	},
