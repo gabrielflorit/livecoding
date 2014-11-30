@@ -41,7 +41,8 @@ var Livecoding = React.createClass({
 			javascript: '',
 			css: '',
 			// Specify what mode we're currently editing.
-			mode: 'html'
+			mode: 'html',
+			gist: null
 		};
 	},
 
@@ -60,6 +61,7 @@ var Livecoding = React.createClass({
 			<div className='livecoding'>
 				<MenuBar
 					mode={mode}
+					gistUrl={this.state.gist ? this.state.gist.html_url : null}
 				/>
 				<div className='content'>
 					<Output
