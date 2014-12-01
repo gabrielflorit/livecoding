@@ -20,7 +20,6 @@ var Output = React.createClass({
 	},
 
 	// Tell React not to manage this component's DOM.
-	// TODO: diff new + old code before passing to iframe
 	shouldComponentUpdate: function(nextProps) {
 
 		// Get the iframe.
@@ -28,19 +27,17 @@ var Output = React.createClass({
 		var doc = iframe.document;
 
 		// If the current mode is `html`, replace the iframe's `body` contents.
-		if (nextProps.mode === 'html' || nextProps.renderAll) {
+		if (this.props.html !== nextProps.html && (nextProps.mode === 'html' || nextProps.renderAll)) {
 			doc.body.innerHTML = nextProps.html;
-			console.log('rendering html');
 		}
 
 		// If the current mode is `css`, replace the iframe's `style` contents.
-		if (nextProps.mode === 'css' || nextProps.renderAll) {
+		if (this.props.css !== nextProps.css && (nextProps.mode === 'css' || nextProps.renderAll)) {
 			doc.head.querySelector('style.custom').textContent = nextProps.css;
-			console.log('rendering css');
 		}
 
 		// If the current mode is `javascript`,
-		if (nextProps.mode === 'javascript' || nextProps.renderAll) {
+		if (this.props.javascript !== nextProps.javascript && (nextProps.mode === 'javascript' || nextProps.renderAll)) {
 
 			var AST;
 			var isValid = false;
@@ -54,8 +51,6 @@ var Output = React.createClass({
 			if (isValid) {
 				iframe.livecoding.callCode(nextProps.javascript);
 			}
-
-			console.log('rendering javascript');
 		}
 
 		return false;
