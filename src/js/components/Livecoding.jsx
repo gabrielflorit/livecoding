@@ -7,7 +7,7 @@ var React   = require('react');
 
 // Include libraries.
 var PubSub         = require('pubsub-js');
-var Authentication = require('../util/Authentication.js');
+var GitHub = require('../util/GitHub.js');
 var _              = require('lodash');
 var util           = require('../util/util.js');
 
@@ -86,12 +86,12 @@ var Livecoding = React.createClass({
 		PubSub.subscribe(Editor.topics().ContentChange, self.handleContentChange);
 		PubSub.subscribe(MenuBar.topics().ModeChange, self.handleModeChange);
 		PubSub.subscribe(MenuBar.topics().ItemClick, self.handleMenuItemClick);
-		PubSub.subscribe(Authentication.topics().Token, self.handleGatekeeperToken);
+		PubSub.subscribe(GitHub.topics().Token, self.handleGatekeeperToken);
 
 		// If there's a gist id in the url, retrieve the gist.
 		var match = location.href.match(/[a-z\d]+$/);
 		if (match) {
-			Authentication.read(this.getToken(), match[0])
+			GitHub.readGist(this.getToken(), match[0])
 				.then(function(response) {
 					var gistUrl = 'https://gist.github.com/' + match[0];
 					var state = _.assign({}, response, {gistUrl: gistUrl});
@@ -153,7 +153,7 @@ var Livecoding = React.createClass({
 					// So we'll store the desired function call in a stack,
 					this.afterAuthentication.push('save');
 					// and then we'll make the login call.
-					Authentication.login();
+					GitHub.login();
 				}
 
 			break;
@@ -191,7 +191,7 @@ var Livecoding = React.createClass({
 		var self = this;
 
 		// Save to gist.
-		Authentication.save(this.getToken(), data)
+		GitHub.saveGist(this.getToken(), data)
 			.then(function(gist) {
 
 				self.setState({

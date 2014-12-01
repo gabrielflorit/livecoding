@@ -1,12 +1,12 @@
 var util   = require('./util.js');
 var PubSub = require('pubsub-js');
-var GitHub = require('github-api');
+var GitHubAPI = require('github-api');
 
-var Authentication =  {
+var GitHub =  {
 
 	topics: function() {
 		return {
-			Token: 'Authentication_Token'
+			Token: 'GitHub_Token'
 		};
 	},
 
@@ -34,13 +34,13 @@ var Authentication =  {
 
 	},
 
-	read: function(token, id) {
+	readGist: function(token, id) {
 
 		return new Promise(function(resolve, reject) {
 
 			if (token) {
 
-				var github = new GitHub({
+				var github = new GitHubAPI({
 					token: token,
 					auth: 'oauth'
 				});
@@ -51,7 +51,7 @@ var Authentication =  {
 					if (error) {
 						reject(error);
 					} else {
-						var data = Authentication.convertGistToLivecodingData(gist);
+						var data = GitHub.convertGistToLivecodingData(gist);
 						resolve(data);
 					}
 				});
@@ -60,7 +60,7 @@ var Authentication =  {
 
 				util.getJSON('https://api.github.com/gists/d28b2bddba2e121d2160')
 					.then(function(response) {
-						var data = Authentication.convertGistToLivecodingData(response);
+						var data = GitHub.convertGistToLivecodingData(response);
 						resolve(data);
 					}).catch(function(error) {
 						reject(error);
@@ -71,11 +71,11 @@ var Authentication =  {
 
 	},
 
-	save: function(token, data) {
+	saveGist: function(token, data) {
 
 		return new Promise(function(resolve, reject) {
 
-			var github = new GitHub({
+			var github = new GitHubAPI({
 				token: token,
 				auth: 'oauth'
 			});
@@ -112,7 +112,7 @@ var Authentication =  {
 
 };
 
-module.exports = Authentication;
+module.exports = GitHub;
 
 window.handleToken = function(code) {
 
@@ -120,7 +120,7 @@ window.handleToken = function(code) {
 
 	util.getJSON(url)
 		.then(function(response) {
-			PubSub.publish(Authentication.topics().Token, response);
+			PubSub.publish(GitHub.topics().Token, response);
 		}).catch(function(error) {
 			console.log('Error', error);
 		});
