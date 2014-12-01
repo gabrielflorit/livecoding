@@ -18,13 +18,13 @@ See [here](http://gabrielflorit.github.io/livecoding/docs/Livecoding.html) for d
 
 - ✓ 11-22-2014: [Validate js code before sending to output screen.](https://github.com/gabrielflorit/livecoding/issues/115)
 
+- ✓ 12-1-2014: [Add ability to save current gist as gist.](https://github.com/gabrielflorit/livecoding/issues/119)
+
 - [Support preprocessors, e.g. jade, sass, coffeescript](https://github.com/gabrielflorit/livecoding/issues/106)
 
 - [Validate html code before sending to output screen.](https://github.com/gabrielflorit/livecoding/issues/113)
 
 - [Validate css code before sending to output screen.](https://github.com/gabrielflorit/livecoding/issues/117)
-
-- [Add ability to save current gist as gist.](https://github.com/gabrielflorit/livecoding/issues/119)
 
 - [Add ability to load external JS libraries.](https://github.com/gabrielflorit/livecoding/issues/120)
 

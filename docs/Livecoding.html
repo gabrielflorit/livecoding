@@ -98,7 +98,7 @@ It maintains the application’s state.</p>
             </div>
             
             <div class="content"><div class='highlight'><pre><span class="hljs-keyword">var</span> PubSub         = <span class="hljs-built_in">require</span>(<span class="hljs-string">'pubsub-js'</span>);
-<span class="hljs-keyword">var</span> Authentication = <span class="hljs-built_in">require</span>(<span class="hljs-string">'../util/Authentication.js'</span>);
+<span class="hljs-keyword">var</span> GitHub = <span class="hljs-built_in">require</span>(<span class="hljs-string">'../util/GitHub.js'</span>);
 <span class="hljs-keyword">var</span> _              = <span class="hljs-built_in">require</span>(<span class="hljs-string">'lodash'</span>);
 <span class="hljs-keyword">var</span> util           = <span class="hljs-built_in">require</span>(<span class="hljs-string">'../util/util.js'</span>);</pre></div></div>
             
@@ -134,7 +134,19 @@ It maintains the application’s state.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">var</span> Livecoding = React.createClass({</pre></div></div>
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">var</span> Livecoding = React.createClass({
+
+   statics: {
+      TOKEN: <span class="hljs-string">'LIVECODING_TOKEN'</span>
+   },
+
+   getToken: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> </span>{
+      <span class="hljs-keyword">return</span> localStorage.getItem(Livecoding.TOKEN);
+   },
+
+   setToken: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(token)</span> </span>{
+      localStorage.setItem(Livecoding.TOKEN, token);
+   },</pre></div></div>
             
         </li>
         
@@ -144,21 +156,6 @@ It maintains the application’s state.</p>
               
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-6">&#182;</a>
-              </div>
-              <p>TODO: get/set from local storage</p>
-
-            </div>
-            
-            <div class="content"><div class='highlight'><pre>   _token: <span class="hljs-literal">null</span>,</pre></div></div>
-            
-        </li>
-        
-        
-        <li id="section-7">
-            <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-7">&#182;</a>
               </div>
               <p>Set the initial state. As the application grows, so
 will the number of state properties.</p>
@@ -174,28 +171,30 @@ will the number of state properties.</p>
         </li>
         
         
-        <li id="section-8">
+        <li id="section-7">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-8">&#182;</a>
+                <a class="pilcrow" href="#section-7">&#182;</a>
               </div>
               <p>Specify what mode we’re currently editing.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>         mode: <span class="hljs-string">'html'</span>
+            <div class="content"><div class='highlight'><pre>         mode: <span class="hljs-string">'html'</span>,
+         gistUrl: <span class="hljs-literal">null</span>,
+         outputAllCode: <span class="hljs-literal">false</span>
       };
    },</pre></div></div>
             
         </li>
         
         
-        <li id="section-9">
+        <li id="section-8">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-9">&#182;</a>
+                <a class="pilcrow" href="#section-8">&#182;</a>
               </div>
               <p>Each React component has a <code>render</code> method. It gets called
 every time the application’s state changes.</p>
@@ -207,11 +206,11 @@ every time the application’s state changes.</p>
         </li>
         
         
-        <li id="section-10">
+        <li id="section-9">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-10">&#182;</a>
+                <a class="pilcrow" href="#section-9">&#182;</a>
               </div>
               <p>Get the current mode.</p>
 
@@ -222,17 +221,32 @@ every time the application’s state changes.</p>
         </li>
         
         
-        <li id="section-11">
+        <li id="section-10">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-11">&#182;</a>
+                <a class="pilcrow" href="#section-10">&#182;</a>
               </div>
               <p>Get the current mode’s content.</p>
 
             </div>
             
             <div class="content"><div class='highlight'><pre>      <span class="hljs-keyword">var</span> content = <span class="hljs-keyword">this</span>.state[mode];</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-11">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-11">&#182;</a>
+              </div>
+              <p>Should we render all?</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      <span class="hljs-keyword">var</span> renderAll = <span class="hljs-keyword">this</span>.renderAll.pop();</pre></div></div>
             
         </li>
         
@@ -252,6 +266,7 @@ every time the application’s state changes.</p>
          <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">className</span>=<span class="hljs-value">'livecoding'</span>&gt;</span>
             <span class="hljs-tag">&lt;<span class="hljs-title">MenuBar</span>
                <span class="hljs-attribute">mode</span>=<span class="hljs-value">{mode}</span>
+               <span class="hljs-attribute">gistUrl</span>=<span class="hljs-value">{this.state.gistUrl}</span>
             /&gt;</span>
             <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">className</span>=<span class="hljs-value">'content'</span>&gt;</span>
                <span class="hljs-tag">&lt;<span class="hljs-title">Output</span>
@@ -259,6 +274,7 @@ every time the application’s state changes.</p>
                   <span class="hljs-attribute">javascript</span>=<span class="hljs-value">{this.state.javascript}</span>
                   <span class="hljs-attribute">css</span>=<span class="hljs-value">{this.state.css}</span>
                   <span class="hljs-attribute">mode</span>=<span class="hljs-value">{mode}</span>
+                  <span class="hljs-attribute">renderAll</span>=<span class="hljs-value">{renderAll}</span>
                /&gt;</span>
                <span class="hljs-tag">&lt;<span class="hljs-title">Editor</span> <span class="hljs-attribute">content</span>=<span class="hljs-value">{content}</span> <span class="hljs-attribute">mode</span>=<span class="hljs-value">{mode}</span> /&gt;</span>
             <span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
@@ -302,8 +318,7 @@ every time the application’s state changes.</p>
             <div class="content"><div class='highlight'><pre>      PubSub.subscribe(Editor.topics().ContentChange, self.handleContentChange);
       PubSub.subscribe(MenuBar.topics().ModeChange, self.handleModeChange);
       PubSub.subscribe(MenuBar.topics().ItemClick, self.handleMenuItemClick);
-      PubSub.subscribe(Authentication.topics().Token, self.handleAuthenticationToken);
-   },</pre></div></div>
+      PubSub.subscribe(GitHub.topics().Token, self.handleGatekeeperToken);</pre></div></div>
             
         </li>
         
@@ -313,6 +328,76 @@ every time the application’s state changes.</p>
               
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-15">&#182;</a>
+              </div>
+              <p>If there’s a gist id in the url, retrieve the gist.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      <span class="hljs-keyword">var</span> match = location.href.match(<span class="hljs-regexp">/[a-z\d]+$/</span>);
+      <span class="hljs-keyword">if</span> (match) {
+         GitHub.readGist(<span class="hljs-keyword">this</span>.getToken(), match[<span class="hljs-number">0</span>])
+            .then(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(response)</span> </span>{</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-16">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-16">&#182;</a>
+              </div>
+              <p>Construct the gist url.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>               <span class="hljs-keyword">var</span> gistUrl = <span class="hljs-string">'https://gist.github.com/'</span> + match[<span class="hljs-number">0</span>];</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-17">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-17">&#182;</a>
+              </div>
+              <p>Instruct Output to render all code.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>               self.renderAll.push(<span class="hljs-literal">true</span>);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-18">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-18">&#182;</a>
+              </div>
+              <p>Update the state.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>               <span class="hljs-keyword">var</span> state = _.assign({}, response, {gistUrl: gistUrl});
+               self.setState(state);
+            }).catch(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(error)</span> </span>{
+               <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'Error'</span>, error);
+            });
+      }
+
+   },</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-19">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-19">&#182;</a>
               </div>
               <p>Every time <strong>Editor</strong>‘s content changes it hands <strong>Livecoding</strong>
 the new content. <strong>Livecoding</strong> then updates its current state
@@ -326,11 +411,11 @@ flow.</p>
         </li>
         
         
-        <li id="section-16">
+        <li id="section-20">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-16">&#182;</a>
+                <a class="pilcrow" href="#section-20">&#182;</a>
               </div>
               <p>Get the current mode.</p>
 
@@ -341,11 +426,11 @@ flow.</p>
         </li>
         
         
-        <li id="section-17">
+        <li id="section-21">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-17">&#182;</a>
+                <a class="pilcrow" href="#section-21">&#182;</a>
               </div>
               <p>Update application state with new content.</p>
 
@@ -359,11 +444,11 @@ flow.</p>
         </li>
         
         
-        <li id="section-18">
+        <li id="section-22">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-18">&#182;</a>
+                <a class="pilcrow" href="#section-22">&#182;</a>
               </div>
               <p>Handle mode change.</p>
 
@@ -378,11 +463,11 @@ flow.</p>
         </li>
         
         
-        <li id="section-19">
+        <li id="section-23">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-19">&#182;</a>
+                <a class="pilcrow" href="#section-23">&#182;</a>
               </div>
               <p>Handle menu item click.</p>
 
@@ -396,11 +481,11 @@ flow.</p>
         </li>
         
         
-        <li id="section-20">
+        <li id="section-24">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-20">&#182;</a>
+                <a class="pilcrow" href="#section-24">&#182;</a>
               </div>
               <p>Reset all three code files
 and set mode back to html.</p>
@@ -421,79 +506,28 @@ and set mode back to html.</p>
         </li>
         
         
-        <li id="section-21">
-            <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-21">&#182;</a>
-              </div>
-              <p>Is user logged in? If so, save.</p>
-
-            </div>
-            
-            <div class="content"><div class='highlight'><pre>            <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>._token) {</pre></div></div>
-            
-        </li>
-        
-        
-        <li id="section-22">
-            <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-22">&#182;</a>
-              </div>
-              <p>Create payload.</p>
-
-            </div>
-            
-            <div class="content"><div class='highlight'><pre>               <span class="hljs-keyword">var</span> data = _.pick(<span class="hljs-keyword">this</span>.state, [
-                  <span class="hljs-string">'html'</span>,
-                  <span class="hljs-string">'javascript'</span>,
-                  <span class="hljs-string">'css'</span>,
-                  <span class="hljs-string">'mode'</span>
-               ]);</pre></div></div>
-            
-        </li>
-        
-        
-        <li id="section-23">
-            <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-23">&#182;</a>
-              </div>
-              <p>Save to gist.</p>
-
-            </div>
-            
-            <div class="content"><div class='highlight'><pre>               Authentication.save(<span class="hljs-keyword">this</span>._token, data)
-                  .then(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(gist)</span> </span>{</pre></div></div>
-            
-        </li>
-        
-        
-        <li id="section-24">
-            <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-24">&#182;</a>
-              </div>
-              <p>Do nothing for now.</p>
-
-            </div>
-            
-            <div class="content"><div class='highlight'><pre>                     util.log(gist);
-                  });
-            } <span class="hljs-keyword">else</span> {</pre></div></div>
-            
-        </li>
-        
-        
         <li id="section-25">
             <div class="annotation">
               
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-25">&#182;</a>
+              </div>
+              <p>Is user logged in? If so, save.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>            <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.getToken()) {
+               <span class="hljs-keyword">this</span>.save();
+            } <span class="hljs-keyword">else</span> {</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-26">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-26">&#182;</a>
               </div>
               <p>There’s no way to tell GitHub “after you give me a token, I want to save/delete/etc”
 So we’ll store the desired function call in a stack,</p>
@@ -505,39 +539,22 @@ So we’ll store the desired function call in a stack,</p>
         </li>
         
         
-        <li id="section-26">
-            <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-26">&#182;</a>
-              </div>
-              <p>and then we’ll make the login call.</p>
-
-            </div>
-            
-            <div class="content"><div class='highlight'><pre>               Authentication.login();
-            }
-
-         <span class="hljs-keyword">break</span>;
-      }
-   },
-
-   handleAuthenticationToken: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(topic, response)</span> </span>{</pre></div></div>
-            
-        </li>
-        
-        
         <li id="section-27">
             <div class="annotation">
               
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-27">&#182;</a>
               </div>
-              <p>Save the token.</p>
+              <p>and then we’ll make the login call.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>      <span class="hljs-keyword">this</span>._token = response.token;</pre></div></div>
+            <div class="content"><div class='highlight'><pre>               GitHub.login();
+            }
+
+         <span class="hljs-keyword">break</span>;
+      }
+   },</pre></div></div>
             
         </li>
         
@@ -548,14 +565,11 @@ So we’ll store the desired function call in a stack,</p>
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-28">&#182;</a>
               </div>
-              <p>Get next step.</p>
+              <p>Handle gatekeeper token.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>      <span class="hljs-keyword">var</span> next = <span class="hljs-keyword">this</span>.afterAuthentication.pop();
-
-      <span class="hljs-keyword">switch</span>(next) {
-         <span class="hljs-keyword">case</span> <span class="hljs-string">'save'</span>:</pre></div></div>
+            <div class="content"><div class='highlight'><pre>   handleGatekeeperToken: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(topic, response)</span> </span>{</pre></div></div>
             
         </li>
         
@@ -566,16 +580,11 @@ So we’ll store the desired function call in a stack,</p>
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-29">&#182;</a>
               </div>
-              <p>Create payload.</p>
+              <p>Save the token.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>            <span class="hljs-keyword">var</span> data = _.pick(<span class="hljs-keyword">this</span>.state, [
-               <span class="hljs-string">'html'</span>,
-               <span class="hljs-string">'javascript'</span>,
-               <span class="hljs-string">'css'</span>,
-               <span class="hljs-string">'mode'</span>
-            ]);</pre></div></div>
+            <div class="content"><div class='highlight'><pre>      <span class="hljs-keyword">this</span>.setToken(response.token);</pre></div></div>
             
         </li>
         
@@ -586,12 +595,19 @@ So we’ll store the desired function call in a stack,</p>
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-30">&#182;</a>
               </div>
-              <p>Save to gist.</p>
+              <p>Get next step.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>            Authentication.save(<span class="hljs-keyword">this</span>._token, data)
-               .then(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(gist)</span> </span>{</pre></div></div>
+            <div class="content"><div class='highlight'><pre>      <span class="hljs-keyword">var</span> next = <span class="hljs-keyword">this</span>.afterAuthentication.pop();
+
+      <span class="hljs-keyword">switch</span>(next) {
+         <span class="hljs-keyword">case</span> <span class="hljs-string">'save'</span>:
+            <span class="hljs-keyword">this</span>.save();
+         <span class="hljs-keyword">break</span>;
+      }
+
+   },</pre></div></div>
             
         </li>
         
@@ -602,16 +618,11 @@ So we’ll store the desired function call in a stack,</p>
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-31">&#182;</a>
               </div>
-              <p>Do nothing for now.</p>
+              <p>Save gist.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>                  util.log(gist);
-               });
-         <span class="hljs-keyword">break</span>;
-      }
-
-   },</pre></div></div>
+            <div class="content"><div class='highlight'><pre>   save: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> </span>{</pre></div></div>
             
         </li>
         
@@ -622,13 +633,18 @@ So we’ll store the desired function call in a stack,</p>
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-32">&#182;</a>
               </div>
-              <p>Store the desired function call after authentication.</p>
+              <p>Create payload.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>   afterAuthentication: []
+            <div class="content"><div class='highlight'><pre>      <span class="hljs-keyword">var</span> data = _.pick(<span class="hljs-keyword">this</span>.state, [
+         <span class="hljs-string">'html'</span>,
+         <span class="hljs-string">'javascript'</span>,
+         <span class="hljs-string">'css'</span>,
+         <span class="hljs-string">'mode'</span>
+      ]);
 
-});</pre></div></div>
+      <span class="hljs-keyword">var</span> self = <span class="hljs-keyword">this</span>;</pre></div></div>
             
         </li>
         
@@ -638,6 +654,65 @@ So we’ll store the desired function call in a stack,</p>
               
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-33">&#182;</a>
+              </div>
+              <p>Save to gist.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      GitHub.saveGist(<span class="hljs-keyword">this</span>.getToken(), data)
+         .then(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(gist)</span> </span>{
+
+            self.setState({
+               gistUrl: gist.html_url
+            });
+
+            history.pushState(gist.id, <span class="hljs-string">''</span>, <span class="hljs-string">'#'</span> + gist.id);
+
+         }).catch(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(error)</span> </span>{
+            <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'Error'</span>, error);
+         });
+   },</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-34">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-34">&#182;</a>
+              </div>
+              <p>Store the desired function call after authentication.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>   afterAuthentication: [],</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-35">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-35">&#182;</a>
+              </div>
+              <p>Decide whether to render all code in Output.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>   renderAll: []
+
+});</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-36">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-36">&#182;</a>
               </div>
               <p>Render the entire application to <code>.main</code>.</p>
 

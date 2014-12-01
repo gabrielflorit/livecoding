@@ -372,7 +372,7 @@ current code editor contents.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>   shouldComponentUpdate: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(props, state)</span> </span>{</pre></div></div>
+            <div class="content"><div class='highlight'><pre>   shouldComponentUpdate: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(nextProps)</span> </span>{</pre></div></div>
             
         </li>
         
@@ -405,7 +405,7 @@ write html/javascript/css in the same document.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>      <span class="hljs-keyword">var</span> newMode = props.mode.replace(<span class="hljs-string">'html'</span>, <span class="hljs-string">'htmlmixed'</span>);</pre></div></div>
+            <div class="content"><div class='highlight'><pre>      <span class="hljs-keyword">var</span> newMode = nextProps.mode.replace(<span class="hljs-string">'html'</span>, <span class="hljs-string">'htmlmixed'</span>);</pre></div></div>
             
         </li>
         
@@ -456,7 +456,7 @@ write html/javascript/css in the same document.</p>
             </div>
             
             <div class="content"><div class='highlight'><pre>      <span class="hljs-keyword">var</span> currentContent = <span class="hljs-keyword">this</span>.codemirror.getValue();
-      <span class="hljs-keyword">var</span> newContent = props.content;</pre></div></div>
+      <span class="hljs-keyword">var</span> newContent = nextProps.content;</pre></div></div>
             
         </li>
         
