@@ -42,7 +42,8 @@ var Livecoding = React.createClass({
 			css: '',
 			// Specify what mode we're currently editing.
 			mode: 'html',
-			gistUrl: null
+			gistUrl: null,
+			outputAllCode: false
 		};
 	},
 
@@ -54,6 +55,9 @@ var Livecoding = React.createClass({
 
 		// Get the current mode's content.
 		var content = this.state[mode];
+
+		// Should we render all?
+		var renderAll = this.renderAll.pop();
 
 		// Render the application. This will recursively call
 		// `render` on all the components.
@@ -69,6 +73,7 @@ var Livecoding = React.createClass({
 						javascript={this.state.javascript}
 						css={this.state.css}
 						mode={mode}
+						renderAll={renderAll}
 					/>
 					<Editor content={content} mode={mode} />
 				</div>
@@ -95,6 +100,7 @@ var Livecoding = React.createClass({
 				.then(function(response) {
 					var gistUrl = 'https://gist.github.com/' + match[0];
 					var state = _.assign({}, response, {gistUrl: gistUrl});
+					self.renderAll.push(true);
 					self.setState(state);
 				}).catch(function(error) {
 					console.log('Error', error);
@@ -206,7 +212,10 @@ var Livecoding = React.createClass({
 	},
 
 	// Store the desired function call after authentication.
-	afterAuthentication: []
+	afterAuthentication: [],
+
+	// Decide whether to render all code in Output.
+	renderAll: []
 
 });
 
