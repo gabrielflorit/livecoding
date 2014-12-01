@@ -98,9 +98,12 @@ var Livecoding = React.createClass({
 		if (match) {
 			GitHub.readGist(this.getToken(), match[0])
 				.then(function(response) {
+					// Construct the gist url.
 					var gistUrl = 'https://gist.github.com/' + match[0];
-					var state = _.assign({}, response, {gistUrl: gistUrl});
+					// Instruct Output to render all code.
 					self.renderAll.push(true);
+					// Update the state.
+					var state = _.assign({}, response, {gistUrl: gistUrl});
 					self.setState(state);
 				}).catch(function(error) {
 					console.log('Error', error);
