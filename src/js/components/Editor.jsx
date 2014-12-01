@@ -87,7 +87,7 @@ var Editor = React.createClass({
 	// This method is called every time **Livecoding's** state changes, e.g.
 	// when we load a new gist, or when the user makes a change to the
 	// current code editor contents.
-	shouldComponentUpdate: function(props, state) {
+	shouldComponentUpdate: function(nextProps) {
 
 		// Get current CodeMirror document.
 		var currentDoc = this.codemirror.getDoc();
@@ -96,7 +96,7 @@ var Editor = React.createClass({
 		// Even though Livecoding thinks there are three modes (html, javascript, css)
 		// we'll use the 'htmlmixed' CodeMirror mode, which lets us
 		// write html/javascript/css in the same document.
-		var newMode = props.mode.replace('html', 'htmlmixed');
+		var newMode = nextProps.mode.replace('html', 'htmlmixed');
 
 		// Get mode of current document.
 		var currentMode = currentDoc.getMode().name;
@@ -111,7 +111,7 @@ var Editor = React.createClass({
 
 		// Next up, compare content.
 		var currentContent = this.codemirror.getValue();
-		var newContent = props.content;
+		var newContent = nextProps.content;
 
 		// If new content doesn't match current content, replace.
 		if (currentContent !== newContent) {

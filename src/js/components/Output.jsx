@@ -20,38 +20,42 @@ var Output = React.createClass({
 	},
 
 	// Tell React not to manage this component's DOM.
-	shouldComponentUpdate: function(props, state) {
+	// TODO: diff new + old code before passing to iframe
+	shouldComponentUpdate: function(nextProps) {
 
 		// Get the iframe.
 		var iframe = window.frames[0];
 		var doc = iframe.document;
 
 		// If the current mode is `html`, replace the iframe's `body` contents.
-		if (props.mode === 'html') {
-			doc.body.innerHTML = props.html;
+		if (nextProps.mode === 'html' || nextProps.renderAll) {
+			doc.body.innerHTML = nextProps.html;
+			console.log('rendering html');
 		}
 
 		// If the current mode is `css`, replace the iframe's `style` contents.
-		if (props.mode === 'css') {
-			doc.head.querySelector('style.custom').textContent = props.css;
+		if (nextProps.mode === 'css' || nextProps.renderAll) {
+			doc.head.querySelector('style.custom').textContent = nextProps.css;
+			console.log('rendering css');
 		}
 
 		// If the current mode is `javascript`,
-		if (props.mode === 'javascript') {
+		if (nextProps.mode === 'javascript' || nextProps.renderAll) {
 
 			var AST;
 			var isValid = false;
 			try {
 				// use esprima to validate the code
-				AST = esprima.parse(props.javascript, {tolerant: true, loc: true});
+				AST = esprima.parse(nextProps.javascript, {tolerant: true, loc: true});
 				isValid = !AST.errors.length;
 			} catch(e) {}
 
 			// and only pass in the javascript string if code is valid.
 			if (isValid) {
-				iframe.livecoding.callCode(props.javascript);
+				iframe.livecoding.callCode(nextProps.javascript);
 			}
 
+			console.log('rendering javascript');
 		}
 
 		return false;
