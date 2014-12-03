@@ -32,6 +32,8 @@ See [here](http://gabrielflorit.github.io/livecoding/docs/Livecoding.html) for d
 
 - [Add livecoding handle to editor.](https://github.com/gabrielflorit/livecoding/issues/122)
 
+- [Add emmet.io in the text editor.](https://github.com/gabrielflorit/livecoding/issues/123)
+
 
 ## License
 
