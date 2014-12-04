@@ -3,9 +3,6 @@
 // Include React.
 var React = require('react');
 
-// We'll use esprima to validate javascript code.
-var esprima = require('esprima');
-
 // Create the component.
 var Output = React.createClass({
 
@@ -26,18 +23,7 @@ var Output = React.createClass({
 	renderJavaScript: function(code) {
 		var iframe = window.frames[0];
 
-		var AST;
-		var isValid = false;
-		try {
-			// use esprima to validate the code
-			AST = esprima.parse(code, {tolerant: true, loc: true});
-			isValid = !AST.errors.length;
-		} catch(e) {}
-
-		// and only pass in the javascript string if code is valid.
-		if (isValid) {
-			iframe.livecoding.callCode(code);
-		}
+		iframe.livecoding.callCode(code);
 	},
 
 	// Render the component. We use an iframe to prevent
