@@ -1,6 +1,6 @@
 var CodeMirror = require('codemirror');
 var util       = require('./util.js');
-var esprima    = require('esprima');
+var acorn      = require('acorn');
 
 CodeMirror.registerHelper('lint', 'javascript', function(text) {
 
@@ -8,31 +8,22 @@ CodeMirror.registerHelper('lint', 'javascript', function(text) {
 	var errors = [];
 
 	try {
-
-		AST = esprima.parse(text, {tolerant: true, loc: true});
-		if (AST.errors.length) {
-			errors = AST.errors;
-		}
+		acorn.parse(text);
 	} catch(e) {
-		errors = [e];
-	}
 
-	var messages = errors.map(function(error) {
-
-		return {
+		errors.push({
 			from: {
-				line: error.lineNumber - 1,
-				ch: error.column
+				line: e.loc.line - 1,
+				ch: e.loc.column
 			},
 			to: {
-				line: error.lineNumber - 1,
-				ch: error.column + 1
+				line: e.loc.line - 1,
+				ch: e.raisedAt
 			},
-			message: error.description,
+			message: e.message.replace(/ \(\d+:\d+\)$/, ''),
 			severity: 'error'
-		};
+		});
+	}
 
-	});
-
-	return messages;
+	return errors;
 });
