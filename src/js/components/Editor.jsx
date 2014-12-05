@@ -89,6 +89,8 @@ var Editor = React.createClass({
 	// current code editor contents.
 	shouldComponentUpdate: function(nextProps) {
 
+		// Only update contents if we're told to. This is to prevent
+		// CodeMirror changes to bubble up to Livecoding, then back down to Editor.
 		if (nextProps.update) {
 
 			// Get current CodeMirror document.

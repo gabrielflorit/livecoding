@@ -59,10 +59,11 @@ var Livecoding = React.createClass({
 
 		// Should output render all code?
 		var makeOutputRenderAllCode = this.makeOutputRenderAllCode.pop();
+		this.makeOutputRenderAllCode.push(this._defaultMakeOutputRenderAllCode);
 
 		// Should we update the Editor?
 		var updateEditor = this.updateEditorContent.pop();
-		this.updateEditorContent.push(true);
+		this.updateEditorContent.push(this._defaultUpdateEditorContent);
 
 		// Render the application. This will recursively call
 		// `render` on all the components.
@@ -110,6 +111,7 @@ var Livecoding = React.createClass({
 					// Construct the gist url.
 					var gistUrl = 'https://gist.github.com/' + match[0];
 					// Instruct Output to render all code.
+					self.makeOutputRenderAllCode.pop();
 					self.makeOutputRenderAllCode.push(true);
 					// Update the state.
 					var state = _.assign({}, response, {gistUrl: gistUrl});
@@ -232,10 +234,12 @@ var Livecoding = React.createClass({
 	afterAuthentication: [],
 
 	// Decide whether to render all code in Output.
-	makeOutputRenderAllCode: [],
+	_defaultMakeOutputRenderAllCode: false,
+	makeOutputRenderAllCode: [this._defaultMakeOutputRenderAllCode],
 
 	// Decide whether to render update Editor contents.
-	updateEditorContent: [true]
+	_defaultUpdateEditorContent: true,
+	updateEditorContent: [this._defaultUpdateEditorContent]
 
 });
 
