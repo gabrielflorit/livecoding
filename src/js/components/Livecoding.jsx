@@ -50,6 +50,7 @@ var Livecoding = React.createClass({
 	// Each React component has a `render` method. It gets called
 	// every time the application's state changes.
 	render: function() {
+
 		// Get the current mode.
 		var mode = this.state.mode;
 
@@ -58,6 +59,10 @@ var Livecoding = React.createClass({
 
 		// Should output render all code?
 		var makeOutputRenderAllCode = this.makeOutputRenderAllCode.pop();
+
+		// Should we update the Editor?
+		var updateEditor = this.updateEditorContent.pop();
+		this.updateEditorContent.push(true);
 
 		// Render the application. This will recursively call
 		// `render` on all the components.
@@ -78,6 +83,7 @@ var Livecoding = React.createClass({
 					<Editor
 						content={content}
 						mode={mode}
+						update={updateEditor}
 					/>
 				</div>
 				<Updates updates={updateData} />
@@ -127,6 +133,11 @@ var Livecoding = React.createClass({
 		// Update application state with new content.
 		var change = {};
 		change[mode] = content;
+
+		// Don't update Editor contents.
+		this.updateEditorContent.pop();
+		this.updateEditorContent.push(false);
+
 		this.setState(change);
 	},
 
@@ -221,7 +232,10 @@ var Livecoding = React.createClass({
 	afterAuthentication: [],
 
 	// Decide whether to render all code in Output.
-	makeOutputRenderAllCode: []
+	makeOutputRenderAllCode: [],
+
+	// Decide whether to render update Editor contents.
+	updateEditorContent: [true]
 
 });
 

@@ -89,33 +89,36 @@ var Editor = React.createClass({
 	// current code editor contents.
 	shouldComponentUpdate: function(nextProps) {
 
-		// Get current CodeMirror document.
-		var currentDoc = this.codemirror.getDoc();
+		if (nextProps.update) {
 
-		// Let's compare new and current properties. First, mode.
-		// Even though Livecoding thinks there are three modes (html, javascript, css)
-		// we'll use the 'htmlmixed' CodeMirror mode, which lets us
-		// write html/javascript/css in the same document.
-		var newMode = nextProps.mode.replace('html', 'htmlmixed');
+			// Get current CodeMirror document.
+			var currentDoc = this.codemirror.getDoc();
 
-		// Get mode of current document.
-		var currentMode = currentDoc.getMode().name;
+			// Let's compare new and current properties. First, mode.
+			// Even though Livecoding thinks there are three modes (html, javascript, css)
+			// we'll use the 'htmlmixed' CodeMirror mode, which lets us
+			// write html/javascript/css in the same document.
+			var newMode = nextProps.mode.replace('html', 'htmlmixed');
 
-		// If new mode doesn't match current mode, get the correct document
-		// (or create it first) and then swap documents.
-		var newDoc;
-		if (newMode !== currentMode) {
-			newDoc = this.documents[newMode] || CodeMirror.Doc('', newMode);
-			this.documents[currentMode] = this.codemirror.swapDoc(newDoc);
-		}
+			// Get mode of current document.
+			var currentMode = currentDoc.getMode().name;
 
-		// Next up, compare content.
-		var currentContent = this.codemirror.getValue();
-		var newContent = nextProps.content;
+			// If new mode doesn't match current mode, get the correct document
+			// (or create it first) and then swap documents.
+			var newDoc;
+			if (newMode !== currentMode) {
+				newDoc = this.documents[newMode] || CodeMirror.Doc('', newMode);
+				this.documents[currentMode] = this.codemirror.swapDoc(newDoc);
+			}
 
-		// If new content doesn't match current content, replace.
-		if (currentContent !== newContent) {
-			this.codemirror.setValue(newContent);
+			// Next up, compare content.
+			var currentContent = this.codemirror.getValue();
+			var newContent = nextProps.content;
+
+			// If new content doesn't match current content, replace.
+			if (currentContent !== newContent) {
+				this.codemirror.setValue(newContent);
+			}
 		}
 
 		// Tell React not to manage this component's DOM.
