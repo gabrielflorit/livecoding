@@ -19,16 +19,16 @@ var config = {
 gulp.task('webpack', function() {
 
 	if (util.env.prod) {
-		// _.extend(config, {
-		// 	plugins: [
-		// 		new webpackPlugins.optimize.UglifyJsPlugin(),
-		// 		new webpackPlugins.DefinePlugin({
-		// 			'process.env': {
-		// 				NODE_ENV: JSON.stringify('production')
-		// 			}
-		// 		})
-		//     ]
-		// });
+		_.extend(config, {
+			plugins: [
+				new webpackPlugins.optimize.UglifyJsPlugin(),
+				new webpackPlugins.DefinePlugin({
+					'process.env': {
+						NODE_ENV: JSON.stringify('production')
+					}
+				})
+		    ]
+		});
 	} else {
 		_.extend(config, {
 			watch: true,
