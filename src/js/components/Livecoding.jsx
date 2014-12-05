@@ -57,7 +57,7 @@ var Livecoding = React.createClass({
 		var content = this.state[mode];
 
 		// Should we render all?
-		var renderAll = this.renderAll.pop();
+		var makeOutputRenderAllCode = this.makeOutputRenderAllCode.pop();
 
 		// Render the application. This will recursively call
 		// `render` on all the components.
@@ -73,7 +73,7 @@ var Livecoding = React.createClass({
 						javascript={this.state.javascript}
 						css={this.state.css}
 						mode={mode}
-						renderAll={renderAll}
+						renderAllCode={makeOutputRenderAllCode}
 					/>
 					<Editor content={content} mode={mode} />
 				</div>
@@ -101,7 +101,7 @@ var Livecoding = React.createClass({
 					// Construct the gist url.
 					var gistUrl = 'https://gist.github.com/' + match[0];
 					// Instruct Output to render all code.
-					self.renderAll.push(true);
+					self.makeOutputRenderAllCode.push(true);
 					// Update the state.
 					var state = _.assign({}, response, {gistUrl: gistUrl});
 					self.setState(state);
@@ -218,7 +218,7 @@ var Livecoding = React.createClass({
 	afterAuthentication: [],
 
 	// Decide whether to render all code in Output.
-	renderAll: []
+	makeOutputRenderAllCode: []
 
 });
 

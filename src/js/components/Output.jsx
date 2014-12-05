@@ -43,8 +43,8 @@ var Output = React.createClass({
 		var iframe = window.frames[0];
 		var doc = iframe.document;
 
-		// If `renderAll` is true, then render all codes.
-		if (nextProps.renderAll) {
+		// If `renderAllCode` is true, then render all codes.
+		if (nextProps.renderAllCode) {
 			this.renderHTML(nextProps.html);
 			this.renderJavaScript(nextProps.javascript);
 			this.renderCSS(nextProps.css);
