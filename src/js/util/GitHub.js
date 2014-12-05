@@ -116,7 +116,9 @@ module.exports = GitHub;
 
 window.handleToken = function(code) {
 
-	var url = 'http://powerful-chamber-3695.herokuapp.com/authenticate/' + code;
+	var gatekeeperApp = window.LIVECODING_PROD ? 'damp-journey-4764' : 'powerful-chamber-3695';
+
+	var url = 'http://' + gatekeeperApp + '.herokuapp.com/authenticate/' + code;
 
 	util.getJSON(url)
 		.then(function(response) {
