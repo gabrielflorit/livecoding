@@ -56,7 +56,7 @@ var Livecoding = React.createClass({
 		// Get the current mode's content.
 		var content = this.state[mode];
 
-		// Should we render all?
+		// Should output render all code?
 		var makeOutputRenderAllCode = this.makeOutputRenderAllCode.pop();
 
 		// Render the application. This will recursively call
