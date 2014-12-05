@@ -383,11 +383,12 @@ current code editor contents.</p>
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-20">&#182;</a>
               </div>
-              <p>Get current CodeMirror document.</p>
+              <p>Only update contents if we’re told to. This is to prevent
+CodeMirror changes to bubble up to Livecoding, then back down to Editor.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>      <span class="hljs-keyword">var</span> currentDoc = <span class="hljs-keyword">this</span>.codemirror.getDoc();</pre></div></div>
+            <div class="content"><div class='highlight'><pre>      <span class="hljs-keyword">if</span> (nextProps.update) {</pre></div></div>
             
         </li>
         
@@ -398,14 +399,11 @@ current code editor contents.</p>
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-21">&#182;</a>
               </div>
-              <p>Let’s compare new and current properties. First, mode.
-Even though Livecoding thinks there are three modes (html, javascript, css)
-we’ll use the ‘htmlmixed’ CodeMirror mode, which lets us
-write html/javascript/css in the same document.</p>
+              <p>Get current CodeMirror document.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>      <span class="hljs-keyword">var</span> newMode = nextProps.mode.replace(<span class="hljs-string">'html'</span>, <span class="hljs-string">'htmlmixed'</span>);</pre></div></div>
+            <div class="content"><div class='highlight'><pre>         <span class="hljs-keyword">var</span> currentDoc = <span class="hljs-keyword">this</span>.codemirror.getDoc();</pre></div></div>
             
         </li>
         
@@ -416,11 +414,14 @@ write html/javascript/css in the same document.</p>
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-22">&#182;</a>
               </div>
-              <p>Get mode of current document.</p>
+              <p>Let’s compare new and current properties. First, mode.
+Even though Livecoding thinks there are three modes (html, javascript, css)
+we’ll use the ‘htmlmixed’ CodeMirror mode, which lets us
+write html/javascript/css in the same document.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>      <span class="hljs-keyword">var</span> currentMode = currentDoc.getMode().name;</pre></div></div>
+            <div class="content"><div class='highlight'><pre>         <span class="hljs-keyword">var</span> newMode = nextProps.mode.replace(<span class="hljs-string">'html'</span>, <span class="hljs-string">'htmlmixed'</span>);</pre></div></div>
             
         </li>
         
@@ -431,16 +432,11 @@ write html/javascript/css in the same document.</p>
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-23">&#182;</a>
               </div>
-              <p>If new mode doesn’t match current mode, get the correct document
-(or create it first) and then swap documents.</p>
+              <p>Get mode of current document.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>      <span class="hljs-keyword">var</span> newDoc;
-      <span class="hljs-keyword">if</span> (newMode !== currentMode) {
-         newDoc = <span class="hljs-keyword">this</span>.documents[newMode] || CodeMirror.Doc(<span class="hljs-string">''</span>, newMode);
-         <span class="hljs-keyword">this</span>.documents[currentMode] = <span class="hljs-keyword">this</span>.codemirror.swapDoc(newDoc);
-      }</pre></div></div>
+            <div class="content"><div class='highlight'><pre>         <span class="hljs-keyword">var</span> currentMode = currentDoc.getMode().name;</pre></div></div>
             
         </li>
         
@@ -451,12 +447,16 @@ write html/javascript/css in the same document.</p>
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-24">&#182;</a>
               </div>
-              <p>Next up, compare content.</p>
+              <p>If new mode doesn’t match current mode, get the correct document
+(or create it first) and then swap documents.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>      <span class="hljs-keyword">var</span> currentContent = <span class="hljs-keyword">this</span>.codemirror.getValue();
-      <span class="hljs-keyword">var</span> newContent = nextProps.content;</pre></div></div>
+            <div class="content"><div class='highlight'><pre>         <span class="hljs-keyword">var</span> newDoc;
+         <span class="hljs-keyword">if</span> (newMode !== currentMode) {
+            newDoc = <span class="hljs-keyword">this</span>.documents[newMode] || CodeMirror.Doc(<span class="hljs-string">''</span>, newMode);
+            <span class="hljs-keyword">this</span>.documents[currentMode] = <span class="hljs-keyword">this</span>.codemirror.swapDoc(newDoc);
+         }</pre></div></div>
             
         </li>
         
@@ -467,13 +467,12 @@ write html/javascript/css in the same document.</p>
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-25">&#182;</a>
               </div>
-              <p>If new content doesn’t match current content, replace.</p>
+              <p>Next up, compare content.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>      <span class="hljs-keyword">if</span> (currentContent !== newContent) {
-         <span class="hljs-keyword">this</span>.codemirror.setValue(newContent);
-      }</pre></div></div>
+            <div class="content"><div class='highlight'><pre>         <span class="hljs-keyword">var</span> currentContent = <span class="hljs-keyword">this</span>.codemirror.getValue();
+         <span class="hljs-keyword">var</span> newContent = nextProps.content;</pre></div></div>
             
         </li>
         
@@ -483,6 +482,24 @@ write html/javascript/css in the same document.</p>
               
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-26">&#182;</a>
+              </div>
+              <p>If new content doesn’t match current content, replace.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>         <span class="hljs-keyword">if</span> (currentContent !== newContent) {
+            <span class="hljs-keyword">this</span>.codemirror.setValue(newContent);
+         }
+      }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-27">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-27">&#182;</a>
               </div>
               <p>Tell React not to manage this component’s DOM.</p>
 
