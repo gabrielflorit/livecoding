@@ -75,7 +75,10 @@ var Livecoding = React.createClass({
 						mode={mode}
 						renderAllCode={makeOutputRenderAllCode}
 					/>
-					<Editor content={content} mode={mode} />
+					<Editor
+						content={content}
+						mode={mode}
+					/>
 				</div>
 				<Updates updates={updateData} />
 			</div>
