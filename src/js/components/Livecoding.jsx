@@ -42,8 +42,7 @@ var Livecoding = React.createClass({
 			css: '',
 			// Specify what mode we're currently editing.
 			mode: 'html',
-			gistUrl: null,
-			outputAllCode: false
+			gistUrl: null
 		};
 	},
 
