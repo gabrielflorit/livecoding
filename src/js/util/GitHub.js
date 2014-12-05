@@ -10,7 +10,7 @@ var GitHub =  {
 		};
 	},
 
-	_CLIENT_ID: '7f06406d4740f8839007',
+	_CLIENT_ID: window.LIVECODING_PROD ? 'ebb6390f3c54ed8002f1' : '7f06406d4740f8839007',
 
 	login: function() {
 		open('https://github.com/login/oauth/authorize?client_id=' + this._CLIENT_ID + '&scope=gist', 'popup', 'width=1015,height=500');
