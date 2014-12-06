@@ -63,7 +63,6 @@ var MenuBar = React.createClass({
 
 		var gistUrl = this.props.gistUrl;
 
-		// Assign gist id as key (react transition needs this).
 		var saved = gistUrl ?
 			<div className='saved'>
 				<a href={gistUrl}>{gistUrl}</a>
