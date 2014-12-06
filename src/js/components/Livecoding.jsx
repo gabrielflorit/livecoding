@@ -16,6 +16,9 @@ var MenuBar = require('./MenuBar.jsx');
 var Output  = require('./Output.jsx');
 var Editor  = require('./Editor.jsx');
 var Updates = require('./Updates.jsx');
+var Avatar  = require('./Avatar.jsx');
+
+// Get latest updates.
 var updateData = require('../../../.tmp/updates.json');
 
 // Create the React component.
@@ -108,6 +111,7 @@ var Livecoding = React.createClass({
 		PubSub.subscribe(MenuBar.topics().ModeChange, self.handleModeChange);
 		PubSub.subscribe(MenuBar.topics().ItemClick, self.handleMenuItemClick);
 		PubSub.subscribe(GitHub.topics().Token, self.handleGatekeeperToken);
+		PubSub.subscribe(Avatar.topics().LoginClick, self.handleLoginClick);
 
 		// If there's a gist id in the url, retrieve the gist.
 		var match = location.href.match(/[a-z\d]+$/);
@@ -127,6 +131,10 @@ var Livecoding = React.createClass({
 				});
 		}
 
+	},
+
+	handleLoginClick: function() {
+		GitHub.login();
 	},
 
 	// Every time **Editor**'s content changes it hands **Livecoding**
@@ -213,9 +221,6 @@ var Livecoding = React.createClass({
 					userAvatarUrl: self.getUserAvatarUrl()
 				});
 
-				// Get next step after authentication.
-				var next = self.afterAuthentication.pop();
-
 				// JS version of a switch statement.
 				var nextSteps = {
 					'save': function() {
@@ -223,8 +228,15 @@ var Livecoding = React.createClass({
 					}
 				};
 
-				// Call the next step.
-				nextSteps[next]();
+				// Get next step after authentication.
+				var next = self.afterAuthentication.pop();
+
+				// If we have a next step,
+				if (next) {
+
+					// call it.
+					nextSteps[next]();
+				}
 
 			}).catch(function(error) {
 				console.log('Error', error);
