@@ -22,16 +22,19 @@ var updateData = require('../../../.tmp/updates.json');
 var Livecoding = React.createClass({
 
 	statics: {
-		TOKEN: 'LIVECODING_TOKEN'
+		TOKEN: 'LIVECODING_TOKEN',
+		USER_URL: 'LIVECODING_USER_URL',
+		USER_AVATAR_URL: 'LIVECODING_USER_AVATAR_URL'
 	},
 
-	getToken: function() {
-		return localStorage.getItem(Livecoding.TOKEN);
-	},
+	getToken: function() { return localStorage.getItem(Livecoding.TOKEN); },
+	setToken: function(token) { localStorage.setItem(Livecoding.TOKEN, token); },
 
-	setToken: function(token) {
-		localStorage.setItem(Livecoding.TOKEN, token);
-	},
+	getUserUrl: function() { return localStorage.getItem(Livecoding.USER_URL); },
+	setUserUrl: function(userUrl) { localStorage.setItem(Livecoding.USER_URL, userUrl); },
+
+	getUserAvatarUrl: function() { return localStorage.getItem(Livecoding.USER_AVATAR_URL); },
+	setUserAvatarUrl: function(userAvatarUrl) { localStorage.setItem(Livecoding.USER_AVATAR_URL, userAvatarUrl); },
 
 	// Set the initial state. As the application grows, so
 	// will the number of state properties.
@@ -42,7 +45,9 @@ var Livecoding = React.createClass({
 			css: '',
 			// Specify what mode we're currently editing.
 			mode: 'html',
-			gistUrl: null
+			gistUrl: null,
+			userUrl: this.getUserUrl(),
+			userAvatarUrl: this.getUserAvatarUrl()
 		};
 	},
 
@@ -71,6 +76,8 @@ var Livecoding = React.createClass({
 				<MenuBar
 					mode={mode}
 					gistUrl={this.state.gistUrl}
+					userUrl={this.state.userUrl}
+					userAvatarUrl={this.state.userAvatarUrl}
 				/>
 				<div className='content'>
 					<Output
@@ -190,14 +197,38 @@ var Livecoding = React.createClass({
 		// Save the token.
 		this.setToken(response.token);
 
-		// Get next step.
-		var next = this.afterAuthentication.pop();
+		var self = this;
 
-		switch(next) {
-			case 'save':
-				this.save();
-			break;
-		}
+		// Get user information.
+		GitHub.getUser(this.getToken())
+			.then(function(user) {
+
+				// Save user info on local storage,
+				self.setUserUrl(user.html_url);
+				self.setUserAvatarUrl(user.avatar_url);
+
+				// and update Livecoding's state.
+				self.setState({
+					userUrl: self.getUserUrl(),
+					userAvatarUrl: self.getUserAvatarUrl()
+				});
+
+				// Get next step after authentication.
+				var next = self.afterAuthentication.pop();
+
+				// JS version of a switch statement.
+				var nextSteps = {
+					'save': function() {
+						self.save();
+					}
+				};
+
+				// Call the next step.
+				nextSteps[next]();
+
+			}).catch(function(error) {
+				console.log('Error', error);
+			});
 
 	},
 
