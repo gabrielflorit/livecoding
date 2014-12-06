@@ -34,6 +34,8 @@ See [here](http://gabrielflorit.github.io/livecoding/docs/Livecoding.html) for d
 
 - [Add emmet.io in the text editor.](https://github.com/gabrielflorit/livecoding/issues/123)
 
+- [Saving an existing gist should try to update it, not create a new one.](https://github.com/gabrielflorit/livecoding/issues/124)
+
 
 ## License
 

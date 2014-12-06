@@ -19,6 +19,11 @@
           <div id="jump_page">
             
               
+              <a class="source" href="Avatar.html">
+                Avatar.jsx
+              </a>
+            
+              
               <a class="source" href="Editor.html">
                 Editor.jsx
               </a>
@@ -119,7 +124,7 @@ It maintains the application’s state.</p>
 <span class="hljs-keyword">var</span> Output  = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./Output.jsx'</span>);
 <span class="hljs-keyword">var</span> Editor  = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./Editor.jsx'</span>);
 <span class="hljs-keyword">var</span> Updates = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./Updates.jsx'</span>);
-<span class="hljs-keyword">var</span> updateData = <span class="hljs-built_in">require</span>(<span class="hljs-string">'../../../.tmp/updates.json'</span>);</pre></div></div>
+<span class="hljs-keyword">var</span> Avatar  = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./Avatar.jsx'</span>);</pre></div></div>
             
         </li>
         
@@ -130,23 +135,11 @@ It maintains the application’s state.</p>
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-5">&#182;</a>
               </div>
-              <p>Create the React component.</p>
+              <p>Get latest updates.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">var</span> Livecoding = React.createClass({
-
-   statics: {
-      TOKEN: <span class="hljs-string">'LIVECODING_TOKEN'</span>
-   },
-
-   getToken: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> </span>{
-      <span class="hljs-keyword">return</span> localStorage.getItem(Livecoding.TOKEN);
-   },
-
-   setToken: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(token)</span> </span>{
-      localStorage.setItem(Livecoding.TOKEN, token);
-   },</pre></div></div>
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">var</span> updateData = <span class="hljs-built_in">require</span>(<span class="hljs-string">'../../../.tmp/updates.json'</span>);</pre></div></div>
             
         </li>
         
@@ -156,6 +149,36 @@ It maintains the application’s state.</p>
               
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-6">&#182;</a>
+              </div>
+              <p>Create the React component.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">var</span> Livecoding = React.createClass({
+
+   statics: {
+      TOKEN: <span class="hljs-string">'LIVECODING_TOKEN'</span>,
+      USER_URL: <span class="hljs-string">'LIVECODING_USER_URL'</span>,
+      USER_AVATAR_URL: <span class="hljs-string">'LIVECODING_USER_AVATAR_URL'</span>
+   },
+
+   getToken: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> </span>{ <span class="hljs-keyword">return</span> localStorage.getItem(Livecoding.TOKEN); },
+   setToken: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(token)</span> </span>{ localStorage.setItem(Livecoding.TOKEN, token); },
+
+   getUserUrl: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> </span>{ <span class="hljs-keyword">return</span> localStorage.getItem(Livecoding.USER_URL); },
+   setUserUrl: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(userUrl)</span> </span>{ localStorage.setItem(Livecoding.USER_URL, userUrl); },
+
+   getUserAvatarUrl: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> </span>{ <span class="hljs-keyword">return</span> localStorage.getItem(Livecoding.USER_AVATAR_URL); },
+   setUserAvatarUrl: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(userAvatarUrl)</span> </span>{ localStorage.setItem(Livecoding.USER_AVATAR_URL, userAvatarUrl); },</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-7">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-7">&#182;</a>
               </div>
               <p>Set the initial state. As the application grows, so
 will the number of state properties.</p>
@@ -171,11 +194,11 @@ will the number of state properties.</p>
         </li>
         
         
-        <li id="section-7">
+        <li id="section-8">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-7">&#182;</a>
+                <a class="pilcrow" href="#section-8">&#182;</a>
               </div>
               <p>Specify what mode we’re currently editing.</p>
 
@@ -183,18 +206,19 @@ will the number of state properties.</p>
             
             <div class="content"><div class='highlight'><pre>         mode: <span class="hljs-string">'html'</span>,
          gistUrl: <span class="hljs-literal">null</span>,
-         outputAllCode: <span class="hljs-literal">false</span>
+         userUrl: <span class="hljs-keyword">this</span>.getUserUrl(),
+         userAvatarUrl: <span class="hljs-keyword">this</span>.getUserAvatarUrl()
       };
    },</pre></div></div>
             
         </li>
         
         
-        <li id="section-8">
+        <li id="section-9">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-8">&#182;</a>
+                <a class="pilcrow" href="#section-9">&#182;</a>
               </div>
               <p>Each React component has a <code>render</code> method. It gets called
 every time the application’s state changes.</p>
@@ -206,11 +230,11 @@ every time the application’s state changes.</p>
         </li>
         
         
-        <li id="section-9">
+        <li id="section-10">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-9">&#182;</a>
+                <a class="pilcrow" href="#section-10">&#182;</a>
               </div>
               <p>Get the current mode.</p>
 
@@ -221,11 +245,11 @@ every time the application’s state changes.</p>
         </li>
         
         
-        <li id="section-10">
+        <li id="section-11">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-10">&#182;</a>
+                <a class="pilcrow" href="#section-11">&#182;</a>
               </div>
               <p>Get the current mode’s content.</p>
 
@@ -236,11 +260,11 @@ every time the application’s state changes.</p>
         </li>
         
         
-        <li id="section-11">
+        <li id="section-12">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-11">&#182;</a>
+                <a class="pilcrow" href="#section-12">&#182;</a>
               </div>
               <p>Should output render all code?</p>
 
@@ -252,11 +276,11 @@ every time the application’s state changes.</p>
         </li>
         
         
-        <li id="section-12">
+        <li id="section-13">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-12">&#182;</a>
+                <a class="pilcrow" href="#section-13">&#182;</a>
               </div>
               <p>Should we update the Editor?</p>
 
@@ -268,11 +292,11 @@ every time the application’s state changes.</p>
         </li>
         
         
-        <li id="section-13">
+        <li id="section-14">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-13">&#182;</a>
+                <a class="pilcrow" href="#section-14">&#182;</a>
               </div>
               <p>Render the application. This will recursively call
 <code>render</code> on all the components.</p>
@@ -284,6 +308,8 @@ every time the application’s state changes.</p>
             <span class="hljs-tag">&lt;<span class="hljs-title">MenuBar</span>
                <span class="hljs-attribute">mode</span>=<span class="hljs-value">{mode}</span>
                <span class="hljs-attribute">gistUrl</span>=<span class="hljs-value">{this.state.gistUrl}</span>
+               <span class="hljs-attribute">userUrl</span>=<span class="hljs-value">{this.state.userUrl}</span>
+               <span class="hljs-attribute">userAvatarUrl</span>=<span class="hljs-value">{this.state.userAvatarUrl}</span>
             /&gt;</span>
             <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">className</span>=<span class="hljs-value">'content'</span>&gt;</span>
                <span class="hljs-tag">&lt;<span class="hljs-title">Output</span>
@@ -309,11 +335,11 @@ every time the application’s state changes.</p>
         </li>
         
         
-        <li id="section-14">
+        <li id="section-15">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-14">&#182;</a>
+                <a class="pilcrow" href="#section-15">&#182;</a>
               </div>
               <p>This function gets called once, before the initial render.</p>
 
@@ -326,11 +352,11 @@ every time the application’s state changes.</p>
         </li>
         
         
-        <li id="section-15">
+        <li id="section-16">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-15">&#182;</a>
+                <a class="pilcrow" href="#section-16">&#182;</a>
               </div>
               <p>Setup all the subscriptions.</p>
 
@@ -339,16 +365,17 @@ every time the application’s state changes.</p>
             <div class="content"><div class='highlight'><pre>      PubSub.subscribe(Editor.topics().ContentChange, self.handleContentChange);
       PubSub.subscribe(MenuBar.topics().ModeChange, self.handleModeChange);
       PubSub.subscribe(MenuBar.topics().ItemClick, self.handleMenuItemClick);
-      PubSub.subscribe(GitHub.topics().Token, self.handleGatekeeperToken);</pre></div></div>
+      PubSub.subscribe(GitHub.topics().Token, self.handleGatekeeperToken);
+      PubSub.subscribe(Avatar.topics().LoginClick, self.handleLoginClick);</pre></div></div>
             
         </li>
         
         
-        <li id="section-16">
+        <li id="section-17">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-16">&#182;</a>
+                <a class="pilcrow" href="#section-17">&#182;</a>
               </div>
               <p>If there’s a gist id in the url, retrieve the gist.</p>
 
@@ -362,11 +389,11 @@ every time the application’s state changes.</p>
         </li>
         
         
-        <li id="section-17">
+        <li id="section-18">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-17">&#182;</a>
+                <a class="pilcrow" href="#section-18">&#182;</a>
               </div>
               <p>Construct the gist url.</p>
 
@@ -377,11 +404,11 @@ every time the application’s state changes.</p>
         </li>
         
         
-        <li id="section-18">
+        <li id="section-19">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-18">&#182;</a>
+                <a class="pilcrow" href="#section-19">&#182;</a>
               </div>
               <p>Instruct Output to render all code.</p>
 
@@ -393,11 +420,11 @@ every time the application’s state changes.</p>
         </li>
         
         
-        <li id="section-19">
+        <li id="section-20">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-19">&#182;</a>
+                <a class="pilcrow" href="#section-20">&#182;</a>
               </div>
               <p>Update the state.</p>
 
@@ -410,16 +437,20 @@ every time the application’s state changes.</p>
             });
       }
 
+   },
+
+   handleLoginClick: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> </span>{
+      GitHub.login();
    },</pre></div></div>
             
         </li>
         
         
-        <li id="section-20">
+        <li id="section-21">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-20">&#182;</a>
+                <a class="pilcrow" href="#section-21">&#182;</a>
               </div>
               <p>Every time <strong>Editor</strong>‘s content changes it hands <strong>Livecoding</strong>
 the new content. <strong>Livecoding</strong> then updates its current state
@@ -433,11 +464,11 @@ flow.</p>
         </li>
         
         
-        <li id="section-21">
+        <li id="section-22">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-21">&#182;</a>
+                <a class="pilcrow" href="#section-22">&#182;</a>
               </div>
               <p>Get the current mode.</p>
 
@@ -448,11 +479,11 @@ flow.</p>
         </li>
         
         
-        <li id="section-22">
+        <li id="section-23">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-22">&#182;</a>
+                <a class="pilcrow" href="#section-23">&#182;</a>
               </div>
               <p>Update application state with new content.</p>
 
@@ -464,11 +495,11 @@ flow.</p>
         </li>
         
         
-        <li id="section-23">
+        <li id="section-24">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-23">&#182;</a>
+                <a class="pilcrow" href="#section-24">&#182;</a>
               </div>
               <p>Don’t update Editor contents.</p>
 
@@ -483,11 +514,11 @@ flow.</p>
         </li>
         
         
-        <li id="section-24">
+        <li id="section-25">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-24">&#182;</a>
+                <a class="pilcrow" href="#section-25">&#182;</a>
               </div>
               <p>Handle mode change.</p>
 
@@ -502,11 +533,11 @@ flow.</p>
         </li>
         
         
-        <li id="section-25">
+        <li id="section-26">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-25">&#182;</a>
+                <a class="pilcrow" href="#section-26">&#182;</a>
               </div>
               <p>Handle menu item click.</p>
 
@@ -520,11 +551,11 @@ flow.</p>
         </li>
         
         
-        <li id="section-26">
+        <li id="section-27">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-26">&#182;</a>
+                <a class="pilcrow" href="#section-27">&#182;</a>
               </div>
               <p>Reset all three code files
 and set mode back to html.</p>
@@ -545,11 +576,11 @@ and set mode back to html.</p>
         </li>
         
         
-        <li id="section-27">
+        <li id="section-28">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-27">&#182;</a>
+                <a class="pilcrow" href="#section-28">&#182;</a>
               </div>
               <p>Is user logged in? If so, save.</p>
 
@@ -562,11 +593,11 @@ and set mode back to html.</p>
         </li>
         
         
-        <li id="section-28">
+        <li id="section-29">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-28">&#182;</a>
+                <a class="pilcrow" href="#section-29">&#182;</a>
               </div>
               <p>There’s no way to tell GitHub “after you give me a token, I want to save/delete/etc”
 So we’ll store the desired function call in a stack,</p>
@@ -578,11 +609,11 @@ So we’ll store the desired function call in a stack,</p>
         </li>
         
         
-        <li id="section-29">
+        <li id="section-30">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-29">&#182;</a>
+                <a class="pilcrow" href="#section-30">&#182;</a>
               </div>
               <p>and then we’ll make the login call.</p>
 
@@ -598,11 +629,11 @@ So we’ll store the desired function call in a stack,</p>
         </li>
         
         
-        <li id="section-30">
+        <li id="section-31">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-30">&#182;</a>
+                <a class="pilcrow" href="#section-31">&#182;</a>
               </div>
               <p>Handle gatekeeper token.</p>
 
@@ -613,40 +644,19 @@ So we’ll store the desired function call in a stack,</p>
         </li>
         
         
-        <li id="section-31">
-            <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-31">&#182;</a>
-              </div>
-              <p>Save the token.</p>
-
-            </div>
-            
-            <div class="content"><div class='highlight'><pre>      <span class="hljs-keyword">this</span>.setToken(response.token);</pre></div></div>
-            
-        </li>
-        
-        
         <li id="section-32">
             <div class="annotation">
               
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-32">&#182;</a>
               </div>
-              <p>Get next step.</p>
+              <p>Save the token.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>      <span class="hljs-keyword">var</span> next = <span class="hljs-keyword">this</span>.afterAuthentication.pop();
+            <div class="content"><div class='highlight'><pre>      <span class="hljs-keyword">this</span>.setToken(response.token);
 
-      <span class="hljs-keyword">switch</span>(next) {
-         <span class="hljs-keyword">case</span> <span class="hljs-string">'save'</span>:
-            <span class="hljs-keyword">this</span>.save();
-         <span class="hljs-keyword">break</span>;
-      }
-
-   },</pre></div></div>
+      <span class="hljs-keyword">var</span> self = <span class="hljs-keyword">this</span>;</pre></div></div>
             
         </li>
         
@@ -657,11 +667,12 @@ So we’ll store the desired function call in a stack,</p>
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-33">&#182;</a>
               </div>
-              <p>Save gist.</p>
+              <p>Get user information.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>   save: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> </span>{</pre></div></div>
+            <div class="content"><div class='highlight'><pre>      GitHub.getUser(<span class="hljs-keyword">this</span>.getToken())
+         .then(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(user)</span> </span>{</pre></div></div>
             
         </li>
         
@@ -671,6 +682,126 @@ So we’ll store the desired function call in a stack,</p>
               
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-34">&#182;</a>
+              </div>
+              <p>Save user info on local storage,</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>            self.setUserUrl(user.html_url);
+            self.setUserAvatarUrl(user.avatar_url);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-35">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-35">&#182;</a>
+              </div>
+              <p>and update Livecoding’s state.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>            self.setState({
+               userUrl: self.getUserUrl(),
+               userAvatarUrl: self.getUserAvatarUrl()
+            });</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-36">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-36">&#182;</a>
+              </div>
+              <p>JS version of a switch statement.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>            <span class="hljs-keyword">var</span> nextSteps = {
+               <span class="hljs-string">'save'</span>: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> </span>{
+                  self.save();
+               }
+            };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-37">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-37">&#182;</a>
+              </div>
+              <p>Get next step after authentication.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>            <span class="hljs-keyword">var</span> next = self.afterAuthentication.pop();</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-38">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-38">&#182;</a>
+              </div>
+              <p>If we have a next step,</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>            <span class="hljs-keyword">if</span> (next) {</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-39">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-39">&#182;</a>
+              </div>
+              <p>call it.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>               nextSteps[next]();
+            }
+
+         }).catch(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(error)</span> </span>{
+            <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'Error'</span>, error);
+         });
+
+   },</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-40">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-40">&#182;</a>
+              </div>
+              <p>Save gist.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>   save: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> </span>{</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-41">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-41">&#182;</a>
               </div>
               <p>Create payload.</p>
 
@@ -688,11 +819,11 @@ So we’ll store the desired function call in a stack,</p>
         </li>
         
         
-        <li id="section-35">
+        <li id="section-42">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-35">&#182;</a>
+                <a class="pilcrow" href="#section-42">&#182;</a>
               </div>
               <p>Save to gist.</p>
 
@@ -715,11 +846,11 @@ So we’ll store the desired function call in a stack,</p>
         </li>
         
         
-        <li id="section-36">
+        <li id="section-43">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-36">&#182;</a>
+                <a class="pilcrow" href="#section-43">&#182;</a>
               </div>
               <p>Store the desired function call after authentication.</p>
 
@@ -730,11 +861,11 @@ So we’ll store the desired function call in a stack,</p>
         </li>
         
         
-        <li id="section-37">
+        <li id="section-44">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-37">&#182;</a>
+                <a class="pilcrow" href="#section-44">&#182;</a>
               </div>
               <p>Decide whether to render all code in Output.</p>
 
@@ -746,11 +877,11 @@ So we’ll store the desired function call in a stack,</p>
         </li>
         
         
-        <li id="section-38">
+        <li id="section-45">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-38">&#182;</a>
+                <a class="pilcrow" href="#section-45">&#182;</a>
               </div>
               <p>Decide whether to render update Editor contents.</p>
 
@@ -764,11 +895,11 @@ So we’ll store the desired function call in a stack,</p>
         </li>
         
         
-        <li id="section-39">
+        <li id="section-46">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-39">&#182;</a>
+                <a class="pilcrow" href="#section-46">&#182;</a>
               </div>
               <p>Render the entire application to <code>.main</code>.</p>
 
