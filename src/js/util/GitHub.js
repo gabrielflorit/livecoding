@@ -73,17 +73,15 @@ var GitHub =  {
 					if (error) {
 						reject(error);
 					} else {
-						var data = GitHub.convertGistToLivecodingData(gist);
-						resolve(data);
+						resolve(gist);
 					}
 				});
 
 			} else {
 
 				util.getJSON('https://api.github.com/gists/d28b2bddba2e121d2160')
-					.then(function(response) {
-						var data = GitHub.convertGistToLivecodingData(response);
-						resolve(data);
+					.then(function(gist) {
+						resolve(gist);
 					}).catch(function(error) {
 						reject(error);
 					});

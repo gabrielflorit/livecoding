@@ -48,7 +48,6 @@ var Livecoding = React.createClass({
 			css: '',
 			// Specify what mode we're currently editing.
 			mode: 'html',
-			gistUrl: null,
 			userUrl: this.getUserUrl(),
 			userAvatarUrl: this.getUserAvatarUrl()
 		};
@@ -78,7 +77,7 @@ var Livecoding = React.createClass({
 			<div className='livecoding'>
 				<MenuBar
 					mode={mode}
-					gistUrl={this.state.gistUrl}
+					gistUrl={this.state.gist ? this.state.gist.html_url : null}
 					userUrl={this.state.userUrl}
 					userAvatarUrl={this.state.userAvatarUrl}
 				/>
@@ -117,14 +116,17 @@ var Livecoding = React.createClass({
 		var match = location.href.match(/[a-z\d]+$/);
 		if (match) {
 			GitHub.readGist(this.getToken(), match[0])
-				.then(function(response) {
-					// Construct the gist url.
-					var gistUrl = 'https://gist.github.com/' + match[0];
+				.then(function(gist) {
+
 					// Instruct Output to render all code.
 					self.makeOutputRenderAllCode.pop();
 					self.makeOutputRenderAllCode.push(true);
+
+					// Extract code contents and selected mode.
+					var data = GitHub.convertGistToLivecodingData(gist);
+
 					// Update the state.
-					var state = _.assign({}, response, {gistUrl: gistUrl});
+					var state = _.assign({}, data, {gist: gist});
 					self.setState(state);
 				}).catch(function(error) {
 					console.log('Error', error);
@@ -261,9 +263,7 @@ var Livecoding = React.createClass({
 		GitHub.saveGist(this.getToken(), data)
 			.then(function(gist) {
 
-				self.setState({
-					gistUrl: gist.html_url
-				});
+				self.setState({gist: gist});
 
 				history.pushState(gist.id, '', '#' + gist.id);
 
