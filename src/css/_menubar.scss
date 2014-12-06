@@ -9,9 +9,14 @@
 	@include adjust-font-size-to($s4);
 	@include padding-leader(1/2);
 
-	ul.menugroup {
+	$horizontal-space: 1em;
 
-		$horizontal-space: 1em;
+	.avatar {
+		float: left;
+		margin-right: $horizontal-space;
+	}
+
+	ul.menugroup {
 
 		li.current > button {
 			color: $solarized_base3;
