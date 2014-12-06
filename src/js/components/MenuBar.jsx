@@ -70,7 +70,7 @@ var MenuBar = React.createClass({
 
 		return (
 			<div className='menubar'>
-				<Avatar userUrl={this.props.userUrl} userAvatarUrl={this.props.userAvatarUrl} />
+				<Avatar user={this.props.user} userAvatarUrl={this.props.userAvatarUrl} />
 				<ul className='menugroup file'>
 					<li className={this.state.selectedMenu === 'file' ? 'current' : ''}>
 						<button className='menubutton' onMouseEnter={this.handleMenuMouseEnter} onClick={this.handleMenuClick}>file</button>

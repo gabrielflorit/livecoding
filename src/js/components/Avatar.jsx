@@ -23,8 +23,8 @@ var Avatar = React.createClass({
 		// If we have a user url, show the user avatar, and link to user's
 		// GitHub page. Otherwise show a button and prompt for
 		// login on click.
-		var action = this.props.userUrl ?
-			<a href={this.props.userUrl}><img src={this.props.userAvatarUrl} /></a> :
+		var action = this.props.user ?
+			<a href={'http://github.com/' + this.props.user}><img src={this.props.userAvatarUrl} /></a> :
 			<button onClick={this.handleButtonClick}>login</button>;
 
 		return (

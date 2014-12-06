@@ -26,15 +26,15 @@ var Livecoding = React.createClass({
 
 	statics: {
 		TOKEN: 'LIVECODING_TOKEN',
-		USER_URL: 'LIVECODING_USER_URL',
+		USER: 'LIVECODING_USER',
 		USER_AVATAR_URL: 'LIVECODING_USER_AVATAR_URL'
 	},
 
 	getToken: function() { return localStorage.getItem(Livecoding.TOKEN); },
 	setToken: function(token) { localStorage.setItem(Livecoding.TOKEN, token); },
 
-	getUserUrl: function() { return localStorage.getItem(Livecoding.USER_URL); },
-	setUserUrl: function(userUrl) { localStorage.setItem(Livecoding.USER_URL, userUrl); },
+	getUser: function() { return localStorage.getItem(Livecoding.USER); },
+	setUser: function(user) { localStorage.setItem(Livecoding.USER, user); },
 
 	getUserAvatarUrl: function() { return localStorage.getItem(Livecoding.USER_AVATAR_URL); },
 	setUserAvatarUrl: function(userAvatarUrl) { localStorage.setItem(Livecoding.USER_AVATAR_URL, userAvatarUrl); },
@@ -48,7 +48,7 @@ var Livecoding = React.createClass({
 			css: '',
 			// Specify what mode we're currently editing.
 			mode: 'html',
-			userUrl: this.getUserUrl(),
+			user: this.getUser(),
 			userAvatarUrl: this.getUserAvatarUrl()
 		};
 	},
@@ -78,7 +78,7 @@ var Livecoding = React.createClass({
 				<MenuBar
 					mode={mode}
 					gistUrl={this.state.gist ? this.state.gist.html_url : null}
-					userUrl={this.state.userUrl}
+					user={this.state.user}
 					userAvatarUrl={this.state.userAvatarUrl}
 				/>
 				<div className='content'>
@@ -214,12 +214,12 @@ var Livecoding = React.createClass({
 			.then(function(user) {
 
 				// Save user info on local storage,
-				self.setUserUrl(user.html_url);
+				self.setUser(user.login);
 				self.setUserAvatarUrl(user.avatar_url);
 
 				// and update Livecoding's state.
 				self.setState({
-					userUrl: self.getUserUrl(),
+					user: self.getUser(),
 					userAvatarUrl: self.getUserAvatarUrl()
 				});
 
@@ -259,17 +259,64 @@ var Livecoding = React.createClass({
 
 		var self = this;
 
-		// Save to gist.
-		GitHub.saveGist(this.getToken(), data)
-			.then(function(gist) {
+		// If we're not the gist owner, fork, and save.
+		// If we're the gist owner, update.
+		// If there is no gist, create.
 
-				self.setState({gist: gist});
+		// If there is no gist,
+		if (!this.state.gist) {
 
-				history.pushState(gist.id, '', '#' + gist.id);
+			// create a new gist,
+			GitHub.createGist(this.getToken(), data)
+				.then(function(gist) {
 
-			}).catch(function(error) {
-				console.log('Error', error);
-			});
+					// and update state.
+					self.setState({gist: gist});
+					history.pushState(gist.id, '', '#' + gist.id);
+
+				}).catch(function(error) {
+					console.log('Error', error);
+				});
+
+		} else {
+
+			// There is a gist. Are we the owner?
+			if (this.state.gist.owner && (this.state.gist.owner.login === this.state.user)) {
+
+				// We're the gist owner. Update the gist,
+				GitHub.updateGist(this.getToken(), data, this.state.gist.id)
+					.then(function(gist) {
+
+						// and update state.
+						self.setState({gist: gist});
+
+					}).catch(function(error) {
+						console.log('Error', error);
+					});
+
+			} else {
+
+				// We're not the gist owner. Fork,
+				GitHub.forkGist(this.getToken(), this.state.gist.id)
+					.then(function(gist) {
+
+						// then update the gist,
+						return GitHub.updateGist(self.getToken(), data, gist.id);
+					})
+					.then(function(gist) {
+
+						// and update state.
+						self.setState({gist: gist});
+						history.pushState(gist.id, '', '#' + gist.id);
+
+					}).catch(function(error) {
+						console.log('Error', error);
+					});
+
+			}
+
+		}
+
 	},
 
 	// Store the desired function call after authentication.

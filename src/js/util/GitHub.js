@@ -34,6 +34,30 @@ var GitHub =  {
 
 	},
 
+	convertLivecodingDataToGist: function(data) {
+
+		var options = {
+			mode: data.mode
+		};
+
+		var files = {
+			files: {
+				'options.json': {
+					content: JSON.stringify(options, null, 4)
+				}
+			},
+			public: true
+		};
+
+		// Use `water` terminology to support old livecoding.io gists.
+		// Also, only add files if content exists.
+		if (data.html) { files.files['water.html'] = { content:data.html }; }
+		if (data.javascript) { files.files['water.js'] = { content:data.javascript }; }
+		if (data.css) { files.files['water.css'] = { content:data.css }; }
+
+		return files;
+	},
+
 	getUser: function(token) {
 
 		return new Promise(function(resolve, reject) {
@@ -91,7 +115,7 @@ var GitHub =  {
 
 	},
 
-	saveGist: function(token, data) {
+	updateGist: function(token, data, id) {
 
 		return new Promise(function(resolve, reject) {
 
@@ -100,24 +124,55 @@ var GitHub =  {
 				auth: 'oauth'
 			});
 
-			var options = {
-				mode: data.mode
-			};
+			var files = GitHub.convertLivecodingDataToGist(data);
 
-			var files = {
-				files: {
-					'options.json': {
-						content: JSON.stringify(options, null, 4)
-					}
-				},
-				public: true
-			};
+			var gist = github.getGist(id);
 
-			// Use `water` terminology to support old livecoding.io gists.
-			// Also, only add files if content exists.
-			if (data.html) { files.files['water.html'] = { content:data.html }; }
-			if (data.javascript) { files.files['water.js'] = { content:data.javascript }; }
-			if (data.css) { files.files['water.css'] = { content:data.css }; }
+			gist.update(files, function(error, gist) {
+				if (error) {
+					reject(error);
+				} else {
+					resolve(gist);
+				}
+			});
+
+		});
+
+	},
+
+	forkGist: function(token, id) {
+
+		return new Promise(function(resolve, reject) {
+
+			var github = new GitHubAPI({
+				token: token,
+				auth: 'oauth'
+			});
+
+			var gist = github.getGist(id);
+
+			gist.fork(function(error, gist) {
+				if (error) {
+					reject(error);
+				} else {
+					resolve(gist);
+				}
+			});
+
+		});
+
+	},
+
+	createGist: function(token, data) {
+
+		return new Promise(function(resolve, reject) {
+
+			var github = new GitHubAPI({
+				token: token,
+				auth: 'oauth'
+			});
+
+			var files = GitHub.convertLivecodingDataToGist(data);
 
 			github.getGist().create(files, function(error, gist) {
 				if (error) {
