@@ -34,6 +34,28 @@ var GitHub =  {
 
 	},
 
+	getUser: function(token) {
+
+		return new Promise(function(resolve, reject) {
+
+			var github = new GitHubAPI({
+				token: token,
+				auth: 'oauth'
+			});
+
+			var user = github.getUser();
+
+			user.show(null, function(error, user) {
+				if (error) {
+					reject(error);
+				} else {
+					resolve(user);
+				}
+			});
+		});
+
+	},
+
 	readGist: function(token, id) {
 
 		return new Promise(function(resolve, reject) {
