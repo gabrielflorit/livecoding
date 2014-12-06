@@ -27,6 +27,7 @@
     "gulp-csso": "^0.2.9",
     "gulp-data": "^1.0.2",
     "gulp-filter": "^1.0.2",
+    "gulp-notify": "^2.0.1",
     "gulp-preprocess": "^1.1.1",
     "gulp-rename": "^1.2.0",
     "gulp-ruby-sass": "^0.7.1",
