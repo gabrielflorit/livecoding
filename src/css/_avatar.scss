@@ -1,19 +1,13 @@
 .avatar {
 
-	a, button {
+	a {
 		position: relative;
-		top: 2px;
+		top: 1px;
 	}
 
-	img, button {
+	img {
 		width: 1em;
 		height: 1em;
-	}
-
-	button {
-		background-image: inline-image('user.png');
-		background-position: 50% 50%;
-		background-size: cover;
-		background-repeat: no-repeat;	
+		border-radius: 1px;
 	}
 }
