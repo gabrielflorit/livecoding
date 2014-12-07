@@ -20,6 +20,8 @@ See [here](http://gabrielflorit.github.io/livecoding/docs/Livecoding.html) for d
 
 - ✓ 12-1-2014: [Add ability to save current gist as gist.](https://github.com/gabrielflorit/livecoding/issues/119)
 
+- ✓ 12-7-2014: [Saving an existing gist should try to update it, not create a new one.](https://github.com/gabrielflorit/livecoding/issues/124)
+
 - [Support preprocessors, e.g. jade, sass, coffeescript](https://github.com/gabrielflorit/livecoding/issues/106)
 
 - [Validate html code before sending to output screen.](https://github.com/gabrielflorit/livecoding/issues/113)
@@ -34,7 +36,7 @@ See [here](http://gabrielflorit.github.io/livecoding/docs/Livecoding.html) for d
 
 - [Add emmet.io in the text editor.](https://github.com/gabrielflorit/livecoding/issues/123)
 
-- [Saving an existing gist should try to update it, not create a new one.](https://github.com/gabrielflorit/livecoding/issues/124)
+- [On errors, show in update pane](https://github.com/gabrielflorit/livecoding/issues/125)
 
 
 ## License

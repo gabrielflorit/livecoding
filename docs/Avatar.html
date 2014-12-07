@@ -143,8 +143,8 @@ login on click.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>      <span class="hljs-keyword">var</span> action = <span class="hljs-keyword">this</span>.props.userUrl ?
-         <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-title">a</span> <span class="hljs-attribute">href</span>=<span class="hljs-value">{this.props.userUrl}</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-title">img</span> <span class="hljs-attribute">src</span>=<span class="hljs-value">{this.props.userAvatarUrl}</span> /&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-title">a</span>&gt;</span> :
+            <div class="content"><div class='highlight'><pre>      <span class="hljs-keyword">var</span> action = <span class="hljs-keyword">this</span>.props.user ?
+         <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-title">a</span> <span class="hljs-attribute">href</span>=<span class="hljs-value">{'http:</span>//<span class="hljs-attribute">github.com</span>/' + <span class="hljs-attribute">this.props.user</span>}&gt;</span><span class="hljs-tag">&lt;<span class="hljs-title">img</span> <span class="hljs-attribute">src</span>=<span class="hljs-value">{this.props.userAvatarUrl}</span> /&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-title">a</span>&gt;</span> :
          <span class="hljs-tag">&lt;<span class="hljs-title">button</span> <span class="hljs-attribute">onClick</span>=<span class="hljs-value">{this.handleButtonClick}</span>&gt;</span>login<span class="hljs-tag">&lt;/<span class="hljs-title">button</span>&gt;</span>;</span>
 
       <span class="hljs-keyword">return</span> (
