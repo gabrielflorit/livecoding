@@ -103,7 +103,7 @@ var GitHub =  {
 
 			} else {
 
-				util.getJSON('https://api.github.com/gists/d28b2bddba2e121d2160')
+				util.getJSON('https://api.github.com/gists/' + id)
 					.then(function(gist) {
 						resolve(gist);
 					}).catch(function(error) {
