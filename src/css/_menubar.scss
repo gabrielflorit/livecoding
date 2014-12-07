@@ -61,9 +61,21 @@
 	.saved {
 		float: left;
 
-		a {
+		a, .success {
 			@include adjust-font-size-to($s3);
 			@include adjust-leading-to(1);
+		}
+
+		.success {
+			opacity: 0;
+			margin-left: $horizontal-space;
+			color: $solarized_base3;
+		}
+
+		.success-enter {
+			@extend %flash;
+		}
+		.success-enter-active {
 		}
 	}
 }

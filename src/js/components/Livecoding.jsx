@@ -49,7 +49,8 @@ var Livecoding = React.createClass({
 			// Specify what mode we're currently editing.
 			mode: 'html',
 			user: this.getUser(),
-			userAvatarUrl: this.getUserAvatarUrl()
+			userAvatarUrl: this.getUserAvatarUrl(),
+			gist: null
 		};
 	},
 
@@ -78,8 +79,10 @@ var Livecoding = React.createClass({
 				<MenuBar
 					mode={mode}
 					gistUrl={this.state.gist ? this.state.gist.html_url : null}
+					gistVersion={this.state.gist ? this.state.gist.history[0].version : null}
 					user={this.state.user}
 					userAvatarUrl={this.state.userAvatarUrl}
+					savedMessage={this.flashSaved.pop()}
 				/>
 				<div className='content'>
 					<Output
@@ -259,16 +262,15 @@ var Livecoding = React.createClass({
 
 		var self = this;
 
-		// If we're not the gist owner, fork, and save.
-		// If we're the gist owner, update.
-		// If there is no gist, create.
-
 		// If there is no gist,
 		if (!this.state.gist) {
 
 			// create a new gist,
 			GitHub.createGist(this.getToken(), data)
 				.then(function(gist) {
+
+					// set flash message,
+					self.flashSaved.push('saved');
 
 					// and update state.
 					self.setState({gist: gist});
@@ -287,6 +289,9 @@ var Livecoding = React.createClass({
 				GitHub.updateGist(this.getToken(), data, this.state.gist.id)
 					.then(function(gist) {
 
+						// set flash message,
+						self.flashSaved.push('saved');
+
 						// and update state.
 						self.setState({gist: gist});
 
@@ -304,6 +309,9 @@ var Livecoding = React.createClass({
 						return GitHub.updateGist(self.getToken(), data, gist.id);
 					})
 					.then(function(gist) {
+
+						// set flash message,
+						self.flashSaved.push('saved');
 
 						// and update state.
 						self.setState({gist: gist});
@@ -328,7 +336,10 @@ var Livecoding = React.createClass({
 
 	// Decide whether to render update Editor contents.
 	_defaultUpdateEditorContent: true,
-	updateEditorContent: [this._defaultUpdateEditorContent]
+	updateEditorContent: [this._defaultUpdateEditorContent],
+
+	// Flash saved message.
+	flashSaved: []
 
 });
 

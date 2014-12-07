@@ -61,12 +61,17 @@ var MenuBar = React.createClass({
 			</li>;
 		});
 
+		var ReactCSSTransitionGroup = React.addons.CSSTransitionGroup;
+
 		var gistUrl = this.props.gistUrl;
 
-		var saved = gistUrl ?
-			<div className='saved'>
-				<a href={gistUrl}>{gistUrl}</a>
-			</div> : null;
+		var saved = gistUrl ? <a href={gistUrl}>{gistUrl}</a> : null;
+
+		var success = null;
+		var savedMessage = this.props.savedMessage;
+		if (savedMessage) {
+			success = <span className='success' key={this.props.gistVersion}>saved</span>;
+		}
 
 		return (
 			<div className='menubar'>
@@ -81,7 +86,12 @@ var MenuBar = React.createClass({
 						</ul>
 					</li>
 				</ul>
-				{saved}
+				<div className='saved'>
+					{saved}
+					<ReactCSSTransitionGroup transitionName='success' transitionLeave={false}>
+						{success}
+					</ReactCSSTransitionGroup>
+				</div>
 				<ul className='menugroup mode'>
 					<li>
 						<ul className='menu'>

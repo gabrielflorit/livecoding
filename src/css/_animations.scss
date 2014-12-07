@@ -1,0 +1,19 @@
+%flash {
+	-webkit-animation-duration: 4s;
+	-webkit-animation-timing-function: cubic-bezier(0.23, 1, 0.32, 1);
+	-webkit-animation-name: flash;
+}
+
+@-webkit-keyframes flash {
+	from {
+		opacity: 0;
+	}
+
+	50% {
+		opacity: 1;
+	}
+
+	to {
+		opacity: 0;
+	}
+}
