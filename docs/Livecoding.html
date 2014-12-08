@@ -255,7 +255,11 @@ every time the application’s state changes.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>      <span class="hljs-keyword">var</span> content = <span class="hljs-keyword">this</span>.state[mode];</pre></div></div>
+            <div class="content"><div class='highlight'><pre>      <span class="hljs-keyword">var</span> content = <span class="hljs-keyword">this</span>.state[mode];
+
+      <span class="hljs-keyword">var</span> html = <span class="hljs-keyword">this</span>.state.html;
+      <span class="hljs-keyword">var</span> javascript = <span class="hljs-keyword">this</span>.state.javascript;
+      <span class="hljs-keyword">var</span> css = <span class="hljs-keyword">this</span>.state.css;</pre></div></div>
             
         </li>
         
@@ -289,7 +293,9 @@ every time the application’s state changes.</p>
             <div class="content"><div class='highlight'><pre>      <span class="hljs-keyword">var</span> updateEditor = <span class="hljs-keyword">this</span>.updateEditorContent.pop();
       <span class="hljs-keyword">this</span>.updateEditorContent.push(<span class="hljs-keyword">this</span>._defaultUpdateEditorContent);
 
-      <span class="hljs-keyword">var</span> isDirty = <span class="hljs-keyword">this</span>.isDirty();</pre></div></div>
+      <span class="hljs-keyword">var</span> isDirty = <span class="hljs-keyword">this</span>.isDirty();
+
+      <span class="hljs-keyword">var</span> isBlank = !html.length &amp;&amp; !javascript.length &amp;&amp; !css.length;</pre></div></div>
             
         </li>
         
@@ -315,12 +321,13 @@ every time the application’s state changes.</p>
                <span class="hljs-attribute">userAvatarUrl</span>=<span class="hljs-value">{this.state.userAvatarUrl}</span>
                <span class="hljs-attribute">savedMessage</span>=<span class="hljs-value">{this.flashSaved.pop()}</span>
                <span class="hljs-attribute">isDirty</span>=<span class="hljs-value">{isDirty}</span>
+               <span class="hljs-attribute">isBlank</span>=<span class="hljs-value">{isBlank}</span>
             /&gt;</span>
             <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">className</span>=<span class="hljs-value">'content'</span>&gt;</span>
                <span class="hljs-tag">&lt;<span class="hljs-title">Output</span>
-                  <span class="hljs-attribute">html</span>=<span class="hljs-value">{this.state.html}</span>
-                  <span class="hljs-attribute">javascript</span>=<span class="hljs-value">{this.state.javascript}</span>
-                  <span class="hljs-attribute">css</span>=<span class="hljs-value">{this.state.css}</span>
+                  <span class="hljs-attribute">html</span>=<span class="hljs-value">{html}</span>
+                  <span class="hljs-attribute">javascript</span>=<span class="hljs-value">{javascript}</span>
+                  <span class="hljs-attribute">css</span>=<span class="hljs-value">{css}</span>
                   <span class="hljs-attribute">mode</span>=<span class="hljs-value">{mode}</span>
                   <span class="hljs-attribute">renderAllCode</span>=<span class="hljs-value">{makeOutputRenderAllCode}</span>
                /&gt;</span>
