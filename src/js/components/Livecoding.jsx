@@ -172,36 +172,45 @@ var Livecoding = React.createClass({
 	// Handle menu item click.
 	handleMenuItemClick: function(topic, menuItem) {
 
-		switch(menuItem) {
-			case 'file:new':
+		var self = this;
 
-				// Reset all three code files
-				// and set mode back to html.
-				this.setState({
-					html: '',
-					javascript: '',
-					css: '',
-					mode: 'html'
-				});
+		function file_new() {
 
-			break;
+			// Reset all state properties.
+			self.setState({
+				html: '',
+				javascript: '',
+				css: '',
+				mode: 'html',
+				gist: null
+			});
 
-			case 'file:save':
-
-				// Is user logged in? If so, save.
-				if (this.getToken()) {
-					this.save();
-				} else {
-
-					// There's no way to tell GitHub "after you give me a token, I want to save/delete/etc"
-					// So we'll store the desired function call in a stack,
-					this.afterAuthentication.push('save');
-					// and then we'll make the login call.
-					GitHub.login();
-				}
-
-			break;
+			// Blank out url.
+			history.pushState(null, '', '#');
 		}
+
+		function file_save() {
+
+			// Is user logged in? If so, save.
+			if (self.getToken()) {
+				self.save();
+			} else {
+
+				// There's no way to tell GitHub "after you give me a token, I want to save/delete/etc"
+				// So we'll store the desired function call in a stack,
+				self.afterAuthentication.push('save');
+				// and then we'll make the login call.
+				GitHub.login();
+			}
+
+		}
+
+		var menuItems = {
+			'file:new': file_new,
+			'file:save': file_save
+		};
+
+		menuItems[menuItem]();
 	},
 
 	// Handle gatekeeper token.
