@@ -176,17 +176,21 @@ var Livecoding = React.createClass({
 
 		function file_new() {
 
-			// Reset all state properties.
-			self.setState({
-				html: '',
-				javascript: '',
-				css: '',
-				mode: 'html',
-				gist: null
-			});
+			if (confirm('Are you sure? You will lose any unsaved changes.')) {
 
-			// Blank out url.
-			history.pushState(null, '', '#');
+				// Reset all state properties.
+				self.setState({
+					html: '',
+					javascript: '',
+					css: '',
+					mode: 'html',
+					gist: null
+				});
+
+				// Blank out url.
+				history.pushState(null, '', '#');
+			}
+
 		}
 
 		function file_save() {
