@@ -22,6 +22,10 @@ See [here](http://gabrielflorit.github.io/livecoding/docs/Livecoding.html) for d
 
 - ✓ 12-7-2014: [Saving an existing gist should try to update it, not create a new one.](https://github.com/gabrielflorit/livecoding/issues/124)
 
+- ✓ 12-8-2014: [Give menu items a solid background.](https://github.com/gabrielflorit/livecoding/issues/127)
+
+- ✓ 12-8-2014: [Add a 'file:new' menu item.](https://github.com/gabrielflorit/livecoding/issues/128)
+
 - [Support preprocessors, e.g. jade, sass, coffeescript](https://github.com/gabrielflorit/livecoding/issues/106)
 
 - [Validate html code before sending to output screen.](https://github.com/gabrielflorit/livecoding/issues/113)

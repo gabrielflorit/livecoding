@@ -253,13 +253,18 @@
          success = <span class="hljs-tag">&lt;<span class="hljs-title">span</span> <span class="hljs-attribute">className</span>=<span class="hljs-value">'success'</span> <span class="hljs-attribute">key</span>=<span class="hljs-value">{this.props.gistVersion}</span>&gt;</span>saved<span class="hljs-tag">&lt;/<span class="hljs-title">span</span>&gt;</span>;</span>
       }
 
-      <span class="hljs-keyword">return</span> (
-         <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">className</span>=<span class="hljs-value">'menubar'</span>&gt;</span>
+      <span class="hljs-keyword">var</span> dirty = <span class="hljs-keyword">this</span>.props.isDirty ? <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">className</span>=<span class="hljs-value">'dirty'</span>&gt;</span>●<span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span> : null;
+
+      return (
+         <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">className</span>=<span class="hljs-value">'menubar'</span>&gt;</span>
             <span class="hljs-tag">&lt;<span class="hljs-title">Avatar</span> <span class="hljs-attribute">user</span>=<span class="hljs-value">{this.props.user}</span> <span class="hljs-attribute">userAvatarUrl</span>=<span class="hljs-value">{this.props.userAvatarUrl}</span> /&gt;</span>
             <span class="hljs-tag">&lt;<span class="hljs-title">ul</span> <span class="hljs-attribute">className</span>=<span class="hljs-value">'menugroup file'</span>&gt;</span>
                <span class="hljs-tag">&lt;<span class="hljs-title">li</span> <span class="hljs-attribute">className</span>=<span class="hljs-value">{this.state.selectedMenu</span> =<span class="hljs-value">==</span> '<span class="hljs-attribute">file</span>' ? '<span class="hljs-attribute">current</span>' <span class="hljs-attribute">:</span> ''}&gt;</span>
                   <span class="hljs-tag">&lt;<span class="hljs-title">button</span> <span class="hljs-attribute">className</span>=<span class="hljs-value">'menubutton'</span> <span class="hljs-attribute">onMouseEnter</span>=<span class="hljs-value">{this.handleMenuMouseEnter}</span> <span class="hljs-attribute">onClick</span>=<span class="hljs-value">{this.handleMenuClick}</span>&gt;</span>file<span class="hljs-tag">&lt;/<span class="hljs-title">button</span>&gt;</span>
                   <span class="hljs-tag">&lt;<span class="hljs-title">ul</span> <span class="hljs-attribute">className</span>=<span class="hljs-value">{'menu'</span> + (<span class="hljs-attribute">this.state.selectedMenu</span> =<span class="hljs-value">==</span> '<span class="hljs-attribute">file</span>' ? ' <span class="hljs-attribute">selected</span>' <span class="hljs-attribute">:</span> '')}&gt;</span>
+                     <span class="hljs-tag">&lt;<span class="hljs-title">li</span> <span class="hljs-attribute">className</span>=<span class="hljs-value">{this.state.selectedMenu</span> =<span class="hljs-value">==</span> '<span class="hljs-attribute">file</span>' &amp;&amp; <span class="hljs-attribute">this.state.selectedItem</span> =<span class="hljs-value">==</span> '<span class="hljs-attribute">new</span>' ? '<span class="hljs-attribute">current</span>' <span class="hljs-attribute">:</span> ''}&gt;</span>
+                        <span class="hljs-tag">&lt;<span class="hljs-title">button</span> <span class="hljs-attribute">onClick</span>=<span class="hljs-value">{this.handleItemClick}</span> <span class="hljs-attribute">className</span>=<span class="hljs-value">'menubutton'</span> <span class="hljs-attribute">onMouseEnter</span>=<span class="hljs-value">{this.handleItemMouseEnter}</span>&gt;</span>new<span class="hljs-tag">&lt;/<span class="hljs-title">button</span>&gt;</span>
+                     <span class="hljs-tag">&lt;/<span class="hljs-title">li</span>&gt;</span>
                      <span class="hljs-tag">&lt;<span class="hljs-title">li</span> <span class="hljs-attribute">className</span>=<span class="hljs-value">{this.state.selectedMenu</span> =<span class="hljs-value">==</span> '<span class="hljs-attribute">file</span>' &amp;&amp; <span class="hljs-attribute">this.state.selectedItem</span> =<span class="hljs-value">==</span> '<span class="hljs-attribute">save</span>' ? '<span class="hljs-attribute">current</span>' <span class="hljs-attribute">:</span> ''}&gt;</span>
                         <span class="hljs-tag">&lt;<span class="hljs-title">button</span> <span class="hljs-attribute">onClick</span>=<span class="hljs-value">{this.handleItemClick}</span> <span class="hljs-attribute">className</span>=<span class="hljs-value">'menubutton'</span> <span class="hljs-attribute">onMouseEnter</span>=<span class="hljs-value">{this.handleItemMouseEnter}</span>&gt;</span>save<span class="hljs-tag">&lt;/<span class="hljs-title">button</span>&gt;</span>
                      <span class="hljs-tag">&lt;/<span class="hljs-title">li</span>&gt;</span>
@@ -279,6 +284,7 @@
                   <span class="hljs-tag">&lt;/<span class="hljs-title">ul</span>&gt;</span>
                <span class="hljs-tag">&lt;/<span class="hljs-title">li</span>&gt;</span>
             <span class="hljs-tag">&lt;/<span class="hljs-title">ul</span>&gt;</span>
+            {dirty}
          <span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
       );
    },
