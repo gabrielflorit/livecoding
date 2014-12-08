@@ -64,6 +64,10 @@ var Livecoding = React.createClass({
 		// Get the current mode's content.
 		var content = this.state[mode];
 
+		var html = this.state.html;
+		var javascript = this.state.javascript;
+		var css = this.state.css;
+
 		// Should output render all code?
 		var makeOutputRenderAllCode = this.makeOutputRenderAllCode.pop();
 		this.makeOutputRenderAllCode.push(this._defaultMakeOutputRenderAllCode);
@@ -89,9 +93,9 @@ var Livecoding = React.createClass({
 				/>
 				<div className='content'>
 					<Output
-						html={this.state.html}
-						javascript={this.state.javascript}
-						css={this.state.css}
+						html={html}
+						javascript={javascript}
+						css={css}
 						mode={mode}
 						renderAllCode={makeOutputRenderAllCode}
 					/>
