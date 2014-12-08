@@ -73,6 +73,8 @@ var MenuBar = React.createClass({
 			success = <span className='success' key={this.props.gistVersion}>saved</span>;
 		}
 
+		var dirty = this.props.isDirty ? <div className='dirty'>●</div> : null;
+
 		return (
 			<div className='menubar'>
 				<Avatar user={this.props.user} userAvatarUrl={this.props.userAvatarUrl} />
@@ -102,6 +104,7 @@ var MenuBar = React.createClass({
 						</ul>
 					</li>
 				</ul>
+				{dirty}
 			</div>
 		);
 	},

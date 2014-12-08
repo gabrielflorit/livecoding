@@ -71,6 +71,11 @@
 		}
 	}
 
+	.dirty {
+		float: right;
+		color: $solarized_base0;
+	}
+
 	.saved {
 		float: left;
 
