@@ -49,8 +49,8 @@
 						background: $solarized_base02;
 						border-bottom-left-radius: 2px;
 						border-bottom-right-radius: 2px;
-						padding-left: $horizontal-space*1.5;
-						padding-right: $horizontal-space*1.5;
+						padding-left: $horizontal-space*1.25;
+						padding-right: $horizontal-space*1.25;
 						@include rhythm(0, 0, 1/4, 0);
 					}
 
