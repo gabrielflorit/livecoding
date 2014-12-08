@@ -83,10 +83,10 @@ var MenuBar = React.createClass({
 						<button className='menubutton' onMouseEnter={this.handleMenuMouseEnter} onClick={this.handleMenuClick}>file</button>
 						<ul className={'menu' + (this.state.selectedMenu === 'file' ? ' selected' : '')}>
 							<li className={this.state.selectedMenu === 'file' && this.state.selectedItem === 'new' ? 'current' : ''}>
-								<button onClick={this.handleItemClick} className='menubutton' onMouseEnter={this.handleItemMouseEnter}>new</button>
+								<button onClick={this.handleItemClick} disabled={this.props.isBlank} className='menubutton' onMouseEnter={this.handleItemMouseEnter}>new</button>
 							</li>
 							<li className={this.state.selectedMenu === 'file' && this.state.selectedItem === 'save' ? 'current' : ''}>
-								<button onClick={this.handleItemClick} className='menubutton' onMouseEnter={this.handleItemMouseEnter}>save</button>
+								<button onClick={this.handleItemClick} disabled={this.props.isBlank} className='menubutton' onMouseEnter={this.handleItemMouseEnter}>save</button>
 							</li>
 						</ul>
 					</li>
@@ -131,7 +131,9 @@ var MenuBar = React.createClass({
 	// Handle item hovers. Select the item.
 	handleItemMouseEnter: function(e) {
 
-		var item = this.isOpen() ? e.currentTarget.textContent : null;
+		var button = e.currentTarget;
+
+		var item = this.isOpen() && !button.disabled ? button.textContent : null;
 
 		this.setState({
 			selectedItem: item

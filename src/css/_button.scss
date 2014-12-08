@@ -12,4 +12,8 @@ button {
 	&:hover {
 		color: $solarized_base1;
 	}
+
+	&:disabled {
+		color: $solarized_base01;
+	}
 }

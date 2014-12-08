@@ -78,6 +78,8 @@ var Livecoding = React.createClass({
 
 		var isDirty = this.isDirty();
 
+		var isBlank = !html.length && !javascript.length && !css.length;
+
 		// Render the application. This will recursively call
 		// `render` on all the components.
 		return (
@@ -90,6 +92,7 @@ var Livecoding = React.createClass({
 					userAvatarUrl={this.state.userAvatarUrl}
 					savedMessage={this.flashSaved.pop()}
 					isDirty={isDirty}
+					isBlank={isBlank}
 				/>
 				<div className='content'>
 					<Output
