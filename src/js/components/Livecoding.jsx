@@ -72,6 +72,8 @@ var Livecoding = React.createClass({
 		var updateEditor = this.updateEditorContent.pop();
 		this.updateEditorContent.push(this._defaultUpdateEditorContent);
 
+		var isDirty = this.isDirty();
+
 		// Render the application. This will recursively call
 		// `render` on all the components.
 		return (
@@ -83,6 +85,7 @@ var Livecoding = React.createClass({
 					user={this.state.user}
 					userAvatarUrl={this.state.userAvatarUrl}
 					savedMessage={this.flashSaved.pop()}
+					isDirty={isDirty}
 				/>
 				<div className='content'>
 					<Output
@@ -176,7 +179,9 @@ var Livecoding = React.createClass({
 
 		function file_new() {
 
-			if (confirm('Are you sure? You will lose any unsaved changes.')) {
+			// If not dirty, then go ahead.
+			// Otherwise ask for confirmation first.
+			if (!self.isDirty() || confirm('Are you sure? You will lose any unsaved changes.')) {
 
 				// Reset all state properties.
 				self.setState({
@@ -338,6 +343,28 @@ var Livecoding = React.createClass({
 
 		}
 
+	},
+
+	// Check if user has made unsaved changes.
+	isDirty: function() {
+
+		var gist = this.state.gist;
+		var html = this.state.html;
+		var javascript = this.state.javascript;
+		var css = this.state.css;
+
+		// If gist is null, return true if user has typed code.
+		if (!gist) {
+
+			return html.length || javascript.length || css.length;
+
+		} else {
+
+			// If gist is not null, compare gist and code contents.
+			var data = GitHub.convertGistToLivecodingData(gist);
+
+			return !(data.html === html && data.javascript === javascript && data.css == css);
+		}
 	},
 
 	// Store the desired function call after authentication.
