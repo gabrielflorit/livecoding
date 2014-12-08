@@ -7,7 +7,6 @@
 	padding-right: 1em;
 	font-family: $sansSerif;
 	@include adjust-font-size-to($s4);
-	@include padding-leader(1/2);
 
 	$horizontal-space: 1em;
 
@@ -17,6 +16,15 @@
 	}
 
 	ul.menugroup {
+
+		> li > button {
+			padding-left: $horizontal-space/2;
+			padding-right: $horizontal-space/2;
+		}
+
+		> li.current > button {
+			background: $solarized_base02;
+		}
 
 		li.current > button {
 			color: $solarized_base3;
@@ -30,7 +38,6 @@
 			float: left;
 
 			> li {
-				margin-right: $horizontal-space;
 				position: relative;
 
 				ul.menu {
@@ -39,6 +46,12 @@
 
 					&.selected {
 						display: block;
+						background: $solarized_base02;
+						border-bottom-left-radius: 2px;
+						border-bottom-right-radius: 2px;
+						padding-left: $horizontal-space*1.5;
+						padding-right: $horizontal-space*1.5;
+						@include rhythm(0, 0, 1/4, 0);
 					}
 
 					li {
